@@ -1,0 +1,3 @@
+
+init project run-ios error resolve:
+    file-->project setting-->advanced-->custom-->relative to workspace-->build/Build/Products

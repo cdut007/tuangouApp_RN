@@ -1,0 +1,3 @@
+rootProject.name = 'ExpressAssistant'
+
+include ':app'
