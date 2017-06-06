@@ -46,9 +46,6 @@ export default class Welcome extends Component
     {
         return (
             <View style = {styles.rootcontainer}>
-              <Image style={{position:'absolute',left:0,top:0,resizeMode:'contain', alignItems:'center',
-    justifyContent:'center',
-    flex:1}} source={require('../images/backgroud_img.jpg')}/>
             <Image style={{resizeMode:'contain', alignItems:'center',
             marginTop: 120,
             justifyContent:'center'}}
