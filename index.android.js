@@ -14,7 +14,7 @@ import {
 
 import MainView from './Main/MainView'
 
-export default class ExpressAssistant extends Component {
+export default class Ilingo extends Component {
 
 
     render() {
@@ -23,4 +23,4 @@ export default class ExpressAssistant extends Component {
 
 }
 
-AppRegistry.registerComponent('ExpressAssistant', () => ExpressAssistant);
+AppRegistry.registerComponent('ilingo', () => Ilingo);

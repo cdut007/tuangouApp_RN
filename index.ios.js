@@ -13,11 +13,11 @@ import {
 } from 'react-native';
 import MainView from './Main/MainView'
 
-export default class ExpressAssistant extends Component {
+export default class Ilingo extends Component {
 
     render() {
         return (<MainView />);
     }
 }
 
-AppRegistry.registerComponent('ExpressAssistant', () => ExpressAssistant);
+AppRegistry.registerComponent('ilingo', () => Ilingo);

@@ -1,4 +1,4 @@
-package com.expressassistant;
+package com.ilingo;
 
 import android.app.Application;
 
