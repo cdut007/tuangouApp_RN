@@ -110,7 +110,7 @@ export default class MainFirstView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="哦到了" />
+                <NavBar title="爱邻购" />
                 {this.renderTopView()}
                 {this.renderToolsView()}
                 <TouchableHighlight onPress={this.onAnnounceNow.bind(this)}

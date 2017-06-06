@@ -49,24 +49,33 @@ export default class Welcome extends Component
               <Image style={{position:'absolute',left:0,top:0,resizeMode:'contain', alignItems:'center',
     justifyContent:'center',
     flex:1}} source={require('../images/backgroud_img.jpg')}/>
-            <Text style={styles.labelText} >
-                哦到了
+            <Image style={{resizeMode:'contain', alignItems:'center',
+            marginTop: 120,
+            justifyContent:'center'}}
+            source={require('../images/logo_icon.png')}/>
+            <Text style={{alignItems:'center',marginTop: 5,
+            color: '#dc6917',
+            fontSize:16,
+            justifyContent:'center',
+            fontFamily: 'sans-serif-thin',
+            flex:1}} >
+            用 心 为 您 精 挑 细 选
             </Text>
-            <View style = {styles.container}>
+
+
             <TouchableOpacity onPress={this.onLoginPress.bind(this)}
                 style={styles.loginButton}>
-                <Text style={styles.loginText} >
-                    登录
+            <View style = {styles.logincontainer}>
+                <Image style={{resizeMode:'contain', alignItems:'center',
+      justifyContent:'center',
+      flex:1}} source={require('../images/login_wechat.png')}/>
+                <Text style={[styles.loginText,{marginTop:5}]} >
+                    微信登录
                 </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.onRegiserPress.bind(this)}
-                style={styles.loginButton}>
-                <Text style={styles.loginText} >
-                    注册
-                </Text>
+                </View>
             </TouchableOpacity>
 
-            </View>
+
             </View>
         )
     }
@@ -90,13 +99,13 @@ const styles = StyleSheet.create(
         width: 100,
         resizeMode: Image.resizeMode.contain,
     },
-        container:
+        logincontainer:
         {
-            flex: 1,
-            flexDirection:'row',
+            flexDirection:'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
         },
+
         rootcontainer:
         {
             flex: 1,
@@ -108,8 +117,8 @@ const styles = StyleSheet.create(
 
         loginText:
         {
-            color: '#ffffff',
-            fontSize:18,
+            color: '#8dc81b',
+            fontSize:14,
         },
         labelText:
         {
@@ -122,10 +131,8 @@ const styles = StyleSheet.create(
         loginButton:
         {
             margin: 30,
-            height:50,
+            height:100,
             width: width/2 - 40,
-            backgroundColor: '#1a8eaf',
-            borderRadius:5,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems:'center',

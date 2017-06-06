@@ -113,7 +113,7 @@ export default class RegisterView extends Component
             <View style = {styles.rootcontainer}>
             <NavBar title="注册" />
             <View style = {styles.container}>
-             <Image source={require('../images/logo.png') } style={styles.logo}/>
+             <Image source={require('../images/logo_icon.png') } style={styles.logo}/>
 
              <TextInput
                  style = {styles.userName}

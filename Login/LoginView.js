@@ -63,7 +63,7 @@ export default class LoginView extends Component {
                     {
                         console.log(err)
                     }
-                
+
                     console.log('Login error:' + e)
                 })
         }
@@ -112,7 +112,7 @@ export default class LoginView extends Component {
             <View style={styles.rootcontainer}>
                 <NavBar title="登录" />
                 <View style={styles.container}>
-                    <Image source={require('../images/logo.png')} style={styles.logo} />
+                    <Image source={require('../images/logo_icon.png')} style={styles.logo} />
                     <TextInput
                         style={styles.userName}
                         value={this.state.userName}
