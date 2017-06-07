@@ -56,7 +56,7 @@ export default class TabView extends Component
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab1'}
                     title="爱邻购"
-                    renderIcon={() => <Image source={require('../images/home_icon.png')} />}
+                    renderIcon={() => <Image  source={require('../images/home_icon.png')} />}
                     renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
                     badgeText=""
                     selectedTitleStyle={styles.tabBarTintColor}

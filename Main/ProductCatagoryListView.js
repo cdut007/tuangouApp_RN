@@ -158,12 +158,21 @@ export default class ProductCatagoryListView extends Component {
 
                    <Image style={{resizeMode:'contain', alignItems:'center',
                    justifyContent:'center',width:w,
-                   flex:2}}
+                   flex:4}}
                    source={{uri:'http://img1.3lian.com/2015/a1/53/d/198.jpg'}}
                    />
-                   <Text style={{resizeMode:'contain', alignItems:'center',
-                   justifyContent:'center',margin:2,
+                   <Text style={{alignItems:'center',
+                   justifyContent:'center',margin:2,numberOfLines:2,ellipsizeMode:'tail',
                    flex:1}}>山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠</Text>
+
+                   <View style={{alignItems:'center',flexDirection:'row',
+                   justifyContent:'center',
+                   flex:1}}>
+                   <Text style={{alignItems:'center', textAlign: 'left', justifyContent:'flex-start',numberOfLines:1,color:'#ea6b10',fontSize:16,}}>S$ 20</Text>
+                   <Text style={{alignItems:'center',marginLeft:10,
+                   justifyContent:'center',numberOfLines:1,color:'#000000',}}>3斤装保鲜到家</Text>
+                   </View>
+
                </View>
                </TouchableHighlight>
            )
@@ -228,7 +237,7 @@ const styles = StyleSheet.create({
         padding: 5,
         margin: 3,
         width: (width-20)/2,
-        height: 160,
+        height: 220,
         backgroundColor: '#F6F6F6',
         alignItems: 'center',
         borderWidth: 1,
