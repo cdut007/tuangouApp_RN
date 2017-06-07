@@ -12,10 +12,10 @@ import {
 } from 'react-native';
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
-import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import NotifyNowView from './NotifyNowView'
+import ProductCatagoryListView from './ProductCatagoryListView'
+import ProductDetail from './ProductDetail'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -100,7 +100,21 @@ export default class HomeView extends Component {
     }
 
     onItemClick(prouduct){
-
+         if (prouduct.tag != 'scan_more') {
+             this.props.navigator.push({
+                component: ProductDetail,
+                 props: {
+                     prouduct:prouduct,
+                    }
+            })
+        }else{
+            this.props.navigator.push({
+               component: ProductCatagoryListView,
+                props: {
+                    prouduct:prouduct,
+                   }
+           })
+        }
     }
 
 

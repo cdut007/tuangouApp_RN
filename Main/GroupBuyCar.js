@@ -30,7 +30,7 @@ import NotifyNowView from './NotifyNowView'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
-
+var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 
 
@@ -49,16 +49,40 @@ export default class GroupBuyCar extends Component {
                 <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps={false}
-                style={styles.mainStyle}>
+                style={[styles.mainStyle,{height:height-220}]}>
                 {this.renderTopView()}
                 {this.renderProductCategoryView()}
-
-
                 </ScrollView>
+                <View style={{flex:1}}>
+                {this.renderProductStartGroupBuyView()}
+                </View>
+
             </View>
         )
     }
+    renderProductStartGroupBuyView(){
+        let h = width/6
+        return(<View style={{resizeMode:'contain', alignItems:'center',width: width-20, height: h,
+        justifyContent:'center',margin:2,flexDirection: "row",
+        flex:1}}>
+        <View style={{
+        flex:1,marginRight:10, alignItems:'center',
+        justifyContent:'center',}}>
+                 <MKCheckbox checked={false} />
+             </View>
 
+            <View style={{
+            flex:1}}>
+            <Text style={{alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>全选</Text>
+            </View>
+            <View style={{
+            flex:6}}>
+            <Text style={{margin:10,alignItems:'center',justifyContent:'flex-start',fontSize: 14, color: "#000000",}}>拼团总计：2件商品</Text>
+            </View>
+            <Text style={{flex:2,alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>开始拼团</Text>
+
+        </View>)
+    }
 
 
     renderTopView() {
