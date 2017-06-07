@@ -21,7 +21,7 @@ var width = Dimensions.get('window').width;
 var account = Object();
 var Global = require('../common/globals');
 
-export default class MainSecondView extends Component {
+export default class MineView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -114,10 +114,12 @@ export default class MainSecondView extends Component {
                   <View style={styles.centerLayout}>
                       <Text style={styles.defaultText}>{this.state.account.nickname}</Text>
                   </View>
-                  <View style={[styles.centerLayout, { marginTop: 8 }]}>
-                      <Text style={styles.defaultText}>{this.state.account.express_company}/{this.state.account.mobile}</Text>
-                  </View>
                 </View>
+
+                <TouchableHighlight style={[styles.itemLayout, { marginTop: 8 }]}>
+                    <Text style={styles.labelInfo}>我的拼团</Text>
+                </TouchableHighlight>
+
 
                 <View style={styles.flexContainer}>
                 <View style={styles.cell}>
@@ -125,7 +127,7 @@ export default class MainSecondView extends Component {
                   ¥0.00
                 </Text>
                   <Text style={styles.label}>
-                    我的钱包
+                    拼团中
                   </Text>
                 </View>
 
@@ -135,7 +137,7 @@ export default class MainSecondView extends Component {
                   {this.state.leftCount}
                 </Text>
                   <Text style={styles.label}>
-                    剩余次数
+                    待发货
                   </Text>
                 </View>
                 <View style={styles.cellLine}/>
@@ -144,26 +146,27 @@ export default class MainSecondView extends Component {
                   3
                 </Text>
                   <Text style={styles.label}>
-                    消息通知
+                    已完成
                   </Text>
                 </View>
               </View>
 
 
-              <TouchableHighlight style={[styles.itemLayout, { marginTop: 8 }]}>
-                  <Text style={styles.labelInfo}>次数套餐购买</Text>
-              </TouchableHighlight>
 
               <TouchableHighlight style={[styles.itemLayout, { marginTop: 8 }]}>
-                  <Text style={styles.label}>联系客户</Text>
+                  <Text style={styles.label}>团长链接</Text>
               </TouchableHighlight>
               <View style={styles.itemLine}/>
               <TouchableHighlight style={[styles.itemLayout]}>
-                  <Text style={styles.label}>意见反馈</Text>
+                  <Text style={styles.label}>收货地址</Text>
               </TouchableHighlight>
               <View style={styles.itemLine}/>
               <TouchableHighlight style={[styles.itemLayout]}>
-                  <Text style={styles.label}>系统设置</Text>
+                  <Text style={styles.label}>帮助中心</Text>
+              </TouchableHighlight>
+               <View style={styles.itemLine}/>
+              <TouchableHighlight style={[styles.itemLayout]}>
+                  <Text style={styles.label}>设置</Text>
               </TouchableHighlight>
             </View>
         )

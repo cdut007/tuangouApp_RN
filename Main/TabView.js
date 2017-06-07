@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 
 
-import MainFirstView from './MainFirstView';
-import MainSecondView from './MainSecondView';
+import HomeView from './HomeView';
+import MineView from './MineView';
 import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
 
@@ -60,16 +60,25 @@ export default class TabView extends Component
                     badgeText=""
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab1' })}>
-                    {<MainFirstView {...this.props}/>}
+                    {<HomeView {...this.props}/>}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab2'}
-                    title="我的"
+                    title="拼团车"
                     renderIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
                     renderSelectedIcon={() => <Image source={require('../images/toolbar_icon_me_active.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab2' })}>
-                    {<MainSecondView {...this.props}/>}
+                    {<MineView {...this.props}/>}
+                </TabNavigator.Item>
+                <TabNavigator.Item
+                    selected={this.state.selectedTab === 'tab3'}
+                    title="团长"
+                    renderIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
+                    renderSelectedIcon={() => <Image source={require('../images/toolbar_icon_me_active.png')} />}
+                    selectedTitleStyle={styles.tabBarTintColor}
+                    onPress={() => this.setState({ selectedTab: 'tab3' })}>
+                    {<MineView {...this.props}/>}
                 </TabNavigator.Item>
             </TabNavigator>
 

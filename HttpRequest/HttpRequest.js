@@ -7,7 +7,7 @@ var Global = require('../common/globals');
 module.exports = {
 get(apiName, body,successCallback, failCallback)
 {
-    if(!httpToken.length)
+    if(httpToken && !httpToken.length)
     {
         httpToken = Global.token;
 
@@ -78,7 +78,14 @@ post(apiName, body,successCallback, failCallback)
     }
 
     var url = apiAddr + apiName
-    console.log('Post requesr:' + url)
+    try {
+        console.log('Post requesr:' + url +":[param body]="+JSON.stringify(body))
+    } catch (e) {
+
+    } finally {
+
+    }
+
     fetch(url, {
         method: 'POST',
         headers: {

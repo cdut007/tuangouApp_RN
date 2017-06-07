@@ -11,6 +11,7 @@ import {
 import Dimensions from 'Dimensions';
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
+import TabView from '../Main/TabView'
 
 var width = Dimensions.get('window').width;
 var index;
@@ -29,9 +30,9 @@ export default class Welcome extends Component
 
     onLoginPress()
     {
-        this.props.navigator.push({
-            component: LoginView,
-            index: this.props.index
+        this.props.navigator.resetTo({
+            component: TabView,
+            name: 'MainPage'
         })
     }
 
@@ -55,6 +56,7 @@ export default class Welcome extends Component
             fontSize:16,
             justifyContent:'center',
             fontFamily: 'sans-serif-thin',
+            letterSpacing:5,
             flex:1}} >
             用 心 为 您 精 挑 细 选
             </Text>

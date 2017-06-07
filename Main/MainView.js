@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 
-import MainFirstView from './MainFirstView';
+import HomeView from './HomeView';
 import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
 import TabView from './TabView'
@@ -100,34 +100,6 @@ export default class MainView extends Component {
             )
         }
 
-
-        // return (
-        //     <TabNavigator>
-        //         <TabNavigator.Item
-        //             selected={this.state.selectedTab === 'tab1'}
-        //             title="哦到了"
-        //             renderIcon={() => <Image source={require('../images/toolbarIconChat.png')} />}
-        //             renderSelectedIcon={() => <Image source={require('../images/toolbarIconChatActive.png')} />}
-        //             badgeText=""
-        //             onPress={() => this.setState({ selectedTab: 'tab1' })}>
-        //             {<Navigation component={MainFirstView} title={'哦到了'} />}
-        //         </TabNavigator.Item>
-        //         <TabNavigator.Item
-        //             selected={this.state.selectedTab === 'tab2'}
-        //             title="Me"
-        //             renderIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
-        //             renderSelectedIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
-
-        //             onPress={() => this.setState({ selectedTab: 'tab2' })}>
-        //             {<View style={styles.container}>
-        //                 <Text style={styles.welcome}>
-        //                     test view2
-        //                 </Text>
-        //             </View>}
-        //         </TabNavigator.Item>
-        //     </TabNavigator>
-
-        // )
     }
 }
 

@@ -30,7 +30,7 @@ export default class NavBar extends Component{
         rightPress: PropTypes.func,
         style: PropTypes.object
     }
-    static topbarHeight = (Platform.OS === 'ios' ? 64 : 42)
+    static topbarHeight = (Platform.OS === 'ios' ? 64 : 44)
     renderBtn(pos){
       let render = (obj) => {
         const { name, onPress } = obj
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     topbar: {
         alignSelf: 'stretch',
         height: NavBar.topbarHeight,
-        backgroundColor: "#1a8eaf",
+        backgroundColor: "#ffffff",
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -97,9 +97,8 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     title:{
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: px2dp(16),
-        marginLeft: px2dp(5),
+        color: "#1b1b1b",
+        fontSize: 18,
+        marginLeft: 5,
     }
 });
