@@ -56,8 +56,8 @@ export default class TabView extends Component
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab1'}
                     title="爱邻购"
-                    renderIcon={() => <Image source={require('../images/toolbarIconChat.png')} />}
-                    renderSelectedIcon={() => <Image source={require('../images/toolbarIconChatActive.png')} />}
+                    renderIcon={() => <Image source={require('../images/home_icon.png')} />}
+                    renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
                     badgeText=""
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab1' })}>
@@ -66,8 +66,8 @@ export default class TabView extends Component
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab2'}
                     title="拼团车"
-                    renderIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
-                    renderSelectedIcon={() => <Image source={require('../images/toolbar_icon_me_active.png')} />}
+                    renderIcon={() => <Image source={require('../images/shoppingcart_icon.png')} />}
+                    renderSelectedIcon={() => <Image source={require('../images/shoppingcart_icon_click.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab2' })}>
                     {<GroupBuyCar {...this.props}/>}
@@ -75,8 +75,8 @@ export default class TabView extends Component
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab3'}
                     title="团长"
-                    renderIcon={() => <Image source={require('../images/toolBarIconMe.png')} />}
-                    renderSelectedIcon={() => <Image source={require('../images/toolbar_icon_me_active.png')} />}
+                    renderIcon={() => <Image source={require('../images/me_icon.png')} />}
+                    renderSelectedIcon={() => <Image source={require('../images/me_icon_click.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab3' })}>
                     {<MineView {...this.props}/>}
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     },
     tabBarTintColor: {
 
-      color: '#1a8eaf'
+      color: '#ea6b10'
     },
 
 });

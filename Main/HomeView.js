@@ -156,28 +156,28 @@ export default class HomeView extends Component {
              }
          ]
 
-          categoryDataAry.push({id:'meat',name:'品质水果',prouductItems:toolsData,countdown:'201123232'},);
-          categoryDataAry.push({id:'meat',name:'绿色生鲜',prouductItems:toolsData,countdown:'201123232'},);
-          categoryDataAry.push({id:'meat',name:'有机蔬菜',prouductItems:toolsData,countdown:'201123232'},);
+          categoryDataAry.push({id:'meat',name:'品质水果','image': require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'201123232'},);
+          categoryDataAry.push({id:'meat',name:'绿色生鲜','image': require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'201123232'},);
+          categoryDataAry.push({id:'meat',name:'有机蔬菜','image': require('../images/vegetable_type.png'),prouductItems:toolsData,countdown:'201123232'},);
 
             for (var i = 0; i<categoryDataAry.length; i++) {
                 displayCategoryAry.push(
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            {/* <Image style={{resizeMode:'contain', alignItems:'center',
-                  justifyContent:'center'}} source={require('../images/login_wechat.png')}/> */}
+                            <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',
+                  justifyContent:'center'}} source={categoryDataAry[i].image}/>
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
                             </View>
                         {this.renderCategorysView(categoryDataAry[i].prouductItems)}
                         <View style = {{flex:1,justifyContent:'flex-end',alignItems: 'flex-end',marginRight:5}}>
-                        <TouchableHighlight onPress={this.onAnnounceNow.bind(this)}
+                        <View onPress={this.onAnnounceNow.bind(this)}
                             style={styles.countdownContainer}>
                             <Text style={styles.countdownText} >
                                 截团倒计时{categoryDataAry[i].countdown}
                             </Text>
-                        </TouchableHighlight>
+                        </View>
                         </View>
                         </View>
             );
@@ -252,8 +252,8 @@ const styles = StyleSheet.create({
     {
         marginTop: 10,
         marginBottom:20,
-        height: 50,
-        width: width - 160,
+        height: 32,
+        width: width - 180,
         borderColor: '#e31515',
         borderWidth:1,
         borderRadius: 5,
