@@ -13,6 +13,7 @@
     "react-native-checkbox": "^1.1.0",
     "react-native-grid-component": "^1.0.4",
     "react-native-loading-spinner-overlay": "^0.4.1",
+    "react-native-material-kit": "^0.4.1",
     "react-native-modal-dropdown": "^0.4.1",
     "react-native-tab-navigator": "^0.3.3",
     "react-native-vector-icons": "^4.0.0",

@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 
-import HomeView from './HomeView';
 import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
 import TabView from './TabView'
@@ -63,10 +62,6 @@ export default class MainView extends Component {
 
 
     }
-    setaaa()
-    {
-
-    }
 
     render() {
         if(this.state.hasLogin == null)
@@ -81,7 +76,7 @@ export default class MainView extends Component {
                 initialRoute={{component: TabView, name: "MainPage"}}
                 configureScene={() => Navigator.SceneConfigs.FloatFromRight}
                 renderScene={(route, navigator) => {
-                      return <route.component navigator={navigator} {...route.args}/>
+                      return <route.component navigator={navigator} {...route.props}/>
                     }
                 }
               />
@@ -93,7 +88,7 @@ export default class MainView extends Component {
                 initialRoute={{component: WelcomeView, name: "WelcomePage", index: this.props.index}}
                 configureScene={() => Navigator.SceneConfigs.FloatFromRight}
                 renderScene={(route, navigator) => {
-                      return <route.component navigator={navigator} {...route.args}/>
+                      return <route.component navigator={navigator} {...route.props}/>
                     }
                 }
               />

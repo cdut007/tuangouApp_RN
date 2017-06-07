@@ -21,6 +21,7 @@ var width = Dimensions.get('window').width;
 var account = Object();
 var Global = require('../common/globals');
 
+
 export default class MineView extends Component {
     constructor(props) {
         super(props);
@@ -168,9 +169,22 @@ export default class MineView extends Component {
               <TouchableHighlight style={[styles.itemLayout]}>
                   <Text style={styles.label}>设置</Text>
               </TouchableHighlight>
+
+              <TouchableHighlight underlayColor="#dad9d7">
+                <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'#ffffff',height:45,marginTop:10,paddingLeft:20,paddingRight:20}}>
+                  {/* <Image style={[styles.iconSize]}
+                    source={require(this.props.icon)} /> */}
+                  <Text  style={{flex:1,color:'#333333',marginLeft:10}}>试试</Text>
+                  {/* <Image style={[styles.iconSize]}
+                    source={require("image!arrow_right_grey")} /> */}
+                </View>
+              </TouchableHighlight>
+
             </View>
         )
     }
+
+
 
     _displayIcon() {
             if (this.state.account.icon_url != null) {

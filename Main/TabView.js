@@ -11,6 +11,7 @@ import {
 
 
 import HomeView from './HomeView';
+import GroupBuyCar from './GroupBuyCar';
 import MineView from './MineView';
 import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
@@ -69,7 +70,7 @@ export default class TabView extends Component
                     renderSelectedIcon={() => <Image source={require('../images/toolbar_icon_me_active.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab2' })}>
-                    {<MineView {...this.props}/>}
+                    {<GroupBuyCar {...this.props}/>}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab3'}
