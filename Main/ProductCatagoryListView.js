@@ -26,7 +26,7 @@ import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-
+import ProductDetail from './ProductDetail'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -152,20 +152,30 @@ export default class ProductCatagoryListView extends Component {
 
    renderItem = (item, sectionID, rowID) => {
        //write your own layout in list view
-       let w = (width - 40) / 2
-       return(<View style={[styles.row]}>
+       let w = (width - 20) / 2
+       return(<TouchableHighlight underlayColor="#dad9d7" style={[styles.row]} onPress={this.onPress.bind(this)}>
+              <View style={[styles.row]}>
 
-                   {/* <Image style={{resizeMode:'contain', alignItems:'center',width: 80, height: 80,
-                   justifyContent:'center',margin:2,
-                   flex:1}}/> */}
+                   <Image style={{resizeMode:'contain', alignItems:'center',
+                   justifyContent:'center',width:w,
+                   flex:2}}
+                   source={{uri:'http://img1.3lian.com/2015/a1/53/d/198.jpg'}}
+                   />
                    <Text style={{resizeMode:'contain', alignItems:'center',
                    justifyContent:'center',margin:2,
-                   flex:1}}>ssss</Text>
-               </View>)
+                   flex:1}}>山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠</Text>
+               </View>
+               </TouchableHighlight>
+           )
    };
 
    onPress = (index, item) => {
-
+       this.props.navigator.push({
+          component: ProductDetail,
+           props: {
+               prouduct:item,
+              }
+      })
    };
 
     renderProductCategoryView() {

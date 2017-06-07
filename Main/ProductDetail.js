@@ -81,7 +81,7 @@ export default class ProductDetail extends Component {
         this.setState({
           goods: prouduct,
         });
-        this._fetchGoods(prouduct.spec_id);
+        this._fetchGoods(12);
     }
 
     _fetchGoods(spec_id) {
@@ -118,7 +118,7 @@ export default class ProductDetail extends Component {
         // if(!goods){
         //     return <Loading loadingtext='正在加载商品...'/>
         // }
-        var htmlContent = goods.description||"";
+        //var htmlContent = goods.description||"";
         return (
             <ScrollView>
                 <View style={styles.container}>
