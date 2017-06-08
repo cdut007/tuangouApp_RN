@@ -117,6 +117,12 @@ export default class HomeView extends Component {
         }
     }
 
+    renderItemSpaceLine(index){
+        if (index == 0) {
+            return
+        }
+        return (<View style={{backgroundColor:"#f2f2f2",height:10,flex:1}}></View>)
+    }
 
     renderProductCategoryView() {
          var categoryDataAry = [];
@@ -162,6 +168,8 @@ export default class HomeView extends Component {
 
             for (var i = 0; i<categoryDataAry.length; i++) {
                 displayCategoryAry.push(
+                        <View>
+                        {this.renderItemSpaceLine(i)}
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
                             <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',
@@ -177,6 +185,7 @@ export default class HomeView extends Component {
                             <Text style={styles.countdownText} >
                                 截团倒计时{categoryDataAry[i].countdown}
                             </Text>
+                        </View>
                         </View>
                         </View>
                         </View>
@@ -206,7 +215,7 @@ export default class HomeView extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h ,marginTop:5,marginRight:5,marginBottom:5 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h ,marginTop:5,marginRight:5,marginBottom:0 }, styles.toolsItem]}>
 
                                     <Image style={{resizeMode:'contain', alignItems:'center',width: w-2, height: h,
                                     justifyContent:'center',margin:2,
@@ -267,7 +276,8 @@ const styles = StyleSheet.create({
             fontSize:14,
     },
     brandLabelContainer:
-    {
+    {   marginTop:5,
+        marginBottom:5,
         flexDirection:'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
