@@ -23,15 +23,19 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 
+
+import GroupBuyCar from './GroupBuyCar'
+
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import px2dp from '../common/util'
+import CommitButton from '../common/CommitButton'
 import ProductDetail from './ProductDetail'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
-
+import Banner from 'react-native-banner';
 
 export default class ProductCatagoryListView extends Component {
     constructor(props) {
@@ -148,6 +152,12 @@ export default class ProductCatagoryListView extends Component {
        }
    };
 
+   renderHeader=() => {
+       return(<View style={styles.topView} >
+       {this.renderTopView()}
+       </View>)
+   }
+
    renderItem = (item, sectionID, rowID) => {
        //write your own layout in list view
        let w = (width - 20) / 2
@@ -185,6 +195,59 @@ export default class ProductCatagoryListView extends Component {
       })
    };
 
+   bannerClickListener(index) {
+   this.setState({
+           clickTitle: this.banners[index].title ? `you click ${this.banners[index].title}` : 'this banner has no title',
+       })
+   }
+
+   bannerOnMomentumScrollEnd(event, state) {
+       console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
+       this.defaultIndex = state.index;
+   }
+
+  renderTopView() {
+
+      this.banners = [
+          {
+              title: '水果',
+              image: 'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png',
+          },
+          {
+              title: '蔬菜',
+              image: 'http://img1.3lian.com/2015/a1/53/d/200.jpg',
+          },
+          {
+              title: '肉类',
+              image: 'http://img1.3lian.com/2015/a1/53/d/198.jpg',
+          },
+          {
+              // title: 'no title',
+              image: 'http://image.tianjimedia.com/uploadImages/2012/235/9J92Z5E5R868.jpg',
+          },
+      ];
+
+      return (
+          <Banner
+              style={styles.topView}
+              banners={this.banners}
+              defaultIndex={this.defaultIndex}
+              onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+              intent={this.bannerClickListener.bind(this)}
+          />
+
+      )
+     }
+
+     startGroupBuy(){
+         this.props.navigator.push({
+            component: GroupBuyCar,
+             props: {
+
+                }
+        })
+     }
+
     renderProductCategoryView() {
         var goods = this.state.goods;
         // if(!goods){
@@ -192,9 +255,9 @@ export default class ProductCatagoryListView extends Component {
         // }
         var htmlContent = goods.description||"";
         return (
-            <ScrollView>
                 <View style={styles.container}>
                 <ListView
+                      renderHeader={this.renderHeader}
                       contentContainerStyle={styles.list}
                       dataSource={this.state.dataSource}
                       initialListSize={21}
@@ -203,8 +266,9 @@ export default class ProductCatagoryListView extends Component {
                       renderRow={this.renderItem}
                       removeClippedSubviews={false}
                     />
+                 <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}><CommitButton title={'申请拼团'} onPress = {this.startGroupBuy.bind(this)}></CommitButton></View>
+
                 </View>
-            </ScrollView>
         );
     }
 
@@ -241,6 +305,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 2,
         borderColor: '#CCC'
+    },
+    topView: {
+        height: 150,
+        width: width,
     },
     line1:{
         height:1,
