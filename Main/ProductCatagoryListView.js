@@ -12,6 +12,7 @@ import {
     ListView,
 } from 'react-native';
 
+
 import {
     MKIconToggle,
     MKSwitch,
@@ -24,7 +25,6 @@ import {
 
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
-import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
 import ProductDetail from './ProductDetail'
 const isIOS = Platform.OS == "ios"
@@ -80,6 +80,9 @@ export default class ProductCatagoryListView extends Component {
 
     componentDidMount() {
         var prouduct = this.props.prouduct;
+        if (!prouduct) {
+            prouduct = {};
+        }
         this.setState({
           goods: prouduct,
         });
@@ -101,16 +104,11 @@ export default class ProductCatagoryListView extends Component {
     this.onFetch();
     }
 
-    clickBack() {
-     this.props.navigator.pop()
-    }
+
 
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="品质水果"
-                leftIcon={require('../images/back.png')}
-                leftPress={this.clickBack.bind(this)}/>
                 {this.renderProductCategoryView()}
             </View>
         )

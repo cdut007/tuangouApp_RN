@@ -16,6 +16,7 @@
     "react-native-material-kit": "^0.4.1",
     "react-native-modal-dropdown": "^0.4.1",
     "react-native-tab-navigator": "^0.3.3",
+    "react-native-tab-view": "0.0.66",
     "react-native-ultimate-listview": "^3.0.2",
     "react-native-vector-icons": "^4.0.0",
     "react-native-wechat": "^1.9.2",

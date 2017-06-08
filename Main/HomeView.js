@@ -14,7 +14,7 @@ import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import ProductCatagoryListView from './ProductCatagoryListView'
+import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
 import ProductDetail from './ProductDetail'
 
 const isIOS = Platform.OS == "ios"
@@ -109,7 +109,7 @@ export default class HomeView extends Component {
             })
         }else{
             this.props.navigator.push({
-               component: ProductCatagoryListView,
+               component: ProductCatagoryListViewTab,
                 props: {
                     prouduct:prouduct,
                    }

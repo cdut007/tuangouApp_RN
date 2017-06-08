@@ -26,7 +26,7 @@ import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import NotifyNowView from './NotifyNowView'
+import GroupBuyNowView from './GroupBuyNowView'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -40,6 +40,14 @@ export default class GroupBuyCar extends Component {
 
     }
 
+    onGroupBuyNow(){
+        this.props.navigator.push({
+           component: GroupBuyNowView,
+            props: {
+
+               }
+       })
+    }
 
 
     render() {
@@ -79,8 +87,9 @@ export default class GroupBuyCar extends Component {
             flex:6}}>
             <Text style={{margin:10,alignItems:'center',justifyContent:'flex-start',fontSize: 14, color: "#000000",}}>拼团总计：2件商品</Text>
             </View>
-            <Text style={{flex:2,alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>开始拼团</Text>
-
+            <TouchableHighlight style={[styles.GroupBuyContainer,{flex:2,alignItems:'center',justifyContent:'center',}]} onPress={this.onGroupBuyNow.bind(this)}>
+            <Text style={[{flex:2,textAlign:'center',alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}]}>开始拼团</Text>
+            </TouchableHighlight>
         </View>)
     }
 
@@ -235,14 +244,12 @@ const styles = StyleSheet.create({
     {
         flex: 1,
     },
-    countdownContainer:
+    GroupBuyContainer:
     {
-        marginTop: 10,
-        marginBottom:20,
-        height: 50,
-        width: width - 160,
+
         borderColor: '#e31515',
         borderWidth:1,
+        textAlign:'center',
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
