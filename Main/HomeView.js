@@ -191,6 +191,9 @@ export default class HomeView extends Component {
                         </View>
             );
             }
+            displayCategoryAry.push(<View style={{color:'#686868',backgroundColor:'#f2f2f2',height:54,flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text style={{fontSize:12,color:'#686868',backgroundColor:'#f2f2f2',textAlign:'center',justifyContent:'center',alignItems:'center'}}>拉不动了...</Text>
+            </View>);
             return displayCategoryAry;
     }
 
