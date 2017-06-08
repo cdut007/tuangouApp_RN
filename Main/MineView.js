@@ -100,6 +100,15 @@ export default class MineView extends Component {
     this.setState({leftCount:response.result});
     }
 
+   onAddressPress(){
+
+   }
+   onSettingPress(){
+
+   }
+   onHelpPress(){
+
+   }
 
     onToolsItemClick(index) {
         console.log('Did click item at:' + index)
@@ -108,44 +117,51 @@ export default class MineView extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.headView}>
+                <Image style={[styles.headView,{position: 'absolute', left: 0, right: 0,}]}
+                       source={require('../images/me_bj.jpg')}
+                 />
                 <CircleImage
                     imageStyle={styles.logo}
                     src={this._displayIcon() }
                     />
                   <View style={styles.centerLayout}>
-                      <Text style={styles.defaultText}>{this.state.account.nickname}</Text>
+                      <Text style={styles.defaultText}>{this.state.account.nickname}Lisa团长高优良品购</Text>
                   </View>
                 </View>
 
-                <TouchableHighlight style={[styles.itemLayout, { marginTop: 8 }]}>
-                    <Text style={styles.labelInfo}>我的拼团</Text>
+                <TouchableHighlight style={[styles.itemLayout, {alignItems: "flex-start",}]}>
+                    <Text style={{marginLeft:10,fontSize:16,color:'#1c1c1c',textAlign:'left'}}>我的拼团</Text>
                 </TouchableHighlight>
+
+                <View style={styles.itemLine}/>
 
 
                 <View style={styles.flexContainer}>
                 <View style={styles.cell}>
-                <Text style={styles.labelInfo}>
-                  ¥0.00
-                </Text>
+                <Image style={styles.labelInfo}
+                source={require('../images/link_icon.png')}
+                >
+                </Image>
+                  <Text style={styles.label}>
+                    团长链接
+                  </Text>
+                </View>
+
+                <View style={styles.cell}>
+                <Image style={styles.labelInfo}
+                source={require('../images/buying_icon.png')}
+                >
+                </Image>
                   <Text style={styles.label}>
                     拼团中
                   </Text>
                 </View>
 
-                <View style={styles.cellLine}/>
                 <View style={styles.cell}>
-                <Text style={styles.labelInfo}>
-                  {this.state.leftCount}
-                </Text>
-                  <Text style={styles.label}>
-                    待发货
-                  </Text>
-                </View>
-                <View style={styles.cellLine}/>
-                <View style={styles.cell}>
-                <Text style={styles.labelInfo}>
-                  3
-                </Text>
+                <Image style={styles.labelInfo}
+                source={require('../images/success_icon.png')}
+                >
+                </Image>
                   <Text style={styles.label}>
                     已完成
                   </Text>
@@ -154,30 +170,41 @@ export default class MineView extends Component {
 
 
 
-              <TouchableHighlight style={[styles.itemLayout, { marginTop: 8 }]}>
-                  <Text style={styles.label}>团长链接</Text>
+              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout,{marginTop:10}]}  onPress={this.onAddressPress.bind(this)}>
+
+                  <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                    <Image style={[styles.iconSize,{marginRight:15}]}
+                      source={require('../images/address_icon.png')} />
+                    <Text  style={{fontSize: 16,flex:20,
+                     textAlign: 'left',
+                     color: '#1c1c1c',}}>收货地址</Text>
+                    <Image style={[styles.iconSize]}
+                      source={require("../images/next_icon.png")} />
+                  </View>
               </TouchableHighlight>
               <View style={styles.itemLine}/>
-              <TouchableHighlight style={[styles.itemLayout]}>
-                  <Text style={styles.label}>收货地址</Text>
-              </TouchableHighlight>
-              <View style={styles.itemLine}/>
-              <TouchableHighlight style={[styles.itemLayout]}>
-                  <Text style={styles.label}>帮助中心</Text>
+              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onHelpPress.bind(this)}>
+              <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                <Image style={[styles.iconSize,{marginRight:15}]}
+                  source={require('../images/help_icon.png')} />
+                <Text  style={{fontSize: 16,flex:20,
+                 textAlign: 'left',
+                 color: '#1c1c1c',}}>帮助中心</Text>
+                <Image style={[styles.iconSize]}
+                  source={require("../images/next_icon.png")} />
+              </View>
               </TouchableHighlight>
                <View style={styles.itemLine}/>
-              <TouchableHighlight style={[styles.itemLayout]}>
-                  <Text style={styles.label}>设置</Text>
-              </TouchableHighlight>
-
-              <TouchableHighlight underlayColor="#dad9d7">
-                <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'#ffffff',height:45,marginTop:10,paddingLeft:20,paddingRight:20}}>
-                  {/* <Image style={[styles.iconSize]}
-                    source={require(this.props.icon)} /> */}
-                  <Text  style={{flex:1,color:'#333333',marginLeft:10}}>试试</Text>
-                  {/* <Image style={[styles.iconSize]}
-                    source={require("image!arrow_right_grey")} /> */}
-                </View>
+              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onSettingPress.bind(this)}>
+              <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                <Image style={[styles.iconSize,{marginRight:15}]}
+                  source={require('../images/setting_icon.png')} />
+                <Text  style={{fontSize: 16,flex:20,
+                 textAlign: 'left',
+                 color: '#1c1c1c',}}>设置</Text>
+                <Image style={[styles.iconSize]}
+                  source={require("../images/next_icon.png")} />
+              </View>
               </TouchableHighlight>
 
             </View>
@@ -203,7 +230,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#f2f2f2',
     },
     centerLayout:{
       justifyContent:'center',
@@ -221,9 +248,9 @@ const styles = StyleSheet.create({
         width: width,
     },
     headView: {
-        height: 200,
+        height: 180,
         width: width,
-        backgroundColor: '#1a8eaf',
+        backgroundColor: '#ffffff',
     },
     toolsView:
     {
@@ -258,7 +285,7 @@ const styles = StyleSheet.create({
     defaultText:{
             marginTop:10,
             color: '#ffffff',
-            fontSize:20,
+            fontSize:16,
             justifyContent: "center",
             alignItems: 'center',
     },
@@ -280,14 +307,15 @@ const styles = StyleSheet.create({
            backgroundColor: '#cccccc',
        },
        itemLine:{
+           marginLeft:10,
            width: width,
-           height: 1,
-           backgroundColor: '#cccccc',
+           height: 0.5,
+           backgroundColor: '#d5d5d5',
        },
        label: {
-           fontSize: 18,
+           fontSize: 14,
            textAlign: 'center',
-           color: '#000000',
+           color: '#4f4f4f',
        },
        labelInfo: {
            fontSize: 18,
