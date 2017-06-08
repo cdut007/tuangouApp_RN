@@ -156,9 +156,9 @@ export default class HomeView extends Component {
              }
          ]
 
-          categoryDataAry.push({id:'meat',name:'品质水果','image': require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'201123232'},);
-          categoryDataAry.push({id:'meat',name:'绿色生鲜','image': require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'201123232'},);
-          categoryDataAry.push({id:'meat',name:'有机蔬菜','image': require('../images/vegetable_type.png'),prouductItems:toolsData,countdown:'201123232'},);
+          categoryDataAry.push({id:'meat',name:'品质水果','image': require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
+          categoryDataAry.push({id:'meat',name:'绿色生鲜','image': require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
+          categoryDataAry.push({id:'meat',name:'有机蔬菜','image': require('../images/vegetable_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
 
             for (var i = 0; i<categoryDataAry.length; i++) {
                 displayCategoryAry.push(
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom:20,
         height: 32,
-        width: width - 180,
+        width: width - 220,
         borderColor: '#e31515',
         borderWidth:1,
         borderRadius: 5,
