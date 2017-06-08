@@ -71,7 +71,7 @@ export default class HomeView extends Component {
         this.banners = [
             {
                 title: '水果',
-                image: 'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png',
+                image: 'http://img.zcool.cn/community/01115757bd9a5a0000018c1b170128.jpg',
             },
             {
                 title: '蔬菜',
@@ -126,32 +126,32 @@ export default class HomeView extends Component {
              {
                  'index': 0,
                  'title': '稍后通知',
-                 'image': {uri:'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png'}
+                 'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
              },
              {
                  'index': 1,
                  'title': '通知成功',
-                 'image': {uri:'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png'}
+                 'image': {uri:'http://www.lyqixuantang.com/upload/image/20151202/1449045717253254.jpg'}
              },
              {
                  'index': 2,
                  'title': '再次通知',
-                 'image': {uri:'http://img1.3lian.com/2015/a1/53/d/198.jpg'}
+                 'image': {uri:'http://images.meishij.net/p/20120905/d3c961321d94bcfa08b33fc99b754874.jpg'}
              },
              {
                  'index': 3,
                  'title': '拍照寄存',
-                 'image': {uri:'http://image.tianjimedia.com/uploadImages/2012/235/9J92Z5E5R868.jpg'}
+                 'image': {uri:'http://img.shelive.net/201608/ba70006454058984a1a.jpg'}
              },
              {
                  'index': 4,
                  'title': '发送失败',
-                 'image': {uri:'http://img1.3lian.com/2015/a1/53/d/200.jpg'}
+                 'image': {uri:'http://photocdn.sohu.com/20151019/mp36482548_1445239748270_2_th_fv23.jpeg'}
              },
              {
                  'index': 5,
-                 'title': '记录查询',
-                 'image': require('../images/searchRecordsIcon.png'),
+                 'title': '更多精选',
+                 'image': {uri:'http://image82.360doc.com/DownloadImg/2015/02/2022/50345829_1.jpg'},
                  'tag': 'scan_more'
              }
          ]
@@ -208,7 +208,7 @@ export default class HomeView extends Component {
                             let render = (
                                 <View style={[{ width: w, height: h ,marginTop:5,marginRight:5,marginBottom:5 }, styles.toolsItem]}>
 
-                                    <Image style={{resizeMode:'contain', alignItems:'center',width: w, height: h,
+                                    <Image style={{resizeMode:'contain', alignItems:'center',width: w-2, height: h,
                                     justifyContent:'center',margin:2,
                                     flex:1}} source={item.image}/>
                                      {this.renderMoreInfo(item,w,h)}
