@@ -36,174 +36,142 @@ import LoginView from '../Login/LoginView'
 export default class GroupBuyNowView extends Component {
     constructor(props) {
         super(props)
-        this.state={
-            goods:{description:''}
-        }
-    }
-
-
-    onItemClick(prouduct){
 
     }
 
 
-    renderProductView() {
-         var categoryDataAry = [];
-         var displayCategoryAry = [];
+    back() {
+        this.props.navigator.pop()
+    }
+    _logout_function(){
 
-          categoryDataAry.push({id:'meat',name:'品质水果',prouductItems:toolsData,countdown:'201123232'},);
+        //logout here
+        this._removeStorage();
+        //logout success go 2 call page
+        // var routes = this.props.navigator.state.routeStack;
+        // for (var i = routes.length - 1; i >= 0; i--) {
+        //     if(routes[i].name === "MyDestinationRoute"){
+        //     var destinationRoute = this.props.navigator.getCurrentRoutes()[i]
+        //     this.props.navigator.popToRoute(destinationRoute);
+        //
+        //     }
+        // }
+        this.props.navigator.resetTo({
+            component: Welcome,
+            name: 'Welcome'
+        })
+    };
+    async _removeStorage() {
+        Global.UserInfo = null;
+            AsyncStorage.removeItem('k_login_info').then((value) => {
 
-            for (var i = 0; i<categoryDataAry.length; i++) {
-                displayCategoryAry.push(
-                        <View style={{margin:5}}>
-                        <View style = {styles.brandLabelContainer}>
-                            {/* <Image style={{resizeMode:'contain', alignItems:'center',
-                  justifyContent:'center'}} source={require('../images/login_wechat.png')}/> */}
-                            <Text style={{fontSize:16,color:'#1b1b1b'}}>
-                                {categoryDataAry[i].name}
-                            </Text>
-                            </View>
-                        {this.renderCategorysView(categoryDataAry[i].prouductItems)}
-                        <View style = {{flex:1,justifyContent:'flex-end',alignItems: 'flex-end',marginRight:5}}>
-
-                        </View>
-                        </View>
-            );
             }
-            return displayCategoryAry;
-    }
+            ).done();
 
+        }
 
+        onCopyPress(){
 
+        }
 
-    componentDidMount() {
-        var prouduct = this.props.prouduct;
-        this.setState({
-          goods: prouduct,
-        });
-        this._fetchGoods(12);
-    }
+        onSharePress(){
 
-    _fetchGoods(spec_id) {
+        }
 
-    var thiz = this;
-    // Util.post(API.GOODSDETAIL,{'spec_id':spec_id},function (ret){
-    //   if(ret.code==0){
-    //     thiz.setState({
-    //       goods: ret.data,
-    //     });
-    //   }else{
-    //     alert(ret.msg);
-    //   }
-    // });
-    }
-
-    clickBack() {
-     this.props.navigator.pop()
-    }
 
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="开始拼团"
-                leftIcon={require('../images/back.png')}
-                leftPress={this.clickBack.bind(this)}/>
-                {this.renderGroupBuyNowView()}
+                <NavBar
+                    title="拼团成功"
+                    leftIcon={require('../images/back.png')}
+                    leftPress={this.back.bind(this)} />
+                    <Text style={{fontSize:14,color:'#a9a9a9',padding:40,marginTop:20}}>该链接为团长：Lisa团长高优良品购的专属链接
+每次申请拼团后直接分享该链接至微信群即可
+团员点击链接购买的商品可在拼团中查看</Text>
+                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:40}}>https://pro.modao.cc/app/Fb0cbnqYMzpzDoqjdyO4QKreG44wH1s#screen=sB5D6183EED1496652452856</Text>
+                    <View style={{flex:1,marginTop:60,justifyContent:'center',flexDirection:'row'}}>
+
+                                        <TouchableOpacity style={{
+                                            height: 36,
+                                            width: 120,
+                                            backgroundColor: '#6d9ee1',
+                                            borderRadius: 50,
+                                            borderColor:'#5590df',
+                                            flexDirection: 'row',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                            onPress={this.onCopyPress.bind(this)}
+                                        >
+                                        <Text style={{color:'#ffffff',fontSize:16}}>
+                                         复制链接
+                                        </Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity style={{
+                                            height: 36,
+                                            width: 120,
+                                            marginLeft:60,
+                                            backgroundColor: '#8dc81b',
+                                            borderRadius: 50,
+                                            borderColor:'#7db909',
+                                            flexDirection: 'row',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}>
+                                        <Text style={{color:'#ffffff',fontSize:16}}
+                                            onPress={this.onSharePress.bind(this)}
+                                        >
+                                         分享链接
+                                        </Text>
+                                        </TouchableOpacity>
+                    </View>
             </View>
         )
     }
 
-    renderGroupBuyNowView() {
-        var goods = this.state.goods;
-        // if(!goods){
-        //     return <Loading loadingtext='正在加载商品...'/>
-        // }
-        //var htmlContent = goods.description||"";
-        return (
-            <ScrollView>
-                <View style={styles.container}>
-                    {/* <Image
-                        style={{width:Util.size.width,height:490}}
-                        source={{uri: goods.default_image}}
-                        /> */}
-                    {/* <Text style={[styles.textprimary,styles.paddingLeftRight,styles.marginTop10]}>商品名称：{goods.goods_name}</Text>
-                    <Text style={[styles.textPrice,styles.paddingLeftRight,styles.marginTop10]}>倍全价：{goods.shichang}</Text>
-                    <View style={[styles.line1,styles.marginTop10]}/>
-                    <Text style={[styles.textsecond,styles.paddingLeftRight,styles.marginTop10]}>品牌：{goods.brand}</Text>
-                    <View style={[styles.line10,styles.marginTop10]}/>
-                    <Text style={[styles.textprimary,styles.paddingLeftRight,styles.marginTop10]}>商品图文详情</Text>
-                    <Text style={[styles.textprimary,styles.paddingLeftRight,styles.marginTop10]}>{htmlContent}</Text> */}
-                    {/* <HTMLView
-                        value={htmlContent}
-                        style={styles.container}
-                      /> */}
-                </View>
-            </ScrollView>
-        );
-    }
 
 }
 
 
 const styles = StyleSheet.create({
+
+    btnLogout: {
+        marginTop: 30,
+        height: 50,
+        width: width - 20,
+        backgroundColor: '#d40000',
+        borderRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+},
+logoutText: {
+    color: '#ffffff',
+    fontSize: 18,
+},
     container: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#F5FCFF',
     },
-    container: {
-        flex: 1,
-        backgroundColor:'#f9f9f9',
-        marginBottom:100,
+    defaultText: {
+        fontWeight: 'bold',
+        fontSize: 18,
     },
-    thumb: {
-        width: 60,
-        height: 60,
-        marginRight: 10
-    },
-    line1:{
-        height:1,
-        backgroundColor:'#dadce2'
-    },
-    line10:{
-        height:10,
-        backgroundColor:'#ebeef1'
-    },
-    textprimary:{
-        fontSize:18,
-        color:'#4a4d52',
-    },
-    textsecond:{
-        fontSize:18,
-        color:'#929aa2',
-    },
-    textPrice:{
-        fontSize:18,
-        color:'#fb7e00',
-    },
-    marginTop10:{
-        marginTop:15,
-    },
-    paddingLeftRight:{
-        paddingLeft:10,
-        paddingRight:10,
-    },
-    scrollSpinner: {
-        marginVertical: 20,
-    },
-    rowSeparator: {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height: 10,
-    },
-    rowSeparatorHide: {
-        opacity: 0.0,
-    },
-    line:{
-        height:1,
-        backgroundColor: '#eef0f3',
-    },
-    row: {
+    itemView:
+    {
+        alignSelf: 'stretch',
+        // justifyContent: 'center',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 50,
+        width: width,
+        borderColor: 'gray',
+        borderWidth: 0.5,
         flexDirection: 'row',
-    },
-});
+        backgroundColor: 'white'
+    }
+})

@@ -26,20 +26,18 @@ import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import GroupOrderDetailView from './GroupOrderDetailView';
+
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 
 
-export default class GroupOrderListView extends Component {
+export default class GroupOrderDetailView extends Component {
     constructor(props) {
         super(props)
-        var title = "拼团中";
-        if (this.props.isDoneStatus) {
-            title = "拼团已完成";
-        }
+        var title = "品质水果";
+
         this.state={
             goods:{description:''},
             title:title,
@@ -64,18 +62,8 @@ export default class GroupOrderListView extends Component {
         )
     }
 
-    onDownloadExcelClick(){
-        alert('下载成功')
-    }
+    onItemClick(prouductItems){
 
-    onItemsClick(prouductItems){
-        this.props.navigator.push({
-                props: {
-                    items:prouductItems,
-                },
-
-                    component: GroupOrderDetailView,
-                })
     }
 
     renderGroupOrderListView(){
@@ -96,57 +84,39 @@ export default class GroupOrderListView extends Component {
                  'index': 0,
                  'title': '稍后通知',
                  'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
-             },
+             }, {
+                  'index': 0,
+                  'title': '稍后通知',
+                  'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
+              }, {
+                   'index': 0,
+                   'title': '稍后通知',
+                   'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
+               }, {
+                    'index': 0,
+                    'title': '稍后通知',
+                    'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
+                }, {
+                     'index': 0,
+                     'title': '稍后通知',
+                     'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
+                 },
 
 
          ]
 
-         categoryDataAry.push({id:'meat',name:'品质水果',image: require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
-         categoryDataAry.push({id:'meat',name:'绿色生鲜',image: require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
+         categoryDataAry.push({id:'meat',name:'品质水果','image': require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
+         categoryDataAry.push({id:'meat',name:'绿色生鲜','image': require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
             for (var i = 0; i<categoryDataAry.length; i++) {
-                var items = categoryDataAry[i].prouductItems;
                 displayCategoryAry.push(
                         <View style={{margin:0}}>
-                        <View style = {[styles.brandLabelContainer,{marginBottom:10}]}>
-                        <View style={{marginLeft:10,marginTop:10,marginRight:5, alignItems:'center',
-                        justifyContent:'flex-start',}}>
-                        <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',
-              justifyContent:'center'}} source={categoryDataAry[i].image}/>
-                             </View>
-                        <Text style={{fontSize:16,color:'#1b1b1b'}}>
-                                {categoryDataAry[i].name}
-                            </Text>
-                            </View>
 
-                        {this.renderCategorysView(items)}
-                        <View style={{width:width,backgroundColor:'#d5d5d5',flex:1,height:0.5}}>
-                        </View>
-                        {this.renderStatus(items)}
+                        {this.renderCategorysView(categoryDataAry[i].prouductItems)}
 
                         </View>
             );
             }
             return displayCategoryAry;
-    }
-
-    renderStatus(items){
-        if (this.props.isDoneStatus) {
-            return(<TouchableOpacity onPress={this.onDownloadExcelClick.bind(this)} style={{alignItems:'center',backgroundColor:'#f7f7f7',
-            justifyContent:'center',height:40,width:width}}>
-            <Text style={{alignItems:'center',
-            justifyContent:'center',fontSize:12,color:'#6d9ee1',textAlign:'center'}}>
-               下载Excel表
-            </Text>
-            </TouchableOpacity>)
-        }else {
-            return(<TouchableOpacity onPress={this.onItemsClick.bind(this,items)} style={{alignItems:'center',backgroundColor:'#f7f7f7',
-            justifyContent:'center',height:40,width:width}}>
-            <Text style={{alignItems:'center',
-            justifyContent:'center',fontSize:12,color:'#1c1c1c',textAlign:'center'}}>
-               查看全部
-            </Text>
-            </TouchableOpacity>)
-        }
     }
 
     renderItemInfo(item,w,h){
@@ -180,22 +150,22 @@ export default class GroupOrderListView extends Component {
 
     renderCategorysView(prouductItems) {
         const w = width , h = 110
-        let items = prouductItems
+
         let renderSwipeView = (types, n) => {
             return (
                 <View style={styles.toolsView}>
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h ,marginTop:0,marginRight:5,marginBottom:0 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h ,marginTop:5,marginRight:5,marginBottom:0 }, styles.toolsItem]}>
                                      {this.renderItemInfo(item,w,h)}
                                 </View>
                             )
                             return (
                                 isIOS ? (
-                                    <TouchableHighlight style={{ width: w, height: h }} key={i} onPress={this.onItemsClick.bind(this,items)}>{render}</TouchableHighlight>
+                                    <TouchableHighlight style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(prouductItems) }}>{render}</TouchableHighlight>
                                 ) : (
-                                        <TouchableNativeFeedback style={{ width: w, height: h }} key={i} onPress={this.onItemsClick.bind(this,items)}>{render}</TouchableNativeFeedback>
+                                        <TouchableNativeFeedback style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(prouductItems) }}>{render}</TouchableNativeFeedback>
                                     )
                             )
                         })

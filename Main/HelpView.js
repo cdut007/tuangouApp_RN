@@ -63,8 +63,10 @@ export default class HelpView extends Component {
                     title="帮助中心"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <Text style={styles.defaultText}>联系我们</Text>
-
+                    <Text style={styles.defaultText}>请联系下方客服电话或微信有任何问题我们都将为您解答</Text>
+                    <Text>
+                    爱邻购客服电话  8375927
+                    </Text>
             </View>
         )
     }
@@ -93,7 +95,7 @@ logoutText: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#f2f2f2',
     },
     defaultText: {
         fontWeight: 'bold',

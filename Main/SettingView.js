@@ -98,7 +98,7 @@ logoutText: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#f2f2f2',
     },
     defaultText: {
         fontWeight: 'bold',
