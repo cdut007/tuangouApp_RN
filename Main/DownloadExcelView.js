@@ -19,7 +19,7 @@ import Welcome from '../Login/Welcome'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 
-export default class SettingView extends Component {
+export default class DownloadExcelView extends Component {
     constructor(props) {
         super(props)
 
@@ -56,19 +56,52 @@ export default class SettingView extends Component {
 
         }
 
+        onExcelSendMailPress(){
+            alert('发送成功')
+        }
+
 
     render() {
         return (
             <View style={styles.container}>
                 <NavBar
-                    title="设置"
+                    title="下载Excel表"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <TouchableOpacity
-                        style={[styles.btnLogout, { marginTop: 10 }]}
-                        onPress={this._logout_function.bind(this)}
-                        ><Text style={styles.logoutText}>退出登录</Text>
-                    </TouchableOpacity>
+                    <View style={[{justifyContent:'center', alignItems:'center',marginTop: 10 }]}
+                        >
+                        <Image style={{resizeMode:'contain', alignItems:'center',width: 70, height: 70,
+                        justifyContent:'center',margin:2,}} source={require('../images/excel_icon.png')}/>
+
+                        <Text style={{textAlign:'center',marginTop:20,fontSize:14,color:'#1b1b1b'}}>我们会将生成的Excel表发送到您的邮箱</Text>
+
+                        <TextInput  style={{marginTop:20,marginLeft:0,fontSize: 14,width:width-70,height:50,
+                         textAlign: 'left',color: '#1c1c1c',}}
+                         editable={true}
+                         placeholder="请输入邮箱"
+                         onChangeText={(text) => this.setState({ mail: text })}
+                         ></TextInput>
+
+                        <TouchableOpacity style= {{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingLeft:10,
+                            width:width-70,
+                            marginTop:20,
+                            paddingRight:10,
+                            backgroundColor:'#ea6b10',
+                            borderColor: '#ea6b10',
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            height: 49,
+
+                        }} onPress = {this.onExcelSendMailPress.bind(this)} >
+                        <View style= {{justifyContent: 'center',alignItems:'center',flex:1,}}>
+                        <Text style= {{fontSize:18,color:'#ffffff',textAlign:'center',}}>确认</Text>
+
+                        </View>
+                        </TouchableOpacity>
+                    </View>
             </View>
         )
     }

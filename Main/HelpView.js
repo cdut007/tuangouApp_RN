@@ -63,9 +63,12 @@ export default class HelpView extends Component {
                     title="帮助中心"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <Text style={styles.defaultText}>请联系下方客服电话或微信有任何问题我们都将为您解答</Text>
-                    <Text>
-                    爱邻购客服电话  8375927
+                    <Text style={[styles.defaultText,{marginTop:80}]}>您有任何的问题都可以电话或微信联系客服。</Text>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c'}}>
+                    客服电话：400-0358-3848
+                    </Text>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c'}}>
+                    微信：ailingo123
                     </Text>
             </View>
         )
@@ -98,8 +101,8 @@ logoutText: {
         backgroundColor: '#f2f2f2',
     },
     defaultText: {
-        fontWeight: 'bold',
-        fontSize: 18,
+        color:'#1c1c1c',
+        fontSize: 16,
     },
     itemView:
     {

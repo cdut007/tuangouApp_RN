@@ -27,6 +27,7 @@ import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
 import GroupOrderDetailView from './GroupOrderDetailView';
+import DownloadExcelView from './DownloadExcelView';
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -65,7 +66,10 @@ export default class GroupOrderListView extends Component {
     }
 
     onDownloadExcelClick(){
-        alert('下载成功')
+        this.props.navigator.push({
+
+                    component: DownloadExcelView,
+                })
     }
 
     onItemsClick(prouductItems){
