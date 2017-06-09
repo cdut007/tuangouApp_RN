@@ -15,11 +15,11 @@ import {
     MKIconToggle,
     MKSwitch,
     MKRadioButton,
-    MKCheckbox,
     MKColor,
     getTheme,
     setTheme,
 } from 'react-native-material-kit'
+import CheckBox from 'react-native-checkbox'
 
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
@@ -91,9 +91,9 @@ export default class GroupBuyCar extends Component {
         justifyContent:'center',margin:0,flexDirection: "row",
         flex:1}}>
         <View style={{
-        flex:1,marginLeft:10,marginRight:0, alignItems:'center',
+        flex:1,marginLeft:20,marginRight:0, alignItems:'center',
         justifyContent:'center',}}>
-                 <MKCheckbox checked={false} />
+                 {this.renderCheckBox()}
              </View>
 
             <View style={{
@@ -119,6 +119,15 @@ export default class GroupBuyCar extends Component {
 
     onItemClick(prouduct){
 
+    }
+    renderCheckBox(){
+        return(<CheckBox
+                    label=''
+                    checkedImage={require('../images/choose_one_click.png')}
+                    uncheckedImage={require('../images/choose_one.png')}
+                    checked={true}
+                    onChange={(checked) => { this.setState({ check_item: !checked }) }}
+                />)
     }
 
 
@@ -161,9 +170,9 @@ export default class GroupBuyCar extends Component {
                 displayCategoryAry.push(
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                        <View style={{marginRight:5, alignItems:'center',
+                        <View style={{marginLeft:5,marginRight:5, alignItems:'center',
                         justifyContent:'flex-start',}}>
-                                 <MKCheckbox checked={true} />
+                                {this.renderCheckBox()}
                              </View>
                         <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
@@ -182,12 +191,12 @@ export default class GroupBuyCar extends Component {
     renderItemInfo(item,w,h){
         if (item.tag!='total_count') {
             return(<View style={{resizeMode:'contain', alignItems:'center',width: w, height: h,
-            justifyContent:'center',paddingLeft:5,paddingRight:10,flexDirection: "row",backgroundColor:'#f7f7f7',
+            justifyContent:'center',paddingLeft:10,paddingRight:10,flexDirection: "row",backgroundColor:'#f7f7f7',
             flex:1}}>
-            <View style={{
+            <View style={{marginLeft:5,
             flex:1,marginRight:10, alignItems:'center',
             justifyContent:'center',}}>
-            <MKCheckbox checked={true} />
+            {this.renderCheckBox()}
                  </View>
 
                 <View style={{
