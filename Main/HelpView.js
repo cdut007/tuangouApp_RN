@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
-    TouchableHighlight,
     Picker,
     AsyncStorage,
     TextInput

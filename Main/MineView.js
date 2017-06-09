@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
-    TouchableHighlight,
     AsyncStorage
 } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -121,7 +120,10 @@ export default class MineView extends Component {
    }
    onGroupBuyDonePress(){
        this.props.navigator.push({
+               props: {
                    isDoneStatus:true,
+               },
+
                    component: GroupOrderListView,
                })
    }
@@ -156,15 +158,15 @@ export default class MineView extends Component {
                   </View>
                 </View>
 
-                <TouchableHighlight style={[styles.itemLayout, {alignItems: "flex-start",}]}>
+                <TouchableOpacity style={[styles.itemLayout, {alignItems: "flex-start",}]}>
                     <Text style={{marginLeft:10,fontSize:16,color:'#1c1c1c',textAlign:'left'}}>我的拼团</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
                 <View style={styles.itemLine}/>
 
 
                 <View style={styles.flexContainer}>
-                <TouchableHighlight style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
+                <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
                 <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/link_icon.png')}
@@ -174,9 +176,9 @@ export default class MineView extends Component {
                     团长链接
                   </Text>
                 </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
-                <TouchableHighlight style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
+                <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
                 <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/buying_icon.png')}
@@ -186,9 +188,9 @@ export default class MineView extends Component {
                     拼团中
                   </Text>
                 </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
-                <TouchableHighlight style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
+                <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
                 <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/success_icon.png')}
@@ -198,11 +200,11 @@ export default class MineView extends Component {
                     已完成
                   </Text>
                 </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
 
 
-              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout,{marginTop:10}]}  onPress={this.onAddressPress.bind(this)}>
+              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout,{marginTop:10}]}  onPress={this.onAddressPress.bind(this)}>
 
                   <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
                     <Image style={[styles.iconSize,{marginRight:15}]}
@@ -213,9 +215,9 @@ export default class MineView extends Component {
                     <Image style={[styles.iconSize]}
                       source={require("../images/next_icon.png")} />
                   </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
               <View style={styles.itemLine}/>
-              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onHelpPress.bind(this)}>
+              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onHelpPress.bind(this)}>
               <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
                 <Image style={[styles.iconSize,{marginRight:15}]}
                   source={require('../images/help_icon.png')} />
@@ -225,9 +227,9 @@ export default class MineView extends Component {
                 <Image style={[styles.iconSize]}
                   source={require("../images/next_icon.png")} />
               </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
                <View style={styles.itemLine}/>
-              <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onSettingPress.bind(this)}>
+              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onSettingPress.bind(this)}>
               <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
                 <Image style={[styles.iconSize,{marginRight:15}]}
                   source={require('../images/setting_icon.png')} />
@@ -237,7 +239,7 @@ export default class MineView extends Component {
                 <Image style={[styles.iconSize]}
                   source={require("../images/next_icon.png")} />
               </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
 
             </View>
         )

@@ -23,30 +23,36 @@ export default class AddressView extends Component {
     constructor(props) {
         super(props)
 
+        this.state={
+            name:null,
+            mobile:null,
+            address:null,
+        }
+
     }
 
 
     back() {
         this.props.navigator.pop()
     }
-    _logout_function(){
+    save(){
+        if (!this.state.name) {
+            alert('输入团长名')
+            return
+        }
+        if (!this.state.mobile) {
+            alert('输入联系方式')
+            return
+        }
+        if (!this.state.address) {
+            alert('输入收货地址')
+            return
+        }
 
-        //logout here
-        this._removeStorage();
-        //logout success go 2 call page
-        // var routes = this.props.navigator.state.routeStack;
-        // for (var i = routes.length - 1; i >= 0; i--) {
-        //     if(routes[i].name === "MyDestinationRoute"){
-        //     var destinationRoute = this.props.navigator.getCurrentRoutes()[i]
-        //     this.props.navigator.popToRoute(destinationRoute);
-        //
-        //     }
-        // }
-        this.props.navigator.resetTo({
-            component: Welcome,
-            name: 'Welcome'
-        })
+        this.props.navigator.pop()
     };
+
+
     async _removeStorage() {
         Global.UserInfo = null;
             AsyncStorage.removeItem('k_login_info').then((value) => {
@@ -62,10 +68,45 @@ export default class AddressView extends Component {
             <View style={styles.container}>
                 <NavBar
                     title="收货地址"
+                    rightTitle='保存'
+                    rightPress={this.save.bind(this)}
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <Text style={styles.defaultText}>联系我们</Text>
+                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
+                            团长名
+                        </Text>
+                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
+                       textAlign: 'left',color: '#1c1c1c',}}
+                       editable={true}
+                       onChangeText={(text) => this.setState({ name: text })}
+                       ></TextInput>
 
+                    </View>
+
+                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
+                            联系电话
+                        </Text>
+                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
+                       textAlign: 'left',color: '#1c1c1c',}}
+                       editable={true}
+                       onChangeText={(text) => this.setState({ mobile: text })}
+                       ></TextInput>
+
+                    </View>
+
+                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
+                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
+                            收货地址
+                        </Text>
+                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
+                       textAlign: 'left',color: '#1c1c1c',}}
+                       editable={true}
+                       onChangeText={(text) => this.setState({ address: text })}
+                       ></TextInput>
+
+                    </View>
             </View>
         )
     }

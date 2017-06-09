@@ -27,26 +27,45 @@ export default class NavBar extends Component{
         title: PropTypes.string,
         leftIcon: PropTypes.any,
         rightIcon: PropTypes.any,
+        rightTitle: PropTypes.string,
+        leftTitle:PropTypes.string,
         leftPress: PropTypes.func,
         rightPress: PropTypes.func,
-        style: PropTypes.object
+        style: PropTypes.object,
     }
     static topbarHeight = (Platform.OS === 'ios' ? 64 : 44)
     renderBtn(pos){
       let render = (obj) => {
         const { name, onPress } = obj
-        if(Platform.OS === 'android'){
-          return (
-            <TouchableNativeFeedback onPress={onPress} style={styles.btn}>
-              <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
-            </TouchableNativeFeedback>
-          )
+
+          if (pos=="left" && this.props.leftIcon || pos == 'right' && this.props.rightIcon) {
+              if(Platform.OS === 'android'){
+              return (
+                <TouchableNativeFeedback onPress={onPress} style={styles.btn}>
+                  <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
+                </TouchableNativeFeedback>
+              )
+            }else{
+              return (
+                <TouchableOpacity onPress={onPress} style={styles.btn}>
+                  <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
+                </TouchableOpacity>
+              )
+            }
         }else{
-          return (
-            <TouchableOpacity onPress={onPress} style={styles.btn}>
-              <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
-            </TouchableOpacity>
-          )
+            if(Platform.OS === 'android'){
+            return (
+              <TouchableNativeFeedback onPress={onPress} >
+                <Text style={styles.btnLabel}>{name}</Text>
+              </TouchableNativeFeedback>
+            )
+          }else{
+            return (
+              <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
+                <Text style={styles.btnLabel}>{name}</Text>
+              </TouchableOpacity>
+            )
+          }
         }
       }
       if(pos == "left"){
@@ -55,6 +74,11 @@ export default class NavBar extends Component{
             name: this.props.leftIcon,
             onPress: this.props.leftPress
           })
+      } else if (this.props.leftTitle) {
+            return render({
+              name: this.props.leftTitle,
+              onPress: this.props.leftPress
+            })
         }else{
           return (<View style={styles.btn}></View>)
         }
@@ -64,7 +88,12 @@ export default class NavBar extends Component{
             name: this.props.rightIcon,
             onPress: this.props.rightPress
           })
-        }else{
+      } else if (this.props.rightTitle) {
+          return render({
+            name: this.props.rightTitle,
+            onPress: this.props.rightPress
+          })
+      }else{
           return (<View style={styles.btn}></View>)
         }
       }
@@ -100,6 +129,12 @@ const styles = StyleSheet.create({
     btn: {
       width: 40,
       height: 40,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    btnLabel: {
+      color: "#ea6b10",
+      fontSize: 16,
       justifyContent: 'center',
       alignItems: 'center'
     },

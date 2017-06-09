@@ -36,8 +36,14 @@ import LoginView from '../Login/LoginView'
 export default class GroupOrderListView extends Component {
     constructor(props) {
         super(props)
+        var title = "拼团中";
+        if (this.props.isDoneStatus) {
+            title = "拼团已完成";
+        }
         this.state={
-            goods:{description:''}
+            goods:{description:''},
+            title:title,
+
         }
     }
 
@@ -105,7 +111,7 @@ export default class GroupOrderListView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="开始拼团"
+                <NavBar title={this.state.title}
                 leftIcon={require('../images/back.png')}
                 leftPress={this.clickBack.bind(this)}/>
                 {this.renderGroupOrderListView()}
