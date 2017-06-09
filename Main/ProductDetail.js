@@ -119,7 +119,7 @@ export default class ProductDetail extends Component {
         this.props.navigator.push({
            component: GroupBuyCar,
             props: {
-
+                showBack:true,
                }
        })
     }

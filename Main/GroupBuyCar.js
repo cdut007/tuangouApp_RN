@@ -27,6 +27,7 @@ import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
 import GroupBuyNowView from './GroupBuyNowView'
+import CommitButton from '../common/CommitButton'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -49,11 +50,26 @@ export default class GroupBuyCar extends Component {
        })
     }
 
+    clickBack() {
+     this.props.navigator.pop()
+    }
+
+   renderTopBar(){
+       if (this.props.showBack) {
+           return(<NavBar title="拼团车"
+           leftIcon={require('../images/back.png')}
+           leftPress={this.clickBack.bind(this)}/>
+           )
+       }else{
+           return(<NavBar title="拼团车" />)
+       }
+   }
+
 
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="拼团车" />
+                {this.renderTopBar()}
                 <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps={false}
@@ -62,6 +78,7 @@ export default class GroupBuyCar extends Component {
                 {this.renderProductCategoryView()}
                 </ScrollView>
                 <View style={{flex:1}}>
+                <View style={{height:0.5,width:width,backgroundColor:'#dedede'}}></View>
                 {this.renderProductStartGroupBuyView()}
                 </View>
 
@@ -70,26 +87,27 @@ export default class GroupBuyCar extends Component {
     }
     renderProductStartGroupBuyView(){
         let h = width/6
-        return(<View style={{resizeMode:'contain', alignItems:'center',width: width-20, height: h,
-        justifyContent:'center',margin:2,flexDirection: "row",
+        return(<View style={{resizeMode:'contain', alignItems:'center',width: width, height: h,
+        justifyContent:'center',margin:0,flexDirection: "row",
         flex:1}}>
         <View style={{
-        flex:1,marginRight:10, alignItems:'center',
+        flex:1,marginLeft:10,marginRight:0, alignItems:'center',
         justifyContent:'center',}}>
                  <MKCheckbox checked={false} />
              </View>
 
             <View style={{
             flex:1}}>
-            <Text style={{alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>全选</Text>
+            <Text style={{alignItems:'center',justifyContent:'center',fontSize: 14, color: "#1c1c1c",}}>全选</Text>
             </View>
             <View style={{
             flex:6}}>
-            <Text style={{margin:10,alignItems:'center',justifyContent:'flex-start',fontSize: 14, color: "#000000",}}>拼团总计：2件商品</Text>
+            <Text style={{margin:10,alignItems:'center',justifyContent:'flex-start',fontSize: 14, color: "#757575",}}>合计：2件商品</Text>
             </View>
-            <TouchableHighlight style={[styles.GroupBuyContainer,{flex:2,alignItems:'center',justifyContent:'center',}]} onPress={this.onGroupBuyNow.bind(this)}>
-            <Text style={[{flex:2,textAlign:'center',alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}]}>开始拼团</Text>
-            </TouchableHighlight>
+            <View style={[{flex:4,alignItems:'flex-end',justifyContent:'flex-end',}]}>
+            <CommitButton title={'开始拼团'} onPress={this.onGroupBuyNow.bind(this)}>
+            </CommitButton>
+            </View>
         </View>)
     }
 
@@ -112,34 +130,29 @@ export default class GroupBuyCar extends Component {
              {
                  'index': 0,
                  'title': '稍后通知',
-                 'image': {uri:'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png'}
+                 'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
              },
              {
                  'index': 1,
                  'title': '通知成功',
-                 'image': {uri:'http://www.qq745.com/uploads/allimg/141106/1-141106153Q5.png'}
+                 'image': {uri:'http://www.lyqixuantang.com/upload/image/20151202/1449045717253254.jpg'}
              },
              {
                  'index': 2,
                  'title': '再次通知',
-                 'image': {uri:'http://img1.3lian.com/2015/a1/53/d/198.jpg'}
+                 'image': {uri:'http://images.meishij.net/p/20120905/d3c961321d94bcfa08b33fc99b754874.jpg'}
              },
              {
                  'index': 3,
                  'title': '拍照寄存',
-                 'image': {uri:'http://image.tianjimedia.com/uploadImages/2012/235/9J92Z5E5R868.jpg'}
+                 'image': {uri:'http://img.shelive.net/201608/ba70006454058984a1a.jpg'}
              },
              {
                  'index': 4,
                  'title': '发送失败',
-                 'image': {uri:'http://img1.3lian.com/2015/a1/53/d/200.jpg'}
+                 'image': {uri:'http://photocdn.sohu.com/20151019/mp36482548_1445239748270_2_th_fv23.jpeg'}
              },
-             {
-                 'index': 5,
-                 'title': '记录查询',
-                 'image': require('../images/searchRecordsIcon.png'),
-                 'tag': 'total_count'
-             }
+
          ]
 
           categoryDataAry.push({id:'meat',name:'品质水果',prouductItems:toolsData,countdown:'201123232'},);
@@ -148,9 +161,11 @@ export default class GroupBuyCar extends Component {
                 displayCategoryAry.push(
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            {/* <Image style={{resizeMode:'contain', alignItems:'center',
-                  justifyContent:'center'}} source={require('../images/login_wechat.png')}/> */}
-                            <Text style={{fontSize:16,color:'#1b1b1b'}}>
+                        <View style={{marginRight:5, alignItems:'center',
+                        justifyContent:'flex-start',}}>
+                                 <MKCheckbox checked={true} />
+                             </View>
+                        <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
                             </View>
@@ -166,39 +181,39 @@ export default class GroupBuyCar extends Component {
 
     renderItemInfo(item,w,h){
         if (item.tag!='total_count') {
-            return(<View style={{resizeMode:'contain', alignItems:'center',width: w-20, height: h,
-            justifyContent:'center',margin:2,flexDirection: "row",
+            return(<View style={{resizeMode:'contain', alignItems:'center',width: w, height: h,
+            justifyContent:'center',paddingLeft:5,paddingRight:10,flexDirection: "row",backgroundColor:'#f7f7f7',
             flex:1}}>
             <View style={{
             flex:1,marginRight:10, alignItems:'center',
             justifyContent:'center',}}>
-                     <MKCheckbox checked={false} />
+            <MKCheckbox checked={true} />
                  </View>
 
                 <View style={{
                 flex:2}}>
-                <Image style={{resizeMode:'contain', alignItems:'center',width: 40, height: 40,
+                <Image style={{resizeMode:'contain', alignItems:'center',width: 80, height: 80,
                 justifyContent:'center',}} source={item.image}/>
-                <Text style={{alignItems:'center',marginTop:5,justifyContent:'center',fontSize: 14, color: "#000000",}}>库存450</Text>
                 </View>
                 <View style={{
+                height:h,
+                alignItems:'flex-start',
                 flex:6}}>
-                <Text style={{margin:10,alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染</Text>
+                <Text style={{marginLeft:30,marginTop:10,numberOfLines:2,ellipsizeMode:'tail',fontSize: 14, color: "#1c1c1c",}}>越南芒果</Text>
+                <Text style={{marginLeft:30,alignItems:'center',justifyContent:'center',fontSize: 12, color: "#757575",}}>每个约350g</Text>
+                <View style={{alignItems:'center',flexDirection:'row',marginLeft:30,paddingBottom:10,position:'absolute',left:0,right:0,bottom:0}}>
+                <Text style={{alignItems:'center',justifyContent:'center',fontSize: 16, color: "#fb7210",}}>S$ 8.00</Text>
+                <Text style={{alignItems:'center',textAlign:'right',flex:9,justifyContent:'center',fontSize: 12, color: "#757575",}}>库存 230</Text>
                 </View>
-                <Text style={{alignItems:'center',justifyContent:'center',fontSize: 14, color: "#000000",}}>S$ 20.00</Text>
+                </View>
 
             </View>)
         }
-        return(<View style={{opacity:0.4, position:'absolute',left:0,top:0,alignItems:'flex-end',flex:1,width: w, height: h/3 ,
-        justifyContent:'center',backgroundColor:'#999999'}}
-        needsOffscreenAlphaCompositing={true}
-        >
-        <Text needsOffscreenAlphaCompositing={true} style={{marginRight:10,opacity:1,alignItems:'center',justifyContent:'center',fontSize: 14, color: "#ffffff",}}>拼团总计:6件商品</Text>
-        </View>)
+
     }
 
     renderCategorysView(prouductItems) {
-        const w = width , h = w/3
+        const w = width , h = 110
 
         let renderSwipeView = (types, n) => {
             return (

@@ -168,7 +168,7 @@ export default class ProductCatagoryListView extends Component {
                    justifyContent:'center',width:w-2,
                    backgroundColor:'#ffffff',
                    flex:4}}
-                   source={{uri:'http://img1.3lian.com/2015/a1/53/d/198.jpg'}}
+                   source={{uri:'http://img.shelive.net/201608/ba70006454058984a1a.jpg'}}
                    />
                   <View style={{backgroundColor:'#fdf3ec',flex:2}}>
                   <Text style={{alignItems:'center',fontSize:14,
@@ -247,7 +247,7 @@ export default class ProductCatagoryListView extends Component {
          this.props.navigator.push({
             component: GroupBuyCar,
              props: {
-
+                 showBack:true,
                 }
         })
      }

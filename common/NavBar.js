@@ -18,8 +18,9 @@ import {
   Platform,
   Image
 } from 'react-native'
+import Dimensions from 'Dimensions';
 import px2dp from './util'
-
+var width = Dimensions.get('window').width;
 
 export default class NavBar extends Component{
     static propTypes = {
@@ -70,11 +71,17 @@ export default class NavBar extends Component{
     }
     render(){
         return(
+            <View>
+
             <View style={[styles.topbar, this.props.style]}>
                 {this.renderBtn("left")}
                 <Animated.Text numberOfLines={1} style={[styles.title, this.props.titleStyle]}>{this.props.title}</Animated.Text>
                 {this.renderBtn("right")}
             </View>
+            <View style={{height:0.5,width:width,backgroundColor:'#d6d6d6'}}>
+            </View>
+            </View>
+
         )
     }
 }
