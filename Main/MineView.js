@@ -15,7 +15,11 @@ import NavBar from '../common/NavBar';
 import px2dp from '../common/util';
 import HttpRequest from '../HttpRequest/HttpRequest'
 import CircleImage from '../common/CircleImage';
-
+import SettingView from './SettingView';
+import GroupOrderListView from './GroupOrderListView';
+import AddressView from './AddressView';
+import GroupMasterLinkView from './GroupMasterLinkView';
+import HelpView from './HelpView';
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var account = Object();
@@ -101,13 +105,36 @@ export default class MineView extends Component {
     }
 
    onAddressPress(){
-
+       this.props.navigator.push({
+                   component: AddressView,
+               })
    }
    onSettingPress(){
-
+       this.props.navigator.push({
+                   component: SettingView,
+               })
    }
    onHelpPress(){
+       this.props.navigator.push({
+                   component: HelpView,
+               })
+   }
+   onGroupBuyDonePress(){
+       this.props.navigator.push({
+                   isDoneStatus:true,
+                   component: GroupOrderListView,
+               })
+   }
+   onGroupMasterLinkPress(){
+       this.props.navigator.push({
+                   component: GroupMasterLinkView,
+               })
+   }
 
+   onGroupBuyProgressingPress(){
+       this.props.navigator.push({
+                   component: GroupOrderListView,
+               })
    }
 
     onToolsItemClick(index) {
@@ -137,7 +164,8 @@ export default class MineView extends Component {
 
 
                 <View style={styles.flexContainer}>
-                <View style={styles.cell}>
+                <TouchableHighlight style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
+                <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/link_icon.png')}
                 >
@@ -146,8 +174,10 @@ export default class MineView extends Component {
                     团长链接
                   </Text>
                 </View>
+                </TouchableHighlight>
 
-                <View style={styles.cell}>
+                <TouchableHighlight style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
+                <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/buying_icon.png')}
                 >
@@ -156,8 +186,10 @@ export default class MineView extends Component {
                     拼团中
                   </Text>
                 </View>
+                </TouchableHighlight>
 
-                <View style={styles.cell}>
+                <TouchableHighlight style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
+                <View>
                 <Image style={styles.labelInfo}
                 source={require('../images/success_icon.png')}
                 >
@@ -166,8 +198,8 @@ export default class MineView extends Component {
                     已完成
                   </Text>
                 </View>
+                </TouchableHighlight>
               </View>
-
 
 
               <TouchableHighlight underlayColor="#ffffff" style={[styles.itemLayout,{marginTop:10}]}  onPress={this.onAddressPress.bind(this)}>
