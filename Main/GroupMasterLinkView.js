@@ -10,7 +10,8 @@ import {
     TouchableHighlight,
     Picker,
     AsyncStorage,
-    TextInput
+    TextInput,
+    Clipboard,
 } from 'react-native';
 
 import NavBar from '../common/NavBar'
@@ -57,7 +58,8 @@ export default class GroupMasterLinkView extends Component {
         }
 
         onCopyPress(){
-
+            Clipboard.setString('hello world');
+            
         }
 
         onSharePress(){
