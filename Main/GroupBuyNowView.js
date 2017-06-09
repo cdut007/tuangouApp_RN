@@ -109,7 +109,8 @@ export default class GroupBuyNowView extends Component {
                                         </Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={{
+                                        <TouchableOpacity onPress={this.onSharePress.bind(this)}
+                                        style={{
                                             height: 36,
                                             width: 120,
                                             marginLeft:60,
@@ -121,7 +122,6 @@ export default class GroupBuyNowView extends Component {
                                             alignItems: 'center',
                                         }}>
                                         <Text style={{color:'#ffffff',fontSize:16}}
-                                            onPress={this.onSharePress.bind(this)}
                                         >
                                          分享链接
                                         </Text>
