@@ -55,7 +55,6 @@ export default class Welcome extends Component
             color: '#dc6917',
             fontSize:16,
             justifyContent:'center',
-            fontFamily: 'sans-serif-thin',
             letterSpacing:5,
             flex:1}} >
             用 心 为 您 精 挑 细 选
