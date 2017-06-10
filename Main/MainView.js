@@ -14,6 +14,8 @@ import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
 import TabView from './TabView'
 import WelcomeView from '../Login/Welcome'
+import * as WeChat from 'react-native-wechat';
+
 var Global = require('../common/globals');
 
 export default class MainView extends Component {
@@ -27,6 +29,10 @@ export default class MainView extends Component {
             hasLogin: null
         }
         this.getHasLogin()
+    }
+
+    componentDidMount(){
+        WeChat.registerApp('your wechat appid')
     }
 
     getHasLogin()

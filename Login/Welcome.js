@@ -12,6 +12,7 @@ import Dimensions from 'Dimensions';
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
 import TabView from '../Main/TabView'
+import * as WeChat from 'react-native-wechat';
 
 var width = Dimensions.get('window').width;
 var index;
@@ -30,6 +31,10 @@ export default class Welcome extends Component
 
     onLoginPress()
     {
+        WeChat.sendAuthRequest('snsapi_userinfo','1111111').then(res=>{
+            console.log('log result='+res);
+        })
+
         this.props.navigator.resetTo({
             component: TabView,
             name: 'MainPage'
