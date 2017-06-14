@@ -31,9 +31,9 @@ export default class Welcome extends Component
 
     onLoginPress()
     {
-        WeChat.sendAuthRequest('snsapi_userinfo','1111111').then(res=>{
-            console.log('log result='+res);
-        })
+        // WeChat.sendAuthRequest('snsapi_userinfo','1111111').then(res=>{
+        //     console.log('log result='+res);
+        // })
 
         this.props.navigator.resetTo({
             component: TabView,

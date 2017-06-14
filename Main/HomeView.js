@@ -16,6 +16,7 @@ import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
 import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
 import ProductDetail from './ProductDetail'
+import HttpRequest from '../HttpRequest/HttpRequest'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -26,8 +27,38 @@ import LoginView from '../Login/LoginView'
 export default class HomeView extends Component {
     constructor(props) {
         super(props)
-
+        this.state = {
+            banners:[],
+        };
     }
+    onBannerSuccess(response){
+        this.state.banners = response;
+        this.setState({banners:this.state.banners});
+    }
+
+    componentWillMount(){
+        var paramBody ={ }
+        HttpRequest.get('/banner', paramBody, this.onBannerSuccess.bind(this),
+            (e) => {
+
+                try {
+                    var errorInfo = JSON.parse(e);
+                    console.log(errorInfo.description)
+                    if (errorInfo != null && errorInfo.description) {
+                        console.log(errorInfo.description)
+                    } else {
+                        console.log(e)
+                    }
+                }
+                catch(err)
+                {
+                    console.log(err)
+                }
+
+                console.log(' error:' + e)
+            })
+    }
+
 
     onAnnounceNow() {
         // this.props.navigator.push({
@@ -57,7 +88,7 @@ export default class HomeView extends Component {
 
      bannerClickListener(index) {
      this.setState({
-             clickTitle: this.banners[index].title ? `you click ${this.banners[index].title}` : 'this banner has no title',
+             clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
          })
      }
 
@@ -68,35 +99,28 @@ export default class HomeView extends Component {
 
     renderTopView() {
 
-        this.banners = [
-            {
-                title: '水果',
-                image: 'http://img.zcool.cn/community/01115757bd9a5a0000018c1b170128.jpg',
-            },
-            {
-                title: '蔬菜',
-                image: 'http://img1.3lian.com/2015/a1/53/d/200.jpg',
-            },
-            {
-                title: '肉类',
-                image: 'http://img1.3lian.com/2015/a1/53/d/198.jpg',
-            },
-            {
-                // title: 'no title',
-                image: 'http://image.tianjimedia.com/uploadImages/2012/235/9J92Z5E5R868.jpg',
-            },
-        ];
 
-        return (
-            <Banner
-                style={styles.topView}
-                banners={this.banners}
-                defaultIndex={this.defaultIndex}
-                onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                intent={this.bannerClickListener.bind(this)}
-            />
+        var errorInfo = JSON.stringify(this.state.banners);
+        console.log("this.state.banners="+errorInfo)
+        if (this.state.banners.length == 0) {
+            return (
+                <View
+                    style={styles.topView}
+                />
 
-        )
+            )
+        }else{
+            return (
+                <Banner
+                    style={styles.topView}
+                    banners={this.state.banners}
+                    defaultIndex={this.defaultIndex}
+                    onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+                    intent={this.bannerClickListener.bind(this)}
+                />
+
+            )
+        }
     }
 
     onItemClick(prouduct){

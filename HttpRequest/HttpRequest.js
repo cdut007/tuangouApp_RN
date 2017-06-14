@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-const apiAddr = 'http://ucstage.sealedchat.com:8008/api'
+const apiAddr = 'http://47.88.139.113:3000/api/v1'
 var httpToken = ''
 var Global = require('../common/globals');
 
@@ -30,21 +30,21 @@ get(apiName, body,successCallback, failCallback)
 
     }
 
-    var url = apiAddr + apiName
+    var param = ""
+    var url = apiAddr + apiName+'?format=json'
+    for(var element in body){
+        param += element + "=" + body[element] + "&";
+    }
+    url =  url+"&"+param;
+
     console.log('Get requesr:' + url)
     fetch(url, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'JWT ' + httpToken
-        },
-        body: body})
+        method: 'GET',})
       .then((response) => response.text())
       .then((responseText) => {
-        console.log(responseText);
+        console.log("responseText:"+responseText);
         var response = JSON.parse(responseText);
-        if (response.code == 200 || response.access_token || response.id) {
+        if (response || response.code == 200 || response.access_token || response.id) {
             successCallback(response);
         }else{
             failCallback(responseText)
