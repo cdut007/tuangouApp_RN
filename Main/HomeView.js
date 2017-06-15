@@ -33,7 +33,7 @@ export default class HomeView extends Component {
         };
     }
     onBannerSuccess(response){
-        this.state.banners = response.data;
+        this.state.banners = response.data.images;
         this.setState({banners:this.state.banners});
     }
 
