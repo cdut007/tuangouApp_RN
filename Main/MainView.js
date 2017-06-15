@@ -32,7 +32,7 @@ export default class MainView extends Component {
     }
 
     componentDidMount(){
-        WeChat.registerApp('your wechat appid')
+        WeChat.registerApp('wx22795e8274245d59')
     }
 
     getHasLogin()

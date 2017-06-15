@@ -198,6 +198,7 @@ export default class HomeView extends Component {
                     toolsData.push({
                         'index': product.goods_id,
                         'image': {uri:product.image},
+                         'title':'申请拼团',
                         'tag': 'scan_more'
                     });
                 }else{
