@@ -29,16 +29,27 @@ export default class HomeView extends Component {
         super(props)
         this.state = {
             banners:[],
+            goodsList:[],
         };
     }
     onBannerSuccess(response){
-        this.state.banners = response;
+        this.state.banners = response.data;
         this.setState({banners:this.state.banners});
     }
 
+    onProudctListSuccess(response){
+        this.state.goodsList = response.data;
+        this.setState({goodsList:this.state.goodsList});
+    }
+
     componentWillMount(){
+        this.fetchBanner();
+        this.fetchProductList();
+    }
+
+    fetchProductList(){
         var paramBody ={ }
-        HttpRequest.get('/banner', paramBody, this.onBannerSuccess.bind(this),
+        HttpRequest.get('/home_page_list', paramBody, this.onProudctListSuccess.bind(this),
             (e) => {
 
                 try {
@@ -59,6 +70,28 @@ export default class HomeView extends Component {
             })
     }
 
+     fetchBanner(){
+         var paramBody ={ }
+         HttpRequest.get('/banner', paramBody, this.onBannerSuccess.bind(this),
+             (e) => {
+
+                 try {
+                     var errorInfo = JSON.parse(e);
+                     console.log(errorInfo.description)
+                     if (errorInfo != null && errorInfo.description) {
+                         console.log(errorInfo.description)
+                     } else {
+                         console.log(e)
+                     }
+                 }
+                 catch(err)
+                 {
+                     console.log(err)
+                 }
+
+                 console.log(' error:' + e)
+             })
+     }
 
     onAnnounceNow() {
         // this.props.navigator.push({
@@ -152,43 +185,33 @@ export default class HomeView extends Component {
          var categoryDataAry = [];
          var displayCategoryAry = [];
 
-         var toolsData = [
-             {
-                 'index': 0,
-                 'title': '稍后通知',
-                 'image': {uri:'http://img1.juimg.com/141110/330464-1411100SS535.jpg'}
-             },
-             {
-                 'index': 1,
-                 'title': '通知成功',
-                 'image': {uri:'http://www.lyqixuantang.com/upload/image/20151202/1449045717253254.jpg'}
-             },
-             {
-                 'index': 2,
-                 'title': '再次通知',
-                 'image': {uri:'http://images.meishij.net/p/20120905/d3c961321d94bcfa08b33fc99b754874.jpg'}
-             },
-             {
-                 'index': 3,
-                 'title': '拍照寄存',
-                 'image': {uri:'http://img.shelive.net/201608/ba70006454058984a1a.jpg'}
-             },
-             {
-                 'index': 4,
-                 'title': '发送失败',
-                 'image': {uri:'http://photocdn.sohu.com/20151019/mp36482548_1445239748270_2_th_fv23.jpeg'}
-             },
-             {
-                 'index': 5,
-                 'title': '更多精选',
-                 'image': {uri:'http://image82.360doc.com/DownloadImg/2015/02/2022/50345829_1.jpg'},
-                 'tag': 'scan_more'
-             }
-         ]
 
-          categoryDataAry.push({id:'meat',name:'品质水果','image': require('../images/fruit_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
-          categoryDataAry.push({id:'meat',name:'绿色生鲜','image': require('../images/fresh_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
-          categoryDataAry.push({id:'meat',name:'有机蔬菜','image': require('../images/vegetable_type.png'),prouductItems:toolsData,countdown:'48:38:29'},);
+
+        for (var i = 0; i < this.state.goodsList.length; i++) {
+            var goods = this.state.goodsList[i].goods
+            var classify = this.state.goodsList[i].classify
+            var goodsMaxLengh = goods.length > 6 ? 6: goods.length;
+            var toolsData = [];
+            for (var i = 0; i < goodsMaxLengh; i++) {
+                var product = goods[i]
+                if (i == goodsMaxLengh -1 ) {
+                    toolsData.push({
+                        'index': product.goods_id,
+                        'image': {uri:product.image},
+                        'tag': 'scan_more'
+                    });
+                }else{
+                    toolsData.push({
+                        'index': product.goods_id,
+                        'image': {uri:product.image},
+                    });
+                }
+            }
+            console.log(goodsMaxLengh+ ' toolsData max length === '+toolsData.length+";type name"+ classify.name);
+
+            categoryDataAry.push({id:classify.id,name:classify.name,'image': classify.icon,prouductItems:toolsData,countdown:'48:38:29'},);
+
+        }
 
             for (var i = 0; i<categoryDataAry.length; i++) {
                 displayCategoryAry.push(
@@ -215,9 +238,12 @@ export default class HomeView extends Component {
                         </View>
             );
             }
-            displayCategoryAry.push(<View style={{color:'#686868',backgroundColor:'#f2f2f2',height:54,flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={{fontSize:12,color:'#686868',backgroundColor:'#f2f2f2',textAlign:'center',justifyContent:'center',alignItems:'center'}}>拉不动了...</Text>
-            </View>);
+            if (categoryDataAry.length>3) {
+                displayCategoryAry.push(<View style={{color:'#686868',backgroundColor:'#f2f2f2',height:54,flex:1,justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{fontSize:12,color:'#686868',backgroundColor:'#f2f2f2',textAlign:'center',justifyContent:'center',alignItems:'center'}}>拉不动了...</Text>
+                </View>);
+            }
+
             return displayCategoryAry;
     }
 

@@ -44,7 +44,7 @@ get(apiName, body,successCallback, failCallback)
       .then((responseText) => {
         console.log("responseText:"+responseText);
         var response = JSON.parse(responseText);
-        if (response || response.code == 200 || response.access_token || response.id) {
+        if (response.message =='success') {
             successCallback(response);
         }else{
             failCallback(responseText)
