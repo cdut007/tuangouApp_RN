@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "IlingoTests.xctest"
-               BlueprintName = "IlingoTests"
+               BuildableName = "ilingoTests.xctest"
+               BlueprintName = "ilingoTests"
                ReferencedContainer = "container:Ilingo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "Ilingo-tvOS.app"
-               BlueprintName = "Ilingo-tvOS"
+               BuildableName = "ilingo-tvOS.app"
+               BlueprintName = "ilingo-tvOS"
                ReferencedContainer = "container:Ilingo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "Ilingo-tvOSTests.xctest"
-               BlueprintName = "Ilingo-tvOSTests"
+               BuildableName = "ilingo-tvOSTests.xctest"
+               BlueprintName = "ilingo-tvOSTests"
                ReferencedContainer = "container:Ilingo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -61,8 +61,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "Ilingo-tvOSTests.xctest"
-               BlueprintName = "Ilingo-tvOSTests"
+               BuildableName = "ilingo-tvOSTests.xctest"
+               BlueprintName = "ilingo-tvOSTests"
                ReferencedContainer = "container:Ilingo.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -71,8 +71,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "Ilingo-tvOS.app"
-            BlueprintName = "Ilingo-tvOS"
+            BuildableName = "ilingo-tvOS.app"
+            BlueprintName = "ilingo-tvOS"
             ReferencedContainer = "container:Ilingo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -94,8 +94,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "Ilingo-tvOS.app"
-            BlueprintName = "Ilingo-tvOS"
+            BuildableName = "ilingo-tvOS.app"
+            BlueprintName = "ilingo-tvOS"
             ReferencedContainer = "container:Ilingo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -113,8 +113,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "Ilingo-tvOS.app"
-            BlueprintName = "Ilingo-tvOS"
+            BuildableName = "ilingo-tvOS.app"
+            BlueprintName = "ilingo-tvOS"
             ReferencedContainer = "container:Ilingo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
