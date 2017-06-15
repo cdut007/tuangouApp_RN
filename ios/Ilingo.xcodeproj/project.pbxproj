@@ -658,6 +658,10 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = BYVTZWD3CS;
+						ProvisioningStyle = Manual;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -1138,6 +1142,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = BYVTZWD3CS;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-wechat/ios",
@@ -1151,6 +1156,8 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = ilingo;
+				PROVISIONING_PROFILE = "3b7e40eb-13c0-4f49-b07a-c510397d78bf";
+				PROVISIONING_PROFILE_SPECIFIER = pp_dev_any;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1160,6 +1167,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-wechat/ios",
