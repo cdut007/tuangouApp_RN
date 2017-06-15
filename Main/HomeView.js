@@ -209,7 +209,7 @@ export default class HomeView extends Component {
             }
             console.log(goodsMaxLengh+ ' toolsData max length === '+toolsData.length+";type name"+ classify.name);
 
-            categoryDataAry.push({id:classify.id,name:classify.name,'image': classify.icon,prouductItems:toolsData,countdown:'48:38:29'},);
+            categoryDataAry.push({id:classify.id,name:classify.name,image:{uri:classify.icon} ,prouductItems:toolsData,countdown:'48:38:29'},);
 
         }
 
@@ -219,7 +219,7 @@ export default class HomeView extends Component {
                         {this.renderItemSpaceLine(i)}
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',
+                            <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',width:30,height:30,
                   justifyContent:'center'}} source={categoryDataAry[i].image}/>
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
