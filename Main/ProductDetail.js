@@ -33,13 +33,14 @@ const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
+import HttpRequest from '../HttpRequest/HttpRequest'
 
 
 export default class ProductDetail extends Component {
     constructor(props) {
         super(props)
         this.state={
-            goods:{description:'',image:'http://images.meishij.net/p/20120905/d3c961321d94bcfa08b33fc99b754874.jpg'}
+            goods:{description:'',image:null}//defualt image later
         }
     }
 
@@ -79,25 +80,42 @@ export default class ProductDetail extends Component {
 
 
     componentDidMount() {
-        // var prouduct = this.props.prouduct;
-        // this.setState({
-        //   goods: prouduct,
-        // });
-        this._fetchGoods(12);
+        var prouduct = this.props.prouduct;
+        this.setState({
+          goods: prouduct,
+        });
+        this._fetchGoods(prouduct.goods_id);
+    }
+
+
+    onProudctListSuccess(response){
+        this.state.goods = response.data;
+        this.setState({goods:this.state.goods});
     }
 
     _fetchGoods(spec_id) {
 
     var thiz = this;
-    // Util.post(API.GOODSDETAIL,{'spec_id':spec_id},function (ret){
-    //   if(ret.code==0){
-    //     thiz.setState({
-    //       goods: ret.data,
-    //     });
-    //   }else{
-    //     alert(ret.msg);
-    //   }
-    // });
+    var paramBody ={ }
+    HttpRequest.get('/goods_detail/'+spec_id, paramBody, this.onProudctDetailSuccess.bind(this),
+        (e) => {
+
+            try {
+                var errorInfo = JSON.parse(e);
+                console.log(errorInfo.description)
+                if (errorInfo != null && errorInfo.description) {
+                    console.log(errorInfo.description)
+                } else {
+                    console.log(e)
+                }
+            }
+            catch(err)
+            {
+                console.log(err)
+            }
+
+            console.log(' error:' + e)
+        })
     }
 
     clickBack() {
@@ -141,17 +159,17 @@ export default class ProductDetail extends Component {
                 <View>
                     <Image
                         style={{width:width,height:375}}
-                        source={{uri: goods.image}}
+                        source={{uri: goods.goods.images[0]}}
                         />
                     <Text style={{flex:1,color:'#1c1c1c',fontSize:18,margin:10}}>山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染</Text>
                     <View style={{alignItems:'center',flexDirection:'row',
                     justifyContent:'flex-start',margin:10,
                     flex:1}}>
-                    <Text style={{alignItems:'center', textAlign: 'left', justifyContent:'flex-start',numberOfLines:1,color:'#e31515',fontSize:20,}}>S$ 20</Text>
+                    <Text style={{alignItems:'center', textAlign: 'left', justifyContent:'flex-start',numberOfLines:1,color:'#e31515',fontSize:20,}}>S$ {goods.price}</Text>
                     <Text style={{alignItems:'center',marginLeft:10,flex:7,
-                    justifyContent:'center',numberOfLines:1,color:'#757575',fontSize:12}}>3斤装／件</Text>
+                    justifyContent:'center',numberOfLines:1,color:'#757575',fontSize:12}}>{goods.brief_dec}</Text>
                     <Text style={{alignItems:'center',marginLeft:10,flex:2,
-                    justifyContent:'flex-end',numberOfLines:1,color:'#757575',fontSize:12}}>库存 230</Text>
+                    justifyContent:'flex-end',numberOfLines:1,color:'#757575',fontSize:12}}>库存 {goods.stock}</Text>
                     </View>
 
 
