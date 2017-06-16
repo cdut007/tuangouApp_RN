@@ -38,16 +38,47 @@ export default class MainView extends Component {
     getHasLogin()
     {
         var me = this
-        AsyncStorage.getItem('k_http_token',function(errs,result)
+        AsyncStorage.getItem('k_wx_auth_info',function(errs,result)
         {
-            if (!errs && result && result.length)
+            if (!errs && result)
             {
                 me.setState({hasLogin: true})
-                Global.token = result;
+                Global.wxAuth = JSON.parse(result)
+
+                console.log('get k_wx_auth_info:'+result)
             }
             else
             {
                 me.setState({hasLogin: false})
+                console.log('get k_wx_auth_info faild')
+            }
+        });
+
+
+        AsyncStorage.getItem('k_wx_token_info',function(errs,result)
+        {
+            if (!errs && result)
+            {
+                Global.wxToken = JSON.parse(result)
+                console.log('get k_wx_token_info:'+result)
+            }
+            else
+            {
+                console.log('get k_wx_token_info faild')
+            }
+        });
+        
+
+        AsyncStorage.getItem('k_wx_user_info',function(errs,result)
+        {
+            if (!errs && result)
+            {
+                Global.wxUserInfo = JSON.parse(result)
+                console.log('get k_wx_user_info:'+result)
+            }
+            else
+            {
+                console.log('get k_wx_user_info faild')
             }
         });
 
