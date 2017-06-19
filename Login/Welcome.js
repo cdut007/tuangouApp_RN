@@ -40,10 +40,6 @@ export default class Welcome extends Component {
                 })
                 Global.wxAuth = res;
                 this.onGetWxToken(res.appid, res.code)
-                this.props.navigator.resetTo({
-                    component: TabView,
-                    name: 'MainPage'
-                })
             }
             else {
                 alert('Login faild, please try again.')
@@ -59,7 +55,7 @@ export default class Welcome extends Component {
 
     onGetWxToken(appid, code) {
 
-        let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='+appid+'&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code='+code+'&grant_type=authorization_code'
+        let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
         fetch(url, {
             method: 'GET',
         })
@@ -78,13 +74,13 @@ export default class Welcome extends Component {
                 this.onGetWxUserInfo(response.access_token, response.openid)
             })
             .catch(function (err) {
-                console.log('get wx token error:'+ err)
+                console.log('get wx token error:' + err)
+                alert('Login faild, please try again.')
             });
     }
 
-    onGetWxUserInfo(token, openid)
-    {
-        let url = 'https://api.weixin.qq.com/sns/userinfo?access_token='+token+'&openid='+openid
+    onGetWxUserInfo(token, openid) {
+        let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
         fetch(url, {
             method: 'GET',
         })
@@ -99,10 +95,62 @@ export default class Welcome extends Component {
                         console.log('save k_wx_user_info faild.')
                     }
                 })
+
+                this.onLoginWithWxInfo(response)
             })
             .catch(function (err) {
-                console.log('get wx token error:'+ err)
+                console.log('get wx token error:' + err)
+                alert('Login faild, please try again.')
             });
+    }
+
+    onLoginWithWxInfo(userInfo) {
+        let param = {
+            'nickname': userInfo.nickname,
+            'openid': userInfo.openid,
+            'sex': userInfo.sex,
+            'province': userInfo.province,
+            'city': userInfo.city,
+            'country': userInfo.country,
+            'headimgurl': userInfo.headimgurl,
+            'privilege': '',
+            'unionid': userInfo.unionid
+        }
+
+        HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
+            (e) => {
+                try {
+                    var errorInfo = JSON.parse(e);
+                    console.log(errorInfo.description)
+                    if (errorInfo != null && errorInfo.description) {
+                        console.log(errorInfo.description)
+                    } else {
+                        console.log(e)
+                    }
+                }
+                catch (err) {
+                    console.log(err)
+                }
+
+                console.log(' error:' + e)
+                alert('Login faild, please try again.')
+            })
+    }
+
+    onLoginSuccess(response) {
+
+        AsyncStorage.setItem('k_http_token', response.data.token, (error, result) => {
+            if (error) {
+                console.log('save k_http_token faild.')
+            }
+        })
+
+        Global.token = response.data.token
+
+        this.props.navigator.resetTo({
+            component: TabView,
+            name: 'MainPage'
+        })
     }
 
     render() {

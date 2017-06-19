@@ -86,14 +86,15 @@ post(apiName, body,successCallback, failCallback)
 
     }
 
+    if (httpToken == null) httpToken = ''
     fetch(url, {
         method: 'POST',
-        headers: {
+        headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'JWT ' + httpToken
-        },
-        body: body})
+        }),
+        body: JSON.stringify(body)})
       .then((response) => response.text())
       .then((responseText) => {
         console.log(responseText);

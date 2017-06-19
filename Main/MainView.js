@@ -20,78 +20,77 @@ var Global = require('../common/globals');
 
 export default class MainView extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
 
-        this.state={
+        this.state = {
             hasGotLogin: false,
             hasLogin: null
         }
         this.getHasLogin()
     }
 
-    componentDidMount(){
+    componentDidMount() {
         WeChat.registerApp('wx22795e8274245d59')
     }
 
-    getHasLogin()
-    {
+    getHasLogin() {
         var me = this
-        AsyncStorage.getItem('k_wx_auth_info',function(errs,result)
-        {
-            if (!errs && result)
-            {
-                me.setState({hasLogin: true})
+
+
+        AsyncStorage.getItem('k_http_token', function (errs, result) {
+            if (!errs && result && result.length) {
+                me.setState({ hasLogin: true })
+                Global.token = result
+
+                console.log('get k_http_token:' + result)
+            }
+            else {
+                me.setState({ hasLogin: false })
+                console.log('get k_http_token faild')
+            }
+        });
+
+        AsyncStorage.getItem('k_wx_auth_info', function (errs, result) {
+            if (!errs && result) {
                 Global.wxAuth = JSON.parse(result)
 
-                console.log('get k_wx_auth_info:'+result)
+                console.log('get k_wx_auth_info:' + result)
             }
-            else
-            {
-                me.setState({hasLogin: false})
+            else {
                 console.log('get k_wx_auth_info faild')
             }
         });
 
 
-        AsyncStorage.getItem('k_wx_token_info',function(errs,result)
-        {
-            if (!errs && result)
-            {
+        AsyncStorage.getItem('k_wx_token_info', function (errs, result) {
+            if (!errs && result) {
                 Global.wxToken = JSON.parse(result)
-                console.log('get k_wx_token_info:'+result)
+                console.log('get k_wx_token_info:' + result)
             }
-            else
-            {
+            else {
                 console.log('get k_wx_token_info faild')
             }
         });
-        
 
-        AsyncStorage.getItem('k_wx_user_info',function(errs,result)
-        {
-            if (!errs && result)
-            {
+
+        AsyncStorage.getItem('k_wx_user_info', function (errs, result) {
+            if (!errs && result) {
                 Global.wxUserInfo = JSON.parse(result)
-                console.log('get k_wx_user_info:'+result)
+                console.log('get k_wx_user_info:' + result)
             }
-            else
-            {
+            else {
                 console.log('get k_wx_user_info faild')
             }
         });
 
 
-        AsyncStorage.getItem('k_login_info',function(errs,result)
-        {
-            if (!errs && result && result.length)
-            {
+        AsyncStorage.getItem('k_login_info', function (errs, result) {
+            if (!errs && result && result.length) {
                 Global.id = JSON.parse(result).id;
                 console.log('local user id:' + Global.id)
             }
-            else
-            {
+            else {
 
             }
         });
@@ -101,34 +100,32 @@ export default class MainView extends Component {
     }
 
     render() {
-        if(this.state.hasLogin == null)
-        {
-            return(<View/>)
+        if (this.state.hasLogin == null) {
+            return (<View />)
         }
 
-        if (this.state.hasLogin)
-        {
+        if (this.state.hasLogin) {
             return (
                 <Navigator
-                initialRoute={{component: TabView, name: "MainPage"}}
-                configureScene={() => Navigator.SceneConfigs.FloatFromRight}
-                renderScene={(route, navigator) => {
-                      return <route.component navigator={navigator} {...route.props}/>
+                    initialRoute={{ component: TabView, name: "MainPage" }}
+                    configureScene={() => Navigator.SceneConfigs.FloatFromRight}
+                    renderScene={(route, navigator) => {
+                        return <route.component navigator={navigator} {...route.props} />
                     }
-                }
-              />
+                    }
+                />
             )
         }
         else {
             return (
                 <Navigator
-                initialRoute={{component: WelcomeView, name: "WelcomePage", index: this.props.index}}
-                configureScene={() => Navigator.SceneConfigs.FloatFromRight}
-                renderScene={(route, navigator) => {
-                      return <route.component navigator={navigator} {...route.props}/>
+                    initialRoute={{ component: WelcomeView, name: "WelcomePage", index: this.props.index }}
+                    configureScene={() => Navigator.SceneConfigs.FloatFromRight}
+                    renderScene={(route, navigator) => {
+                        return <route.component navigator={navigator} {...route.props} />
                     }
-                }
-              />
+                    }
+                />
             )
         }
 
