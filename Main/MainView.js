@@ -95,6 +95,14 @@ export default class MainView extends Component {
             }
         });
 
+        AsyncStorage.getItem('k_cur_gbdetail', function (errs, result) {
+            if (!errs && result && result.length) {
+                Global.gbDetail = JSON.parse(result)
+            }
+            else {
+                console.log('get k_cur_gbdetail faild')
+            }
+        });
 
 
     }

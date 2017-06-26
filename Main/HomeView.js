@@ -8,7 +8,6 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
-    TouchableHighlight,
 } from 'react-native';
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
@@ -126,7 +125,7 @@ export default class HomeView extends Component {
      }
 
      bannerOnMomentumScrollEnd(event, state) {
-         console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
+        //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
          this.defaultIndex = state.index;
      }
 
@@ -196,7 +195,7 @@ export default class HomeView extends Component {
                 var product = goods[i]
                 if (i == goodsMaxLengh -1 ) {
                     toolsData.push({
-                        'index': product.goods_id,
+                        'index': classify.id,
                         'image': {uri:product.image},
                          'title':'申请拼团',
                         'tag': 'scan_more'
@@ -278,11 +277,7 @@ export default class HomeView extends Component {
                                 </View>
                             )
                             return (
-                                isIOS ? (
-                                    <TouchableHighlight style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableHighlight>
-                                ) : (
-                                        <TouchableNativeFeedback style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableNativeFeedback>
-                                    )
+                                <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
                             )
                         })
                     }

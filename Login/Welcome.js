@@ -105,18 +105,6 @@ export default class Welcome extends Component {
     }
 
     onLoginWithWxInfo(userInfo) {
-        let param = {
-            'nickname': userInfo.nickname,
-            'openid': userInfo.openid,
-            'sex': userInfo.sex,
-            'province': userInfo.province,
-            'city': userInfo.city,
-            'country': userInfo.country,
-            'headimgurl': userInfo.headimgurl,
-            'privilege': '',
-            'unionid': userInfo.unionid
-        }
-
         HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
             (e) => {
                 try {
@@ -139,6 +127,7 @@ export default class Welcome extends Component {
 
     onLoginSuccess(response) {
 
+        console.log('login success'+JSON.stringify(response))
         AsyncStorage.setItem('k_http_token', response.data.token, (error, result) => {
             if (error) {
                 console.log('save k_http_token faild.')

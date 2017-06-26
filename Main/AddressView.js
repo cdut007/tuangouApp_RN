@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
-    TouchableHighlight,
     Picker,
     AsyncStorage,
     TextInput
@@ -15,7 +14,7 @@ import {
 
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
-import Welcome from '../Login/Welcome'
+import HttpRequest from '../HttpRequest/HttpRequest'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 
@@ -35,6 +34,23 @@ export default class AddressView extends Component {
     back() {
         this.props.navigator.pop()
     }
+
+    componentDidMount() {
+        HttpRequest.get('/user_address' ,{}, this.onGetAddressSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+            })
+    }
+
+    onGetAddressSuccess(response)
+    {
+        this.setState({
+            address: response.data.user_address.address,
+            mobile: response.data.user_address.phone_num
+        })
+    }
+
+
     save(){
         if (!this.state.name) {
             alert('输入团长名')
@@ -52,15 +68,6 @@ export default class AddressView extends Component {
         this.props.navigator.pop()
     };
 
-
-    async _removeStorage() {
-        Global.UserInfo = null;
-            AsyncStorage.removeItem('k_login_info').then((value) => {
-
-            }
-            ).done();
-
-        }
 
 
     render() {

@@ -33,26 +33,23 @@ export default class MineView extends Component {
         };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         var me = this
-        AsyncStorage.getItem('k_user_info',function(errs,result)
-        {
-            if (!errs && result && result.length)
-            {
+        AsyncStorage.getItem('k_user_info', function (errs, result) {
+            if (!errs && result && result.length) {
 
                 //me.setState({account: JSON.parse(result)})
             }
-            else
-            {
-                me.queryUserInfo();
-                me.queryLeftCountInfo();
+            else {
+                // me.queryUserInfo();
+                // me.queryLeftCountInfo();
             }
         });
     }
 
-    queryUserInfo(){
+    queryUserInfo() {
         console.log('queryUserInfo id:' + Global.id)
-        HttpRequest.get('/v1/user/'+Global.id, null, this.onQuerySuccess.bind(this),
+        HttpRequest.get('/v1/user/' + Global.id, null, this.onQuerySuccess.bind(this),
             (e) => {
 
                 try {
@@ -63,15 +60,14 @@ export default class MineView extends Component {
                         console.log(e)
                     }
                 }
-                catch(err)
-                {
+                catch (err) {
                     console.log(err)
                 }
 
                 console.log('Login error:' + e)
             })
     }
-    queryLeftCountInfo(){
+    queryLeftCountInfo() {
         console.log('queryLeftCountInfo id:' + Global.id)
         HttpRequest.get('/v1/usage_count', null, this.onQueryLeftCountSuccess.bind(this),
             (e) => {
@@ -84,8 +80,7 @@ export default class MineView extends Component {
                         console.log(e)
                     }
                 }
-                catch(err)
-                {
+                catch (err) {
                     console.log(err)
                 }
 
@@ -93,51 +88,53 @@ export default class MineView extends Component {
             })
     }
 
-    onQuerySuccess(response){
-    console.log('queryUserInfo success:' + JSON.stringify(response))
-      this.setState({account:response});
+    onQuerySuccess(response) {
+        console.log('queryUserInfo success:' + JSON.stringify(response))
+        this.setState({ account: response });
     }
 
-    onQueryLeftCountSuccess(response){
-    console.log('onQueryLeftCountSuccess:' + JSON.stringify(response))
-    this.setState({leftCount:response.result});
+    onQueryLeftCountSuccess(response) {
+        console.log('onQueryLeftCountSuccess:' + JSON.stringify(response))
+        this.setState({ leftCount: response.result });
     }
 
-   onAddressPress(){
-       this.props.navigator.push({
-                   component: AddressView,
-               })
-   }
-   onSettingPress(){
-       this.props.navigator.push({
-                   component: SettingView,
-               })
-   }
-   onHelpPress(){
-       this.props.navigator.push({
-                   component: HelpView,
-               })
-   }
-   onGroupBuyDonePress(){
-       this.props.navigator.push({
-               props: {
-                   isDoneStatus:true,
-               },
+    onAddressPress() {
+        this.props.navigator.push({
+            component: AddressView,
+        })
+    }
+    onSettingPress() {
+        this.props.navigator.push({
+            component: SettingView,
+        })
+    }
+    onHelpPress() {
+        this.props.navigator.push({
+            component: HelpView,
+        })
+    }
+    onGroupBuyDonePress() {
+        this.props.navigator.push({
+            props: {
+                isDoneStatus: true,
+            },
+            component: GroupOrderListView,
+        })
+    }
+    onGroupMasterLinkPress() {
+        this.props.navigator.push({
+            component: GroupMasterLinkView,
+        })
+    }
 
-                   component: GroupOrderListView,
-               })
-   }
-   onGroupMasterLinkPress(){
-       this.props.navigator.push({
-                   component: GroupMasterLinkView,
-               })
-   }
-
-   onGroupBuyProgressingPress(){
-       this.props.navigator.push({
-                   component: GroupOrderListView,
-               })
-   }
+    onGroupBuyProgressingPress() {
+        this.props.navigator.push({
+            props: {
+                isDoneStatus: false,
+            },
+            component: GroupOrderListView,
+        })
+    }
 
     onToolsItemClick(index) {
         console.log('Did click item at:' + index)
@@ -146,100 +143,106 @@ export default class MineView extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.headView}>
-                <Image style={[styles.headView,{position: 'absolute', left: 0, right: 0,}]}
+                    <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
                        source={require('../images/me_bj.jpg')}
-                 />
-                <CircleImage
-                    imageStyle={styles.logo}
-                    src={this._displayIcon() }
                     />
-                  <View style={styles.centerLayout}>
-                      <Text style={styles.defaultText}>{this.state.account.nickname}Lisa团长高优良品购</Text>
-                  </View>
+                    <CircleImage
+                        imageStyle={styles.logo}
+                        src={this._displayIcon()}
+                    />
+                    <View style={styles.centerLayout}>
+                        <Text style={styles.defaultText}>{Global.wxUserInfo.nickname}</Text>
+                    </View>
                 </View>
 
-                <TouchableOpacity style={[styles.itemLayout, {alignItems: "flex-start",}]}>
-                    <Text style={{marginLeft:10,fontSize:16,color:'#1c1c1c',textAlign:'left'}}>我的拼团</Text>
+                <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
+                    <Text style={{ marginLeft: 10, fontSize: 16, color: '#1c1c1c', textAlign: 'left' }}>我的拼团</Text>
                 </TouchableOpacity>
 
-                <View style={styles.itemLine}/>
+                <View style={styles.itemLine} />
 
 
                 <View style={styles.flexContainer}>
-                <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
-                <View>
-                <Image style={styles.labelInfo}
-                source={require('../images/link_icon.png')}
-                >
-                </Image>
-                  <Text style={styles.label}>
-                    团长链接
+                    <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
+                        <View>
+                            <Image style={styles.labelInfo}
+                                source={require('../images/link_icon.png')}
+                            >
+                            </Image>
+                            <Text style={styles.label}>
+                                团长链接
                   </Text>
-                </View>
-                </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
-                <View>
-                <Image style={styles.labelInfo}
-                source={require('../images/buying_icon.png')}
-                >
-                </Image>
-                  <Text style={styles.label}>
-                    拼团中
+                    <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
+                        <View>
+                            <Image style={styles.labelInfo}
+                                source={require('../images/buying_icon.png')}
+                            >
+                            </Image>
+                            <Text style={styles.label}>
+                                拼团中
                   </Text>
-                </View>
-                </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
-                <View>
-                <Image style={styles.labelInfo}
-                source={require('../images/success_icon.png')}
-                >
-                </Image>
-                  <Text style={styles.label}>
-                    已完成
+                    <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
+                        <View>
+                            <Image style={styles.labelInfo}
+                                source={require('../images/success_icon.png')}
+                            >
+                            </Image>
+                            <Text style={styles.label}>
+                                已完成
                   </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
+
+
+                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onAddressPress.bind(this)}>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                        <Image style={[styles.iconSize, { marginRight: 15 }]}
+                            source={require('../images/address_icon.png')} />
+                        <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>收货地址</Text>
+                        <Image style={[styles.iconSize]}
+                            source={require("../images/next_icon.png")} />
+                    </View>
                 </TouchableOpacity>
-              </View>
-
-
-              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout,{marginTop:10}]}  onPress={this.onAddressPress.bind(this)}>
-
-                  <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                    <Image style={[styles.iconSize,{marginRight:15}]}
-                      source={require('../images/address_icon.png')} />
-                    <Text  style={{fontSize: 16,flex:20,
-                     textAlign: 'left',
-                     color: '#1c1c1c',}}>收货地址</Text>
-                    <Image style={[styles.iconSize]}
-                      source={require("../images/next_icon.png")} />
-                  </View>
-              </TouchableOpacity>
-              <View style={styles.itemLine}/>
-              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onHelpPress.bind(this)}>
-              <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                <Image style={[styles.iconSize,{marginRight:15}]}
-                  source={require('../images/help_icon.png')} />
-                <Text  style={{fontSize: 16,flex:20,
-                 textAlign: 'left',
-                 color: '#1c1c1c',}}>帮助中心</Text>
-                <Image style={[styles.iconSize]}
-                  source={require("../images/next_icon.png")} />
-              </View>
-              </TouchableOpacity>
-               <View style={styles.itemLine}/>
-              <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]}  onPress={this.onSettingPress.bind(this)}>
-              <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                <Image style={[styles.iconSize,{marginRight:15}]}
-                  source={require('../images/setting_icon.png')} />
-                <Text  style={{fontSize: 16,flex:20,
-                 textAlign: 'left',
-                 color: '#1c1c1c',}}>设置</Text>
-                <Image style={[styles.iconSize]}
-                  source={require("../images/next_icon.png")} />
-              </View>
-              </TouchableOpacity>
+                <View style={styles.itemLine} />
+                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onHelpPress.bind(this)}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                        <Image style={[styles.iconSize, { marginRight: 15 }]}
+                            source={require('../images/help_icon.png')} />
+                        <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>帮助中心</Text>
+                        <Image style={[styles.iconSize]}
+                            source={require("../images/next_icon.png")} />
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.itemLine} />
+                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onSettingPress.bind(this)}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                        <Image style={[styles.iconSize, { marginRight: 15 }]}
+                            source={require('../images/setting_icon.png')} />
+                        <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>设置</Text>
+                        <Image style={[styles.iconSize]}
+                            source={require("../images/next_icon.png")} />
+                    </View>
+                </TouchableOpacity>
 
             </View>
         )
@@ -248,13 +251,13 @@ export default class MineView extends Component {
 
 
     _displayIcon() {
-            if (this.state.account.icon_url != null) {
-                return { uri: this.state.account.icon_url };
-            } else {
-                return require('../images/default_head.png');
-            }
-
+        if (Global.wxUserInfo.headimgurl != null) {
+            return {uri: Global.wxUserInfo.headimgurl};
+        } else {
+            return require('../images/default_head.png');
         }
+
+    }
 
 }
 
@@ -266,16 +269,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
-    centerLayout:{
-      justifyContent:'center',
-      alignItems:'center',
+    centerLayout: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff00ff00'
     },
-    itemLayout:{
-        backgroundColor:'#ffffff',
-        justifyContent:'center',
-        width:width,
-        height:50,
-        alignItems:'center',
+    itemLayout: {
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        width: width,
+        height: 50,
+        alignItems: 'center',
     },
     topView: {
         height: 120,
@@ -314,46 +318,47 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         marginTop: 30,
+        borderRadius: 40,
         alignSelf: 'center',
     },
-    defaultText:{
-            marginTop:10,
-            color: '#ffffff',
-            fontSize:16,
-            justifyContent: "center",
-            alignItems: 'center',
+    defaultText: {
+        marginTop: 10,
+        color: '#ffffff',
+        fontSize: 16,
+        justifyContent: "center",
+        alignItems: 'center',
     },
     flexContainer: {
-           height: 80,
-           // 容器需要添加direction才能变成让子元素flex
-           flexDirection: 'row',
-       },
-       cell: {
-           backgroundColor: '#ffffff',
-           flex: 1,
-           height: 80,
-           justifyContent: "center",
-           alignItems: 'center',
-       },
-       cellLine: {
-           width: 1,
-           height: 80,
-           backgroundColor: '#cccccc',
-       },
-       itemLine:{
-           marginLeft:10,
-           width: width,
-           height: 0.5,
-           backgroundColor: '#d5d5d5',
-       },
-       label: {
-           fontSize: 14,
-           textAlign: 'center',
-           color: '#4f4f4f',
-       },
-       labelInfo: {
-           fontSize: 18,
-           textAlign: 'center',
-           color: '#fbab3b',
-       },
+        height: 80,
+        // 容器需要添加direction才能变成让子元素flex
+        flexDirection: 'row',
+    },
+    cell: {
+        backgroundColor: '#ffffff',
+        flex: 1,
+        height: 80,
+        justifyContent: "center",
+        alignItems: 'center',
+    },
+    cellLine: {
+        width: 1,
+        height: 80,
+        backgroundColor: '#cccccc',
+    },
+    itemLine: {
+        marginLeft: 10,
+        width: width,
+        height: 0.5,
+        backgroundColor: '#d5d5d5',
+    },
+    label: {
+        fontSize: 14,
+        textAlign: 'center',
+        color: '#4f4f4f',
+    },
+    labelInfo: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#fbab3b',
+    },
 });

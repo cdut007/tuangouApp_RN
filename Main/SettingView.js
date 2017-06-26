@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
-    TouchableHighlight,
     Picker,
     AsyncStorage,
     TextInput
@@ -49,7 +48,7 @@ export default class SettingView extends Component {
     };
     async _removeStorage() {
         Global.UserInfo = null;
-            AsyncStorage.removeItem('k_login_info').then((value) => {
+            AsyncStorage.removeItem('k_http_token').then((value) => {
 
             }
             ).done();

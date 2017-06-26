@@ -5,109 +5,102 @@ var httpToken = ''
 var Global = require('../common/globals');
 
 module.exports = {
-get(apiName, body,successCallback, failCallback)
-{
-    if(httpToken && !httpToken.length)
-    {
-        httpToken = Global.token;
+    get(apiName, body, successCallback, failCallback) {
+        if (!httpToken.length) {
+            httpToken = Global.token;
 
-        AsyncStorage.getItem('k_http_token',function(errs,result)
-        {
-            if (!errs)
-            {
-                httpToken = result
-                console.log('httpToken = '+httpToken)
-            }
-            else
-            {
-                console.log('get http token error:' + errs)
-            }
-        });
+            AsyncStorage.getItem('k_http_token', function (errs, result) {
+                if (!errs) {
+                    httpToken = result
+                    console.log('httpToken = ' + httpToken)
+                }
+                else {
+                    console.log('get http token error:' + errs)
+                }
+            });
+        } 
 
+        var param = ""
+        var url = apiAddr + apiName + '?format=json'
+        for (var element in body) {
+            param += element + "=" + body[element] + "&";
+        }
+        url = url + "&" + param;
 
+        console.log('Get requesr:' + url)
+        if (httpToken == null) httpToken = ''
+        fetch(url, {
+            method: 'GET',
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': httpToken
+            }),
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                console.log("responseText:" + responseText);
+                var response = JSON.parse(responseText);
+                if (response.code == 1) {
+                    successCallback(response);
+                } else {
+                    failCallback(responseText)
+                }
 
-    }else{
+            })
+            .catch(function (err) {
+                failCallback(err);
+            });
 
-    }
+    },
 
-    var param = ""
-    var url = apiAddr + apiName+'?format=json'
-    for(var element in body){
-        param += element + "=" + body[element] + "&";
-    }
-    url =  url+"&"+param;
+    post(apiName, body, successCallback, failCallback) {
+        if (!httpToken.length) {
+            httpToken = Global.token;
 
-    console.log('Get requesr:' + url)
-    fetch(url, {
-        method: 'GET',})
-      .then((response) => response.text())
-      .then((responseText) => {
-        console.log("responseText:"+responseText);
-        var response = JSON.parse(responseText);
-        if (response.message =='success') {
-            successCallback(response);
-        }else{
-            failCallback(responseText)
+            AsyncStorage.getItem('k_http_token', function (errs, result) {
+                if (!errs) {
+                    httpToken = result
+                    console.log('httpToken = ' + httpToken)
+                }
+                else {
+                    console.log('get http token error:' + errs)
+                }
+            });
         }
 
-      })
-      .catch(function(err){
-        failCallback(err);
-      });
+        var url = apiAddr + apiName
+        try {
+            console.log('Post requesr:' + url + ":[param body]=" + JSON.stringify(body))
+        } catch (e) {
 
-  },
+        } finally {
 
-post(apiName, body,successCallback, failCallback)
-  {
-    if(!httpToken.length)
-    {
-        httpToken = Global.token;
-
-        AsyncStorage.getItem('k_http_token',function(errs,result)
-        {
-            if (!errs)
-            {
-                httpToken = result
-                console.log('httpToken = '+httpToken)
-            }
-            else
-            {
-                console.log('get http token error:' + errs)
-            }
-        });
-    }
-
-    var url = apiAddr + apiName
-    try {
-        console.log('Post requesr:' + url +":[param body]="+JSON.stringify(body))
-    } catch (e) {
-
-    } finally {
-
-    }
-
-    if (httpToken == null) httpToken = ''
-    fetch(url, {
-        method: 'POST',
-        headers: new Headers({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'JWT ' + httpToken
-        }),
-        body: JSON.stringify(body)})
-      .then((response) => response.text())
-      .then((responseText) => {
-        console.log(responseText);
-        var response = JSON.parse(responseText);
-        if (response.code == 200 || response.access_token || response.id) {
-            successCallback(response);
-        }else{
-            failCallback(responseText)
         }
 
-      })
-      .catch(function(err){
-        failCallback(err);
-      });
-  }
+        if (httpToken == null) httpToken = ''
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': httpToken
+            }),
+            body: JSON.stringify(body)
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                console.log(responseText);
+                var response = JSON.parse(responseText);
+                if (response.code == 1) {
+                    successCallback(response);
+                } else {
+                    failCallback(responseText)
+                }
+
+            })
+            .catch(function (err) {
+                failCallback(err);
+            });
+    }
 }
