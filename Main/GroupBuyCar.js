@@ -29,6 +29,8 @@ import px2dp from '../common/util'
 import GroupBuyNowView from './GroupBuyNowView'
 import CommitButton from '../common/CommitButton'
 import HttpRequest from '../HttpRequest/HttpRequest'
+import AddressView from './AddressView'
+import GroupBuyAddressView from './GroupBuyAddressView'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -75,32 +77,23 @@ export default class GroupBuyCar extends Component {
         }
 
         let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.id }
-        HttpRequest.post('/agent_order', param, this.onOrderSuccess.bind(this),
-            (e) => {
-                try {
-                    var errorInfo = JSON.parse(e);
-
-                    if (errorInfo != null && (errorInfo.code == 3 || errorInfo.code == 4)) {
-                        alert('' + errorInfo.message)
-                        return
-                    }
-                }
-                catch (err) { }
-
-                console.log(' error:' + e)
-                alert('申请团购失败，请稍后再试。')
+        if (!Global.user_address) {
+            this.props.navigator.push({
+                component: AddressView,
             })
+        }
+        else {
+            this.props.navigator.push({
+                component: GroupBuyAddressView,
+                props: {
+                    api_param: param,
+                    image: this.state.gbDetail.classify.image
+                }
+            })
+        }
     }
 
-    onOrderSuccess(response) {
-        this.props.navigator.push({
-            component: GroupBuyNowView,
-            props: {
-                agent_url: response.data.agent_url,
-                image: this.state.gbDetail.classify.image
-            }
-        })
-    }
+
 
     clickBack() {
         this.props.navigator.pop()

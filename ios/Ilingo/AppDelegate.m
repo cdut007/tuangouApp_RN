@@ -12,6 +12,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "../../node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h"
+#import <RCTHotUpdate/RCTHotUpdate.h>
 
 @implementation AppDelegate
 
@@ -19,7 +20,13 @@
 {
   NSURL *jsCodeLocation;
 
+//  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  
+#if DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+#else
+  jsCodeLocation = [RCTHotUpdate bundleURL];
+#endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ilingo"

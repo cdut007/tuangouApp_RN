@@ -22,10 +22,10 @@ export default class AddressView extends Component {
     constructor(props) {
         super(props)
 
-        this.state={
-            name:null,
-            mobile:null,
-            address:null,
+        this.state = {
+            name: Global.wxUserInfo.nickname,
+            mobile: null,
+            address: null,
         }
 
     }
@@ -36,14 +36,24 @@ export default class AddressView extends Component {
     }
 
     componentDidMount() {
-        HttpRequest.get('/user_address' ,{}, this.onGetAddressSuccess.bind(this),
-            (e) => {
-                console.log(' error:' + e)
+        if (Global.user_address) {
+            this.setState({
+                name: Global.wxUserInfo.nickname,
+                address: Global.user_address.address,
+                mobile: Global.user_address.phone_num
             })
+        }
+        else {
+            HttpRequest.get('/user_address', {}, this.onGetAddressSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+                })
+        }
+
     }
 
-    onGetAddressSuccess(response)
-    {
+    onGetAddressSuccess(response) {
+        Global.user_address = response.data.user_address
         this.setState({
             address: response.data.user_address.address,
             mobile: response.data.user_address.phone_num
@@ -51,11 +61,8 @@ export default class AddressView extends Component {
     }
 
 
-    save(){
-        if (!this.state.name) {
-            alert('输入团长名')
-            return
-        }
+    save() {
+
         if (!this.state.mobile) {
             alert('输入联系方式')
             return
@@ -64,10 +71,28 @@ export default class AddressView extends Component {
             alert('输入收货地址')
             return
         }
+        let param = {
+            address: this.state.address,
+            phone_num: this.state.mobile
+        }
+        HttpRequest.post('/user_address', param, this.onSaveAddressSuccess.bind(this),
+                (e) => {
+                    alert('保存地址失败，请稍后再试。')
+                    console.log(' error:' + e)
+                })
 
-        this.props.navigator.pop()
+        
     };
 
+    onSaveAddressSuccess(response)
+    {
+        Global.user_address = {
+            address: this.state.address,
+            phone_num: this.state.mobile
+        }
+
+        this.props.navigator.pop()
+    }
 
 
     render() {
@@ -79,41 +104,49 @@ export default class AddressView extends Component {
                     rightPress={this.save.bind(this)}
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
-                            团长名
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
+                        团长名
                         </Text>
-                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
-                       textAlign: 'left',color: '#1c1c1c',}}
-                       editable={true}
-                       onChangeText={(text) => this.setState({ name: text })}
-                       ></TextInput>
+                    <Text style={{
+                        marginLeft: 0, fontSize: 14, flex: 20,
+                        textAlign: 'left', color: '#1c1c1c',
+                    }}
+                        editable={true}
+                        onChangeText={(text) => this.setState({ name: text })}
+                    >{this.state.name}</Text>
 
-                    </View>
+                </View>
 
-                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
-                            联系电话
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
+                        联系电话
                         </Text>
-                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
-                       textAlign: 'left',color: '#1c1c1c',}}
-                       editable={true}
-                       onChangeText={(text) => this.setState({ mobile: text })}
-                       ></TextInput>
+                    <TextInput style={{
+                        marginLeft: 0, fontSize: 14, flex: 20,
+                        textAlign: 'left', color: '#1c1c1c',
+                    }}
+                        editable={true}
+                        onChangeText={(text) => this.setState({ mobile: text })}
+                        value= {this.state.mobile}
+                    ></TextInput>
 
-                    </View>
+                </View>
 
-                    <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',backgroundColor:'#ffffff',height:45,paddingLeft:10,paddingRight:10}}>
-                      <Text style={[styles.iconSize,{width:70,marginRight:15,color: '#1b1b1b',fontSize: 14,}]}>
-                            收货地址
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
+                        收货地址
                         </Text>
-                      <TextInput  style={{marginLeft:0,fontSize: 14,flex:20,
-                       textAlign: 'left',color: '#1c1c1c',}}
-                       editable={true}
-                       onChangeText={(text) => this.setState({ address: text })}
-                       ></TextInput>
+                    <TextInput style={{
+                        marginLeft: 0, fontSize: 14, flex: 20,
+                        textAlign: 'left', color: '#1c1c1c',
+                    }}
+                        editable={true}
+                        onChangeText={(text) => this.setState({ address: text })}
+                        value= {this.state.address}
+                    ></TextInput>
 
-                    </View>
+                </View>
             </View>
         )
     }
@@ -133,11 +166,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-},
-logoutText: {
-    color: '#ffffff',
-    fontSize: 18,
-},
+    },
+    logoutText: {
+        color: '#ffffff',
+        fontSize: 18,
+    },
     container: {
         flex: 1,
         justifyContent: 'flex-start',

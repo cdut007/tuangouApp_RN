@@ -16,14 +16,13 @@ import MineView from './MineView';
 import Navigation from '../common/Navigation';
 import TabNavigator from 'react-native-tab-navigator';
 
-export default class TabView extends Component
-{
+export default class TabView extends Component {
     state =
     {
         selectedTab: 'tab1'
     }
 
-    componentWillMount(){
+    componentWillMount() {
         var me = this;
         BackAndroid.addEventListener('harwardBackPress', () => {
             const routers = me.props.navigator.getCurrentRoutes();
@@ -31,37 +30,37 @@ export default class TabView extends Component
                 me.props.navigator.pop();
                 return true;
             } else {
-                    if (routers[0].name == 'MainPage') {
-                      BackAndroid.exitApp();
-                      return true;
-                    } else {
-                      _navigator.pop();
-                      return true;
-                    }
+                if (routers[0].name == 'MainPage') {
+                    BackAndroid.exitApp();
+                    return true;
+                } else {
+                    _navigator.pop();
+                    return true;
+                }
 
-                  }
-                  return false;
-      });
+            }
+            return false;
+        });
     }
 
 
-      componentWillUnmount() {
-                BackAndroid.removeEventListener('hardwareBackPress');
-            }
+    componentWillUnmount() {
+        BackAndroid.removeEventListener('hardwareBackPress');
+    }
 
-    render()
-    {
+
+    render() {
         return (
             <TabNavigator>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab1'}
                     title="爱邻购"
-                    renderIcon={() => <Image  source={require('../images/home_icon.png')} />}
+                    renderIcon={() => <Image source={require('../images/home_icon.png')} />}
                     renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
                     badgeText=""
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab1' })}>
-                    {<HomeView {...this.props}/>}
+                    {<HomeView {...this.props} />}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab2'}
@@ -70,7 +69,7 @@ export default class TabView extends Component
                     renderSelectedIcon={() => <Image source={require('../images/shoppingcart_icon_click.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab2' })}>
-                    {<GroupBuyCar {...this.props}/>}
+                    {<GroupBuyCar {...this.props} />}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'tab3'}
@@ -79,7 +78,7 @@ export default class TabView extends Component
                     renderSelectedIcon={() => <Image source={require('../images/me_icon_click.png')} />}
                     selectedTitleStyle={styles.tabBarTintColor}
                     onPress={() => this.setState({ selectedTab: 'tab3' })}>
-                    {<MineView {...this.props}/>}
+                    {<MineView {...this.props} />}
                 </TabNavigator.Item>
             </TabNavigator>
 
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
     },
     tabBarTintColor: {
 
-      color: '#ea6b10'
+        color: '#ea6b10'
     },
 
 });
