@@ -59,6 +59,7 @@ export default class MainView extends Component {
 
     componentDidMount() {
         WeChat.registerApp('wx22795e8274245d59')
+        this.checkUpdate()
     }
 
     doUpdate = info => {

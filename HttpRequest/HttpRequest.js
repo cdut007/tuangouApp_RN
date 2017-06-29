@@ -6,7 +6,7 @@ var Global = require('../common/globals');
 
 module.exports = {
     get(apiName, body, successCallback, failCallback) {
-        if (!httpToken.length) {
+        if (!httpToken || !httpToken.length) {
             httpToken = Global.token;
 
             AsyncStorage.getItem('k_http_token', function (errs, result) {
@@ -55,7 +55,7 @@ module.exports = {
     },
 
     post(apiName, body, successCallback, failCallback) {
-        if (!httpToken.length) {
+        if (!httpToken || !httpToken.length) {
             httpToken = Global.token;
 
             AsyncStorage.getItem('k_http_token', function (errs, result) {

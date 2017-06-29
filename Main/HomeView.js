@@ -230,7 +230,6 @@ export default class HomeView extends Component {
                         <View onPress={this.onAnnounceNow.bind(this)}
                             style={styles.countdownContainer}>
                             <Text style={styles.countdownText} >
-                                截团倒计时{categoryDataAry[i].countdown}
                             </Text>
                         </View>
                         </View>
@@ -312,9 +311,9 @@ const styles = StyleSheet.create({
         marginBottom:20,
         height: 32,
         width: width - 220,
-        borderColor: '#e31515',
-        borderWidth:1,
-        borderRadius: 5,
+        // borderColor: '#e31515',
+        // borderWidth:1,
+        // borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'center',

@@ -211,7 +211,7 @@ export default class GroupBuyCar extends Component {
 
         for (var i = 0; i < categoryDataAry.length; i++) {
             displayCategoryAry.push(
-                <View style={{ margin: 5 }}>
+                <View style={{ margin: 5, width: width}}>
                     <View style={styles.brandLabelContainer}>
                         <View style={{ marginLeft: 5, marginRight: 5, alignItems: 'center', justifyContent: 'flex-start', }}>
                             {this.renderCheckBox(categoryDataAry[i])}
