@@ -16,12 +16,18 @@ import {
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
 import Welcome from '../Login/Welcome'
+var  WeChat = require('react-native-wechat');
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 
 export default class GroupMasterLinkView extends Component {
     constructor(props) {
         super(props)
+        this.state ={
+
+            agent_url: '',
+            image: ''
+        }
 
     }
 
@@ -57,11 +63,28 @@ export default class GroupMasterLinkView extends Component {
         }
 
         onCopyPress(){
-            Clipboard.setString('hello world');
-
+            Clipboard.setString(Global.agent_url);
+            alert('链接已复制到剪切板！');
         }
 
         onSharePress(){
+            WeChat.isWXAppInstalled()
+                .then((isInstalled) => {
+                if (isInstalled){
+                    WeChat.shareToSession({
+                        type:'news',
+                        title:'爱邻购团长链接分享',
+                        description:'分享自:'+Global.nickname ,
+                        webpageUrl:Global.agent_url,
+                        thumbImage: Global.headimgurl,
+                     }).cache((error) =>{
+                         ToastShort(error.message);
+                     });
+                 }else {
+                     ToastShort('没有安装微信软件，请您安装微信之后再试');
+
+                 }
+                });
 
         }
 
@@ -76,7 +99,7 @@ export default class GroupMasterLinkView extends Component {
                     <Text style={{fontSize:14,color:'#a9a9a9',padding:40,marginTop:20}}>该链接为团长：Lisa团长高优良品购的专属链接
 每次申请拼团后直接分享该链接至微信群即可
 团员点击链接购买的商品可在拼团中查看</Text>
-                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:40}}>https://pro.modao.cc/app/Fb0cbnqYMzpzDoqjdyO4QKreG44wH1s#screen=sB5D6183EED1496652452856</Text>
+                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:40}}>{Global.agent_url}</Text>
                     <View style={{flex:1,marginTop:60,justifyContent:'center',flexDirection:'row'}}>
 
                                         <TouchableOpacity style={{

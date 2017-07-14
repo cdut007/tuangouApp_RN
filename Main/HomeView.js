@@ -8,6 +8,8 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
+    ListView,
+    SectionList
 } from 'react-native';
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
@@ -16,6 +18,7 @@ import px2dp from '../common/util'
 import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
 import ProductDetail from './ProductDetail'
 import HttpRequest from '../HttpRequest/HttpRequest'
+
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -26,6 +29,7 @@ import LoginView from '../Login/LoginView'
 export default class HomeView extends Component {
     constructor(props) {
         super(props)
+
         this.state = {
             banners:[],
             goodsList:[],
@@ -33,11 +37,13 @@ export default class HomeView extends Component {
     }
     onBannerSuccess(response){
         this.state.banners = response.data.images;
+        console.log('BannerSuccess:' + JSON.stringify(response.data));
         this.setState({banners:this.state.banners});
     }
 
     onProudctListSuccess(response){
         this.state.goodsList = response.data;
+        console.log('ProudctListSuccess:' + JSON.stringify(response));
         this.setState({goodsList:this.state.goodsList});
     }
 
@@ -104,14 +110,38 @@ export default class HomeView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="爱邻购" />
+                {/*<SectionList*/}
+                    {/**/}
+                    {/*ListHeaderComponent = {this.renderHeader}*/}
+                    {/*renderItem =  {this.renderItem}*/}
+                    {/*showsVerticalScrollIndicator={false}*/}
+                    {/*sections = {[*/}
+                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section1'},*/}
+                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section2'},*/}
+                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section3'},*/}
+                {/*]}*/}
+                    {/*contentContainerStyle={styles.list}//设置cell的样式*/}
+                    {/*pageSize={6}  // 配置pageSize确认网格数量*/}
+                {/*/>*/}
+
+                {/*<ListView*/}
+                    {/*renderHeader={this.renderHeader}*/}
+                    {/*contentContainerStyle={styles.list}*/}
+                    {/*dataSource={this.state.dataSource}*/}
+                    {/*initialListSize={21}*/}
+                    {/*pageSize={10}*/}
+                    {/*scrollRenderAheadDistance={500}*/}
+                    {/*renderRow={this.renderItem}*/}
+                    {/*removeClippedSubviews={false}*/}
+
+                {/*/>*/}
                 <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps={false}
                 style={styles.mainStyle}>
+
                 {this.renderTopView()}
                 {this.renderProductCategoryView()}
-
-
                 </ScrollView>
             </View>
         )
@@ -128,6 +158,21 @@ export default class HomeView extends Component {
         //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
          this.defaultIndex = state.index;
      }
+    renderHeader = () => {
+        return (<View style={styles.topView} >
+            {this.renderTopView()}
+        </View>)
+    }
+    renderItem = ({ item}) =>{
+        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={this.onPress.bind(this)}>
+                <View style={[styles.row]}>
+
+
+                </View>
+            </TouchableOpacity>
+        )
+    };
+
 
     renderTopView() {
 
@@ -304,7 +349,24 @@ const styles = StyleSheet.create({
     list:
     {
         flex: 1,
+        flexDirection: 'row',//设置横向布局
+        flexWrap: 'wrap',  //设置换行显示
+        alignItems: 'flex-start',
+        backgroundColor: '#FFFFFF'
     },
+    row: {
+        justifyContent: 'center',
+        padding: 1,
+        margin: 5,
+        width: (width - 20) / 2,
+        height: 220,
+        backgroundColor: '#F6F6F6',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 2,
+        borderColor: '#CCC'
+    },
+
     countdownContainer:
     {
         marginTop: 10,

@@ -115,6 +115,10 @@ export default class MainView extends Component {
                     (e) => {
                         console.log(' error:' + e)
                     })
+                HttpRequest.get('/user', {}, me.onGetUserInfoSuccess.bind(me),
+                    (e) => {
+                        console.log(' error:' + e)
+                    })
             }
             else {
                 me.setState({ hasLogin: false })
@@ -180,6 +184,12 @@ export default class MainView extends Component {
 
     onGetAddressSuccess(response) {
         Global.user_address = response.data.user_address
+    }
+    onGetUserInfoSuccess(response) {
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.nickname = response.data.user_profile.nickname
+        Global.headimgurl =response.data.user_profile.headimgurl
     }
 
     render() {
