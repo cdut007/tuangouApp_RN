@@ -54,7 +54,6 @@ export default class Welcome extends Component {
     }
 
     onGetWxToken(appid, code) {
-        console.log('~~~~~~~~~~~~2')
         let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
         fetch(url, {
             method: 'GET',
@@ -80,7 +79,6 @@ export default class Welcome extends Component {
     }
 
     onGetWxUserInfo(token, openid) {
-        console.log('~~~~~~~~~~~~3')
         let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
         fetch(url, {
             method: 'GET',
@@ -106,7 +104,6 @@ export default class Welcome extends Component {
     }
 
     onLoginWithWxInfo(userInfo) {
-        console.log('~~~~~~~~~~~~1')
         HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
             (e) => {
                 try {

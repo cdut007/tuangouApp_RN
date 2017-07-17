@@ -24,10 +24,8 @@
   
 #if DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-  NSLog(@"~~~debug");
 #else
   jsCodeLocation = [RCTHotUpdate bundleURL];
-  NSLog(@"~~~release");
 #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

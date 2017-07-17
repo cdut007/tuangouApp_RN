@@ -40,7 +40,7 @@ export default class GroupBuyNowView extends Component {
         super(props)
 
         this.state = {
-            agent_url: '',
+            agent_url: '获取中...',
             image: ''
         }
     }
@@ -51,7 +51,10 @@ export default class GroupBuyNowView extends Component {
     }
 
     componentDidMount() {
-        this.setState({ agent_url: this.props.agent_url, image: this.props.image });
+        if(this.props.agent_url)
+        {
+            this.setState({ agent_url: this.props.agent_url, image: this.props.image });
+        }
     }
 
     onCopyPress() {

@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     tabbar: {
         height: 44,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         backgroundColor: '#ffffff',
     },
     tab: {

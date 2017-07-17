@@ -87,8 +87,8 @@ export default class ProductDetail extends Component {
     onProudctDetailSuccess(response) {
         this.setState({ goods: response.data })
 
-        var paramBody = {group_buy: response.data.group_buy}
-        HttpRequest.get('/group_buy_detail' ,paramBody, this.onGroupBuyDetailSuccess.bind(this),
+        var paramBody = { group_buy: response.data.group_buy }
+        HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
@@ -131,8 +131,7 @@ export default class ProductDetail extends Component {
     }
 
     startGroupBuy() {
-        if(!hasGotGbDetail)
-        {
+        if (!hasGotGbDetail) {
             return
         }
 
@@ -156,6 +155,7 @@ export default class ProductDetail extends Component {
     renderProductDetailView() {
         var goods = this.state.goods;
         var goodsRecommendItems = this.state.gbDetail.group_buy_goods
+        var goodsDetailImages = ['1', '2', '3']
         // if(!goods){
         //     return <Loading loadingtext='正在加载商品...'/>
         // }
@@ -198,7 +198,7 @@ export default class ProductDetail extends Component {
                         }}>
                             <Image style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
-                                justifyContent: 'center',width:30,height:30
+                                justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: this.state.gbDetail.classify.icon }} />
                             <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
                                 {this.state.gbDetail.classify.name}
@@ -208,14 +208,11 @@ export default class ProductDetail extends Component {
                         <View style={{ backgroundColor: '#f2f2f2', height: 10, flex: 1, }}>
                         </View>
 
-                        <Text style={{ fontSize: 18, color: '#757575', textAlign: 'center', marginTop: 20 }}>
+                        <Text style={{ fontSize: 18, color: '#757575', textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
                             商品详情
                         </Text>
+                        {this.renderDetailView(goodsDetailImages)}
 
-                        <Text style={{ fontSize: 16, color: '#1b1b1b', textAlign: 'left', margin: 10 }}>
-                            山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染.山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染
-                            山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染.山东烟台大樱桃新鲜水果 露天车厘子美早红灯黑珍珠，纯天然绿色无污染
-                        </Text>
 
                         {/* <HTMLView
                         value={htmlContent}
@@ -229,8 +226,32 @@ export default class ProductDetail extends Component {
         );
     }
 
+    renderDetailView(goodsDetailImages) {
+        const w = width, h = height
+
+        let renderView = (types, n) => {
+            return (
+                <View>
+                    {
+                        types.map((item, i) => {
+                            let render = (
+                                <Image style={{
+                                    resizeMode: 'stretch', alignItems: 'center', width: w - 2, height: h,
+                                    justifyContent: 'center'
+                                }} source={require('../images/welcome.png')} />
+                            )
+                            return (<View style={{ width: w, height: h }}>{render}</View>)
+                        })
+                    }
+                </View>
+            )
+        }
+        return (renderView(goodsDetailImages))
+    }
+
+
     renderCategorysView(prouductItems) {
-        const w = width / 3 - 1, h = w*1.5
+        const w = width / 3 - 1, h = w * 1.5
 
         let renderSwipeView = (types, n) => {
             return (
@@ -243,10 +264,10 @@ export default class ProductDetail extends Component {
                                     <Image style={{
                                         resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
-                                    }} source={{uri: item.goods.images[0].image}} />
+                                    }} source={{ uri: item.goods.images[0].image }} />
 
                                     <Text style={{ fontSize: 12, color: '#1b1b1b', textAlign: 'center', numberOfLines: 2, margin: 10 }}>{item.goods.name}</Text>
-                                    <Text style={{ textAlign: 'center', numberOfLines: 1, color: '#e31515', fontSize: 12}}>S$ {item.price}</Text>
+                                    <Text style={{ textAlign: 'center', numberOfLines: 1, color: '#e31515', fontSize: 12 }}>S$ {item.price}</Text>
                                 </View>
                             )
                             return (

@@ -9,6 +9,7 @@ import {
     TouchableNativeFeedback,
     ScrollView,
     ListView,
+    AsyncStorage
 } from 'react-native';
 
 
@@ -35,6 +36,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 import Banner from 'react-native-banner';
+var Global = require('../common/globals');
 
 export default class ProductCatagoryListView extends Component {
     constructor(props) {
