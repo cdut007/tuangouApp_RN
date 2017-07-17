@@ -17,9 +17,9 @@ import CircleImage from '../common/CircleImage';
 import SettingView from './SettingView';
 import GroupOrderListView from './GroupOrderListView';
 import AddressView from './AddressView';
+import AgentRegisteredView from './AgentRegisteredView';
 import GroupMasterLinkView from './GroupMasterLinkView';
 import HelpView from './HelpView';
-import GroupBuyNowView from './GroupBuyNowView'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var account = Object();
@@ -123,9 +123,20 @@ export default class MineView extends Component {
         })
     }
     onGroupMasterLinkPress() {
-        this.props.navigator.push({
-            component: GroupBuyNowView,
-        })
+        if (!Global.agent_url){
+
+            this.props.navigator.push({
+
+                component: AgentRegisteredView,
+            })
+
+        }else {
+
+            this.props.navigator.push({
+                component: GroupMasterLinkView,
+            })
+        }
+
     }
 
     onGroupBuyProgressingPress() {
