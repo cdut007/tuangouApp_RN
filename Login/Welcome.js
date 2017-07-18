@@ -39,7 +39,7 @@ export default class Welcome extends Component {
                     }
                 })
                 Global.wxAuth = res;
-                this.onGetWxToken(res.appid, res.code)
+                this.onGetWxToken('wx22795e8274245d59', res.code)
             }
             else {
                 alert('Login faild, please try again.')
