@@ -122,6 +122,8 @@ export default class HomeView extends Component {
                  showsHorizontalScrollIndicator = {false}
                  removeClippedSubviews = {true}
                  horizontal={false}
+                 style={{width:width}}
+
                  >
 
                  {this.renderTopView()}

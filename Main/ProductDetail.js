@@ -45,7 +45,7 @@ export default class ProductDetail extends Component {
         super(props)
         this.state = {
             banners :[],
-            goods: { goods: { images: [{ image: '' }] } },//defualt image later
+            goods: { goods: { images: [{ image: '' },{desc:''}] } },//defualt image later
             gbDetail: { classify: { name: '', icon: '' }, group_buy_goods: [] }
         }
     }
@@ -60,7 +60,7 @@ export default class ProductDetail extends Component {
         hasGotGbDetail = false
 
         this.setState({
-            goods: { goods: { images: [{ image: prouduct.image.uri }] } }
+            goods: { goods: { images: [{ image: prouduct.image.uri },{desc:this.state.goods.desc}] } }
 
         });
         this._fetchGoods(prouduct.index);
@@ -192,10 +192,12 @@ export default class ProductDetail extends Component {
         this.defaultIndex = state.index;
     }
     renderProductDetailView() {
+        const ItemW = width / 3 - 1, ItemH = ItemW * 1.5
         var goods = this.state.goods;
 
         var goodsRecommendItems = this.state.gbDetail.group_buy_goods
-        var goodsDetailImages = ['1', '2', '3']
+        var goodsDetailImages = ['1','2','3'];
+        console.log('goodsitem:'+JSON.stringify(goods))
         // if(!goods){
         //     return <Loading loadingtext='正在加载商品...'/>
         // }
@@ -203,7 +205,8 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView
-                    style={{ marginBottom: 50 }}
+                    style={{ marginBottom: 50 ,width:width}}
+
                     keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={false}
                 >
@@ -242,7 +245,21 @@ export default class ProductDetail extends Component {
                                 {this.state.gbDetail.classify.name}
                             </Text>
                         </View>
-                        {this.renderCategorysView(goodsRecommendItems)}
+                        <ScrollView
+                            keyboardDismissMode='on-drag'
+                            keyboardShouldPersistTaps={false}
+
+                            showsHorizontalScrollIndicator = {false}
+                            showsVerticalScrollIndicator={false}
+
+
+                            contentContainerStyle={{width:ItemW*goodsRecommendItems.length,height:ItemH}}
+                            style={{width:width,height:ItemH}}
+                        >
+
+                            {this.renderCategorysView(goodsRecommendItems)}
+                        </ScrollView>
+
                         <View style={{ backgroundColor: '#f2f2f2', height: 10, flex: 1, }}>
                         </View>
 
@@ -272,11 +289,12 @@ export default class ProductDetail extends Component {
                 <View>
                     {
                         types.map((item, i) => {
+                            console.log('XMLitem'+JSON.stringify(item))
                             let render = (
                                 <Image style={{
-                                    resizeMode: 'stretch', alignItems: 'center', width: w - 2, height: h,
-                                    justifyContent: 'center'
-                                }} source={require('../images/welcome.png')} />
+                            resizeMode: 'stretch', alignItems: 'center', width: w - 2, height: h,
+                            justifyContent: 'center'
+                            }} source={require('../images/welcome.png')} />
                             )
                             return (<View style={{ width: w, height: h }}>{render}</View>)
                         })

@@ -55,6 +55,7 @@ export default class Welcome extends Component {
 
     onGetWxToken(appid, code) {
         let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
+
         fetch(url, {
             method: 'GET',
         })
