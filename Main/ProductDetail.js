@@ -8,7 +8,8 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
-    AsyncStorage
+    AsyncStorage,
+    WebView
 } from 'react-native';
 
 import {
@@ -44,9 +45,9 @@ export default class ProductDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            banners :[],
-            goods: { goods: { images: [{ image: '' },{desc:''}] } },//defualt image later
-            gbDetail: { classify: { name: '', icon: '' }, group_buy_goods: [] }
+            banners: [],
+            goods: {goods: {images: [{image: ''}, {desc: ''}]}},//defualt image later
+            gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []}
         }
     }
 
@@ -60,7 +61,7 @@ export default class ProductDetail extends Component {
         hasGotGbDetail = false
 
         this.setState({
-            goods: { goods: { images: [{ image: prouduct.image.uri },{desc:this.state.goods.desc}] } }
+            goods: {goods: {images: [{image: prouduct.image.uri}, {desc: this.state.goods.desc}]}}
 
         });
         this._fetchGoods(prouduct.index);
@@ -68,8 +69,8 @@ export default class ProductDetail extends Component {
 
     _fetchGoods(spec_id) {
 
-        var paramBody = {goods:spec_id}
-        console.log('_fetchGoodsspec_id:'+spec_id)
+        var paramBody = {goods: spec_id}
+        console.log('_fetchGoodsspec_id:' + spec_id)
         HttpRequest.get('/goods_detail', paramBody, this.onProudctDetailSuccess.bind(this),
             (e) => {
                 try {
@@ -90,12 +91,13 @@ export default class ProductDetail extends Component {
     }
 
     onProudctDetailSuccess(response) {
-        console.log('ProductDetailData'+JSON.stringify(response.data))
+        console.log('ProductDetailData' + JSON.stringify(response.data))
         this.setState({
-            goods: response.data ,
-        banners:response.data.goods.images})
+            goods: response.data,
+            banners: response.data.goods.images
+        })
 
-        var paramBody = { group_buy: response.data.group_buy }
+        var paramBody = {group_buy: response.data.group_buy}
         HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
             (e) => {
                 try {
@@ -131,8 +133,8 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="商品详情"
-                    leftIcon={require('../images/back.png')}
-                    leftPress={this.clickBack.bind(this)} />
+                        leftIcon={require('../images/back.png')}
+                        leftPress={this.clickBack.bind(this)}/>
                 {this.renderProductDetailView()}
             </View>
         )
@@ -159,10 +161,11 @@ export default class ProductDetail extends Component {
             }
         })
     }
-    renderBannerView(){
-        if (this.state.banners.length >0){
-            console.log('ProductDetailBanners'+JSON.stringify(this.state.banners))
-            return(
+
+    renderBannerView() {
+        if (this.state.banners.length > 0) {
+            console.log('ProductDetailBanners' + JSON.stringify(this.state.banners))
+            return (
                 <Banner style={styles.topView}
                         banners={this.state.banners}
                         defaultIndex={this.defaultIndex}
@@ -171,7 +174,7 @@ export default class ProductDetail extends Component {
 
                 </Banner>
             )
-        }else {
+        } else {
             return ( <Image
                 style={{ width: width, height: 375 }}
 
@@ -180,6 +183,7 @@ export default class ProductDetail extends Component {
 
 
     }
+
     bannerClickListener(index) {
         this.setState({
             clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
@@ -191,13 +195,14 @@ export default class ProductDetail extends Component {
         //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
         this.defaultIndex = state.index;
     }
+
     renderProductDetailView() {
         const ItemW = width / 3 - 1, ItemH = ItemW * 1.5
         var goods = this.state.goods;
 
         var goodsRecommendItems = this.state.gbDetail.group_buy_goods
-        var goodsDetailImages = ['1','2','3'];
-        console.log('goodsitem:'+JSON.stringify(goods))
+        var goodsDetailImages = goods.goods.desc;
+        console.log('goodsitem:' + JSON.stringify(goods))
         // if(!goods){
         //     return <Loading loadingtext='正在加载商品...'/>
         // }
@@ -219,7 +224,8 @@ export default class ProductDetail extends Component {
                             justifyContent: 'flex-start', margin: 10,
                             flex: 1
                         }}>
-                            <Text style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {goods.price}</Text>
+                            <Text
+                                style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {goods.price}</Text>
                             <Text style={{
                                 alignItems: 'center', marginLeft: 10, flex: 7,
                                 justifyContent: 'center', numberOfLines: 1, color: '#757575', fontSize: 12
@@ -240,7 +246,7 @@ export default class ProductDetail extends Component {
                             <Image style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
-                            }} source={{ uri: this.state.gbDetail.classify.icon }} />
+                            }} source={{ uri: this.state.gbDetail.classify.icon }}/>
                             <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
                                 {this.state.gbDetail.classify.name}
                             </Text>
@@ -249,7 +255,7 @@ export default class ProductDetail extends Component {
                             keyboardDismissMode='on-drag'
                             keyboardShouldPersistTaps={false}
 
-                            showsHorizontalScrollIndicator = {false}
+                            showsHorizontalScrollIndicator={false}
                             showsVerticalScrollIndicator={false}
 
 
@@ -263,50 +269,40 @@ export default class ProductDetail extends Component {
                         <View style={{ backgroundColor: '#f2f2f2', height: 10, flex: 1, }}>
                         </View>
 
-                        <Text style={{ fontSize: 18, color: '#757575', textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
+                        <Text
+                            style={{ fontSize: 18, color: '#757575', textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
                             商品详情
                         </Text>
                         {this.renderDetailView(goodsDetailImages)}
 
 
-                        {/* <HTMLView
-                        value={htmlContent}
-                        style={styles.container}
-                      /> */}
                     </View>
                 </ScrollView>
 
-                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}><CommitButton title={'申请拼团'} onPress={this.startGroupBuy.bind(this)}></CommitButton></View>
+                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}><CommitButton title={'申请拼团'}
+                                                                                                   onPress={this.startGroupBuy.bind(this)}></CommitButton></View>
             </View>
         );
     }
 
-    renderDetailView(goodsDetailImages) {
-        const w = width, h = height
 
-        let renderView = (types, n) => {
-            return (
-                <View>
-                    {
-                        types.map((item, i) => {
-                            console.log('XMLitem'+JSON.stringify(item))
-                            let render = (
-                                <Image style={{
-                            resizeMode: 'stretch', alignItems: 'center', width: w - 2, height: h,
-                            justifyContent: 'center'
-                            }} source={require('../images/welcome.png')} />
-                            )
-                            return (<View style={{ width: w, height: h }}>{render}</View>)
-                        })
-                    }
-                </View>
-            )
-        }
-        return (renderView(goodsDetailImages))
+renderDetailView(goodsDetailImages) {
+    const w = width, h = height;
+
+             return ( <View style={styles.goodsWebView}>
+                <WebView  style={{width:width,height:h*2.5,}}
+                         source={{html:goodsDetailImages}}
+
+                          scalesPageToFit={true}
+                 >
+
+                 </WebView>
+             </View>)
+
     }
 
 
-    renderCategorysView(prouductItems) {
+    renderCategorysView(prouductItems){
         const w = width / 3 - 1, h = w * 1.5
 
         let renderSwipeView = (types, n) => {
@@ -340,8 +336,11 @@ export default class ProductDetail extends Component {
         )
     }
 
-}
 
+
+
+
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -416,4 +415,11 @@ const styles = StyleSheet.create({
         borderColor: '#e6e6e6',
         borderWidth: 1,
     },
+    goodsWebView:{
+
+        flexDirection: "column",
+        flexWrap: "wrap",
+
+
+    }
 });
