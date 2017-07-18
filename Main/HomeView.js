@@ -9,7 +9,6 @@ import {
     TouchableNativeFeedback,
     ScrollView,
     ListView,
-    SectionList
 } from 'react-native';
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
@@ -33,6 +32,8 @@ export default class HomeView extends Component {
         this.state = {
             banners:[],
             goodsList:[],
+            categoryDataAry : [],
+            displayCategoryAry : []
         };
     }
     onBannerSuccess(response){
@@ -43,7 +44,7 @@ export default class HomeView extends Component {
 
     onProudctListSuccess(response){
         this.state.goodsList = response.data;
-        console.log('ProudctListSuccess:' + JSON.stringify(response));
+        console.log('ProudctListSuccess:' + this.state.goodsList.length);
         this.setState({goodsList:this.state.goodsList});
     }
 
@@ -110,39 +111,22 @@ export default class HomeView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="爱邻购" />
-                {/*<SectionList*/}
-                    {/**/}
-                    {/*ListHeaderComponent = {this.renderHeader}*/}
-                    {/*renderItem =  {this.renderItem}*/}
-                    {/*showsVerticalScrollIndicator={false}*/}
-                    {/*sections = {[*/}
-                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section1'},*/}
-                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section2'},*/}
-                    {/*{data: ['cell1','cell2','cell3','cell4','cell5','cell6'], key: 'section3'},*/}
-                {/*]}*/}
-                    {/*contentContainerStyle={styles.list}//设置cell的样式*/}
-                    {/*pageSize={6}  // 配置pageSize确认网格数量*/}
-                {/*/>*/}
 
-                {/*<ListView*/}
-                    {/*renderHeader={this.renderHeader}*/}
-                    {/*contentContainerStyle={styles.list}*/}
-                    {/*dataSource={this.state.dataSource}*/}
-                    {/*initialListSize={21}*/}
-                    {/*pageSize={10}*/}
-                    {/*scrollRenderAheadDistance={500}*/}
-                    {/*renderRow={this.renderItem}*/}
-                    {/*removeClippedSubviews={false}*/}
 
-                {/*/>*/}
-                <ScrollView
-                keyboardDismissMode='on-drag'
-                keyboardShouldPersistTaps={false}
-                style={styles.mainStyle}>
 
-                {this.renderTopView()}
-                {this.renderProductCategoryView()}
-                </ScrollView>
+                 <ScrollView
+                 keyboardDismissMode='on-drag'
+                 keyboardShouldPersistTaps={false}
+                 iosalwaysBounceHorizontal={false}
+                 iosbounces={false}
+                 showsHorizontalScrollIndicator = {false}
+                 removeClippedSubviews = {true}
+                 horizontal={false}
+                 >
+
+                 {this.renderTopView()}
+                 {this.renderProductCategoryView()}
+                 </ScrollView>
             </View>
         )
     }
@@ -152,6 +136,7 @@ export default class HomeView extends Component {
      this.setState({
              clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
          })
+
      }
 
      bannerOnMomentumScrollEnd(event, state) {
@@ -201,6 +186,7 @@ export default class HomeView extends Component {
     }
 
     onItemClick(prouduct){
+        console.log('prouduct :' +JSON.stringify(prouduct))
          if (prouduct.tag != 'scan_more') {
              this.props.navigator.push({
                 component: ProductDetail,
@@ -226,19 +212,26 @@ export default class HomeView extends Component {
     }
 
     renderProductCategoryView() {
-         var categoryDataAry = [];
-         var displayCategoryAry = [];
 
+        var categoryDataAry = [];
+        var displayCategoryAry = [];
 
-
-        for (var i = 0; i < this.state.goodsList.length; i++) {
-            var goods = this.state.goodsList[i].goods
-            var classify = this.state.goodsList[i].classify
+        console.log( ' this.state.goodsList.length === '+ this.state.goodsList.length);
+        for (var i = 0; i < this.state.goodsList.length; i ++) {
+            console.log( ' this.state.goodsList.i === '+ i);
+            var goods = this.state.goodsList[i].goods;
+            var classify = this.state.goodsList[i].classify;
             var goodsMaxLengh = goods.length > 6 ? 6: goods.length;
             var toolsData = [];
-            for (var i = 0; i < goodsMaxLengh; i++) {
-                var product = goods[i]
-                if (i == goodsMaxLengh -1 ) {
+            for (var j = 0; j < goodsMaxLengh; j++) {
+                console.log( ' goodsMaxLengh.length === '+ j);
+                var product = goods[j];
+                if (i == 1 && j == 0){
+                    console.log( ' product i1 j0 === '+ JSON.stringify(product));
+
+                }
+                console.log( ' product === '+ product);
+                if (j == goodsMaxLengh -1 ) {
                     toolsData.push({
                         'index': classify.id,
                         'image': {uri:product.image},
@@ -254,27 +247,37 @@ export default class HomeView extends Component {
             }
             console.log(goodsMaxLengh+ ' toolsData max length === '+toolsData.length+";type name"+ classify.name);
 
-            categoryDataAry.push({id:classify.id,name:classify.name,image:{uri:classify.icon} ,prouductItems:toolsData,countdown:'48:38:29'},);
 
+            categoryDataAry.push({id:classify.id,name:classify.name,image:{uri:classify.icon} ,desc:classify.desc ,prouductItems:toolsData,countdown:'48:38:29'},);
+            if(i == 1){
+                console.log('categoryNum1:' +JSON.stringify(categoryDataAry.length));
+            }else {
+
+                console.log('categoryNum0:' +JSON.stringify(categoryDataAry.length));
+            }
         }
 
+
+
             for (var i = 0; i<categoryDataAry.length; i++) {
+                console.log( ' displayCategoryAry.length === '+ i);
                 displayCategoryAry.push(
                         <View>
                         {this.renderItemSpaceLine(i)}
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            <Image style={{resizeMode:'contain', marginRight:5,alignItems:'center',width:30,height:30,
+                            <Image style={{resizeMode:'contain', marginRight:10,alignItems:'center',width:30,height:30,
                   justifyContent:'center'}} source={categoryDataAry[i].image}/>
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
                             </View>
                         {this.renderCategorysView(categoryDataAry[i].prouductItems)}
-                        <View style = {{flex:1,justifyContent:'flex-end',alignItems: 'flex-end',marginRight:5}}>
+                        <View style = {{flex:1,justifyContent:'flex-start',alignItems: 'flex-start',marginLeft:5}}>
                         <View onPress={this.onAnnounceNow.bind(this)}
                             style={styles.countdownContainer}>
                             <Text style={styles.countdownText} >
+                                {categoryDataAry[i].desc}
                             </Text>
                         </View>
                         </View>
@@ -282,11 +285,13 @@ export default class HomeView extends Component {
                         </View>
             );
             }
-            if (categoryDataAry.length>3) {
-                displayCategoryAry.push(<View style={{color:'#686868',backgroundColor:'#f2f2f2',height:54,flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{fontSize:12,color:'#686868',backgroundColor:'#f2f2f2',textAlign:'center',justifyContent:'center',alignItems:'center'}}>拉不动了...</Text>
-                </View>);
-            }
+                if (categoryDataAry.length >3 ){
+                    displayCategoryAry.push(<View style={{color:'#686868',backgroundColor:'#f2f2f2',height:54,flex:1,justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{fontSize:12,color:'#686868',backgroundColor:'#f2f2f2',textAlign:'center',justifyContent:'center',alignItems:'center'}}>拉不动了...</Text>
+                    </View>);
+                }
+
+
 
             return displayCategoryAry;
     }
@@ -346,14 +351,7 @@ const styles = StyleSheet.create({
         height: 150,
         width: width,
     },
-    list:
-    {
-        flex: 1,
-        flexDirection: 'row',//设置横向布局
-        flexWrap: 'wrap',  //设置换行显示
-        alignItems: 'flex-start',
-        backgroundColor: '#FFFFFF'
-    },
+
     row: {
         justifyContent: 'center',
         padding: 1,
@@ -372,18 +370,20 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom:20,
         height: 32,
-        width: width - 220,
+        width: width - 10,
         // borderColor: '#e31515',
         // borderWidth:1,
         // borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent:'flex-start',
     },
 
     countdownText:{
-            color: '#e31515',
-            fontSize:14,
+            color: 'black',
+            fontSize:16,
+            fontFamily:'PingFangSC-Regular',
+            textAlign:'left',
     },
     brandLabelContainer:
     {   marginTop:5,
@@ -395,13 +395,15 @@ const styles = StyleSheet.create({
     toolsView: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        paddingLeft:8,
     },
     toolsItem: {
         justifyContent: "center",
         alignItems: "center",
         borderColor: '#e6e6e6',
         borderWidth:1,
+
     },
 });

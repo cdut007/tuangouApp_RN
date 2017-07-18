@@ -34,6 +34,8 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 var hasGotGbDetail = false
 var Global = require('../common/globals');
+
+
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
 
@@ -42,6 +44,7 @@ export default class ProductDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            banners :[],
             goods: { goods: { images: [{ image: '' }] } },//defualt image later
             gbDetail: { classify: { name: '', icon: '' }, group_buy_goods: [] }
         }
@@ -58,14 +61,16 @@ export default class ProductDetail extends Component {
 
         this.setState({
             goods: { goods: { images: [{ image: prouduct.image.uri }] } }
+
         });
         this._fetchGoods(prouduct.index);
     }
 
     _fetchGoods(spec_id) {
 
-        var paramBody = {}
-        HttpRequest.get('/goods_detail/' + spec_id, paramBody, this.onProudctDetailSuccess.bind(this),
+        var paramBody = {goods:spec_id}
+        console.log('_fetchGoodsspec_id:'+spec_id)
+        HttpRequest.get('/goods_detail', paramBody, this.onProudctDetailSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
@@ -85,7 +90,10 @@ export default class ProductDetail extends Component {
     }
 
     onProudctDetailSuccess(response) {
-        this.setState({ goods: response.data })
+        console.log('ProductDetailData'+JSON.stringify(response.data))
+        this.setState({
+            goods: response.data ,
+        banners:response.data.goods.images})
 
         var paramBody = { group_buy: response.data.group_buy }
         HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
@@ -151,9 +159,41 @@ export default class ProductDetail extends Component {
             }
         })
     }
+    renderBannerView(){
+        if (this.state.banners.length >0){
+            console.log('ProductDetailBanners'+JSON.stringify(this.state.banners))
+            return(
+                <Banner style={styles.topView}
+                        banners={this.state.banners}
+                        defaultIndex={this.defaultIndex}
+                        onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+                        intent={this.bannerClickListener.bind(this)}>
 
+                </Banner>
+            )
+        }else {
+            return ( <Image
+                style={{ width: width, height: 375 }}
+
+            />)
+        }
+
+
+    }
+    bannerClickListener(index) {
+        this.setState({
+            clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
+        })
+
+    }
+
+    bannerOnMomentumScrollEnd(event, state) {
+        //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
+        this.defaultIndex = state.index;
+    }
     renderProductDetailView() {
         var goods = this.state.goods;
+
         var goodsRecommendItems = this.state.gbDetail.group_buy_goods
         var goodsDetailImages = ['1', '2', '3']
         // if(!goods){
@@ -168,10 +208,8 @@ export default class ProductDetail extends Component {
                     keyboardShouldPersistTaps={false}
                 >
                     <View>
-                        <Image
-                            style={{ width: width, height: 375 }}
-                            source={{ uri: goods.goods.images[0].image }}
-                        />
+                        {this.renderBannerView()}
+
                         <Text style={{ flex: 1, color: '#1c1c1c', fontSize: 18, margin: 10 }}>{goods.goods.name}</Text>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
@@ -259,6 +297,7 @@ export default class ProductDetail extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
+
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
                                     <Image style={{
@@ -342,6 +381,10 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+    },
+    topView:{
+        width:width,
+        height:230,
     },
     toolsView: {
         flexDirection: "row",
