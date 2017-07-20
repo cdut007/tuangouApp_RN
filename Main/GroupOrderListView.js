@@ -8,6 +8,7 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
+    Alert
 } from 'react-native';
 
 import {
@@ -59,7 +60,7 @@ export default class GroupOrderListView extends Component {
         HttpRequest.get('/agent_order', param, this.onGetListSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e)
-                alert('获取团购列表失败，请稍后再试。')
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
             })
     }
 

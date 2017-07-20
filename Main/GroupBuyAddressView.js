@@ -9,7 +9,8 @@ import {
     TouchableNativeFeedback,
     Picker,
     AsyncStorage,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import NavBar from '../common/NavBar'
@@ -54,14 +55,14 @@ export default class AddressView extends Component {
                     var errorInfo = JSON.parse(e);
 
                     if (errorInfo != null && (errorInfo.code == 3 || errorInfo.code == 4)) {
-                        alert('' + errorInfo.message)
+                        Alert.alert('' + errorInfo.message)
                         return
                     }
                 }
                 catch (err) { }
 
                 console.log(' error:' + e)
-                alert('申请团购失败，请稍后再试。')
+                Alert.alert('提示','申请团购失败，请稍后再试。')
             })
     }
 

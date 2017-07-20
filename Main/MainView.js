@@ -190,6 +190,7 @@ export default class MainView extends Component {
         Global.agent_url = response.data.user_profile.agent_url
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
+        console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
     }
 
     render() {

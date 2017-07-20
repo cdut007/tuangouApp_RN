@@ -8,7 +8,8 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
-    Clipboard
+    Clipboard,
+    Alert
 } from 'react-native';
 
 import {
@@ -60,7 +61,7 @@ export default class GroupBuyNowView extends Component {
     onCopyPress() {
         Clipboard.setString(this.state.agent_url);
 
-        alert('链接已复制到剪切板。')
+        Alert.alert('提示','链接已复制到剪切板。')
     }
 
     async onSharePress() {

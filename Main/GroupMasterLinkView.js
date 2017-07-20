@@ -11,6 +11,7 @@ import {
     AsyncStorage,
     TextInput,
     Clipboard,
+    Alert
 } from 'react-native';
 
 import NavBar from '../common/NavBar'
@@ -23,7 +24,7 @@ var width = Dimensions.get('window').width;
 export default class GroupMasterLinkView extends Component {
     constructor(props) {
         super(props)
-        this.state ={
+        this.state =  {
 
             agent_url: '',
             image: ''
@@ -64,7 +65,7 @@ export default class GroupMasterLinkView extends Component {
 
         onCopyPress(){
             Clipboard.setString(Global.agent_url);
-            alert('链接已复制到剪切板！');
+            Alert.alert('提示','链接已复制到剪切板！');
         }
 
         onSharePress(){

@@ -42,7 +42,7 @@ export default class Welcome extends Component {
                 this.onGetWxToken('wx22795e8274245d59', res.code)
             }
             else {
-                alert('Login faild, please try again.')
+                alert('Login faild, please try again.1')
             }
         })
     }
@@ -75,7 +75,7 @@ export default class Welcome extends Component {
             })
             .catch(function (err) {
                 console.log('get wx token error:' + err)
-                alert('Login faild, please try again.')
+                alert('Login faild, please try again.2')
             });
     }
 
@@ -100,7 +100,7 @@ export default class Welcome extends Component {
             })
             .catch(function (err) {
                 console.log('get wx token error:' + err)
-                alert('Login faild, please try again.')
+                alert('Login faild, please try again.3')
             });
     }
 
@@ -121,20 +121,23 @@ export default class Welcome extends Component {
                 }
 
                 console.log(' error:' + e)
-                alert('Login faild, please try again.')
+                alert('Login faild, please try again.4')
             })
     }
 
     onLoginSuccess(response) {
 
         console.log('login success'+JSON.stringify(response))
-        AsyncStorage.setItem('k_http_token', response.data.token, (error, result) => {
+        AsyncStorage.setItem('k_http_token',JSON.stringify(response.data.token), (error, result) => {
+
             if (error) {
                 console.log('save k_http_token faild.')
+            }else {
+                console.log('save k_http_token result:'+result)
             }
         })
 
-        Global.token = response.data.token
+        Global.token = JSON.parse(response.data.token)
 
         this.props.navigator.resetTo({
             component: TabView,

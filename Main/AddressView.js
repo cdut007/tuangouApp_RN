@@ -9,7 +9,8 @@ import {
     TouchableNativeFeedback,
     Picker,
     AsyncStorage,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import NavBar from '../common/NavBar'
@@ -64,11 +65,13 @@ export default class AddressView extends Component {
     save() {
 
         if (!this.state.mobile) {
-            alert('输入联系方式')
+
+            Alert.alert('提示','输入联系方式')
             return
         }
         if (!this.state.address) {
-            alert('输入收货地址')
+
+            Alert.alert('提示','输入收货地址')
             return
         }
         let param = {
@@ -77,7 +80,8 @@ export default class AddressView extends Component {
         }
         HttpRequest.post('/user_address', param, this.onSaveAddressSuccess.bind(this),
                 (e) => {
-                    alert('保存地址失败，请稍后再试。')
+
+                    Alert.alert('提示','保存地址失败，请稍后再试。')
                     console.log(' error:' + e)
                 })
 

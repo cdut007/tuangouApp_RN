@@ -11,7 +11,7 @@ import {
     Text,
     TouchableOpacity,
     AsyncStorage,
-
+    Alert
 
 
 }   from 'react-native'
@@ -19,6 +19,7 @@ import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
 import Spinner from 'react-native-loading-spinner-overlay';
 import HttpRequest from '../HttpRequest/HttpRequest'
+import Welcome from '../Login/Welcome'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 
@@ -41,7 +42,17 @@ export default class AgentRegisteredView extends Component{
              this.props.navigator.pop()
 
             }
+        goToWelcome(){
+            // this.props.navigation.push({
+            //     component:Welcome,
+            //
+            // })
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
+            })
 
+        }
         componentDidMount(){
 
         }
@@ -50,14 +61,16 @@ export default class AgentRegisteredView extends Component{
         console.log('Get RegisteredAgent Success:' + JSON.stringify(response));
         if (response.code == 1){
 
-            alert('您已申请成功');
+            Alert.alert('提示','您已申请成功')
+            this.goToWelcome();
+
         }
 
     }
     onRegisteredAgentPress(){
             console.log('AgentRegisteredView name:'+this.state.name +'phoneNum:'+this.state.phoneNum+'agentAddresss:'+this.state.agentAddresss)
             if (!this.state.name.length  || !this.state.phoneNum.length  || !this.state.agentAddresss.length){
-                alert('请完整填写详细信息！')
+                Alert.alert('提示','请完整填写详细信息！')
             }else {
 
                 var paramBody =
@@ -75,9 +88,9 @@ export default class AgentRegisteredView extends Component{
                         try {
                             var errorInfo = JSON.parse(e);
                             if (errorInfo != null && errorInfo.description) {
-                                alert(errorInfo.description)
+                                Alert.alert('报错', errorInfo.description)
                             } else {
-                                alert(e)
+                                Alert.alert('报错', e)
                             }
                         }
                         catch(err)
@@ -92,7 +105,8 @@ export default class AgentRegisteredView extends Component{
                         this.setState({
                             loadingVisible: false
                         });
-                        alert('登录超时，请稍候再试');
+                        Aler
+                        Alert.alert('提示','登录超时，请稍候再试');
                     }
                 }, 1000 * 15);
 

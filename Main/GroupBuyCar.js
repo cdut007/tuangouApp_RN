@@ -8,7 +8,8 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 } from 'react-native';
 
 import {
@@ -72,7 +73,9 @@ export default class GroupBuyCar extends Component {
             }
         })
         if (this.state.gbDetail.id == null || !goodsIds.length) {
-            alert('请选择需要团购的商品。')
+
+            Alert.alert('提示',
+                '请选择需要团购的商品。')
             return
         }
 

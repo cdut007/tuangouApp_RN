@@ -1,9 +1,11 @@
 import { AsyncStorage } from 'react-native';
 
-const apiAddr = 'http://47.88.139.113:3000/api/v1'
+
 var httpToken = ''
 var Global = require('../common/globals');
-
+// const apiAddr = 'http://47.88.139.113:3000/api/v1'
+const apiAddr = 'http://www.ailinkgo.com:3000/api/v1'
+// const apiAddr = Global.BASE_URL;
 module.exports = {
     get(apiName, body, successCallback, failCallback) {
         if (!httpToken || !httpToken.length) {

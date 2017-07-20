@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Alert
+} from 'react-native';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 
 import Dimensions from 'Dimensions';
@@ -42,7 +46,7 @@ export default class ProductCatagoryListViewTab extends Component {
         let param = { classify: this.props.prouduct.index }
         HttpRequest.get('/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
-                alert('获取团购列表失败，请稍后再试。')
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
                 console.log(' error:' + e)
             })
     }
@@ -62,7 +66,7 @@ export default class ProductCatagoryListViewTab extends Component {
             var paramBody = { group_buy: response.data.group_buy[0].id }
             HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
                 (e) => {
-                    alert('获取团购详情失败，请稍重试。')
+                    Alert.alert('提示','获取团购详情失败，请稍重试。')
 
                     console.log(' error:' + e)
                 })

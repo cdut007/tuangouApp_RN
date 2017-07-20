@@ -290,7 +290,7 @@ renderDetailView(goodsDetailImages) {
     const w = width, h = height;
 
              return ( <View style={styles.goodsWebView}>
-                <WebView  style={{width:width,height:h*2.5,}}
+                <WebView  style={{width:width,height:h*2.5,maxWidth:width}}
                          source={{html:goodsDetailImages}}
 
                           scalesPageToFit={true}

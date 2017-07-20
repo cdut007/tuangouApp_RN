@@ -9,7 +9,8 @@ import {
     TouchableNativeFeedback,
     Picker,
     AsyncStorage,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import NavBar from '../common/NavBar'
@@ -56,7 +57,7 @@ export default class DownloadExcelView extends Component {
         }
 
         onExcelSendMailPress(){
-            alert('发送成功')
+            Alert.alert('提示','发送成功')
         }
 
 

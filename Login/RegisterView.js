@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Text,
     AsyncStorage,
-    Image
+    Image,
+    Alert
 } from 'react-native';
 import Dimensions from 'Dimensions';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -47,7 +48,8 @@ export default class RegisterView extends Component
             this.setState({
                         loadingVisible: false
                     });
-            alert('请输入用户名或密码')
+            Alert.alert('提示','请输入用户名或密码')
+
         }
         else
         {
@@ -59,9 +61,9 @@ export default class RegisterView extends Component
                 });
                 var errorInfo = JSON.parse(e);
                 if (errorInfo!=null && errorInfo.description) {
-                     alert(errorInfo.description)
+
                 }else{
-                    alert(e)
+
                 }
                 console.log('Login error:' + e)
             })
@@ -72,7 +74,7 @@ export default class RegisterView extends Component
                     this.setState({
                         loadingVisible: false
                     });
-                    alert('登录超时，请稍候再试');
+                    Alert.alert('提示','登录超时，请稍候再试')
                 }
             }, 1000 *15);
 
