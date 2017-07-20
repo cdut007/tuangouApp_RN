@@ -137,7 +137,7 @@ export default class Welcome extends Component {
             }
         })
 
-        Global.token = JSON.parse(response.data.token)
+        Global.token = response.data.token
 
         this.props.navigator.resetTo({
             component: TabView,
