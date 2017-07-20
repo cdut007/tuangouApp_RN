@@ -249,6 +249,7 @@ export default class ProductDetail extends Component {
                             }} source={{ uri: this.state.gbDetail.classify.icon }}/>
                             <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
                                 {this.state.gbDetail.classify.name}
+
                             </Text>
                         </View>
                         <ScrollView
