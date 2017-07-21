@@ -42,7 +42,7 @@ export default class ProductCatagoryListViewTab extends Component {
         this.setState({
             product: this.props.prouduct
         })
-
+        console.log('group_buy_list_index:'+JSON.stringify(this.state.product) );
         let param = { classify: this.props.prouduct.index }
         HttpRequest.get('/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
@@ -52,6 +52,7 @@ export default class ProductCatagoryListViewTab extends Component {
     }
 
     onGroupBuyListSuccess(response) {
+        console.log('GroupBuyList:'+JSON.stringify(response))
         var tabTitle = []
         for (var i = 0; i < response.data.group_buy.length; i++) {
             let item = response.data.group_buy[i]

@@ -35,6 +35,10 @@ export default class GroupMasterLinkView extends Component {
 
     back() {
         this.props.navigator.pop()
+        // this.props.navigator.resetTo({
+        //     component: Welcome,
+        //     name: 'Welcome'
+        // })
     }
     _logout_function(){
 

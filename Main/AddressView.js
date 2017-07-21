@@ -120,6 +120,7 @@ export default class AddressView extends Component {
                         onChangeText={(text) => this.setState({ name: text })}
                     >{this.state.name}</Text>
 
+
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>

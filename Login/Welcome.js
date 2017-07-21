@@ -61,7 +61,7 @@ export default class Welcome extends Component {
         })
             .then((response) => response.text())
             .then((responseText) => {
-                console.log("responseText:" + responseText);
+                console.log("responseText2:" + responseText);
                 var response = JSON.parse(responseText);
                 Global.wxToken = response;
 
@@ -86,7 +86,7 @@ export default class Welcome extends Component {
         })
             .then((response) => response.text())
             .then((responseText) => {
-                console.log("responseText:" + responseText);
+                console.log("responseText3:" + responseText);
                 var response = JSON.parse(responseText);
                 Global.wxUserInfo = response;
 
@@ -128,7 +128,8 @@ export default class Welcome extends Component {
     onLoginSuccess(response) {
 
         console.log('login success'+JSON.stringify(response))
-        AsyncStorage.setItem('k_http_token',JSON.stringify(response.data.token), (error, result) => {
+        console.log('login successToken:'+response.data.token)
+        AsyncStorage.setItem('k_http_token',response.data.token, (error, result) => {
 
             if (error) {
                 console.log('save k_http_token faild.')
@@ -138,13 +139,24 @@ export default class Welcome extends Component {
         })
 
         Global.token = response.data.token
+        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+            (e) => {
+                console.log(' usererror:' + e)
+            })
 
+
+    }
+    onGetUserInfoSuccess(response) {
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.nickname = response.data.user_profile.nickname
+        Global.headimgurl =response.data.user_profile.headimgurl
+        console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
         this.props.navigator.resetTo({
             component: TabView,
             name: 'MainPage'
         })
     }
-
     render() {
         return (
             <View style={styles.rootcontainer}>

@@ -148,7 +148,7 @@ export default class ProductCatagoryListView extends Component {
     renderItem = (item, sectionID, rowID) => {
         //write your own layout in list view
         let w = (width - 20) / 2
-        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={this.onPress.bind(this)}>
+        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.index,item) }}>
             <View style={[styles.row]}>
 
                 <Image style={{
@@ -185,7 +185,8 @@ export default class ProductCatagoryListView extends Component {
         )
     };
 
-    onPress = (index, item) => {
+    onItemPress(index, item){
+        console.log('index:'+JSON.stringify(index)+' , item :' +JSON.stringify(item) )
         // this.props.navigator.push({
         //     component: ProductDetail,
         //     props: {

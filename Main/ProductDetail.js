@@ -61,7 +61,7 @@ export default class ProductDetail extends Component {
         hasGotGbDetail = false
 
         this.setState({
-            goods: {goods: {images: [{image: prouduct.image.uri}, {desc: this.state.goods.desc}]}}
+            goods: {goods: {images: [{image: ''}, {desc: ''}]}}
 
         });
         this._fetchGoods(prouduct.index);

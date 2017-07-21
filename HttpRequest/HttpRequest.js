@@ -92,7 +92,7 @@ module.exports = {
         })
             .then((response) => response.text())
             .then((responseText) => {
-                console.log(responseText);
+                console.log('Post1:'+responseText);
                 var response = JSON.parse(responseText);
                 if (response.code == 1) {
                     successCallback(response);

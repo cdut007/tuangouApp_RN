@@ -117,7 +117,7 @@ export default class MainView extends Component {
                     })
                 HttpRequest.get('/user', {}, me.onGetUserInfoSuccess.bind(me),
                     (e) => {
-                        console.log(' error:' + e)
+                        console.log(' usererror:' + e)
                     })
             }
             else {
@@ -191,6 +191,7 @@ export default class MainView extends Component {
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
         console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
+
     }
 
     render() {
