@@ -6,7 +6,6 @@ import React ,{ Component } from 'react';
 import {
     StyleSheet,
     View,
-    Image,
     TextInput,
     Text,
     TouchableOpacity,
@@ -133,6 +132,7 @@ export default class AgentRegisteredView extends Component{
                         leftIcon={require('../images/back.png')}
                         leftPress={this.back.bind(this)}
                     />
+
                     <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
                     </Text>
                     <View style ={styles.textInputView}>

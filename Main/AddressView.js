@@ -3,7 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
@@ -130,7 +129,7 @@ export default class AddressView extends Component {
                     <TextInput style={{
                         marginLeft: 0, fontSize: 14, flex: 20,
                         textAlign: 'left', color: '#1c1c1c',
-                    }}
+                    }}  keyboardType={'numeric'}
                         editable={true}
                         onChangeText={(text) => this.setState({ mobile: text })}
                         value= {this.state.mobile}

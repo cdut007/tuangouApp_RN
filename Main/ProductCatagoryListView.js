@@ -23,7 +23,7 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 
-
+import { CachedImage } from 'react-native-img-cache'
 import GroupBuyCar from './GroupBuyCar'
 
 import Dimensions from 'Dimensions';
@@ -148,10 +148,10 @@ export default class ProductCatagoryListView extends Component {
     renderItem = (item, sectionID, rowID) => {
         //write your own layout in list view
         let w = (width - 20) / 2
-        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.index,item) }}>
+        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.id,item) }}>
             <View style={[styles.row]}>
 
-                <Image style={{
+                <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center',
                     justifyContent: 'center', width: w - 2,
                     backgroundColor: '#ffffff',
@@ -187,12 +187,16 @@ export default class ProductCatagoryListView extends Component {
 
     onItemPress(index, item){
         console.log('index:'+JSON.stringify(index)+' , item :' +JSON.stringify(item) )
-        // this.props.navigator.push({
-        //     component: ProductDetail,
-        //     props: {
-        //         prouduct: item,
-        //     }
-        // })
+        var prouduct = {
+            'index': index,
+            'image': {uri:item.goods.images[0].image},
+        }
+        this.props.navigator.push({
+            component: ProductDetail,
+            props: {
+                prouduct: prouduct,
+            }
+        })
     };
 
     bannerClickListener(index) {

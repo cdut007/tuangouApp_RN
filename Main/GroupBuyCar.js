@@ -11,7 +11,7 @@ import {
     AsyncStorage,
     Alert
 } from 'react-native';
-
+import { CachedImage } from 'react-native-img-cache'
 import {
     MKIconToggle,
     MKSwitch,
@@ -53,6 +53,12 @@ export default class GroupBuyCar extends Component {
         if (Global.gbDetail) {
             this.setState({ gbDetail: Global.gbDetail })
         }
+        this.state.gbDetail.group_buy_goods.map((item, i) => {
+
+            item.selected = true;
+
+        })
+        console.log('gbDetail:'+JSON.stringify(this.state.gbDetail));
     }
 
     onGroupBuyNow() {
@@ -118,6 +124,7 @@ export default class GroupBuyCar extends Component {
         if (Global.gbDetail) {
             this.state.gbDetail = Global.gbDetail 
         }
+
         return (
             <View style={styles.container}>
                 {this.renderTopBar()}
@@ -190,6 +197,7 @@ export default class GroupBuyCar extends Component {
         if (!item) {
             return ({})
         }
+        console.log('BuyCarItem:'+JSON.stringify(item));
 
         return (<CheckBox
             label=''
@@ -254,7 +262,7 @@ export default class GroupBuyCar extends Component {
             <View style={{
                 flex: 2
             }}>
-                <Image style={{
+                <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.goods.images[0].image }} />
