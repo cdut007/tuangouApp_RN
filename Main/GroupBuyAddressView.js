@@ -3,7 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
@@ -54,26 +53,38 @@ export default class AddressView extends Component {
                 try {
                     var errorInfo = JSON.parse(e);
 
-                    if (errorInfo != null && (errorInfo.code == 3 || errorInfo.code == 4)) {
-                        Alert.alert('' + errorInfo.message)
+                    if (errorInfo != null &&  errorInfo.code == 4) {
+                        Alert.alert('提示','已申请过本次团购')
+                        return
+                    }else if (errorInfo != null && errorInfo.code == 3 ){
+                        Alert.alert('提示','用户不是团长')
+                        return
+                    }else if (errorInfo != null && errorInfo.code == 2 ){
+                        Alert.alert('提示', '参数错误')
                         return
                     }
                 }
                 catch (err) { }
 
-                console.log(' error:' + e)
-                Alert.alert('提示','申请团购失败，请稍后再试。')
+                console.log('申请团购失败，请稍后再试。 error:' + JSON.stringify(errorInfo))
+
             })
     }
 
     onOrderSuccess(response) {
-        this.props.navigator.push({
-            component: GroupBuyNowView,
-            props: {
-                agent_url: response.data.agent_url,
-                image: this.props.image
-            }
-        })
+
+        if (response.code == 1 && response.message == 'Success'){
+            Alert.alert('提示', '申请团购成功')
+
+            this.props.navigator.resetTo({
+                component: GroupBuyNowView,
+                props: {
+                    agent_url: response.data.agent_url,
+                    image: this.props.image
+                }
+            })
+        }
+
     }
 
     render() {

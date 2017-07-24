@@ -20,7 +20,7 @@ import {
     getTheme,
     setTheme,
 } from 'react-native-material-kit'
-
+import { CachedImage } from 'react-native-img-cache'
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
@@ -56,7 +56,7 @@ export default class GroupOrderListView extends Component {
     componentDidMount() {
         let orderStatus = this.props.isDoneStatus ? 1 : 0
         let param = { status: orderStatus }
-
+        console.log('orderStatus:' +orderStatus)
         HttpRequest.get('/agent_order', param, this.onGetListSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e)
@@ -65,6 +65,7 @@ export default class GroupOrderListView extends Component {
     }
 
     onGetListSuccess(response) {
+        console.log('groupOrderList +' +JSON.stringify(response))
         this.setState({
             orders: response.data.order
         })
@@ -120,7 +121,7 @@ export default class GroupOrderListView extends Component {
                             marginLeft: 10, marginTop: 10, marginRight: 5, alignItems: 'center',
                             justifyContent: 'flex-start',
                         }}>
-                            <Image style={{
+                            <CachedImage style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: order.classify.icon }} />
@@ -174,7 +175,7 @@ export default class GroupOrderListView extends Component {
             flex: 1
         }}>
             <View style={{ flex: 2 }}>
-                <Image style={{
+                <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.goods.images[0].image }} />
