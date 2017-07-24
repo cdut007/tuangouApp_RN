@@ -10,7 +10,8 @@ import {
     Text,
     TouchableOpacity,
     AsyncStorage,
-    Alert
+    Alert,
+    Keyboard
 
 
 }   from 'react-native'
@@ -41,6 +42,10 @@ export default class AgentRegisteredView extends Component{
              this.props.navigator.pop()
 
             }
+
+    backKeyBoard(){
+        Keyboard.dismiss();
+    }
         goToWelcome(){
             // this.props.navigation.push({
             //     component:Welcome,
@@ -77,6 +82,8 @@ export default class AgentRegisteredView extends Component{
         console.log('matchPhoneNum:'+r);
 
     }
+
+
     onRegisteredAgentPress(){
             console.log('AgentRegisteredView name:'+this.state.name +'phoneNum:'+this.state.phoneNum+'agentAddresss:'+this.state.agentAddresss)
             if (!this.state.name.length  || !this.state.phoneNum.length  || !this.state.agentAddresss.length || this.matchPhoneNum(this.state.phoneNum)){
@@ -126,6 +133,8 @@ export default class AgentRegisteredView extends Component{
         }
         render(){
             return(
+            <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
+                              style={{}}>
                 <View style ={styles.container} >
                     <NavBar
                         title={'申请成为团长'}
@@ -191,6 +200,7 @@ export default class AgentRegisteredView extends Component{
                     />
 
                 </View>
+            </TouchableOpacity>
             )
 
         }

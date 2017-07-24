@@ -111,7 +111,7 @@ export default class HomeView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="爱邻购" />
+                <NavBar title="爱邻" />
 
 
 
@@ -275,7 +275,7 @@ export default class HomeView extends Component {
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
-                            </View>
+                        </View>
                         {this.renderCategorysView(categoryDataAry[i].prouductItems)}
                         <View style = {{flex:1,justifyContent:'flex-start',alignItems: 'flex-start',marginLeft:5}}>
                         <View onPress={this.onAnnounceNow.bind(this)}
@@ -313,7 +313,7 @@ export default class HomeView extends Component {
     }
 
     renderCategorysView(prouductItems) {
-        const w = width / 3 - 9, h = w
+        const w = width / 3 - 30, h = w
 
         let renderSwipeView = (types, n) => {
             return (
@@ -321,9 +321,9 @@ export default class HomeView extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h ,marginTop:5,marginRight:5,marginBottom:0 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h ,margin:5 }, styles.toolsItem]}>
 
-                                    <CachedImage style={{resizeMode:'contain', alignItems:'center',width: w-2, height: h,
+                                    <CachedImage style={{resizeMode:'contain', alignItems:'center',width: w, height: h,
                                     justifyContent:'center',margin:2,
                                     flex:1}} source={item.image}/>
                                      {this.renderMoreInfo(item,w,h)}
@@ -352,8 +352,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     topView: {
-        height: 150,
-        width: width,
+        flex:1,
+        alignItems:'stretch',
+        justifyContent:'center',
+        width:300,
+        height:75,
+
     },
 
     row: {
@@ -401,13 +405,12 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingLeft:8,
+        paddingLeft:5,
     },
     toolsItem: {
         justifyContent: "center",
         alignItems: "center",
-        borderColor: '#e6e6e6',
-        borderWidth:1,
+
 
     },
 });
