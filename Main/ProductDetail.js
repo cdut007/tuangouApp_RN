@@ -39,7 +39,7 @@ var Global = require('../common/globals');
 
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
-import { CachedImage } from 'react-native-img-cache'
+
 
 
 export default class ProductDetail extends Component {
@@ -134,7 +134,7 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="商品详情"
-                        leftIcon={require('../images/link_icon.png')}
+                        leftIcon={require('../images/back@3x.png')}
                         leftPress={this.clickBack.bind(this)}
                         style={styles.navBarView}/>
 
@@ -178,7 +178,7 @@ export default class ProductDetail extends Component {
                 </Banner>
             )
         } else {
-            return ( <CachedImage
+            return ( <Image
                 style={{ width: width, height: 375 }}
 
             />)
@@ -246,7 +246,7 @@ export default class ProductDetail extends Component {
                             alignItems: 'center',
                             margin: 10,
                         }}>
-                            <CachedImage style={{
+                            <Image style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: this.state.gbDetail.classify.icon }}/>
@@ -318,7 +318,7 @@ renderDetailView(goodsDetailImages) {
 
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
-                                    <CachedImage style={{
+                                    <Image style={{
                                         resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
                                     }} source={{ uri: item.goods.images[0].image }} />

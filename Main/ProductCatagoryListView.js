@@ -23,7 +23,7 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 
-import { CachedImage } from 'react-native-img-cache'
+
 import GroupBuyCar from './GroupBuyCar'
 
 import Dimensions from 'Dimensions';
@@ -42,6 +42,7 @@ export default class ProductCatagoryListView extends Component {
     constructor(props) {
         super(props)
         var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
         this.state = {
             goods: { description: '' },
             dataSource: ds,
@@ -151,7 +152,7 @@ export default class ProductCatagoryListView extends Component {
         return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.id,item) }}>
             <View style={[styles.row]}>
 
-                <CachedImage style={{
+                <Image style={{
                     resizeMode: 'contain', alignItems: 'center',
                     justifyContent: 'center', width: w - 2,
                     backgroundColor: '#ffffff',
