@@ -111,7 +111,7 @@ export default class HomeView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="爱邻" />
+                <NavBar title="爱邻购" />
 
 
 
