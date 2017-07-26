@@ -6,12 +6,14 @@ import React ,{ Component } from 'react';
 import {
     StyleSheet,
     View,
+    Image,
     TextInput,
     Text,
     TouchableOpacity,
     AsyncStorage,
     Alert,
     Keyboard
+
 
 
 }   from 'react-native'
@@ -42,11 +44,11 @@ export default class AgentRegisteredView extends Component{
              this.props.navigator.pop()
 
             }
-
     backKeyBoard(){
         Keyboard.dismiss();
     }
-        goToWelcome(){
+
+    goToWelcome(){
             // this.props.navigation.push({
             //     component:Welcome,
             //
@@ -82,8 +84,6 @@ export default class AgentRegisteredView extends Component{
         console.log('matchPhoneNum:'+r);
 
     }
-
-
     onRegisteredAgentPress(){
             console.log('AgentRegisteredView name:'+this.state.name +'phoneNum:'+this.state.phoneNum+'agentAddresss:'+this.state.agentAddresss)
             if (!this.state.name.length  || !this.state.phoneNum.length  || !this.state.agentAddresss.length || this.matchPhoneNum(this.state.phoneNum)){
@@ -133,15 +133,15 @@ export default class AgentRegisteredView extends Component{
         }
         render(){
             return(
-            <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
-                              style={{}}>
+                <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
+                                  style={{}}>
+
                 <View style ={styles.container} >
                     <NavBar
                         title={'申请成为团长'}
                         leftIcon={require('../images/back.png')}
                         leftPress={this.back.bind(this)}
                     />
-
                     <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
                     </Text>
                     <View style ={styles.textInputView}>
@@ -200,7 +200,8 @@ export default class AgentRegisteredView extends Component{
                     />
 
                 </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+
             )
 
         }

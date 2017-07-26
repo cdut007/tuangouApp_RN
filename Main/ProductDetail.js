@@ -41,7 +41,6 @@ import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
 
 
-
 export default class ProductDetail extends Component {
     constructor(props) {
         super(props)
@@ -134,10 +133,8 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="商品详情"
-                        leftIcon={require('../images/back@3x.png')}
-                        leftPress={this.clickBack.bind(this)}
-                        style={styles.navBarView}/>
-
+                        leftIcon={require('../images/back.png')}
+                        leftPress={this.clickBack.bind(this)}/>
                 {this.renderProductDetailView()}
             </View>
         )
@@ -294,7 +291,7 @@ renderDetailView(goodsDetailImages) {
     const w = width, h = height;
 
              return ( <View style={styles.goodsWebView}>
-                <WebView  style={{ width:width,alignSelf:'stretch',maxWidth:width}}
+                <WebView  style={{width:width,height:h*2.5,maxWidth:width}}
                          source={{html:goodsDetailImages}}
 
                           scalesPageToFit={true}
@@ -352,9 +349,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#ffffff',
-    },
-    navBarView:{
-        backgroundColor:'transparent',
     },
 
     thumb: {
@@ -423,7 +417,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     goodsWebView:{
-        flex:1,
+
         flexDirection: "column",
         flexWrap: "wrap",
 

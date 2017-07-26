@@ -57,6 +57,7 @@ export default class ProductCatagoryListViewTab extends Component {
         for (var i = 0; i < response.data.group_buy.length; i++) {
             let item = response.data.group_buy[i]
             tabTitle.push({ key: '' + i, title: item.ship_time })
+
         }
         this.setState({
             gbList: response.data,

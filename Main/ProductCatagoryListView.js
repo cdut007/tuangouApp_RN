@@ -42,7 +42,6 @@ export default class ProductCatagoryListView extends Component {
     constructor(props) {
         super(props)
         var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
         this.state = {
             goods: { description: '' },
             dataSource: ds,
@@ -198,6 +197,7 @@ export default class ProductCatagoryListView extends Component {
                 prouduct: prouduct,
             }
         })
+
     };
 
     bannerClickListener(index) {

@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
+    Image,
     TouchableOpacity,
     Platform,
     TouchableNativeFeedback,
@@ -63,16 +64,15 @@ export default class AddressView extends Component {
                         Alert.alert('提示', '参数错误')
                         return
                     }
+
                 }
                 catch (err) { }
 
-                console.log('申请团购失败，请稍后再试。 error:' + JSON.stringify(errorInfo))
 
             })
     }
 
     onOrderSuccess(response) {
-
         if (response.code == 1 && response.message == 'Success'){
             Alert.alert('提示', '申请团购成功')
 

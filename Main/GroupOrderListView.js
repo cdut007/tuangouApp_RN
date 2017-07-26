@@ -175,7 +175,7 @@ export default class GroupOrderListView extends Component {
             flex: 1
         }}>
             <View style={{ flex: 2 }}>
-                <CachedImage style={{
+                <Image style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.goods.images[0].image }} />
