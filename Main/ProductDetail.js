@@ -180,7 +180,7 @@ export default class ProductDetail extends Component {
                 style={{ width: width, height: 375 }}
 
             />)
-            
+
         }
 
 
@@ -257,7 +257,7 @@ export default class ProductDetail extends Component {
                         <ScrollView
                             keyboardDismissMode='on-drag'
                             keyboardShouldPersistTaps={false}
-
+                            horizontal={true}
                             showsHorizontalScrollIndicator={false}
                             showsVerticalScrollIndicator={false}
 
