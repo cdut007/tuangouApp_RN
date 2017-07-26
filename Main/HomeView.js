@@ -10,7 +10,6 @@ import {
     ScrollView,
     ListView,
 } from 'react-native';
-import { CachedImage } from 'react-native-img-cache'
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import NavBar from '../common/NavBar'
@@ -182,7 +181,6 @@ export default class HomeView extends Component {
                     defaultIndex={this.defaultIndex}
                     onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
                     intent={this.bannerClickListener.bind(this)}
-                    scalesPageToFit={true}
                 />
 
             )
@@ -270,12 +268,12 @@ export default class HomeView extends Component {
                         {this.renderItemSpaceLine(i)}
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            <CachedImage style={{resizeMode:'contain', marginRight:10,alignItems:'center',width:30,height:30,
+                            <Image style={{resizeMode:'contain', marginRight:10,alignItems:'center',width:30,height:30,
                   justifyContent:'center'}} source={categoryDataAry[i].image}/>
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
-                        </View>
+                            </View>
                         {this.renderCategorysView(categoryDataAry[i].prouductItems)}
                         <View style = {{flex:1,justifyContent:'flex-start',alignItems: 'flex-start',marginLeft:5}}>
                         <View onPress={this.onAnnounceNow.bind(this)}
@@ -313,7 +311,8 @@ export default class HomeView extends Component {
     }
 
     renderCategorysView(prouductItems) {
-        const w = width / 3 - 30, h = w
+        const w = (width -30)/3, h = w
+
 
         let renderSwipeView = (types, n) => {
             return (
@@ -323,7 +322,7 @@ export default class HomeView extends Component {
                             let render = (
                                 <View style={[{ width: w, height: h ,margin:5 }, styles.toolsItem]}>
 
-                                    <CachedImage style={{resizeMode:'contain', alignItems:'center',width: w, height: h,
+                                    <Image style={{resizeMode:'contain', alignItems:'center',width: w-2, height: h,
                                     justifyContent:'center',margin:2,
                                     flex:1}} source={item.image}/>
                                      {this.renderMoreInfo(item,w,h)}
@@ -352,12 +351,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     topView: {
-        flex:1,
-        alignItems:'stretch',
-        justifyContent:'center',
-        width:300,
-        height:75,
-
+        height: 150,
+        width: width,
     },
 
     row: {
@@ -405,12 +400,12 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingLeft:5,
+        margin:5,
     },
     toolsItem: {
         justifyContent: "center",
         alignItems: "center",
-
+        margin:5,
 
     },
 });

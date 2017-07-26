@@ -39,7 +39,6 @@ var Global = require('../common/globals');
 
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
-import { CachedImage } from 'react-native-img-cache'
 
 
 export default class ProductDetail extends Component {
@@ -134,10 +133,8 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="商品详情"
-                        leftIcon={require('../images/link_icon.png')}
-                        leftPress={this.clickBack.bind(this)}
-                        style={styles.navBarView}/>
-
+                        leftIcon={require('../images/back.png')}
+                        leftPress={this.clickBack.bind(this)}/>
                 {this.renderProductDetailView()}
             </View>
         )
@@ -178,10 +175,12 @@ export default class ProductDetail extends Component {
                 </Banner>
             )
         } else {
-            // return ( <CachedImage
-            //     style={{ width: width, height: 375 }}
-            //
-            // />)
+
+            return ( <Image
+                style={{ width: width, height: 375 }}
+
+            />)
+            
         }
 
 
@@ -246,7 +245,7 @@ export default class ProductDetail extends Component {
                             alignItems: 'center',
                             margin: 10,
                         }}>
-                            <CachedImage style={{
+                            <Image style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: this.state.gbDetail.classify.icon }}/>
@@ -294,7 +293,7 @@ renderDetailView(goodsDetailImages) {
     const w = width, h = height;
 
              return ( <View style={styles.goodsWebView}>
-                <WebView  style={{ width:width,alignSelf:'stretch',maxWidth:width}}
+                <WebView  style={{width:width,height:h*2.5,maxWidth:width}}
                          source={{html:goodsDetailImages}}
 
                           scalesPageToFit={true}
@@ -318,7 +317,7 @@ renderDetailView(goodsDetailImages) {
 
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
-                                    <CachedImage style={{
+                                    <Image style={{
                                         resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
                                     }} source={{ uri: item.goods.images[0].image }} />
@@ -352,9 +351,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#ffffff',
-    },
-    navBarView:{
-        backgroundColor:'transparent',
     },
 
     thumb: {
@@ -423,7 +419,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     goodsWebView:{
-        flex:1,
+
         flexDirection: "column",
         flexWrap: "wrap",
 
