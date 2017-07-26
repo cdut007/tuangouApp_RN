@@ -3,6 +3,7 @@ package com.ilingo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 //import cn.reactnative.modules.wx.WeChatPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import cn.reactnative.modules.update.UpdatePackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
             new WeChatPackage(),
             new VectorIconsPackage(),
             new UpdatePackage(),

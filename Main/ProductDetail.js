@@ -178,10 +178,10 @@ export default class ProductDetail extends Component {
                 </Banner>
             )
         } else {
-            return ( <CachedImage
-                style={{ width: width, height: 375 }}
-
-            />)
+            // return ( <CachedImage
+            //     style={{ width: width, height: 375 }}
+            //
+            // />)
         }
 
 
