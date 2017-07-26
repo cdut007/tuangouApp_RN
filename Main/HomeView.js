@@ -111,19 +111,14 @@ export default class HomeView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="爱邻购" />
-
-
-
                  <ScrollView
                  keyboardDismissMode='on-drag'
                  keyboardShouldPersistTaps={false}
                  iosalwaysBounceHorizontal={false}
                  iosbounces={false}
                  showsHorizontalScrollIndicator = {false}
-                 removeClippedSubviews = {true}
                  horizontal={false}
                  style={{width:width}}
-
                  >
 
                  {this.renderTopView()}
@@ -134,22 +129,6 @@ export default class HomeView extends Component {
     }
 
 
-     bannerClickListener(index) {
-     this.setState({
-             clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
-         })
-
-     }
-
-     bannerOnMomentumScrollEnd(event, state) {
-        //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
-         this.defaultIndex = state.index;
-     }
-    renderHeader = () => {
-        return (<View style={styles.topView} >
-            {this.renderTopView()}
-        </View>)
-    }
     renderItem = ({ item}) =>{
         return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={this.onPress.bind(this)}>
                 <View style={[styles.row]}>
@@ -161,11 +140,26 @@ export default class HomeView extends Component {
     };
 
 
+         bannerClickListener(index) {
+         this.setState({
+                 clickTitle: this.state.banners[index].title ? `you click ${this.state.banners[index].title}` : 'this banner has no title',
+             })
+
+         }
+
+         bannerOnMomentumScrollEnd(event, state) {
+            //  console.log(`--->onMomentumScrollEnd page index:${state.index}, total:${state.total}`);
+             this.defaultIndex = state.index;
+         }
+
+
+
     renderTopView() {
 
 
         var errorInfo = JSON.stringify(this.state.banners);
         console.log("this.state.banners="+errorInfo)
+
         if (this.state.banners.length == 0) {
             return (
                 <View
@@ -350,7 +344,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff',
     },
-    topView: {
+    topView:{
         height: 150,
         width: width,
     },
