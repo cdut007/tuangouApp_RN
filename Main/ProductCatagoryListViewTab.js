@@ -11,6 +11,7 @@ import Dimensions from 'Dimensions';
 import NavBar from '../common/NavBar'
 import ProductCatagoryListView from './ProductCatagoryListView'
 import HttpRequest from '../HttpRequest/HttpRequest'
+import moment from 'moment';
 var width = Dimensions.get('window').width;
 
 export default class ProductCatagoryListViewTab extends Component {
@@ -40,23 +41,34 @@ export default class ProductCatagoryListViewTab extends Component {
 
     componentDidMount() {
         this.setState({
-            product: this.props.prouduct
+            product: this.props.prouduct,
+
         })
-        console.log('group_buy_list_index:'+JSON.stringify(this.state.product) );
+        console.log('group_buy_list_index:'+JSON.stringify(this.props.prouduct) );
+
+
+
+
         let param = { classify: this.props.prouduct.index }
         HttpRequest.get('/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
-                Alert.alert('提示','获取团购列表失败，请稍后再试。')
-                console.log(' error:' + e)
+
+                console.log(' group_buy_listerro:' + e)
             })
     }
 
     onGroupBuyListSuccess(response) {
         console.log('GroupBuyList:'+JSON.stringify(response))
+
+
+
+
         var tabTitle = []
         for (var i = 0; i < response.data.group_buy.length; i++) {
             let item = response.data.group_buy[i]
-            tabTitle.push({ key: '' + i, title: item.ship_time })
+            var MM = moment(item.ship_time).format("M");
+            var DD = moment(item.ship_time).format("D");
+            tabTitle.push({ key: '' + i, title: MM+'月'+DD+'日发货拼团' })
 
         }
         this.setState({
@@ -64,20 +76,26 @@ export default class ProductCatagoryListViewTab extends Component {
             routes: tabTitle
         })
 
-        if (response.data.group_buy.length) {
-            var paramBody = { group_buy: response.data.group_buy[0].id }
-            HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
-                (e) => {
-                    Alert.alert('提示','获取团购详情失败，请稍重试。')
 
-                    console.log(' error:' + e)
-                })
+        if (response.data.group_buy.length) {
+            for (var j = 0;j <response.data.group_buy.length; j++){
+                var paramBody = { group_buy: this.state.gbList.group_buy[j].id }
+                console.log('group_buy:'+JSON.stringify(paramBody));
+                HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+                    (e) => {
+                        Alert.alert('提示','获取团购详情失败，请稍后重试.')
+
+                        console.log(' 获取团购详情失败error:' + e)
+                    })
+            }
+
         }
 
     }
 
 
     onGroupBuyDetailSuccess(response) {
+        console.log('GroupBuyDetail:'+JSON.stringify(response))
         let gbData = this.state.allGbDetail
         gbData[response.data.id] = response.data
 
@@ -160,3 +178,5 @@ const styles = StyleSheet.create({
         color: '#ea6b10',
     },
 });
+
+

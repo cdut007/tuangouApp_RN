@@ -88,6 +88,7 @@ export default class ProductCatagoryListView extends Component {
 
 
     componentDidMount() {
+        console.log('groupBuyListViewDetail:'+JSON.stringify(this.props.groupBuyDetail))
         if(this.props.groupBuyDetail)
         {
             let rowData = this.props.groupBuyDetail.group_buy_goods
@@ -223,13 +224,21 @@ export default class ProductCatagoryListView extends Component {
         ];
 
         return (
-            <Banner
-                style={styles.topView}
-                banners={this.banners}
-                defaultIndex={this.defaultIndex}
-                onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                intent={this.bannerClickListener.bind(this)}
-            />
+            <View style={styles.topView}>
+                <Banner
+                    style={styles.bannerView}
+                    banners={this.banners}
+                    defaultIndex={this.defaultIndex}
+                    onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+                    intent={this.bannerClickListener.bind(this)}
+                />
+                <Text style={styles.bannerText}>每个鲜果
+致力于精挑细选
+纯天然、无污染
+不将就</Text>
+            </View>
+
+
 
         )
     }
@@ -316,8 +325,26 @@ const styles = StyleSheet.create({
         borderColor: '#CCC'
     },
     topView: {
+        height: 280,
+        width: width,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    bannerView:{
         height: 150,
         width: width,
+
+
+
+    },
+    bannerText:{
+
+        width:100,
+        color: 'black',
+        fontSize:14,
+        fontFamily:'PingFangSC-Regular',
+        textAlign:'center',
+        margin:10,
     },
     line1: {
         height: 1,

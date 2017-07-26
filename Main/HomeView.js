@@ -9,6 +9,9 @@ import {
     TouchableNativeFeedback,
     ScrollView,
     ListView,
+
+
+
 } from 'react-native';
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
@@ -33,8 +36,11 @@ export default class HomeView extends Component {
             banners:[],
             goodsList:[],
             categoryDataAry : [],
-            displayCategoryAry : []
+            displayCategoryAry : [],
+            selectedImageIndex: 0,
+
         };
+
     }
     onBannerSuccess(response){
         this.state.banners = response.data.images;
@@ -51,7 +57,9 @@ export default class HomeView extends Component {
     componentWillMount(){
         this.fetchBanner();
         this.fetchProductList();
+
     }
+
 
     fetchProductList(){
         var paramBody ={ }
@@ -107,6 +115,10 @@ export default class HomeView extends Component {
     }
 
 
+
+
+
+
     render() {
         return (
             <View style={styles.container}>
@@ -117,9 +129,8 @@ export default class HomeView extends Component {
                  <ScrollView
                  keyboardDismissMode='on-drag'
                  keyboardShouldPersistTaps={false}
-                 iosalwaysBounceHorizontal={false}
-                 iosbounces={false}
                  showsHorizontalScrollIndicator = {false}
+                 showsVerticalScrollIndicator={false}
                  removeClippedSubviews = {true}
                  horizontal={false}
                  style={{width:width}}
@@ -164,6 +175,9 @@ export default class HomeView extends Component {
     renderTopView() {
 
 
+
+
+
         var errorInfo = JSON.stringify(this.state.banners);
         console.log("this.state.banners="+errorInfo)
         if (this.state.banners.length == 0) {
@@ -182,6 +196,7 @@ export default class HomeView extends Component {
                     onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
                     intent={this.bannerClickListener.bind(this)}
                 />
+
 
             )
         }
@@ -311,19 +326,18 @@ export default class HomeView extends Component {
     }
 
     renderCategorysView(prouductItems) {
-        const w = (width -30)/3, h = w
+        const w = (width-30)/3, h = w
 
 
         let renderSwipeView = (types, n) => {
             return (
-                <View style={styles.toolsView}>
+                <View style={[styles.toolsView]}>
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h ,margin:5 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h ,marginTop:10}, styles.toolsItem]}>
 
-                                    <Image style={{resizeMode:'contain', alignItems:'center',width: w-2, height: h,
-                                    justifyContent:'center',margin:2,
+                                    <Image style={{resizeMode:'contain',width: w, height: h,
                                     flex:1}} source={item.image}/>
                                      {this.renderMoreInfo(item,w,h)}
                                 </View>
@@ -355,6 +369,9 @@ const styles = StyleSheet.create({
         width: width,
     },
 
+
+
+
     row: {
         justifyContent: 'center',
         padding: 1,
@@ -370,7 +387,7 @@ const styles = StyleSheet.create({
 
     countdownContainer:
     {
-        marginTop: 10,
+        marginTop: 20,
         marginBottom:20,
         height: 32,
         width: width - 10,
@@ -398,14 +415,22 @@ const styles = StyleSheet.create({
     toolsView: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        margin:5,
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+
+
+
     },
     toolsItem: {
-        justifyContent: "center",
-        alignItems: "center",
-        margin:5,
+
+
+
+
+
+
 
     },
 });
+
+
+
