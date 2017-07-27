@@ -135,6 +135,7 @@ export default class ProductDetail extends Component {
                 <NavBar title="商品详情"
                         leftIcon={require('../images/back.png')}
                         leftPress={this.clickBack.bind(this)}/>
+
                 {this.renderProductDetailView()}
             </View>
         )
@@ -166,18 +167,24 @@ export default class ProductDetail extends Component {
         if (this.state.banners.length > 0) {
             console.log('ProductDetailBanners' + JSON.stringify(this.state.banners))
             return (
-                <Banner style={styles.topView}
-                        banners={this.state.banners}
-                        defaultIndex={this.defaultIndex}
-                        onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                        intent={this.bannerClickListener.bind(this)}>
+                <View style={styles.topView}>
 
-                </Banner>
+                    <Banner style={styles.topView}
+                            banners={this.state.banners}
+                            defaultIndex={this.defaultIndex}
+                            onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+                            intent={this.bannerClickListener.bind(this)}>
+
+
+                    </Banner>
+
+                </View>
+
             )
         } else {
 
             return ( <Image
-                style={{ width: width, height: 375 }}
+                style={{ width: width, height: width }}
 
             />)
 
@@ -405,6 +412,10 @@ const styles = StyleSheet.create({
     topView:{
         width:width,
         height:230,
+
+
+
+
     },
     toolsView: {
         flexDirection: "row",

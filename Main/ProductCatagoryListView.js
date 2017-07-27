@@ -213,13 +213,16 @@ export default class ProductCatagoryListView extends Component {
 
     renderTopView() {
         var image = ''
+        var desc =''
         if (this.props.groupBuyDetail) {
             image = this.props.groupBuyDetail.classify.image
+            desc = this.props.groupBuyDetail.classify.desc
         }
         this.banners = [
             {
                 title: '',
-                image: image
+                image: image,
+                desc:desc
             }
         ];
 
@@ -232,10 +235,7 @@ export default class ProductCatagoryListView extends Component {
                     onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
                     intent={this.bannerClickListener.bind(this)}
                 />
-                <Text style={styles.bannerText}>每个鲜果
-致力于精挑细选
-纯天然、无污染
-不将就</Text>
+                <Text style={styles.bannerText}>{desc}</Text>
             </View>
 
 

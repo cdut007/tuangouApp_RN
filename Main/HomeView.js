@@ -131,7 +131,7 @@ export default class HomeView extends Component {
                  keyboardShouldPersistTaps={false}
                  showsHorizontalScrollIndicator = {false}
                  showsVerticalScrollIndicator={false}
-                
+
                  horizontal={false}
                  style={{width:width}}
 
