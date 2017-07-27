@@ -183,7 +183,7 @@ export default class ProductCatagoryListView extends Component {
                         alignItems: 'center', fontSize: 14,
                         color: '#1c1c1c',
                         justifyContent: 'center', margin: 2, numberOfLines: 2, ellipsizeMode: 'tail',
-                        flex: 1
+                        flex: 1 ,textAlign: 'center',marginTop:5
                     }}>{item.goods.name}</Text>
 
                     <View style={{
@@ -191,7 +191,7 @@ export default class ProductCatagoryListView extends Component {
                         justifyContent: 'center',
                         flex: 1
                     }}>
-                        <Text style={{ alignItems: 'flex-start', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>
+                        <Text style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>
                         <Text style={{
                             alignItems: 'center', marginLeft: 10,
                             justifyContent: 'center', numberOfLines: 1, color: '#757575', fontSize: 12
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
         // borderColor: '#CCC'
     },
     topView: {
-        height: 320,
+        height: 310,
         width: width,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
         fontSize:14,
         fontFamily:'PingFangSC-Regular',
         textAlign:'center',
-        margin:10,
+        margin:5,
 
     },
     line1: {
