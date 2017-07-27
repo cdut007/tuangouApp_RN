@@ -20,6 +20,7 @@ import px2dp from '../common/util'
 import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
 import ProductDetail from './ProductDetail'
 import HttpRequest from '../HttpRequest/HttpRequest'
+import {CachedImage} from "react-native-img-cache";
 
 
 const isIOS = Platform.OS == "ios"
@@ -283,7 +284,7 @@ export default class HomeView extends Component {
                         {this.renderItemSpaceLine(i)}
                         <View style={{margin:5}}>
                         <View style = {styles.brandLabelContainer}>
-                            <Image style={{resizeMode:'contain', marginRight:10,alignItems:'center',width:30,height:30,
+                            <CachedImage style={{resizeMode:'contain', marginRight:10,alignItems:'center',width:30,height:30,
                   justifyContent:'center'}} source={categoryDataAry[i].image}/>
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
@@ -337,7 +338,7 @@ export default class HomeView extends Component {
                             let render = (
                                 <View style={[{ width: w, height: h ,marginTop:10}, styles.toolsItem]}>
 
-                                    <Image style={{resizeMode:'contain',width: w, height: h,
+                                    <CachedImage style={{resizeMode:'contain',width: w, height: h,
                                     flex:1}} source={item.image}/>
                                      {this.renderMoreInfo(item,w,h)}
                                 </View>

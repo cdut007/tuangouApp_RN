@@ -19,7 +19,7 @@ import {
     getTheme,
     setTheme,
 } from 'react-native-material-kit'
-
+import {CachedImage} from "react-native-img-cache";
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
@@ -99,7 +99,7 @@ export default class GroupOrderDetailView extends Component {
             flex: 1
         }}>
             <View style={{ flex: 2 }}>
-                <Image style={{
+                <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.goods.images[0].image }} />

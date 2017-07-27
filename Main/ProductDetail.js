@@ -21,7 +21,7 @@ import {
     getTheme,
     setTheme,
 } from 'react-native-material-kit'
-
+import {CachedImage} from "react-native-img-cache";
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
@@ -183,7 +183,7 @@ export default class ProductDetail extends Component {
             )
         } else {
 
-            return ( <Image
+            return ( <CachedImage
                 style={{ width: width, height: width }}
 
             />)
@@ -252,7 +252,7 @@ export default class ProductDetail extends Component {
                             alignItems: 'center',
                             margin: 10,
                         }}>
-                            <Image style={{
+                            <CachedImage style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: this.state.gbDetail.classify.icon }}/>
@@ -324,7 +324,7 @@ renderDetailView(goodsDetailImages) {
 
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
-                                    <Image style={{
+                                    <CachedImage style={{
                                         resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
                                     }} source={{ uri: item.goods.images[0].image }} />

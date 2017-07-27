@@ -25,7 +25,7 @@ import {
 
 
 import GroupBuyCar from './GroupBuyCar'
-
+import {CachedImage} from "react-native-img-cache";
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import px2dp from '../common/util'
@@ -152,7 +152,7 @@ export default class ProductCatagoryListView extends Component {
         return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.id,item) }}>
             <View style={[styles.row]}>
 
-                <Image style={{
+                <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center',
                     justifyContent: 'center', width: w - 2,
                     backgroundColor: '#ffffff',
