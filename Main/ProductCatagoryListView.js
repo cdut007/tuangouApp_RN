@@ -9,7 +9,8 @@ import {
     TouchableNativeFeedback,
     ScrollView,
     ListView,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 } from 'react-native';
 
 
@@ -23,7 +24,7 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 
-
+import CountDownTimer from '../common/CountDown'
 import GroupBuyCar from './GroupBuyCar'
 import {CachedImage} from "react-native-img-cache";
 import Dimensions from 'Dimensions';
@@ -37,7 +38,24 @@ var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 import Banner from 'react-native-banner';
 var Global = require('../common/globals');
-
+Date.prototype.format = function(fmt)
+{ //author: meizz
+    var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt))
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+        if(new RegExp("("+ k +")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    return fmt;
+};
 export default class ProductCatagoryListView extends Component {
     constructor(props) {
         super(props)
@@ -214,9 +232,11 @@ export default class ProductCatagoryListView extends Component {
     renderTopView() {
         var image = ''
         var desc =''
+        var groupend_time =''
         if (this.props.groupBuyDetail) {
             image = this.props.groupBuyDetail.classify.image
             desc = this.props.groupBuyDetail.classify.desc
+            groupend_time = this.props.groupBuyDetail.end_time
         }
         this.banners = [
             {
@@ -225,7 +245,10 @@ export default class ProductCatagoryListView extends Component {
                 desc:desc
             }
         ];
-
+        console.log('groupBuyDetail:'+JSON.stringify(this.props.groupBuyDetail))
+        var endTime = (new Date(groupend_time.replace(' ','T'))).getTime();
+        var curTime = new Date(endTime).format("yyyy-MM-ddThh:mm:ss+00:00");
+        console.log('curTime:'+curTime)
         return (
             <View style={styles.topView}>
                 <Banner
@@ -236,6 +259,24 @@ export default class ProductCatagoryListView extends Component {
                     intent={this.bannerClickListener.bind(this)}
                 />
                 <Text style={styles.bannerText}>{desc}</Text>
+                <Text style={{fontSize:14,marginBoom:10,color:'#e41515',textAlign:'center',alignItems:'center',justifyContent:'center'}}>
+                    截团倒计时
+                </Text>
+                <CountDownTimer
+                    date={curTime}
+                    // date="2017-11-28T00:00:00+00:00"
+                    days={{plural: '天 ',singular: '天 '}}
+                    hours=':'
+                    mins=':'
+                    segs=''
+
+                    daysStyle={styles.time}
+                    hoursStyle={styles.time}
+                    minsStyle={styles.time}
+                    secsStyle={styles.time}
+                    firstColonStyle={styles.colon}
+                    secondColonStyle={styles.colon}
+                />
             </View>
 
 
@@ -386,6 +427,20 @@ const styles = StyleSheet.create({
     line: {
         height: 1,
         backgroundColor: '#eef0f3',
+    },
+    //时间文字
+    time: {
+        paddingHorizontal: 3,
+        backgroundColor: 'rgba(85, 85, 85, 1)',
+        fontSize: 12,
+        color: 'white',
+        marginHorizontal: 3,
+        borderRadius: 2,
+    },
+
+    //冒号
+    colon: {
+        fontSize: 12, color: 'rgba(85, 85, 85, 1)'
     },
 
 });

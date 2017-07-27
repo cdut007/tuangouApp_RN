@@ -183,7 +183,7 @@ export default class ProductDetail extends Component {
             )
         } else {
 
-            return ( <CachedImage
+            return ( <Image
                 style={{ width: width, height: width }}
 
             />)
