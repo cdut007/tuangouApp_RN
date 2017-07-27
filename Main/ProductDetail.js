@@ -53,6 +53,15 @@ export default class ProductDetail extends Component {
 
 
     onItemClick(prouduct) {
+        this.props.navigator.replace({
+            component: ProductDetail,
+            props: {
+                prouduct:{
+                    'index': prouduct.id,
+                    'image': {uri:prouduct.goods.images[0].image},
+                },
+            }
+        })
 
     }
 
@@ -412,6 +421,7 @@ const styles = StyleSheet.create({
     topView:{
         width:width,
         height:230,
+        alignSelf:'stretch'
 
 
 

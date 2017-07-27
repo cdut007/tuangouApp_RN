@@ -178,7 +178,7 @@ export default class ProductCatagoryListView extends Component {
                 }}
                     source={{ uri: item.goods.images[0].image }}
                 />
-                <View style={{ backgroundColor: '#fdf3ec', flex: 2 }}>
+                <View style={{ backgroundColor: '#fdf3ec', flex: 2 ,width:w}}>
                     <Text style={{
                         alignItems: 'center', fontSize: 14,
                         color: '#1c1c1c',
@@ -191,7 +191,7 @@ export default class ProductCatagoryListView extends Component {
                         justifyContent: 'center',
                         flex: 1
                     }}>
-                        <Text style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>
+                        <Text style={{ alignItems: 'flex-start', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>
                         <Text style={{
                             alignItems: 'center', marginLeft: 10,
                             justifyContent: 'center', numberOfLines: 1, color: '#757575', fontSize: 12
@@ -251,15 +251,21 @@ export default class ProductCatagoryListView extends Component {
         console.log('curTime:'+curTime)
         return (
             <View style={styles.topView}>
-                <Banner
-                    style={styles.bannerView}
-                    banners={this.banners}
-                    defaultIndex={this.defaultIndex}
-                    onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                    intent={this.bannerClickListener.bind(this)}
+                {/*<Banner*/}
+                    {/*style={styles.bannerView}*/}
+                    {/*banners={this.banners}*/}
+                    {/*defaultIndex={this.defaultIndex}*/}
+                    {/*onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}*/}
+                    {/*intent={this.bannerClickListener.bind(this)}*/}
+                {/*/>*/}
+                <CachedImage
+                    style={{resizeMode:'contain',height: 180,
+                   width:width,
+                    }}
+                    source={{uri: this.banners[0].image}}
                 />
                 <Text style={styles.bannerText}>{desc}</Text>
-                <Text style={{fontSize:14,marginBoom:10,color:'#e41515',textAlign:'center',alignItems:'center',justifyContent:'center'}}>
+                <Text style={{fontSize:14,marginBoom:5,color:'#e41515',textAlign:'center',alignItems:'center',justifyContent:'center'}}>
                     截团倒计时
                 </Text>
                 <CountDownTimer
@@ -361,12 +367,12 @@ const styles = StyleSheet.create({
         height: 220,
         backgroundColor: '#F6F6F6',
         alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 2,
-        borderColor: '#CCC'
+        // borderWidth: 1,
+        // borderRadius: 2,
+        // borderColor: '#CCC'
     },
     topView: {
-        height: 280,
+        height: 320,
         width: width,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -386,6 +392,7 @@ const styles = StyleSheet.create({
         fontFamily:'PingFangSC-Regular',
         textAlign:'center',
         margin:10,
+
     },
     line1: {
         height: 1,

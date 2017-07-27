@@ -368,6 +368,7 @@ const styles = StyleSheet.create({
     topView: {
         height: 150,
         width: width,
+        alignSelf:'stretch'
     },
 
 
