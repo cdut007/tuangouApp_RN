@@ -84,9 +84,13 @@ export default class GroupOrderListView extends Component {
         )
     }
 
-    onDownloadExcelClick() {
+    onDownloadExcelClick(prouductItems) {
+
         this.props.navigator.push({
             component: DownloadExcelView,
+            props:{
+                group_buy_id:prouductItems.group_buy.id,
+            }
         })
     }
 
@@ -148,7 +152,7 @@ export default class GroupOrderListView extends Component {
 
     renderStatus(items) {
         if (this.props.isDoneStatus) {
-            return (<TouchableOpacity onPress={this.onDownloadExcelClick.bind(this)} style={{
+            return (<TouchableOpacity onPress={this.onDownloadExcelClick.bind(this,items)} style={{
                 alignItems: 'center', backgroundColor: '#f7f7f7',
                 justifyContent: 'center', height: 40, width: width
             }}>
@@ -195,7 +199,7 @@ export default class GroupOrderListView extends Component {
                 <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
                 <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                     <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
-                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购 {item.purchased}</Text>
+                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购：{item.purchased}件</Text>
                 </View>
             </View>
         </View>)

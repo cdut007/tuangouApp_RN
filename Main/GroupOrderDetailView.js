@@ -113,7 +113,7 @@ export default class GroupOrderDetailView extends Component {
                 <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
                 <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                     <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
-                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购 {item.purchased}</Text>
+                    <Text style={{alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575",fontFamily:'PingFangSC-Regular' }}>已购：{item.purchased}件</Text>
                 </View>
             </View>
 
@@ -123,7 +123,7 @@ export default class GroupOrderDetailView extends Component {
     }
 
     renderCategorysView(prouductItems) {
-        const w = width, h = 110
+        const w = width, h = 120
 
         let renderSwipeView = (types, n) => {
             return (
@@ -131,9 +131,9 @@ export default class GroupOrderDetailView extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h, marginTop: 5, marginRight: 5, marginBottom: 0 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h-10, marginTop: 5, marginRight: 5, marginBottom: 0 }, styles.toolsItem]}>
                                     {this.renderItemInfo(item, w, h)}
-                                    <View style={{ width: width, backgroundColor: '#d5d5d5', height: 0.5 }}></View>
+                                    {/*<View style={{ width: width, backgroundColor: '#d5d5d5', height: 0.5 }}></View>*/}
                                 </View>
                             )
                             return (

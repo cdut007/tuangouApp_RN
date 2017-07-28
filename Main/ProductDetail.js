@@ -436,8 +436,7 @@ const styles = StyleSheet.create({
     toolsItem: {
         justifyContent: "flex-start",
         alignItems: "center",
-        borderColor: '#e6e6e6',
-        borderWidth: 1,
+
     },
     goodsWebView:{
 

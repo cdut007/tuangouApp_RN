@@ -23,6 +23,10 @@ import HttpRequest from '../HttpRequest/HttpRequest'
 export default class DownloadExcelView extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            mail:'',
+            group_buy_id:this.props.group_buy_id
+        }
 
     }
 
@@ -58,25 +62,33 @@ export default class DownloadExcelView extends Component {
         }
 
         onExcelSendMailPress(){
-            Alert.alert('提示','发送成功')
-            let param = {
-                address: this.state.address,
-                phone_num: this.state.mobile
-            }
-            HttpRequest.post('/user_address', param, this.onSendEmailSuccess.bind(this),
+
+
+            var paramBody =
+                {
+                    'group_buy_id': this.props.group_buy_id,
+                    'email': this.state.mail,
+
+                }
+            console.log('send_mailparam:'+JSON.stringify(paramBody))
+            HttpRequest.post('/send_mail', paramBody, this.onSendEmailSuccess.bind(this),
                 (e) => {
 
-                    Alert.alert('提示','发送邮件失败，请稍后再试。')
-                    console.log(' error:' + e)
+                    Alert.alert('提示','发送邮件失败，请稍后再试')
+                    console.log(' send_mailerror:' + e)
                 })
 
         }
+
     onSendEmailSuccess(){
-        Alert.alert('提示','发送邮件成功。')
+
+        Global.email = this.state.mail,
+            Alert.alert('提示',Global.email)
     }
 
     render() {
         return (
+
             <View style={styles.container}>
                 <NavBar
                     title="下载Excel表"
@@ -90,10 +102,15 @@ export default class DownloadExcelView extends Component {
                         <Text style={{textAlign:'center',marginTop:20,fontSize:14,color:'#1b1b1b'}}>我们会将生成的Excel表发送到您的邮箱</Text>
 
                         <TextInput  style={{marginTop:20,marginLeft:0,fontSize: 14,width:width-70,height:50,
-                         textAlign: 'left',color: '#1c1c1c',}}
+                         textAlign: 'left',color: '#1c1c1c', borderColor: 'gray',
+        borderWidth: 0.5,borderRadius:24.5,padding:10}}
+                                    defaultValue={Global.email}
+                                    keyboardType="email-address"
                          editable={true}
                          placeholder="请输入邮箱"
-                         onChangeText={(text) => this.setState({ mail: text })}
+                                    clearButtonMode="while-editing"
+                         onChangeText={(text) => this.setState({ mail: text })
+                         }
                          ></TextInput>
 
                         <TouchableOpacity style= {{

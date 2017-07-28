@@ -89,6 +89,7 @@ module.exports = {
                 'Authorization': httpToken
             }),
             body: JSON.stringify(body)
+
         })
             .then((response) => response.text())
             .then((responseText) => {
