@@ -132,9 +132,8 @@ export default class AgentRegisteredView extends Component{
             }
         }
         render(){
+
             return(
-                <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
-                                  style={{}}>
 
                 <View style ={styles.container} >
                     <NavBar
@@ -142,8 +141,12 @@ export default class AgentRegisteredView extends Component{
                         leftIcon={require('../images/back.png')}
                         leftPress={this.back.bind(this)}
                     />
+                    <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
+                                      style={{}}>
+
                     <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
                     </Text>
+                    </TouchableOpacity>
                     <View style ={styles.textInputView}>
                         <Text style={styles.TextInputText}>姓名：</Text>
                         <TextInput style={styles.textInput}
@@ -200,7 +203,7 @@ export default class AgentRegisteredView extends Component{
                     />
 
                 </View>
-                </TouchableOpacity>
+
 
             )
 

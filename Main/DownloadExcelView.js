@@ -94,14 +94,14 @@ export default class DownloadExcelView extends Component {
                     title="下载Excel表"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <View style={[{justifyContent:'center', alignItems:'center',marginTop: 10 }]}
+                    <View style={[{justifyContent:'center', alignItems:'center',marginTop: 50 }]}
                         >
                         <Image style={{resizeMode:'contain', alignItems:'center',width: 70, height: 70,
                         justifyContent:'center',margin:2,}} source={require('../images/excel_icon.png')}/>
 
-                        <Text style={{textAlign:'center',marginTop:20,fontSize:14,color:'#1b1b1b'}}>我们会将生成的Excel表发送到您的邮箱</Text>
+                        <Text style={{textAlign:'center',marginTop:20,fontSize:14,color:'#1b1b1b',fontFamily:'PingFangSC-Regular'}}>我们会将生成的Excel表发送到您的邮箱</Text>
 
-                        <TextInput  style={{marginTop:20,marginLeft:0,fontSize: 14,width:width-70,height:50,
+                        <TextInput  style={{marginTop:50,marginLeft:0,fontSize: 14,width:width-70,height:50,
                          textAlign: 'left',color: '#1c1c1c', borderColor: 'gray',
         borderWidth: 0.5,borderRadius:24.5,padding:10}}
                                     defaultValue={Global.email}
@@ -160,7 +160,7 @@ logoutText: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: 'white',
     },
     defaultText: {
         fontWeight: 'bold',
