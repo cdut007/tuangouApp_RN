@@ -33,6 +33,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
+import moment from 'moment';
 
 
 export default class GroupOrderListView extends Component {
@@ -110,23 +111,28 @@ export default class GroupOrderListView extends Component {
     renderProductCategoryView() {
         var categoryDataAry = this.state.orders;
         var displayCategoryAry = [];
-
+        console.log('this.state.orders:'+JSON.stringify(this.state.orders))
         for (var i = 0; i < categoryDataAry.length; i++) {
             var order = categoryDataAry[i]
+
+
+            var shipTime = moment(order.group_buy.ship_time).format("预计M"+'月'+"D"+'号发货');
             var goods = order.goods[0]
             displayCategoryAry.push(
                 <View style={{ margin: 0 }}>
                     <View style={[styles.brandLabelContainer, { marginBottom: 10 }]}>
                         <View style={{
                             marginLeft: 10, marginTop: 10, marginRight: 5, alignItems: 'center',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start',flexDirection: 'row',
                         }}>
                             <CachedImage style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: order.classify.icon }} />
+                            <Text style={{ fontSize: 16, color: '#1b1b1b' }}>{order.classify.name}</Text>
                         </View>
-                        <Text style={{ fontSize: 16, color: '#1b1b1b' }}>{order.classify.name}</Text>
+
+                        <Text style={{textAlign:'center', fontSize: 12, color: '#rgb(117,117,117)' , alignSelf:'center',marginRight:10,marginTop:10,fontFamily:'PingFangSC-Regular'}}>{shipTime}</Text>
                     </View>
 
                     {this.renderCategorysView(order)}
@@ -247,7 +253,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     line: {

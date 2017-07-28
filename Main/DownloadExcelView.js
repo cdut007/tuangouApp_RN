@@ -18,6 +18,7 @@ import Dimensions from 'Dimensions'
 import Welcome from '../Login/Welcome'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
+import HttpRequest from '../HttpRequest/HttpRequest'
 
 export default class DownloadExcelView extends Component {
     constructor(props) {
@@ -58,8 +59,21 @@ export default class DownloadExcelView extends Component {
 
         onExcelSendMailPress(){
             Alert.alert('提示','发送成功')
-        }
+            let param = {
+                address: this.state.address,
+                phone_num: this.state.mobile
+            }
+            HttpRequest.post('/user_address', param, this.onSendEmailSuccess.bind(this),
+                (e) => {
 
+                    Alert.alert('提示','发送邮件失败，请稍后再试。')
+                    console.log(' error:' + e)
+                })
+
+        }
+    onSendEmailSuccess(){
+        Alert.alert('提示','发送邮件成功。')
+    }
 
     render() {
         return (

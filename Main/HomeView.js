@@ -318,11 +318,11 @@ export default class HomeView extends Component {
         if (item.tag!='scan_more') {
             return
         }
-        return(<View style={{opacity:0.4, position:'absolute',left:0,top:0,alignItems:'center',flex:1,width: w, height: h ,
-        justifyContent:'center',backgroundColor:'#999999'}}
+        return(<View style={{opacity:0.8, position:'absolute',left:0,top:0,alignItems:'center',flex:1,width: w, height: h ,
+        justifyContent:'center',backgroundColor:'#rgb(234,107,16)'}}
         needsOffscreenAlphaCompositing={true}
         >
-        <Text needsOffscreenAlphaCompositing={true} style={{opacity:1,alignItems:'center',justifyContent:'center',fontSize: 14, color: "#ffffff",}}>{item.title}</Text>
+        <Text needsOffscreenAlphaCompositing={true} style={{opacity:1,alignItems:'center',justifyContent:'center',fontSize: 20, color: "#ffffff",fontFamily:'PingFangSC-Regular'}}>{item.title}</Text>
         </View>)
     }
 

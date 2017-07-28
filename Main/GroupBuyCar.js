@@ -283,7 +283,7 @@ export default class GroupBuyCar extends Component {
     }
 
     renderCategorysView(prouductItems) {
-        const w = width, h = 110
+        const w = width, h = 120
 
         let renderSwipeView = (types, n) => {
             return (
@@ -291,7 +291,7 @@ export default class GroupBuyCar extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h, marginTop: 5, marginRight: 5, marginBottom: 5 }, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h-10, marginTop: 5, marginRight: 5,  }, styles.toolsItem]}>
                                     {this.renderItemInfo(item, w, h)}
                                 </View>
                             )
@@ -356,7 +356,6 @@ const styles = StyleSheet.create({
     toolsItem: {
         justifyContent: "center",
         alignItems: "center",
-        borderColor: '#e6e6e6',
-        borderWidth: 1,
+
     },
 });

@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
         // borderColor: '#CCC'
     },
     topView: {
-        height: 310,
+
         width: width,
         justifyContent: 'flex-start',
         alignItems: 'center',
