@@ -299,13 +299,20 @@ export default class ProductCatagoryListView extends Component {
         })
 
         Global.gbDetail = this.props.groupBuyDetail
+        if (!Global.wxUserInfo.headimgurl){
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
+            })
+        }else {
+            this.props.navigator.push({
+                component: GroupBuyCar,
+                props: {
+                    showBack: true,
+                }
+            })
+        }
 
-        this.props.navigator.push({
-            component: GroupBuyCar,
-            props: {
-                showBack: true,
-            }
-        })
     }
 
     renderFooter()

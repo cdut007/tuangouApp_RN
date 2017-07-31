@@ -64,10 +64,10 @@ export default class HelpView extends Component {
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
                     <Text style={[styles.defaultText,{marginTop:80}]}>您有任何的问题都可以电话或微信联系客服。</Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c'}}>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left'}}>
                     客服电话：400-0358-3848
                     </Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c'}}>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left'}}>
                     微信：ailingo123
                     </Text>
             </View>
@@ -98,11 +98,14 @@ logoutText: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ffffff',
     },
     defaultText: {
         color:'#1c1c1c',
         fontSize: 16,
+        fontFamily:'PingFangSC-Light',
+        textAlign:'center',
+        width:width-50,
     },
     itemView:
     {

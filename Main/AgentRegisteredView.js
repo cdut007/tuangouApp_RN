@@ -147,11 +147,11 @@ export default class AgentRegisteredView extends Component{
                     <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
                     </Text>
                     </TouchableOpacity>
-                    <View style ={styles.textInputView}>
+                    <View style ={styles.textInputView1}>
                         <Text style={styles.TextInputText}>姓名：</Text>
-                        <TextInput style={styles.textInput}
+                        <TextInput style={[styles.textInput]}
                                    value={this.state.name}
-                                   placeholder={'李小明'}
+
                                    keyboardType={'default'}
                                    returnKeyType ={'send'}
                                    onChangeText={(text) => this.setState({ name: text })}
@@ -166,7 +166,7 @@ export default class AgentRegisteredView extends Component{
                         <Text style={styles.TextInputText}>电话：</Text>
                         <TextInput style={styles.textInput}
                                    value={this.state.phoneNum}
-                                   placeholder={'86728498'}
+
                                    keyboardType={'numeric'}
                                    onChangeText={(text) => this.setState({ phoneNum: text })}
 
@@ -180,7 +180,7 @@ export default class AgentRegisteredView extends Component{
                         <Text style={styles.TextInputText}>地址：</Text>
                         <TextInput style={styles.textInput}
                                    value={this.state.agentAddresss}
-                                   placeholder={'9 Lim Tua Tow Road'}
+
                                    keyboardType={'default'}
                                    returnKeyType ={'done'}
                                    onChangeText={(text) => this.setState({ agentAddresss: text })}
@@ -220,33 +220,52 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ffffff',
     },
 
     warnText: {
         color: '#a9a9a9',
-        fontSize: 16,
+        fontSize: 14,
         textAlign:'left',
-        marginTop:10,
-        padding:40,
+        marginTop:20,
+        marginLeft:26,
+        marginRight:26,
         fontFamily:'PingFangSC-Light',
 
+
+    },
+    textInputView1: {
+
+        flexDirection:'row',
+        color: '#333333',
+
+
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop:93,
+        padding:5,
+        width:width-40,
+        height: 48,
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 30,
 
     },
     textInputView: {
 
         flexDirection:'row',
         color: '#333333',
-        marginTop: 25,
 
-        marginLeft: 25,
-        marginRight: 25,
+
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop:20,
         padding:5,
-        width:width-50,
-        height: 60,
+        width:width-40,
+        height: 48,
         borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 50,
+        borderWidth: 0.5,
+        borderRadius: 30,
 
     },
     textInput: {
@@ -255,7 +274,7 @@ const styles = StyleSheet.create({
         color: '#333333',
 
 
-        height: 40,
+        height: 48,
 
 
 
@@ -273,12 +292,11 @@ const styles = StyleSheet.create({
     },
 
     registeredAgentButton:{
-        marginTop: 50,
-        height: 60,
-        width: width - 50,
+        marginTop: 90,
+        height: 46,
+        width: width - 40,
         backgroundColor: 'rgb(234,107,16)',
-        borderRadius: 50,
-        paddingTop:20,
+        borderRadius: 24.5,
 
 
     },
@@ -289,6 +307,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         marginLeft:20,
         marginRight:20,
+        marginTop:10,
 
     },
 

@@ -123,23 +123,20 @@ export default class MineView extends Component {
         })
     }
     onGroupMasterLinkPress() {
-        // if (!Global.agent_url){
-        //
-        //     this.props.navigator.push({
-        //
-        //         component: AgentRegisteredView,
-        //     })
-        //
-        // }else {
-        //
-        //     this.props.navigator.push({
-        //         component: GroupMasterLinkView,
-        //     })
-        // }
-        this.props.navigator.push({
+        if (!Global.agent_url){
 
-            component: AgentRegisteredView,
-        })
+            this.props.navigator.push({
+
+                component: AgentRegisteredView,
+            })
+
+        }else {
+
+            this.props.navigator.push({
+                component: GroupMasterLinkView,
+            })
+        }
+
     }
 
     onGroupBuyProgressingPress() {

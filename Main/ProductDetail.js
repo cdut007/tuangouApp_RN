@@ -163,13 +163,20 @@ export default class ProductDetail extends Component {
 
         Global.gbDetail = this.state.gbDetail
 
+        if (!Global.wxUserInfo.headimgurl){
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
+            })
+        }else {
+            this.props.navigator.push({
+                component: GroupBuyCar,
+                props: {
+                    showBack: true,
+                }
+            })
+        }
 
-        this.props.navigator.push({
-            component: GroupBuyCar,
-            props: {
-                showBack: true,
-            }
-        })
     }
 
     renderBannerView() {

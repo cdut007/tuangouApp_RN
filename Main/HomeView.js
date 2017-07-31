@@ -81,7 +81,7 @@ export default class HomeView extends Component {
                     console.log(err)
                 }
 
-                console.log(' error:' + e)
+                console.log(' home_page_listerror:' + e)
             })
     }
 
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
         height: 220,
         backgroundColor: '#F6F6F6',
         alignItems: 'center',
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderRadius: 2,
         borderColor: '#CCC'
     },

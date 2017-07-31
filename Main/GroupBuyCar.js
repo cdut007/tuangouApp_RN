@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     {
 
         borderColor: '#e31515',
-        borderWidth: 1,
+        borderWidth: 0.5,
         textAlign: 'center',
         borderRadius: 5,
         flexDirection: 'row',

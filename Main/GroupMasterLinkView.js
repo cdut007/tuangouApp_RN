@@ -101,11 +101,11 @@ export default class GroupMasterLinkView extends Component {
                     title="团长链接"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                    <Text style={{fontSize:14,color:'#a9a9a9',padding:40,marginTop:20}}>该链接为团长：Lisa团长高优良品购的专属链接
+                    <Text style={{fontSize:14,color:'#a9a9a9',padding:40,marginTop:10}}>该链接为团长：Lisa团长高优良品购的专属链接
 每次申请拼团后直接分享该链接至微信群即可
 团员点击链接购买的商品可在拼团中查看</Text>
-                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:40}}>{Global.agent_url}</Text>
-                    <View style={{flex:1,marginTop:60,justifyContent:'center',flexDirection:'row'}}>
+                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:10}}>{Global.agent_url}</Text>
+                    <View style={{flex:1,marginTop:50,justifyContent:'center',flexDirection:'row'}}>
 
                                         <TouchableOpacity style={{
                                             height: 36,
@@ -116,10 +116,12 @@ export default class GroupMasterLinkView extends Component {
                                             flexDirection: 'row',
                                             justifyContent: 'center',
                                             alignItems: 'center',
+                                            borderWidth:0.5,
+
                                         }}
                                             onPress={this.onCopyPress.bind(this)}
                                         >
-                                        <Text style={{color:'#ffffff',fontSize:16}}>
+                                        <Text style={{color:'#ffffff',fontSize:16, fontFamily:'PingFang-SC-Medium'}}>
                                          复制链接
                                         </Text>
                                         </TouchableOpacity>
@@ -134,8 +136,9 @@ export default class GroupMasterLinkView extends Component {
                                             flexDirection: 'row',
                                             justifyContent: 'center',
                                             alignItems: 'center',
+                                            borderWidth:0.5,
                                         }}>
-                                        <Text style={{color:'#ffffff',fontSize:16}}
+                                        <Text style={{color:'#ffffff',fontSize:16,fontFamily:'PingFang-SC-Medium'}}
                                         >
                                          分享链接
                                         </Text>
@@ -169,7 +172,7 @@ logoutText: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     defaultText: {
         fontWeight: 'bold',

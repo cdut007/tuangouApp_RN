@@ -90,6 +90,8 @@ const styles = StyleSheet.create({
 logoutText: {
     color: '#ea6b10',
     fontSize: 16,
+    fontFamily:'PingFangSC-Light',
+    textAlign:'center'
 },
     container: {
         flex: 1,

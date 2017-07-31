@@ -101,9 +101,9 @@ export default class DownloadExcelView extends Component {
 
                         <Text style={{textAlign:'center',marginTop:20,fontSize:14,color:'#1b1b1b',fontFamily:'PingFangSC-Regular'}}>我们会将生成的Excel表发送到您的邮箱</Text>
 
-                        <TextInput  style={{marginTop:50,marginLeft:0,fontSize: 14,width:width-70,height:50,
+                        <TextInput  style={{marginTop:50,marginLeft:0,fontSize: 14,width:width-40,height:46,
                          textAlign: 'left',color: '#1c1c1c', borderColor: 'gray',
-        borderWidth: 0.5,borderRadius:24.5,padding:10}}
+        borderWidth: 0.5,borderRadius:24.5,paddingLeft:20}}
                                     defaultValue={Global.email}
                                     keyboardType="email-address"
                          editable={true}
@@ -116,15 +116,15 @@ export default class DownloadExcelView extends Component {
                         <TouchableOpacity style= {{
                             justifyContent: 'center',
                             alignItems: 'center',
-                            paddingLeft:10,
-                            width:width-70,
+
+                            width:width-40,
                             marginTop:20,
-                            paddingRight:10,
+                            paddingRight:0,
                             backgroundColor:'#ea6b10',
                             borderColor: '#ea6b10',
-                            borderWidth: 1,
-                            borderRadius: 50,
-                            height: 49,
+                            borderWidth: 0.5,
+                            borderRadius: 24.5,
+                            height: 46,
 
                         }} onPress = {this.onExcelSendMailPress.bind(this)} >
                         <View style= {{justifyContent: 'center',alignItems:'center',flex:1,}}>

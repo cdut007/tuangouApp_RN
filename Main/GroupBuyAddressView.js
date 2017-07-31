@@ -74,14 +74,10 @@ export default class AddressView extends Component {
 
     onOrderSuccess(response) {
         if (response.code == 1 && response.message == 'Success'){
-            Alert.alert('提示', '申请团购成功')
 
-            this.props.navigator.resetTo({
-                component: GroupBuyNowView,
-                props: {
-                    agent_url: response.data.agent_url,
-                    image: this.props.image
-                }
+
+            this.props.navigator.push({
+                component: GroupMasterLinkView,
             })
         }
 
