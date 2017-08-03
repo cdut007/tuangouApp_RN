@@ -37,8 +37,12 @@ export default class TabView extends Component {
                     BackAndroid.exitApp();
                     return true;
                 } else {
-                    _navigator.pop();
-                    return true;
+                    try{
+                        _navigator.pop();
+                        return true;
+                    }catch(e){
+                        
+                    }
                 }
 
             }
