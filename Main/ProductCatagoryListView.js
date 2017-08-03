@@ -32,6 +32,7 @@ import Grid from 'react-native-grid-component';
 import px2dp from '../common/util'
 import CommitButton from '../common/CommitButton'
 import ProductDetail from './ProductDetail'
+import Welcome from '../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -299,18 +300,19 @@ export default class ProductCatagoryListView extends Component {
         })
 
         Global.gbDetail = this.props.groupBuyDetail
-        if (!Global.wxUserInfo.headimgurl){
-            this.props.navigator.resetTo({
-                component: Welcome,
-                name: 'Welcome'
-            })
-        }else {
+        if (Global.wxUserInfo){
             this.props.navigator.push({
                 component: GroupBuyCar,
                 props: {
                     showBack: true,
                 }
             })
+        }else {
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
+            })
+
         }
 
     }

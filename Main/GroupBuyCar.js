@@ -38,6 +38,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 var Global = require('../common/globals');
+import Welcome from '../Login/Welcome'
 
 
 export default class GroupBuyCar extends Component {
@@ -71,35 +72,43 @@ export default class GroupBuyCar extends Component {
         //     }
         // })
 
+        if (Global.wxUserInfo){
 
-        var goodsIds = []
-        this.state.gbDetail.group_buy_goods.map((item, i) => {
-            if (item.selected) {
-                goodsIds.push(item.id)
-            }
-        })
-        if (this.state.gbDetail.id == null || !goodsIds.length) {
-
-            Alert.alert('提示',
-                '请选择需要团购的商品。')
-            return
-        }
-
-        let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.id }
-        if (!Global.user_address) {
-            this.props.navigator.push({
-                component: AddressView,
-            })
-        }
-        else {
-            this.props.navigator.push({
-                component: GroupBuyAddressView,
-                props: {
-                    api_param: param,
-                    image: this.state.gbDetail.classify.image
+            var goodsIds = []
+            this.state.gbDetail.group_buy_goods.map((item, i) => {
+                if (item.selected) {
+                    goodsIds.push(item.id)
                 }
             })
+            if (this.state.gbDetail.id == null || !goodsIds.length) {
+
+                Alert.alert('提示',
+                    '请选择需要团购的商品。')
+                return
+            }
+
+            let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.id }
+            if (!Global.user_address) {
+                this.props.navigator.push({
+                    component: AddressView,
+                })
+            }
+            else {
+                this.props.navigator.push({
+                    component: GroupBuyAddressView,
+                    props: {
+                        api_param: param,
+                        image: this.state.gbDetail.classify.image
+                    }
+                })
+            }
+        }else {
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
+            })
         }
+
     }
 
 

@@ -29,7 +29,7 @@ import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
 import CommitButton from '../common/CommitButton'
 import GroupBuyCar from './GroupBuyCar'
-
+import Welcome from '../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -160,20 +160,21 @@ export default class ProductDetail extends Component {
                 console.log('save k_cur_gbdetail faild.')
             }
         })
-
+        console.log('k_cur_gbdetail:'+JSON.stringify(this.state.gbDetail))
         Global.gbDetail = this.state.gbDetail
 
-        if (!Global.wxUserInfo.headimgurl){
-            this.props.navigator.resetTo({
-                component: Welcome,
-                name: 'Welcome'
-            })
-        }else {
+        if (Global.wxUserInfo){
+
             this.props.navigator.push({
                 component: GroupBuyCar,
                 props: {
                     showBack: true,
                 }
+            })
+        }else {
+            this.props.navigator.resetTo({
+                component: Welcome,
+                name: 'Welcome'
             })
         }
 

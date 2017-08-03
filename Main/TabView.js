@@ -51,20 +51,11 @@ export default class TabView extends Component {
         BackAndroid.removeEventListener('hardwareBackPress');
     }
 
-    onPressWelcome(){
 
-
-
-            this.props.navigator.resetTo({
-                component: Welcome,
-                name: 'Welcome'
-            })
-
-    }
 
     render() {
 
-        if (Global.wxUserInfo){
+
             return (
                 <TabNavigator>
                     <TabNavigator.Item
@@ -99,41 +90,7 @@ export default class TabView extends Component {
                 </TabNavigator>
 
             )
-        }else {
-            return (
-                <TabNavigator>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tab1'}
-                        title="爱邻购"
-                        renderIcon={() => <Image source={require('../images/home_icon.png')} />}
-                        renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
-                        badgeText=""
-                        selectedTitleStyle={styles.tabBarTintColor}
-                        onPress={() => this.setState({ selectedTab: 'tab1' })}>
-                        {<HomeView {...this.props} />}
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tab2'}
-                        title="拼团车"
-                        renderIcon={() => <Image source={require('../images/shoppingcart_icon.png')} />}
-                        renderSelectedIcon={() => <Image source={require('../images/shoppingcart_icon_click.png')} />}
-                        selectedTitleStyle={styles.tabBarTintColor}
-                        onPress={this.onPressWelcome.bind(this)}>
-                        {<GroupBuyCar {...this.props} />}
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tab3'}
-                        title="团长"
-                        renderIcon={() => <Image source={require('../images/me_icon.png')} />}
-                        renderSelectedIcon={() => <Image source={require('../images/me_icon_click.png')} />}
-                        selectedTitleStyle={styles.tabBarTintColor}
-                        onPress={this.onPressWelcome.bind(this)}>
-                        {<MineView {...this.props} />}
-                    </TabNavigator.Item>
-                </TabNavigator>
 
-            )
-        }
 
     }
 }

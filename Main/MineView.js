@@ -20,6 +20,7 @@ import AddressView from './AddressView';
 import AgentRegisteredView from './AgentRegisteredView';
 import GroupMasterLinkView from './GroupMasterLinkView';
 import HelpView from './HelpView';
+import Welcome from '../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var account = Object();
@@ -151,119 +152,238 @@ export default class MineView extends Component {
     onToolsItemClick(index) {
         console.log('Did click item at:' + index)
     }
+    onPressWelcome(){
+
+
+
+        this.props.navigator.resetTo({
+            component: Welcome,
+            name: 'Welcome'
+        })
+
+    }
     render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.headView}>
-                    <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
-                       source={require('../images/me_bj.jpg')}
-                    />
-                    <CircleImage
-                        imageStyle={styles.logo}
-                        src={this._displayIcon()}
-                    />
-                    <View style={styles.centerLayout}>
-                        <Text style={styles.defaultText}>{Global.wxUserInfo.nickname}</Text>
+        if (Global.wxUserInfo){
+            return (
+                <View style={styles.container}>
+                    <View style={styles.headView}>
+                        <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
+                               source={require('../images/me_bj.jpg')}
+                        />
+                        <CircleImage
+                            imageStyle={styles.logo}
+                            src={this._displayIcon()}
+                        />
+
                     </View>
-                </View>
 
-                <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
-                    <Text style={{ marginLeft: 10, fontSize: 16, color: '#1c1c1c', textAlign: 'left' }}>我的拼团</Text>
-                </TouchableOpacity>
-
-                <View style={styles.itemLine} />
-
-
-                <View style={styles.flexContainer}>
-                    <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
-                        <View>
-                            <Image style={styles.labelInfo}
-                                source={require('../images/link_icon.png')}
-                            >
-                            </Image>
-                            <Text style={styles.label}>
-                                团长链接
-                  </Text>
-                        </View>
+                    <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
+                        <Text style={{ marginLeft: 10, fontSize: 16, color: '#1c1c1c', textAlign: 'left' }}>我的拼团</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
-                        <View>
-                            <Image style={styles.labelInfo}
-                                source={require('../images/buying_icon.png')}
-                            >
-                            </Image>
-                            <Text style={styles.label}>
-                                拼团中
-                  </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
-                        <View>
-                            <Image style={styles.labelInfo}
-                                source={require('../images/success_icon.png')}
-                            >
-                            </Image>
-                            <Text style={styles.label}>
-                                已完成
-                  </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.itemLine} />
 
 
-                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onAddressPress.bind(this)}>
+                    <View style={styles.flexContainer}>
+                        <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/link_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    团长链接
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                        <Image style={[styles.iconSize, { marginRight: 15 }]}
-                            source={require('../images/address_icon.png')} />
-                        <Text style={{
+                        <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/buying_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    拼团中
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/success_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    已完成
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onAddressPress.bind(this)}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/address_icon.png')} />
+                            <Text style={{
                             fontSize: 16, flex: 20,
                             textAlign: 'left',
                             color: '#1c1c1c',
                         }}>收货地址</Text>
-                        <Image style={[styles.iconSize]}
-                            source={require("../images/next_icon.png")} />
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.itemLine} />
-                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onHelpPress.bind(this)}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                        <Image style={[styles.iconSize, { marginRight: 15 }]}
-                            source={require('../images/help_icon.png')} />
-                        <Text style={{
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.itemLine} />
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onHelpPress.bind(this)}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/help_icon.png')} />
+                            <Text style={{
                             fontSize: 16, flex: 20,
                             textAlign: 'left',
                             color: '#1c1c1c',
                         }}>帮助中心</Text>
-                        <Image style={[styles.iconSize]}
-                            source={require("../images/next_icon.png")} />
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.itemLine} />
-                <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onSettingPress.bind(this)}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                        <Image style={[styles.iconSize, { marginRight: 15 }]}
-                            source={require('../images/setting_icon.png')} />
-                        <Text style={{
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.itemLine} />
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onSettingPress.bind(this)}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/setting_icon.png')} />
+                            <Text style={{
                             fontSize: 16, flex: 20,
                             textAlign: 'left',
                             color: '#1c1c1c',
                         }}>设置</Text>
-                        <Image style={[styles.iconSize]}
-                            source={require("../images/next_icon.png")} />
-                    </View>
-                </TouchableOpacity>
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
 
-            </View>
-        )
+                </View>
+            )
+        }else {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.headView}>
+                        <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
+                               source={require('../images/me_bj.jpg')}
+                        />
+                        <CircleImage
+                            imageStyle={styles.logo}
+                            src={this._displayIcon()}
+                        />
+                        <View style={styles.centerLayout}>
+                            <Text style={styles.defaultText}>用户名</Text>
+                        </View>
+                    </View>
+
+                    <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
+                        <Text style={{ marginLeft: 10, fontSize: 16, color: '#1c1c1c', textAlign: 'left' }}>我的拼团</Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.itemLine} />
+
+
+                    <View style={styles.flexContainer}>
+                        <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/link_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    团长链接
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/buying_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    拼团中
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
+                            <View>
+                                <Image style={styles.labelInfo}
+                                       source={require('../images/success_icon.png')}
+                                >
+                                </Image>
+                                <Text style={styles.label}>
+                                    已完成
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onPressWelcome.bind(this)}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/address_icon.png')} />
+                            <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>收货地址</Text>
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.itemLine} />
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onHelpPress.bind(this)}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/help_icon.png')} />
+                            <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>帮助中心</Text>
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.itemLine} />
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onPressWelcome.bind(this)}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/setting_icon.png')} />
+                            <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>设置</Text>
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+            )
+        }
+
     }
 
 
 
     _displayIcon() {
-        if (Global.wxUserInfo.headimgurl != null) {
+
+        if (Global.wxUserInfo) {
             return {uri: Global.wxUserInfo.headimgurl};
         } else {
             return require('../images/default_head.png');

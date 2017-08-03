@@ -6,13 +6,15 @@ import {
     TouchableOpacity,
     Text,
     AsyncStorage,
-    Image
+    Image,
+    Alert
 } from 'react-native';
+var  WeChat = require('react-native-wechat');
 import Dimensions from 'Dimensions';
 import LoginView from './LoginView'
 import RegisterView from './RegisterView'
 import TabView from '../Main/TabView'
-import * as WeChat from 'react-native-wechat';
+// import * as WeChat from 'react-native-wechat';
 
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
@@ -28,25 +30,50 @@ export default class Welcome extends Component {
     }
 
 
-    onLoginPress() {
-        WeChat.sendAuthRequest('snsapi_userinfo', '63a7a33c0b5b75d1f44b8edb7a4ea7cd').then(res => {
-            console.log('wx login result=' + JSON.stringify(res));
+    onLoginWXPress() {
+        WeChat.isWXAppInstalled()
+            .then((isInstalled) => {
+                if (isInstalled){
+                    WeChat.sendAuthRequest('snsapi_userinfo', '63a7a33c0b5b75d1f44b8edb7a4ea7cd').then(res => {
+                        console.log('wx login result=' + JSON.stringify(res));
 
-            if (res.errCode == 0) {
-                AsyncStorage.setItem('k_wx_auth_info', JSON.stringify(res), (error, result) => {
-                    if (error) {
-                        console.log('save k_wx_auth_info faild.')
-                    }
-                })
-                Global.wxAuth = res;
-                this.onGetWxToken('wx22795e8274245d59', res.code)
-            }
-            else {
-                alert('Login faild, please try again.1')
-            }
-        })
+                        if (res.errCode == 0) {
+                            AsyncStorage.setItem('k_wx_auth_info', JSON.stringify(res), (error, result) => {
+                                if (error) {
+                                    console.log('save k_wx_auth_info faild.')
+                                }
+                            })
+                            Global.wxAuth = res;
+                            this.onGetWxToken('wx22795e8274245d59', res.code)
+                        }
+                        else {
+                            alert('Login faild, please try again.1')
+                        }
+                    })
+                }else {
+                    Alert.alert(
+                        '提示',
+                        '没有安装微信软件，您可以前往AppStore安装微信之后再进行绑定登录',
+                        [
+
+
+                            {text: 'OK', onPress: this.onPressToWeChat.bind(this)},
+                        ],
+                        { cancelable: false }
+                    )
+                }
+            });
+
     }
+    onLoginPress() {
+        this.props.navigator.resetTo({
+            component: LoginView,
+        })
 
+    }
+    onPressToWeChat(){
+
+    }
     onRegiserPress() {
         this.props.navigator.push({
             component: RegisterView,
@@ -178,7 +205,7 @@ export default class Welcome extends Component {
             </Text>
 
 
-                <TouchableOpacity onPress={this.onLoginPress.bind(this)}
+                <TouchableOpacity onPress={this.onLoginWXPress.bind(this)}
                     style={styles.loginButton}>
                     <View style={styles.logincontainer}>
                         <Image style={{
@@ -191,7 +218,19 @@ export default class Welcome extends Component {
                 </Text>
                     </View>
                 </TouchableOpacity>
-
+                <TouchableOpacity onPress={this.onLoginPress.bind(this)}
+                                  style={styles.loginButton}>
+                    <View style={styles.logincontainer}>
+                        <Image style={{
+                            resizeMode: 'contain', alignItems: 'center',
+                            justifyContent: 'center',
+                            flex: 1
+                        }} source={require('../images/login_wechat.png')} />
+                        <Text style={[styles.loginText, { marginTop: 5 }]} >
+                            账户登录
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
             </View>
         )

@@ -14,6 +14,7 @@ import {
 
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
+import TabView from '../Main/TabView'
 import Welcome from '../Login/Welcome'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
@@ -42,8 +43,8 @@ export default class SettingView extends Component {
         //     }
         // }
         this.props.navigator.resetTo({
-            component: Welcome,
-            name: 'Welcome'
+            component: TabView,
+            name: 'MainPage'
         })
     };
     async _removeStorage() {

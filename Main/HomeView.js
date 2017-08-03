@@ -21,6 +21,8 @@ import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
 import ProductDetail from './ProductDetail'
 import HttpRequest from '../HttpRequest/HttpRequest'
 import {CachedImage} from "react-native-img-cache";
+import Welcome from '../Login/Welcome'
+var Global = require('../common/globals');
 
 
 const isIOS = Platform.OS == "ios"
@@ -213,12 +215,22 @@ export default class HomeView extends Component {
                     }
             })
         }else{
-            this.props.navigator.push({
-               component: ProductCatagoryListViewTab,
-                props: {
-                    prouduct:prouduct,
-                   }
-           })
+             this.props.navigator.push({
+                 component: ProductCatagoryListViewTab,
+                 props: {
+                     prouduct:prouduct,
+                 }
+             })
+             // if (Global.wxUserInfo){
+             //
+             //
+             // }else {
+             //     this.props.navigator.resetTo({
+             //         component: Welcome,
+             //         name: 'Welcome'
+             //     })
+             // }
+
         }
     }
 
