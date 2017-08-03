@@ -182,10 +182,14 @@ export default class LoginView extends Component {
             name: 'MainPage'
         })
     }
+    clickBack() {
+        this.props.navigator.pop()
+    }
     render() {
         return (
             <View style={styles.rootcontainer}>
-                <NavBar title="登录" />
+                <NavBar title="登录" leftIcon={require('../images/back.png')}
+                        leftPress={this.clickBack.bind(this)}/>
                 <View style={styles.container}>
                     <Image source={require('../images/logo_icon.png')} style={styles.logo} />
                     <TextInput

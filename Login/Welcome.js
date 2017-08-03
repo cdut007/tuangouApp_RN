@@ -66,7 +66,7 @@ export default class Welcome extends Component {
 
     }
     onLoginPress() {
-        this.props.navigator.resetTo({
+        this.props.navigator.push({
             component: LoginView,
         })
 
