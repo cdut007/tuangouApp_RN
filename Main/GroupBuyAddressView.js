@@ -12,11 +12,13 @@ import {
     TextInput,
     Alert
 } from 'react-native';
-
+import TabView from '../Main/TabView'
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
 import HttpRequest from '../HttpRequest/HttpRequest'
 import CommitButton from '../common/CommitButton'
+import GroupMasterLinkView from './GroupMasterLinkView';
+import AgentRegisteredView from './AgentRegisteredView';
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 
@@ -25,7 +27,7 @@ export default class AddressView extends Component {
         super(props)
 
         this.state = {
-            name: Global.wxUserInfo.nickname,
+            name: Global.user_profile.nickname,
             mobile: null,
             address: null,
         }
@@ -40,13 +42,28 @@ export default class AddressView extends Component {
     componentDidMount() {
         if (Global.user_address) {
             this.setState({
-                name: Global.wxUserInfo.nickname,
+                name: Global.user_profile.nickname,
                 address: Global.user_address.address,
                 mobile: Global.user_address.phone_num
             })
         } 
     }
-
+    onToTabView(){
+        this.props.navigator.resetTo({
+            component: TabView,
+            name: 'MainPage'
+        })
+    }
+    onToMasterLinkView(){
+        this.props.navigator.push({
+            component: GroupMasterLinkView,
+        })
+    }
+    onToAgentRegistered(){
+        this.props.navigator.push({
+            component: AgentRegisteredView,
+        })
+    }
     startGroupBuy()
     {
         HttpRequest.post('/agent_order', this.props.api_param, this.onOrderSuccess.bind(this),
@@ -55,10 +72,21 @@ export default class AddressView extends Component {
                     var errorInfo = JSON.parse(e);
 
                     if (errorInfo != null &&  errorInfo.code == 4) {
-                        Alert.alert('提示','已申请过本次团购')
+
+                        Alert.alert('提示','已申请过本次团购', [
+
+
+                                {text: 'OK', onPress: this.onToMasterLinkView.bind(this)},
+                            ],
+                            { cancelable: false })
                         return
                     }else if (errorInfo != null && errorInfo.code == 3 ){
-                        Alert.alert('提示','用户不是团长')
+                        Alert.alert('提示','用户不是团长,是否去申请成为团长', [
+
+
+                                {text: 'OK', onPress: this.onToAgentRegistered.bind(this)},
+                            ],
+                            { cancelable: false })
                         return
                     }else if (errorInfo != null && errorInfo.code == 2 ){
                         Alert.alert('提示', '参数错误')
@@ -73,8 +101,10 @@ export default class AddressView extends Component {
     }
 
     onOrderSuccess(response) {
-        if (response.code == 1 && response.message == 'Success'){
 
+
+        if (response.code == 1 && response.message == 'Success'){
+            console.log('response.message:'+JSON.stringify(response))
 
             this.props.navigator.push({
                 component: GroupMasterLinkView,

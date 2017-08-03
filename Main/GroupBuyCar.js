@@ -72,7 +72,7 @@ export default class GroupBuyCar extends Component {
         //     }
         // })
 
-        if (Global.wxUserInfo){
+        if (Global.user_profile){
 
             var goodsIds = []
             this.state.gbDetail.group_buy_goods.map((item, i) => {

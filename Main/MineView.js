@@ -163,7 +163,7 @@ export default class MineView extends Component {
 
     }
     render() {
-        if (Global.wxUserInfo){
+        if (Global.user_profile){
             return (
                 <View style={styles.container}>
                     <View style={styles.headView}>
@@ -174,7 +174,9 @@ export default class MineView extends Component {
                             imageStyle={styles.logo}
                             src={this._displayIcon()}
                         />
-
+                        <View style={styles.centerLayout}>
+                            <Text style={styles.defaultText}>{Global.user_profile.nickname}</Text>
+                        </View>
                     </View>
 
                     <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
@@ -383,8 +385,8 @@ export default class MineView extends Component {
 
     _displayIcon() {
 
-        if (Global.wxUserInfo) {
-            return {uri: Global.wxUserInfo.headimgurl};
+        if (Global.user_profile) {
+            return {uri: Global.user_profile.headimgurl};
         } else {
             return require('../images/default_head.png');
         }

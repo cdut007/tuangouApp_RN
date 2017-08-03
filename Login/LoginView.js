@@ -14,7 +14,7 @@ import Dimensions from 'Dimensions';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NavBar from '../common/NavBar'
 import TabView from '../Main/TabView'
-
+var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 var index;
 export default class LoginView extends Component {
@@ -34,11 +34,12 @@ export default class LoginView extends Component {
         this.setState({
             loadingVisible: true
         });
-        var paramBody = JSON.stringify(
+
+        var paramBody = (
             {
-                'mobile': this.state.userName,
+                'username': this.state.userName,
                 'password': this.state.passWord,
-                'domain': 'uc'
+                'virtual_account': 1
             })
         if (!this.state.userName.length || !this.state.passWord.length) {
             this.setState({
@@ -48,7 +49,7 @@ export default class LoginView extends Component {
                 '请输入用户名或密码。')
         }
         else {
-            HttpRequest.post('/authuser', paramBody, this.onLoginSuccess.bind(this),
+            HttpRequest.post('/user', paramBody, this.onLoginSuccess.bind(this),
                 (e) => {
                     this.setState({
                         loadingVisible: false
@@ -80,35 +81,107 @@ export default class LoginView extends Component {
         }, 1000 * 15);
 
     }
+    onGetWxToken(appid, code) {
+        let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
 
+        fetch(url, {
+            method: 'GET',
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                console.log("responseText2:" + responseText);
+                var response = JSON.parse(responseText);
+                Global.wxToken = response;
+
+                AsyncStorage.setItem('k_wx_token_info', responseText, (error, result) => {
+                    if (error) {
+                        console.log('save k_wx_token_info faild.')
+                    }
+                })
+
+                this.onGetWxUserInfo(response.access_token, response.openid)
+            })
+            .catch(function (err) {
+                console.log('get wx token error:' + err)
+                alert('Login faild, please try again.2')
+            });
+    }
+
+    onGetWxUserInfo(token, openid) {
+        let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
+        fetch(url, {
+            method: 'GET',
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                console.log("responseText3:" + responseText);
+                var response = JSON.parse(responseText);
+                Global.wxUserInfo = response;
+
+                AsyncStorage.setItem('k_wx_user_info', responseText, (error, result) => {
+                    if (error) {
+                        console.log('save k_wx_user_info faild.')
+                    }
+                })
+
+                this.onLoginWithWxInfo(response)
+            })
+            .catch(function (err) {
+                console.log('get wx token error:' + err)
+                alert('Login faild, please try again.3')
+            });
+    }
     onLoginSuccess(response) {
         this.setState({
             loadingVisible: false
         });
 
-        console.log('Login success:' + JSON.stringify(response))
-        if (response.access_token.length) {
-            AsyncStorage.setItem('k_http_token', response.access_token, (error, result) => {
-                if (error) {
-                    console.log('save http token faild.')
-                }
 
-            });
-        }
+        // if (response.data.token.length) {
+        //     AsyncStorage.setItem('k_http_token', response.data.token, (error, result) => {
+        //         if (error) {
+        //             console.log('save http token faild.')
+        //         }
+        //
+        //     });
+        // }
+        //
+        // AsyncStorage.setItem('k_login_info', JSON.stringify(response), (error, result) => {
+        //     if (error) {
+        //         console.log('save login info faild.')
+        //     }
+        // });
+        console.log('login success'+JSON.stringify(response))
+        console.log('login successToken:'+response.data.token)
+        AsyncStorage.setItem('k_http_token',response.data.token, (error, result) => {
 
-        AsyncStorage.setItem('k_login_info', JSON.stringify(response), (error, result) => {
             if (error) {
-                console.log('save login info faild.')
+                console.log('save k_http_token faild.')
+            }else {
+                console.log('save k_http_token result:'+result)
             }
-        });
+        })
 
+        Global.token = response.data.token
+        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+            (e) => {
+                console.log(' usererror:' + e)
+            })
+
+
+    }
+    onGetUserInfoSuccess(response) {
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.nickname = response.data.user_profile.nickname
+        Global.headimgurl =response.data.user_profile.headimgurl
+        console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
         //show main view
         this.props.navigator.resetTo({
             component: TabView,
             name: 'MainPage'
         })
     }
-
     render() {
         return (
             <View style={styles.rootcontainer}>
@@ -119,7 +192,6 @@ export default class LoginView extends Component {
                         style={styles.userName}
                         value={this.state.userName}
                         editable={true}
-                        keyboardType="numeric"
                         placeholder={'用户名'}
                         onChangeText={(text) => this.setState({ userName: text })}>
                     </TextInput>

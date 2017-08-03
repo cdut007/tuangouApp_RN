@@ -90,7 +90,7 @@ export default class GroupBuyNowView extends Component {
                     title="拼团成功"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                <Text style={{ fontSize: 14, color: '#a9a9a9', padding: 40, marginTop: 20 }}>该链接为团长：{Global.wxUserInfo.nickname}团长高优良品购的专属链接
+                <Text style={{ fontSize: 14, color: '#a9a9a9', padding: 40, marginTop: 20 }}>该链接为团长：{Global.nickname}团长高优良品购的专属链接
 每次申请拼团后直接分享该链接至微信群即可
 团员点击链接购买的商品可在拼团中查看</Text>
                 <Text style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontSize: 14, color: '#1c1c1c', padding: 10, marginTop: 40 }}>{this.state.agent_url}</Text>

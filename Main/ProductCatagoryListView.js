@@ -300,7 +300,7 @@ export default class ProductCatagoryListView extends Component {
         })
 
         Global.gbDetail = this.props.groupBuyDetail
-        if (Global.wxUserInfo){
+        if (Global.user_profile){
             this.props.navigator.push({
                 component: GroupBuyCar,
                 props: {

@@ -163,7 +163,7 @@ export default class ProductDetail extends Component {
         console.log('k_cur_gbdetail:'+JSON.stringify(this.state.gbDetail))
         Global.gbDetail = this.state.gbDetail
 
-        if (Global.wxUserInfo){
+        if (Global.user_profile){
 
             this.props.navigator.push({
                 component: GroupBuyCar,

@@ -204,18 +204,18 @@ export default class Welcome extends Component {
                     用 心 为 您 精 挑 细 选
             </Text>
 
-
+            <View style={styles.btnView}>
                 <TouchableOpacity onPress={this.onLoginWXPress.bind(this)}
-                    style={styles.loginButton}>
+                                  style={styles.loginButton}>
                     <View style={styles.logincontainer}>
                         <Image style={{
                             resizeMode: 'contain', alignItems: 'center',
                             justifyContent: 'center',
                             flex: 1
                         }} source={require('../images/login_wechat.png')} />
-                        <Text style={[styles.loginText, { marginTop: 5 }]} >
+                        <Text style={[styles.loginWXText, { marginTop: 5 }]} >
                             微信登录
-                </Text>
+                        </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.onLoginPress.bind(this)}
@@ -226,11 +226,13 @@ export default class Welcome extends Component {
                             justifyContent: 'center',
                             flex: 1
                         }} source={require('../images/login_wechat.png')} />
-                        <Text style={[styles.loginText, { marginTop: 5 }]} >
-                            账户登录
+                        <Text style={[styles.loginAccountText, { marginTop: 5 }]} >
+                            账号登录
                         </Text>
                     </View>
                 </TouchableOpacity>
+            </View>
+
 
             </View>
         )
@@ -270,11 +272,27 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             backgroundColor: '#ebebeb',
         },
-
-        loginText:
+        btnView:
+            {
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                margin:50,
+            },
+        loginWXText:
         {
             color: '#8dc81b',
             fontSize: 14,
+            fontFamily:'PingFangSC-Light',
+            textAlign:'center'
+        },
+        loginAccountText:
+        {
+
+            color: 'rgb(219,105,24)',
+            fontSize: 14,
+            fontFamily:'PingFangSC-Light',
+            textAlign:'center'
         },
         labelText:
         {
@@ -286,11 +304,10 @@ const styles = StyleSheet.create(
 
         loginButton:
         {
-            margin: 30,
             height: 100,
             width: width / 2 - 40,
             flexDirection: 'row',
             justifyContent: 'center',
-            alignItems: 'center',
+
         },
     });

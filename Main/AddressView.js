@@ -24,7 +24,7 @@ export default class AddressView extends Component {
         super(props)
 
         this.state = {
-            name: Global.wxUserInfo.nickname,
+            name: Global.user_profile.nickname,
             mobile: null,
             address: null,
         }
@@ -39,7 +39,7 @@ export default class AddressView extends Component {
     componentDidMount() {
         if (Global.user_address) {
             this.setState({
-                name: Global.wxUserInfo.nickname,
+                name: Global.user_profile.nickname,
                 address: Global.user_address.address,
                 mobile: Global.user_address.phone_num
             })
