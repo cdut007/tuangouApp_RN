@@ -225,7 +225,7 @@ export default class Welcome extends Component {
                             resizeMode: 'contain', alignItems: 'center',
                             justifyContent: 'center',
                             flex: 1
-                        }} source={require('../images/login_wechat.png')} />
+                        }} source={require('../images/loginAccount.png')} />
                         <Text style={[styles.loginAccountText, { marginTop: 5 }]} >
                             账号登录
                         </Text>
