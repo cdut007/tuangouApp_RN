@@ -24,14 +24,32 @@ export default class Welcome extends Component {
     constructor(props) {
         super(props)
         index = this.props.index;
-        isIOS = true;
+        isIOS = false;
+        this.state = {
+            isHaveWX : true,
+        }
     }
-    state =
-    {
-
-    }
 
 
+
+componentDidMount() {
+    WeChat.isWXAppInstalled()
+        .then((isInstalled) => {
+            if (isInstalled){
+                this.setState({
+                    isHaveWX : true,
+
+                })
+                console.log('isHaveWX1 :'+this.state.isHaveWX)
+            }else {
+                this.setState({
+                    isHaveWX : false,
+                })
+                console.log('isHaveWX2 :'+this.state.isHaveWX)
+            }
+        });
+
+}
     onLoginWXPress() {
         WeChat.isWXAppInstalled()
             .then((isInstalled) => {
@@ -187,7 +205,8 @@ export default class Welcome extends Component {
         })
     }
     renderBtnView(){
-        if (isIOS === true){
+        console.log(' isIOS1:' + isIOS)
+        if (this.state.isHaveWX === true && isIOS === true){
             return(
                 <View style={styles.btnView}>
 
@@ -219,7 +238,7 @@ export default class Welcome extends Component {
                     </TouchableOpacity>
                 </View>
             )
-        }else {
+        }else if(this.state.isHaveWX === true && isIOS === false){
             return(
                 <View style={styles.btnView}>
 
@@ -233,6 +252,26 @@ export default class Welcome extends Component {
                         }} source={require('../images/login_wechat.png')} />
                             <Text style={[styles.loginWXText, { marginTop: 5 }]} >
                                 微信登录
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+            )
+        }else {
+            return(
+                <View style={styles.btnView}>
+
+                    <TouchableOpacity onPress={this.onLoginPress.bind(this)}
+                                      style={styles.loginButton}>
+                        <View style={styles.logincontainer}>
+                            <Image style={{
+                            resizeMode: 'contain', alignItems: 'center',
+                            justifyContent: 'center',
+                            flex: 1
+                        }} source={require('../images/loginAccount.png')} />
+                            <Text style={[styles.loginAccountText, { marginTop: 5 }]} >
+                                账号登录
                             </Text>
                         </View>
                     </TouchableOpacity>

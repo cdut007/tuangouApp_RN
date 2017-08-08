@@ -13,7 +13,8 @@ import {
 import Dimensions from 'Dimensions';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NavBar from '../common/NavBar'
-
+import TabView from '../Main/TabView'
+var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 var index;
 export default class RegisterView extends Component
@@ -35,40 +36,44 @@ export default class RegisterView extends Component
     {
         console.log('username:' + this.state.userName + '  password:' + this.state.passWord)
         this.setState({
-                    loadingVisible: true
-                });
-        var paramBody = JSON.stringify(
-        {
-            'mobile': this.state.userName,
-            'password': this.state.passWord,
-            'domain': 'uc'
-        })
-        if(!this.state.userName.length || !this.state.passWord.length)
-        {
+            loadingVisible: true
+        });
+
+        var paramBody = (
+            {
+                'username': 'Mike.zk',
+                'password': '1234567a',
+                'virtual_account': 1
+            })
+        if (!this.state.userName.length || !this.state.passWord.length) {
             this.setState({
+                loadingVisible: false
+            });
+            Alert.alert('提示',
+                '请输入用户名或密码。')
+        }
+        else {
+            HttpRequest.post('/user', paramBody, this.onLoginSuccess.bind(this),
+                (e) => {
+                    this.setState({
                         loadingVisible: false
                     });
-            Alert.alert('提示','请输入用户名或密码')
+                    try {
+                        var errorInfo = JSON.parse(e);
+                        if (errorInfo != null && errorInfo.description) {
 
+                        } else {
+
+                        }
+                    }
+                    catch(err)
+                    {
+                        console.log(err)
+                    }
+
+                    console.log('Login error:' + e)
+                })
         }
-        else
-        {
-            HttpRequest.post('/authuser', paramBody,this.onLoginSuccess.bind(this),
-            (e)=>
-            {
-                this.setState({
-                    loadingVisible: false
-                });
-                var errorInfo = JSON.parse(e);
-                if (errorInfo!=null && errorInfo.description) {
-
-                }else{
-
-                }
-                console.log('Login error:' + e)
-            })
-        }
-
         setTimeout(() => {//logout timeout  15s
                 if (this.state.loadingVisible == true) {
                     this.setState({
@@ -86,29 +91,36 @@ export default class RegisterView extends Component
                     loadingVisible: false
                 });
 
-        console.log('Login success:' + JSON.stringify(response))
-        if(response.access_token.length)
-        {
-            AsyncStorage.setItem('k_http_token',response.access_token,(error,result)=>{
-                if (error)
-                {
-                    console.log('save http token faild.')
-                }
+        console.log('login success'+JSON.stringify(response))
+        console.log('login successToken:'+response.data.token)
+        AsyncStorage.setItem('k_http_token',response.data.token, (error, result) => {
 
-            });
-        }
-
-        AsyncStorage.setItem('k_login_info',JSON.stringify(response), (error,result)=>{
-            if (error)
-            {
-                console.log('save login info faild.')
+            if (error) {
+                console.log('save k_http_token faild.')
+            }else {
+                console.log('save k_http_token result:'+result)
             }
-        });
+        })
 
-        //show main view
-        index.setState({hasLogin: true})
+        Global.token = response.data.token
+        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+            (e) => {
+                console.log(' usererror:' + e)
+            })
+
     }
-
+    onGetUserInfoSuccess(response) {
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.nickname = response.data.user_profile.nickname
+        Global.headimgurl =response.data.user_profile.headimgurl
+        console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
+        //show main view
+        this.props.navigator.resetTo({
+            component: TabView,
+            name: 'MainPage'
+        })
+    }
     render()
     {
         return (
@@ -117,25 +129,25 @@ export default class RegisterView extends Component
             <View style = {styles.container}>
              <Image source={require('../images/logo_icon.png') } style={styles.logo}/>
 
-             <TextInput
-                 style = {styles.userName}
-                 value = {this.state.userName}
-                 editable = {true}
-                 placeholder = {'昵称'}
-                 onChangeText = {(text) => this.setState({userName: text})}>
-             </TextInput>
+             {/*<TextInput*/}
+                 {/*style = {styles.userName}*/}
+                 {/*value = {this.state.userName}*/}
+                 {/*editable = {true}*/}
+                 {/*placeholder = {'昵称'}*/}
+                 {/*onChangeText = {(text) => this.setState({userName: text})}>*/}
+             {/*</TextInput>*/}
 
                 <TextInput
                     style = {styles.userName}
-                    value = {this.state.mobile}
+
                     editable = {true}
-                    keyboardType="numeric"
-                    placeholder = {'你的手机号码'}
+
+                    placeholder = {'你的用户名'}
                     onChangeText = {(text) => this.setState({userName: text})}>
                 </TextInput>
                 <TextInput
                     style = {styles.passWord}
-                    value = {this.state.passWord}
+
                     editable = {true}
                     secureTextEntry = {true}
                     placeholder = {'密码'}
@@ -144,7 +156,7 @@ export default class RegisterView extends Component
                 <TouchableOpacity onPress={this.onLoginPress.bind(this)}
                     style={styles.loginButton}>
                     <Text style={styles.loginText} >
-                        登录
+                        注册并登录
                     </Text>
                 </TouchableOpacity>
                 <Spinner

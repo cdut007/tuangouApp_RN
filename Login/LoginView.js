@@ -14,6 +14,7 @@ import Dimensions from 'Dimensions';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NavBar from '../common/NavBar'
 import TabView from '../Main/TabView'
+import RegisterView from './RegisterView'
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
 var index;
@@ -185,11 +186,17 @@ export default class LoginView extends Component {
     clickBack() {
         this.props.navigator.pop()
     }
+    registerPress(){
+        this.props.navigator.push({
+            component: RegisterView,
+
+        })
+    }
     render() {
         return (
             <View style={styles.rootcontainer}>
                 <NavBar title="登录" leftIcon={require('../images/back.png')}
-                        leftPress={this.clickBack.bind(this)}/>
+                        leftPress={this.clickBack.bind(this)} rightTitle={'注册'} rightPress={this.registerPress.bind(this)} />
                 <View style={styles.container}>
                     <Image source={require('../images/logo_icon.png')} style={styles.logo} />
                     <TextInput
