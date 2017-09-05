@@ -13,7 +13,7 @@ import {
     Clipboard,
     Alert
 } from 'react-native';
-
+var test = false
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
 import Welcome from '../Login/Welcome'
@@ -27,11 +27,36 @@ export default class GroupMasterLinkView extends Component {
         this.state =  {
 
             agent_url: '',
-            image: ''
+            image: '',
+            group_buy_info:this.props.group_buy_info
+        }
+        if (test){
+            var pos = Global.agent_url.indexOf("?");
+            if (pos!= -1) {
+                var str = Global.agent_url.substr(pos+1);
+                var agent_code = this.getQueryString('agent_code',str);
+                console.log('url agent_code='+agent_code);
+                this.state.agent_url = 'http://www.ailinkgo.com/testing/?agent_code='+agent_code
+            }
+
+        }else {
+            this.state.agent_url = Global.agent_url
         }
 
     }
-
+    getQueryString(name,url) {
+        if (!url) {
+            return null
+        }
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); // 匹配目标参数
+        var result = url.match(reg);  // 对querystring匹配目标参数
+        console.log('url result='+url);
+        if (result != null) {
+            return decodeURIComponent(result[2]);
+        } else {
+            return null;
+        }
+    }
 
     back() {
         this.props.navigator.pop()
@@ -68,28 +93,31 @@ export default class GroupMasterLinkView extends Component {
         }
 
         onCopyPress(){
-            Clipboard.setString(Global.agent_url);
+
+            Clipboard.setString(this.state.agent_url);
             Alert.alert('提示','链接已复制到剪切板！');
         }
 
         onSharePress(){
-            WeChat.isWXAppInstalled()
-                .then((isInstalled) => {
-                if (isInstalled){
-                    WeChat.shareToSession({
-                        type:'news',
-                        title:'爱邻购团长链接分享',
-                        description:'分享自:'+Global.nickname ,
-                        webpageUrl:Global.agent_url,
-                        thumbImage: Global.headimgurl,
-                     }).cache((error) =>{
-                         ToastShort(error.message);
-                     });
-                 }else {
-                     ToastShort('没有安装微信软件，请您安装微信之后再试');
 
-                 }
-                });
+            WeChat.isWXAppInstalled()
+                 .then((isInstalled) => {
+                 if (isInstalled){
+                     WeChat.shareToSession({
+                         type:'news',
+                         title:this.state.group_buy_info[0].classify_name,
+                         description:this.state.group_buy_info[0].classify_desc ,
+                         webpageUrl:this.state.agent_url,
+                         thumbImage: Global.headimgurl,
+                      }).cache((error) =>{
+                          ToastShort(error.message);
+                      });
+                  }else {
+                      ToastShort('没有安装微信软件，请您安装微信之后再试');
+
+                  }
+                 });
+
 
         }
 
@@ -107,7 +135,7 @@ export default class GroupMasterLinkView extends Component {
                     <Text style={{fontSize:14,color:'#a9a9a9',marginTop:0,textAlign:'center',fontFamily:'PingFangSC-Regular'}}>团员点击链接购买的商品可在拼团中查看 </Text>
                 </View>
 
-                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:10}}>{Global.agent_url}</Text>
+                    <Text style={{alignItems:'center',justifyContent:'center',textAlign:'center',fontSize:14,color:'#1c1c1c',padding:10,marginTop:10}}>{this.state.agent_url}</Text>
                     <View style={{flex:1,marginTop:50,justifyContent:'center',flexDirection:'row'}}>
 
                                         <TouchableOpacity style={{

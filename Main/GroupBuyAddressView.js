@@ -30,6 +30,8 @@ export default class AddressView extends Component {
             name: Global.user_profile.nickname,
             mobile: null,
             address: null,
+            group_buy_info:[]
+
         }
 
     }
@@ -57,6 +59,9 @@ export default class AddressView extends Component {
     onToMasterLinkView(){
         this.props.navigator.push({
             component: GroupMasterLinkView,
+            props: {
+                group_buy_info:this.state.group_buy_info
+            }
         })
     }
     onToAgentRegistered(){
@@ -70,13 +75,13 @@ export default class AddressView extends Component {
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
-
+                    console.log('erroinfo1'+e)
                     if (errorInfo != null &&  errorInfo.code == 4) {
-
+                        this.state.group_buy_info = errorInfo.data.group_buy_info
                         Alert.alert('提示','已申请过本次团购', [
 
 
-                                {text: 'OK', onPress: this.onToMasterLinkView.bind(this)},
+                                {text: 'OK', onPress: this.onToMasterLinkView().bind(this)},
                             ],
                             { cancelable: false })
                         return
@@ -104,10 +109,16 @@ export default class AddressView extends Component {
 
 
         if (response.code == 1 && response.message == 'Success'){
-            console.log('response.message:'+JSON.stringify(response))
-
+            console.log('response.message32:'+JSON.stringify(response))
+            this.state.group_buy_info = response.data.group_buy_info
             this.props.navigator.push({
                 component: GroupMasterLinkView,
+                props: {
+                    api_param: param,
+                    image: this.state.gbDetail.classify.image,
+                    group_buy_info:this.state.group_buy_info
+
+                }
             })
         }
 

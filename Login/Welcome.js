@@ -9,6 +9,8 @@ import {
     Image,
     Alert,
     Platform,
+    ActivityIndicator
+
 } from 'react-native';
 var  WeChat = require('react-native-wechat');
 import Dimensions from 'Dimensions';

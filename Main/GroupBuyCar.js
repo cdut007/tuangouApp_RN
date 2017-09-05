@@ -98,7 +98,8 @@ export default class GroupBuyCar extends Component {
                     component: GroupBuyAddressView,
                     props: {
                         api_param: param,
-                        image: this.state.gbDetail.classify.image
+                        image: this.state.gbDetail.classify.image,
+
                     }
                 })
             }
@@ -250,6 +251,7 @@ export default class GroupBuyCar extends Component {
         }
         return displayCategoryAry;
     }
+    
 
     renderItemInfo(item, w, h) {
 

@@ -122,6 +122,7 @@ export default class AddressView extends Component {
 
 
                 </View>
+                <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(212,212,212)'}}></View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
                     <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
@@ -137,7 +138,7 @@ export default class AddressView extends Component {
                     ></TextInput>
 
                 </View>
-
+                <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(212,212,212)'}}></View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
                     <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
                         收货地址
