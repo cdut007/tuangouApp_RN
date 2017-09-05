@@ -78,6 +78,7 @@ export default class AddressView extends Component {
                     console.log('erroinfo1'+e)
                     if (errorInfo != null &&  errorInfo.code == 4) {
                         this.state.group_buy_info = errorInfo.data.group_buy_info
+                        Global.group_buy_info = this.state.group_buy_info
                         Alert.alert('提示','已申请过本次团购', [
 
 
@@ -111,6 +112,7 @@ export default class AddressView extends Component {
         if (response.code == 1 && response.message == 'Success'){
             console.log('response.message32:'+JSON.stringify(response))
             this.state.group_buy_info = response.data.group_buy_info
+            Global.group_buy_info = this.state.group_buy_info
             this.props.navigator.push({
                 component: GroupMasterLinkView,
                 props: {

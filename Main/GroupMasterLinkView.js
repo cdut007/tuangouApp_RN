@@ -99,24 +99,45 @@ export default class GroupMasterLinkView extends Component {
         }
 
         onSharePress(){
+            console.log('onSharePress11'+JSON.stringify(Global.group_buy_info))
+            if (Global.group_buy_info!= null){
+                WeChat.isWXAppInstalled()
+                    .then((isInstalled) => {
+                        if (isInstalled){
+                            WeChat.shareToSession({
+                                type:'news',
+                                title:Global.group_buy_info[0].classify_name,
+                                description:Global.group_buy_info[0].classify_desc ,
+                                webpageUrl:this.state.agent_url,
+                                thumbImage: Global.headimgurl,
+                            }).cache((error) =>{
+                                ToastShort(error.message);
+                            });
+                        }else {
+                            ToastShort('没有安装微信软件，请您安装微信之后再试');
 
-            WeChat.isWXAppInstalled()
-                 .then((isInstalled) => {
-                 if (isInstalled){
-                     WeChat.shareToSession({
-                         type:'news',
-                         title:this.state.group_buy_info[0].classify_name,
-                         description:this.state.group_buy_info[0].classify_desc ,
-                         webpageUrl:this.state.agent_url,
-                         thumbImage: Global.headimgurl,
-                      }).cache((error) =>{
-                          ToastShort(error.message);
-                      });
-                  }else {
-                      ToastShort('没有安装微信软件，请您安装微信之后再试');
+                        }
+                    });
+            }else {
+                WeChat.isWXAppInstalled()
+                    .then((isInstalled) => {
+                        if (isInstalled){
+                            WeChat.shareToSession({
+                                type:'news',
+                                title:'扑面而来',
+                                description:'牛车水扑面而来做新加坡最好吃，最健康的馒头' ,
+                                webpageUrl:this.state.agent_url,
+                                thumbImage: Global.headimgurl,
+                            }).cache((error) =>{
+                                ToastShort(error.message);
+                            });
+                        }else {
+                            ToastShort('没有安装微信软件，请您安装微信之后再试');
 
-                  }
-                 });
+                        }
+                    });
+            }
+
 
 
         }
