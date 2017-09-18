@@ -26,8 +26,8 @@ class Panel extends Component{
         super(props);
 
         this.icons = {
-            'up'    : require('../images/back@2x.png'),
-            'down'  : require('../images/next_icon@2x.png')
+            'up'    : require('../images/foldIcon@2x.png'),
+            'down'  : require('../images/unfoldIcon@2x.png')
         };
 
         this.state = {
@@ -180,8 +180,8 @@ var styles = StyleSheet.create({
 
     },
     buttonImage : {
-        width   : 38,
-        height  : 38,
+        width   : 36,
+        height  : 36,
 
     },
     body        : {

@@ -84,7 +84,7 @@ export default class OrderUserDetailView extends Component{
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="品质水果"
+                <NavBar title={this.props.gbDetail.classify.name}
                         leftIcon={require('../images/back.png')}
                         leftPress={this.clickBack.bind(this)} />
                 {this.renderOrderUserListView(this.state.order_detail)}
