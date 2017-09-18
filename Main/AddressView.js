@@ -45,7 +45,7 @@ export default class AddressView extends Component {
             })
         }
         else {
-            HttpRequest.get('/user_address', {}, this.onGetAddressSuccess.bind(this),
+            HttpRequest.get('/v1','/user_address', {}, this.onGetAddressSuccess.bind(this),
                 (e) => {
                     console.log(' error:' + e)
                 })

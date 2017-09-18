@@ -50,7 +50,7 @@ export default class LoginView extends Component {
                 '请输入用户名或密码。')
         }
         else {
-            HttpRequest.post('/user', paramBody, this.onLoginSuccess.bind(this),
+            HttpRequest.post('/v1','/user', paramBody, this.onLoginSuccess.bind(this),
                 (e) => {
                     this.setState({
                         loadingVisible: false
@@ -164,7 +164,7 @@ export default class LoginView extends Component {
         })
 
         Global.token = response.data.token
-        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+        HttpRequest.get('/v1','/user', {}, this.onGetUserInfoSuccess.bind(this),
             (e) => {
                 console.log(' usererror:' + e)
             })

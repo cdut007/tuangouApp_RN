@@ -66,7 +66,7 @@ export default class HomeView extends Component {
 
     fetchProductList(){
         var paramBody ={ }
-        HttpRequest.get('/home_page_list', paramBody, this.onProudctListSuccess.bind(this),
+        HttpRequest.get('/v1','/home_page_list', paramBody, this.onProudctListSuccess.bind(this),
             (e) => {
 
                 try {
@@ -89,7 +89,7 @@ export default class HomeView extends Component {
 
      fetchBanner(){
          var paramBody ={ }
-         HttpRequest.get('/banner', paramBody, this.onBannerSuccess.bind(this),
+         HttpRequest.get('/v1','/banner', paramBody, this.onBannerSuccess.bind(this),
              (e) => {
 
                  try {

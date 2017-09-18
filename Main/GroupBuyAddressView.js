@@ -15,12 +15,13 @@ import {
 import TabView from '../Main/TabView'
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
+var width = Dimensions.get('window').width;
 import HttpRequest from '../HttpRequest/HttpRequest'
 import CommitButton from '../common/CommitButton'
 import GroupMasterLinkView from './GroupMasterLinkView';
 import AgentRegisteredView from './AgentRegisteredView';
 var Global = require('../common/globals');
-var width = Dimensions.get('window').width;
+
 
 export default class AddressView extends Component {
     constructor(props) {

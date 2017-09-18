@@ -4,10 +4,10 @@ import { AsyncStorage } from 'react-native';
 var httpToken = ''
 var Global = require('../common/globals');
 // const apiAddr = 'http://47.88.139.113:3000/api/v1'
-const apiAddr = 'http://www.ailinkgo.com:3000/api/v1'
+const apiAddr = 'http://www.ailinkgo.com:3000/api'
 // const apiAddr = Global.BASE_URL;
 module.exports = {
-    get(apiName, body, successCallback, failCallback) {
+    get(verssion,apiName, body, successCallback, failCallback) {
         if (!httpToken || !httpToken.length) {
             httpToken = Global.token;
 
@@ -20,10 +20,16 @@ module.exports = {
                     console.log('get http token error:' + errs)
                 }
             });
-        } 
-
+        }
         var param = ""
-        var url = apiAddr + apiName + '?format=json'
+        var url = ''
+        if (verssion == '/v2'){
+            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
+        }else {
+            url = apiAddr + verssion+apiName + '?format=json'
+        }
+
+
         for (var element in body) {
             param += element + "=" + body[element] + "&";
         }
@@ -56,7 +62,7 @@ module.exports = {
 
     },
 
-    post(apiName, body, successCallback, failCallback) {
+    post(verssion,apiName, body, successCallback, failCallback) {
         if (!httpToken || !httpToken.length) {
             httpToken = Global.token;
 
@@ -71,7 +77,13 @@ module.exports = {
             });
         }
 
-        var url = apiAddr + apiName
+
+        var url = ''
+        if (verssion == '/v2'){
+            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
+        }else {
+            url = apiAddr + verssion+apiName + '?format=json'
+        }
         try {
             console.log('Post requesr:' + url + ":[param body]=" + JSON.stringify(body))
         } catch (e) {

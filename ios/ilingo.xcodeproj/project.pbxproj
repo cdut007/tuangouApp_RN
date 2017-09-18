@@ -1228,7 +1228,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ultralinked.ilingo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ultralinked.ilingotest;
 				PRODUCT_NAME = ilingo;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1258,7 +1258,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ultralinked.ilingo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ultralinked.ilingotest;
 				PRODUCT_NAME = ilingo;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

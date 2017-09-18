@@ -101,127 +101,128 @@ export default class MainView extends Component {
         });
     };
 
-    onLoginPress() {
-        WeChat.sendAuthRequest('snsapi_userinfo', '63a7a33c0b5b75d1f44b8edb7a4ea7cd').then(res => {
-            console.log('wx login result=' + JSON.stringify(res));
+    // onLoginPress() {
+    //     WeChat.sendAuthRequest('snsapi_userinfo', '63a7a33c0b5b75d1f44b8edb7a4ea7cd').then(res => {
+    //         console.log('wx login result=' + JSON.stringify(res));
+    //
+    //         if (res.errCode == 0) {
+    //             AsyncStorage.setItem('k_wx_auth_info', JSON.stringify(res), (error, result) => {
+    //                 if (error) {
+    //                     console.log('save k_wx_auth_info faild.')
+    //                 }
+    //             })
+    //             Global.wxAuth = res;
+    //             this.onGetWxToken('wx22795e8274245d59', res.code)
+    //         }
+    //         else {
+    //             alert('Login faild, please try again.1')
+    //         }
+    //     })
+    // }
+    // onGetWxToken(appid, code) {
+    //     let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
+    //
+    //     fetch(url, {
+    //         method: 'GET',
+    //     })
+    //         .then((response) => response.text())
+    //         .then((responseText) => {
+    //             console.log("responseText2:" + responseText);
+    //             var response = JSON.parse(responseText);
+    //             Global.wxToken = response;
+    //
+    //             AsyncStorage.setItem('k_wx_token_info', responseText, (error, result) => {
+    //                 if (error) {
+    //                     console.log('save k_wx_token_info faild.')
+    //                 }
+    //             })
+    //
+    //             this.onGetWxUserInfo(response.access_token, response.openid)
+    //         })
+    //         .catch(function (err) {
+    //             console.log('get wx token error:' + err)
+    //             alert('Login faild, please try again.2')
+    //         });
+    // }
 
-            if (res.errCode == 0) {
-                AsyncStorage.setItem('k_wx_auth_info', JSON.stringify(res), (error, result) => {
-                    if (error) {
-                        console.log('save k_wx_auth_info faild.')
-                    }
-                })
-                Global.wxAuth = res;
-                this.onGetWxToken('wx22795e8274245d59', res.code)
-            }
-            else {
-                alert('Login faild, please try again.1')
-            }
-        })
-    }
-    onGetWxToken(appid, code) {
-        let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
+    // onGetWxUserInfo(token, openid) {
+    //     let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
+    //     fetch(url, {
+    //         method: 'GET',
+    //     })
+    //         .then((response) => response.text())
+    //         .then((responseText) => {
+    //             console.log("responseText3:" + responseText);
+    //             var response = JSON.parse(responseText);
+    //             Global.wxUserInfo = response;
+    //
+    //             AsyncStorage.setItem('k_wx_user_info', responseText, (error, result) => {
+    //                 if (error) {
+    //                     console.log('save k_wx_user_info faild.')
+    //                 }
+    //             })
+    //
+    //             this.onLoginWithWxInfo(response)
+    //         })
+    //         .catch(function (err) {
+    //             console.log('get wx token error:' + err)
+    //             alert('Login faild, please try again.3')
+    //         });
+    // }
 
-        fetch(url, {
-            method: 'GET',
-        })
-            .then((response) => response.text())
-            .then((responseText) => {
-                console.log("responseText2:" + responseText);
-                var response = JSON.parse(responseText);
-                Global.wxToken = response;
-
-                AsyncStorage.setItem('k_wx_token_info', responseText, (error, result) => {
-                    if (error) {
-                        console.log('save k_wx_token_info faild.')
-                    }
-                })
-
-                this.onGetWxUserInfo(response.access_token, response.openid)
-            })
-            .catch(function (err) {
-                console.log('get wx token error:' + err)
-                alert('Login faild, please try again.2')
-            });
-    }
-
-    onGetWxUserInfo(token, openid) {
-        let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
-        fetch(url, {
-            method: 'GET',
-        })
-            .then((response) => response.text())
-            .then((responseText) => {
-                console.log("responseText3:" + responseText);
-                var response = JSON.parse(responseText);
-                Global.wxUserInfo = response;
-
-                AsyncStorage.setItem('k_wx_user_info', responseText, (error, result) => {
-                    if (error) {
-                        console.log('save k_wx_user_info faild.')
-                    }
-                })
-
-                this.onLoginWithWxInfo(response)
-            })
-            .catch(function (err) {
-                console.log('get wx token error:' + err)
-                alert('Login faild, please try again.3')
-            });
-    }
-
-    onLoginWithWxInfo(userInfo) {
-        HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
-            (e) => {
-                try {
-                    var errorInfo = JSON.parse(e);
-                    console.log(errorInfo.description)
-                    if (errorInfo != null && errorInfo.description) {
-                        console.log(errorInfo.description)
-                    } else {
-                        console.log(e)
-                    }
-                }
-                catch (err) {
-                    console.log(err)
-                }
-
-                console.log(' error:' + e)
-                alert('Login faild, please try again.4')
-            })
-    }
-    onLoginSuccess(response) {
-
-        console.log('login success'+JSON.stringify(response))
-        console.log('login successToken:'+response.data.token)
-        AsyncStorage.setItem('k_http_token',response.data.token, (error, result) => {
-
-            if (error) {
-                console.log('save k_http_token faild.')
-            }else {
-                console.log('save k_http_token result:'+result)
-            }
-        })
-
-        Global.token = response.data.token
-
-        this.props.navigator.resetTo({
-            component: TabView,
-            name: 'MainPage'
-        })
-        // HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
-        //     (e) => {
-        //         console.log(' usererror:' + e)
-        //     })
-
-
-    }
+    // onLoginWithWxInfo(userInfo) {
+    //     HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
+    //         (e) => {
+    //             try {
+    //                 var errorInfo = JSON.parse(e);
+    //                 console.log(errorInfo.description)
+    //                 if (errorInfo != null && errorInfo.description) {
+    //                     console.log(errorInfo.description)
+    //                 } else {
+    //                     console.log(e)
+    //                 }
+    //             }
+    //             catch (err) {
+    //                 console.log(err)
+    //             }
+    //
+    //             console.log(' error:' + e)
+    //             alert('Login faild, please try again.4')
+    //         })
+    // }
+    // onLoginSuccess(response) {
+    //
+    //     console.log('login success'+JSON.stringify(response))
+    //     console.log('login successToken:'+response.data.token)
+    //     AsyncStorage.setItem('k_http_token',response.data.token, (error, result) => {
+    //
+    //         if (error) {
+    //             console.log('save k_http_token faild.')
+    //         }else {
+    //             console.log('save k_http_token result:'+result)
+    //         }
+    //     })
+    //
+    //     Global.token = response.data.token
+    //
+    //     this.props.navigator.resetTo({
+    //         component: TabView,
+    //         name: 'MainPage'
+    //     })
+    //     // HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+    //     //     (e) => {
+    //     //         console.log(' usererror:' + e)
+    //     //     })
+    //
+    //
+    // }
     onGetUserInfoSuccess(response) {
         Global.user_profile = response.data.user_profile
         Global.agent_url = response.data.user_profile.agent_url
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
         console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
+
         this.props.navigator.resetTo({
             component: TabView,
             name: 'MainPage'
@@ -236,16 +237,16 @@ export default class MainView extends Component {
                 Global.token = result
                 me.setState({ hasLogin: true })
 
-                console.log('get k_http_token:' + result)
 
 
-                HttpRequest.get('/user_address', {}, me.onGetAddressSuccess.bind(me),
+
+                HttpRequest.get('/v1','/user_address', {}, me.onGetAddressSuccess.bind(me),
                     (e) => {
-                        console.log(' error:' + e)
+
                     })
-                HttpRequest.get('/user', {}, me.onGetUserInfoSuccess.bind(me),
+                HttpRequest.get('/v1','/user', {}, me.onGetUserInfoSuccess.bind(me),
                     (e) => {
-                        console.log(' usererror:' + e)
+                        // alert.log(' usererror:' + e)
                     })
             }
             else {

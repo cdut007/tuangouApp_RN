@@ -50,7 +50,7 @@ export default class ProductCatagoryListViewTab extends Component {
 
 
         let param = { classify: this.props.prouduct.index }
-        HttpRequest.get('/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
+        HttpRequest.get('/v1','/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
 
                 console.log(' group_buy_listerro:' + e)
@@ -81,7 +81,7 @@ export default class ProductCatagoryListViewTab extends Component {
             for (var j = 0;j <response.data.group_buy.length; j++){
                 var paramBody = { group_buy: this.state.gbList.group_buy[j].id }
                 console.log('group_buy:'+JSON.stringify(paramBody));
-                HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+                HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
                     (e) => {
                         Alert.alert('提示','获取团购详情失败，请稍后重试.')
 

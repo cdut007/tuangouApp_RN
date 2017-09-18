@@ -33,6 +33,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
+import OrderUserDetailView from './OrderUserDetailView'
 import moment from 'moment';
 
 
@@ -58,7 +59,7 @@ export default class GroupOrderListView extends Component {
         let orderStatus = this.props.isDoneStatus ? 1 : 0
         let param = { status: orderStatus }
         console.log('orderStatus:' +orderStatus)
-        HttpRequest.get('/agent_order', param, this.onGetListSuccess.bind(this),
+        HttpRequest.get('/v1','/agent_order', param, this.onGetListSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e)
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
@@ -102,7 +103,15 @@ export default class GroupOrderListView extends Component {
             component: GroupOrderDetailView,
         })
     }
+    onOrderUserClick(prouductItems){
+        this.props.navigator.push({
+            props: {
+                gbDetail: prouductItems,
+            },
+            component: OrderUserDetailView,
+        })
 
+}
     renderGroupOrderListView() {
         return (<ScrollView
             keyboardDismissMode='on-drag'
@@ -197,6 +206,7 @@ export default class GroupOrderListView extends Component {
             }}>
                 <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
                 <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
+                <Image style={{position: 'absolute',width:36,height:36,right:0,top:35}} source={require('../images/next_icon@2x.png')}></Image>
                 <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                     <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
                     <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购：{item.purchased}件</Text>
@@ -219,7 +229,7 @@ export default class GroupOrderListView extends Component {
         let renderSwipeView = (types, n) => {
             return (
                 <View style={styles.toolsView}>
-                    <TouchableOpacity style={{ width: w, height: h }} onPress={this.onItemsClick.bind(this, prouductItems)}>{render()}</TouchableOpacity>
+                    <TouchableOpacity style={{ width: w, height: h }} onPress={this.onOrderUserClick.bind(this, prouductItems)}>{render()}</TouchableOpacity>
                 </View>
             )
         }

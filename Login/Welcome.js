@@ -154,7 +154,7 @@ componentDidMount() {
     }
 
     onLoginWithWxInfo(userInfo) {
-        HttpRequest.post('/user', userInfo, this.onLoginSuccess.bind(this),
+        HttpRequest.post('/v1','/user', userInfo, this.onLoginSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
@@ -188,7 +188,7 @@ componentDidMount() {
         })
 
         Global.token = response.data.token
-        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+        HttpRequest.get('/v1','/user', {}, this.onGetUserInfoSuccess.bind(this),
             (e) => {
                 console.log(' usererror:' + e)
             })
@@ -210,35 +210,53 @@ componentDidMount() {
         console.log(' isIOS1:' + isIOS)
         if (this.state.isHaveWX === true && isIOS === true){
             return(
-                <View style={styles.btnView}>
 
-                    <TouchableOpacity onPress={this.onLoginWXPress.bind(this)}
-                                      style={styles.loginButton}>
-                        <View style={styles.logincontainer}>
-                            <Image style={{
+            <View style={styles.btnView}>
+
+                <TouchableOpacity onPress={this.onLoginWXPress.bind(this)}
+                                  style={styles.loginButton}>
+                    <View style={styles.logincontainer}>
+                        <Image style={{
                             resizeMode: 'contain', alignItems: 'center',
                             justifyContent: 'center',
                             flex: 1
                         }} source={require('../images/login_wechat.png')} />
-                            <Text style={[styles.loginWXText, { marginTop: 5 }]} >
-                                微信登录
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.onLoginPress.bind(this)}
-                                      style={styles.loginButton}>
-                        <View style={styles.logincontainer}>
-                            <Image style={{
-                            resizeMode: 'contain', alignItems: 'center',
-                            justifyContent: 'center',
-                            flex: 1
-                        }} source={require('../images/loginAccount.png')} />
-                            <Text style={[styles.loginAccountText, { marginTop: 5 }]} >
-                                账号登录
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={[styles.loginWXText, { marginTop: 5 }]} >
+                            微信登录
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+
+            </View>
+                // <View style={styles.btnView}>
+                //
+                //     <TouchableOpacity onPress={this.onLoginWXPress.bind(this)}
+                //                       style={styles.loginButton}>
+                //         <View style={styles.logincontainer}>
+                //             <Image style={{
+                //             resizeMode: 'contain', alignItems: 'center',
+                //             justifyContent: 'center',
+                //             flex: 1
+                //         }} source={require('../images/login_wechat.png')} />
+                //             <Text style={[styles.loginWXText, { marginTop: 5 }]} >
+                //                 微信登录
+                //             </Text>
+                //         </View>
+                //     </TouchableOpacity>
+                //     <TouchableOpacity onPress={this.onLoginPress.bind(this)}
+                //                       style={styles.loginButton}>
+                //         <View style={styles.logincontainer}>
+                //             <Image style={{
+                //             resizeMode: 'contain', alignItems: 'center',
+                //             justifyContent: 'center',
+                //             flex: 1
+                //         }} source={require('../images/loginAccount.png')} />
+                //             <Text style={[styles.loginAccountText, { marginTop: 5 }]} >
+                //                 账号登录
+                //             </Text>
+                //         </View>
+                //     </TouchableOpacity>
+                // </View>
             )
         }else if(this.state.isHaveWX === true && isIOS === false){
             return(

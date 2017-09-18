@@ -80,7 +80,7 @@ export default class ProductDetail extends Component {
 
         var paramBody = {goods: spec_id}
         console.log('_fetchGoodsspec_id:' + spec_id)
-        HttpRequest.get('/goods_detail', paramBody, this.onProudctDetailSuccess.bind(this),
+        HttpRequest.get('/v1','/goods_detail', paramBody, this.onProudctDetailSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
@@ -107,7 +107,7 @@ export default class ProductDetail extends Component {
         })
 
         var paramBody = {group_buy: response.data.group_buy}
-        HttpRequest.get('/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+        HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
