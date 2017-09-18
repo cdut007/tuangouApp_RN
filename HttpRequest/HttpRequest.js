@@ -24,7 +24,7 @@ module.exports = {
         var param = ""
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
+            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
         }else {
             url = apiAddr + verssion+apiName + '?format=json'
         }
@@ -80,7 +80,7 @@ module.exports = {
 
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
+            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
         }else {
             url = apiAddr + verssion+apiName + '?format=json'
         }
