@@ -78,7 +78,7 @@ export default class AddressView extends Component {
             address: this.state.address,
             phone_num: this.state.mobile
         }
-        HttpRequest.post('/user_address', param, this.onSaveAddressSuccess.bind(this),
+        HttpRequest.post('/v1','/user_address', param, this.onSaveAddressSuccess.bind(this),
                 (e) => {
 
                     Alert.alert('提示','保存地址失败，请稍后再试。')

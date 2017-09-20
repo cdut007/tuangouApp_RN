@@ -71,7 +71,7 @@ export default class DownloadExcelView extends Component {
 
                 }
             console.log('send_mailparam:'+JSON.stringify(paramBody))
-            HttpRequest.post('/send_mail', paramBody, this.onSendEmailSuccess.bind(this),
+            HttpRequest.post('/v1','/send_mail', paramBody, this.onSendEmailSuccess.bind(this),
                 (e) => {
 
                     Alert.alert('提示','发送邮件失败，请稍后再试')

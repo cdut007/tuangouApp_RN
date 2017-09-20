@@ -72,7 +72,7 @@ export default class AddressView extends Component {
     }
     startGroupBuy()
     {
-        HttpRequest.post('/agent_order', this.props.api_param, this.onOrderSuccess.bind(this),
+        HttpRequest.post('/v1','/agent_order', this.props.api_param, this.onOrderSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);

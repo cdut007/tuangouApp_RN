@@ -103,7 +103,7 @@ export default class RegisterView extends Component
         })
 
         Global.token = response.data.token
-        HttpRequest.get('/user', {}, this.onGetUserInfoSuccess.bind(this),
+        HttpRequest.get('/v1','/user', {}, this.onGetUserInfoSuccess.bind(this),
             (e) => {
                 console.log(' usererror:' + e)
             })

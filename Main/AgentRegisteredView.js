@@ -97,7 +97,7 @@ export default class AgentRegisteredView extends Component{
                         'address': this.state.agentAddresss
                     }
 
-                HttpRequest.post('/agent_apply', paramBody, this.onRegisteredAgentSuccess.bind(this),
+                HttpRequest.post('/v1','/agent_apply', paramBody, this.onRegisteredAgentSuccess.bind(this),
                     (e) => {
                         this.setState({
                             loadingVisible: false
