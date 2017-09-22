@@ -83,7 +83,7 @@ export default class AddressView extends Component {
                         Alert.alert('提示','已申请过本次团购', [
 
 
-                                {text: 'OK', onPress: this.onToMasterLinkView().bind(this)},
+                                {text: 'OK', onPress: this.onToMasterLinkView.bind(this)},
                             ],
                             { cancelable: false })
                         return
