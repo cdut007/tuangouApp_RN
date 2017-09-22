@@ -117,15 +117,29 @@ export default class GroupBuyCar extends Component {
     clickBack() {
         this.props.navigator.pop()
     }
+    clearCart(){
+        Global.gbDetail = null;
+        this.state.gbDetail = { classify: { name: '', icon: '' }, group_buy_goods: [] };
+        AsyncStorage.removeItem('k_cur_gbdetail').then((value) => {
+            this.setState({ ...this.state })
+            Alert.alert('提示',
+                '拼团车已清空。')
+            }
+        ).done();
 
+    }
     renderTopBar() {
         if (this.props.showBack) {
             return (<NavBar title="拼团车"
                 leftIcon={require('../images/back.png')}
-                leftPress={this.clickBack.bind(this)} />
+                leftPress={this.clickBack.bind(this)}
+                rightTitle="清空"
+                rightPress={this.clearCart.bind(this)}/>
             )
         } else {
-            return (<NavBar title="拼团车" />)
+            return (<NavBar title="拼团车"
+                            rightTitle="清空"
+                            rightPress={this.clearCart.bind(this)}/>)
         }
     }
 
