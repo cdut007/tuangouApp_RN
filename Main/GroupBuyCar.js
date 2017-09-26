@@ -32,6 +32,7 @@ import CommitButton from '../common/CommitButton'
 import HttpRequest from '../HttpRequest/HttpRequest'
 import AddressView from './AddressView'
 import GroupBuyAddressView from './GroupBuyAddressView'
+import  Swipeout from 'react-native-swipeout'
 
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -47,6 +48,7 @@ export default class GroupBuyCar extends Component {
 
         this.state = {
             gbDetail: { classify: { name: '', icon: '' }, group_buy_goods: [] }
+
         }
     }
 
@@ -61,7 +63,21 @@ export default class GroupBuyCar extends Component {
         })
 
     }
+    cancelItem(item){
+        console.log('112'+item.name)
+        var groupArr =[];
+        this.state.gbDetail.group_buy_goods.map((product, i) => {
+            if (product.id == item.id){
 
+            }else {
+                groupArr.push(product);
+            }
+        })
+        this.state.gbDetail.group_buy_goods = groupArr;
+
+        this.setState({ ...this.state });
+
+    }
     onGroupBuyNow() {
 
         // this.props.navigator.push({
@@ -155,7 +171,7 @@ export default class GroupBuyCar extends Component {
                     keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={false}
                     style={[styles.mainStyle, { height: height - 220 }]}>
-                    {this.renderTopView()}
+
                     {this.renderProductCategoryView()}
                 </ScrollView>
                 <View style={{ flex: 1 }}>
@@ -208,10 +224,7 @@ export default class GroupBuyCar extends Component {
     }
 
 
-    renderTopView() {
 
-
-    }
 
     onItemClick(prouduct) {
 
@@ -222,6 +235,7 @@ export default class GroupBuyCar extends Component {
         }
 
         return (<CheckBox
+
             label=''
             checkedImage={require('../images/choose_one_click.png')}
             uncheckedImage={require('../images/choose_one.png')}
@@ -269,41 +283,98 @@ export default class GroupBuyCar extends Component {
 
     renderItemInfo(item, w, h) {
 
-        return (<View style={{
+
+        var  swipeoutBtns = [
+            {
+                backgroundColor:'red',
+                color:'white',
+                text:'删除',
+                index:'',
+                onPress:() => this.cancelItem(item)
+            }
+
+
+        ]
+
+        return (
+            <Swipeout right={swipeoutBtns}
+                      autoClose={true}
+
+            >
+                <View style={{
             resizeMode: 'contain', alignItems: 'center', width: w, height: h,
             justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
             flex: 1
         }}>
-            <View style={{
+                    <View style={{
                 marginLeft: 5,
                 flex: 1, marginRight: 10, alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                {this.renderCheckBox(item)}
-            </View>
+                        {this.renderCheckBox(item)}
+                    </View>
 
-            <View style={{
+                    <View style={{
                 flex: 2
             }}>
-                <CachedImage style={{
+                        <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.goods.images[0].image }} />
-            </View>
-            <View style={{
+                    </View>
+                    <View style={{
                 height: h,
                 alignItems: 'flex-start',
                 flex: 6
             }}>
-                <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
-                <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
-                <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-                    <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
-                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>
-                </View>
-            </View>
+                        <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
+                        <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                            <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
+                            <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>
+                        </View>
+                    </View>
 
-        </View>)
+                </View>
+            </Swipeout>
+
+       )
+
+        // return (<View style={{
+        //     resizeMode: 'contain', alignItems: 'center', width: w, height: h,
+        //     justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+        //     flex: 1
+        // }}>
+        //     <View style={{
+        //         marginLeft: 5,
+        //         flex: 1, marginRight: 10, alignItems: 'center',
+        //         justifyContent: 'center',
+        //     }}>
+        //         {this.renderCheckBox(item)}
+        //     </View>
+        //
+        //     <View style={{
+        //         flex: 2
+        //     }}>
+        //         <CachedImage style={{
+        //             resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
+        //             justifyContent: 'center',
+        //         }} source={{ uri: item.goods.images[0].image }} />
+        //     </View>
+        //     <View style={{
+        //         height: h,
+        //         alignItems: 'flex-start',
+        //         flex: 6
+        //     }}>
+        //         <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
+        //         <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
+        //         <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+        //             <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
+        //             <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>
+        //         </View>
+        //     </View>
+        //
+        // </View>)
 
     }
 
@@ -321,7 +392,7 @@ export default class GroupBuyCar extends Component {
                                 </View>
                             )
                             return (
-                                <TouchableOpacity style={{ width: w - 10, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
+                                <View style={{ width: w - 10, height: h }}>{render}</View>
                             )
                         })
                     }
