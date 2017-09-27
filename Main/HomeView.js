@@ -301,7 +301,7 @@ export default class HomeView extends Component {
                             <Text style={{fontSize:16,color:'#1b1b1b'}}>
                                 {categoryDataAry[i].name}
                             </Text>
-                            </View>
+                        </View>
                         {this.renderCategorysView(categoryDataAry[i].prouductItems)}
                         <View style = {{flex:1,justifyContent:'flex-start',alignItems: 'flex-start',marginLeft:5}}>
                         <View onPress={this.onAnnounceNow.bind(this)}
@@ -348,7 +348,7 @@ export default class HomeView extends Component {
                     {
                         types.map((item, i) => {
                             let render = (
-                                <View style={[{ width: w, height: h ,marginTop:10}, styles.toolsItem]}>
+                                <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
                                     <CachedImage style={{resizeMode:'contain',width: w, height: h,
                                     flex:1}} source={item.image}/>
@@ -356,7 +356,7 @@ export default class HomeView extends Component {
                                 </View>
                             )
                             return (
-                                <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
+                                <TouchableOpacity style={{ width: w+6, height: h+10 }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
                             )
                         })
                     }
@@ -429,8 +429,9 @@ const styles = StyleSheet.create({
     toolsView: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'baseline',
+        marginLeft:2
 
 
 

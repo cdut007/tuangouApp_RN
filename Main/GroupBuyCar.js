@@ -279,8 +279,10 @@ export default class GroupBuyCar extends Component {
         }
         return displayCategoryAry;
     }
-    
 
+    SwipeScroll(){
+        console.log('11');
+    }
     renderItemInfo(item, w, h) {
 
 
@@ -289,8 +291,9 @@ export default class GroupBuyCar extends Component {
                 backgroundColor:'red',
                 color:'white',
                 text:'删除',
-                index:'',
-                onPress:() => this.cancelItem(item)
+
+                onPress:() => this.cancelItem(item),
+
             }
 
 
@@ -299,6 +302,9 @@ export default class GroupBuyCar extends Component {
         return (
             <Swipeout right={swipeoutBtns}
                       autoClose={true}
+                      sensitivity={5}
+                      buttonWidth={100}
+
 
             >
                 <View style={{
