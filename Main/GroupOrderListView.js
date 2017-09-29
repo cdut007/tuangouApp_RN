@@ -69,13 +69,13 @@ export default class GroupOrderListView extends Component {
 
     onGetListSuccess(response) {
 
-        for (var i = 0 ;i < response.data.order.length ; i ++){
-            console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
-        }
+        // for (var i = 0 ;i < response.data.order.length ; i ++){
+        //     console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
+        // }
 
-        // this.setState({
-        //     orders: response.data.order
-        // })
+        this.setState({
+            orders: response.data.order
+        })
     }
 
     render() {
