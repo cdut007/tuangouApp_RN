@@ -91,12 +91,12 @@ export default class MineView extends Component {
     }
 
     onQuerySuccess(response) {
-        console.log('queryUserInfo success:' + JSON.stringify(response))
+        // console.log('queryUserInfo success:' + JSON.stringify(response))
         this.setState({ account: response });
     }
 
     onQueryLeftCountSuccess(response) {
-        console.log('onQueryLeftCountSuccess:' + JSON.stringify(response))
+        // console.log('onQueryLeftCountSuccess:' + JSON.stringify(response))
         this.setState({ leftCount: response.result });
     }
 

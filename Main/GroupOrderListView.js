@@ -46,7 +46,8 @@ export default class GroupOrderListView extends Component {
         }
         this.state = {
             title: title,
-            orders: []
+            orders: [],
+            classifytotalNum :0
         }
     }
 
@@ -67,10 +68,14 @@ export default class GroupOrderListView extends Component {
     }
 
     onGetListSuccess(response) {
-        console.log('groupOrderList +' +JSON.stringify(response))
-        this.setState({
-            orders: response.data.order
-        })
+
+        for (var i = 0 ;i < response.data.order.length ; i ++){
+            console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
+        }
+
+        // this.setState({
+        //     orders: response.data.order
+        // })
     }
 
     render() {
@@ -125,12 +130,19 @@ export default class GroupOrderListView extends Component {
         var categoryDataAry = this.state.orders;
         var displayCategoryAry = [];
         console.log('this.state.orders:'+JSON.stringify(this.state.orders))
+
         for (var i = 0; i < categoryDataAry.length; i++) {
             var order = categoryDataAry[i]
 
 
             var shipTime = moment(order.group_buy.ship_time).format("预计M"+'月'+"D"+'号发货');
-            var goods = order.goods[0]
+            this.state.classifytotalNum = 0
+            for (var j = 0; j < order.goods.length; j++){
+               this.state.classifytotalNum = this.state.classifytotalNum+ parseInt(order.goods[j].purchased)
+                console.log('classifytotalNumtest:'+i+':'+j+':'+this.state.classifytotalNum)
+
+            }
+
             displayCategoryAry.push(
                 <View style={{ margin: 0 }}>
                     <View style={[styles.brandLabelContainer, { marginBottom: 10 }]}>
@@ -148,7 +160,7 @@ export default class GroupOrderListView extends Component {
                         <Text style={{textAlign:'center', fontSize: 12, color: '#rgb(117,117,117)' , alignSelf:'center',marginRight:10,marginTop:10,fontFamily:'PingFangSC-Regular'}}>{shipTime}</Text>
                     </View>
 
-                    {this.renderCategorysView(order)}
+                    {this.renderCategorysView(order,this.state.classifytotalNum)}
                     <View style={{ width: width, backgroundColor: '#d5d5d5', flex: 1, height: 0.5 }}>
                     </View>
                     {this.renderStatus(order)}
@@ -187,7 +199,8 @@ export default class GroupOrderListView extends Component {
         }
     }
 
-    renderItemInfo(item, w, h) {
+    renderItemInfo(item,classifytotalNum, w, h) {
+        console.log('renderItemInfo11:'+JSON.stringify(item))
         return (<View style={{
             resizeMode: 'contain', alignItems: 'center', width: w, height: h,
             justifyContent: 'center', paddingLeft: 20, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
@@ -209,20 +222,20 @@ export default class GroupOrderListView extends Component {
                 <Image style={{position: 'absolute',width:36,height:36,right:0,top:35}} source={require('../images/next_icon@2x.png')}></Image>
                 <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                     <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
-                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购：{item.purchased}件</Text>
+                    <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>已购：{classifytotalNum}件</Text>
                 </View>
             </View>
         </View>)
     }
 
-    renderCategorysView(prouductItems) {
+    renderCategorysView(prouductItems,classifytotalNum) {
         const w = width, h = 110
         let items = prouductItems.goods[0]
-
+        console.log('classifytotalNum11'+':'+classifytotalNum)
         let render = () => {
             return (
                 <View style={[{ width: w, height: h, marginTop: 0, marginRight: 5, marginBottom: 0 }, styles.toolsItem]}>
-                    {this.renderItemInfo(items, w, h)}
+                    {this.renderItemInfo(items,classifytotalNum, w, h)}
                 </View>
             )
         }

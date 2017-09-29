@@ -252,6 +252,20 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		604DFF111F7B98EB00E002F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7988B34D6A1C4FD58D15B0AD /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
+			remoteInfo = RCTWeChatTests;
+		};
+		604DFF151F7B98EB00E002F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 514A3EBB1EEA9617009F3A35 /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
+			remoteInfo = RCTWeChatTests;
+		};
 		60CACA0E1F29992400CD8EE8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 36E70F89656D4CCCB6C3BC41 /* RNFetchBlob.xcodeproj */;
@@ -489,6 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				514A3EA51EEA93AB009F3A35 /* libRCTWeChat.a */,
+				604DFF121F7B98EB00E002F1 /* RCTWeChatTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -519,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				514A3EC01EEA9617009F3A35 /* libRCTWeChat.a */,
+				604DFF161F7B98EB00E002F1 /* RCTWeChatTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -991,6 +1007,20 @@
 			fileType = archive.ar;
 			path = "libRCTAnimation-tvOS.a";
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		604DFF121F7B98EB00E002F1 /* RCTWeChatTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTWeChatTests.xctest;
+			remoteRef = 604DFF111F7B98EB00E002F1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		604DFF161F7B98EB00E002F1 /* RCTWeChatTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTWeChatTests.xctest;
+			remoteRef = 604DFF151F7B98EB00E002F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		60CACA0F1F29992400CD8EE8 /* libRNFetchBlob.a */ = {

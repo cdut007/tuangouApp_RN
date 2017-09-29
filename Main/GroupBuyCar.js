@@ -286,6 +286,7 @@ export default class GroupBuyCar extends Component {
     renderItemInfo(item, w, h) {
 
 
+
         var  swipeoutBtns = [
             {
                 backgroundColor:'red',

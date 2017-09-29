@@ -15,6 +15,7 @@ module.exports = {
                 if (!errs) {
                     httpToken = result
                     console.log('httpToken = ' + httpToken)
+
                 }
                 else {
                     console.log('get http token error:' + errs)
@@ -47,7 +48,7 @@ module.exports = {
         })
             .then((response) => response.text())
             .then((responseText) => {
-                console.log("responseText:" + responseText);
+                // console.log("responseText:" + responseText);
                 var response = JSON.parse(responseText);
                 if (response.code == 1) {
                     successCallback(response);
@@ -105,7 +106,7 @@ module.exports = {
         })
             .then((response) => response.text())
             .then((responseText) => {
-                console.log('Post1:'+responseText);
+                // console.log('Post1:'+responseText);
                 var response = JSON.parse(responseText);
                 if (response.code == 1) {
                     successCallback(response);

@@ -47,13 +47,13 @@ export default class HomeView extends Component {
     }
     onBannerSuccess(response){
         this.state.banners = response.data.images;
-        console.log('BannerSuccess:' + JSON.stringify(response.data));
+        // console.log('BannerSuccess:' + JSON.stringify(response.data));
         this.setState({banners:this.state.banners});
     }
 
     onProudctListSuccess(response){
         this.state.goodsList = response.data;
-        console.log('ProudctListSuccess:' + this.state.goodsList.length);
+        // console.log('ProudctListSuccess:' + this.state.goodsList.length);
         this.setState({goodsList:this.state.goodsList});
     }
 
@@ -206,7 +206,7 @@ export default class HomeView extends Component {
     }
 
     onItemClick(prouduct){
-        console.log('prouduct :' +JSON.stringify(prouduct))
+        // console.log('prouduct :' +JSON.stringify(prouduct))
          if (prouduct.tag != 'scan_more') {
              this.props.navigator.push({
                 component: ProductDetail,
@@ -246,21 +246,21 @@ export default class HomeView extends Component {
         var categoryDataAry = [];
         var displayCategoryAry = [];
 
-        console.log( ' this.state.goodsList.length === '+ this.state.goodsList.length);
+        // console.log( ' this.state.goodsList.length === '+ this.state.goodsList.length);
         for (var i = 0; i < this.state.goodsList.length; i ++) {
-            console.log( ' this.state.goodsList.i === '+ i);
+            // console.log( ' this.state.goodsList.i === '+ i);
             var goods = this.state.goodsList[i].goods;
             var classify = this.state.goodsList[i].classify;
             var goodsMaxLengh = goods.length > 6 ? 6: goods.length;
             var toolsData = [];
             for (var j = 0; j < goodsMaxLengh; j++) {
-                console.log( ' goodsMaxLengh.length === '+ j);
+                // console.log( ' goodsMaxLengh.length === '+ j);
                 var product = goods[j];
                 if (i == 1 && j == 0){
-                    console.log( ' product i1 j0 === '+ JSON.stringify(product));
+                    // console.log( ' product i1 j0 === '+ JSON.stringify(product));
 
                 }
-                console.log( ' product === '+ product);
+                // console.log( ' product === '+ product);
                 if (j == goodsMaxLengh -1 ) {
                     toolsData.push({
                         'index': classify.id,
@@ -275,22 +275,22 @@ export default class HomeView extends Component {
                     });
                 }
             }
-            console.log(goodsMaxLengh+ ' toolsData max length === '+toolsData.length+";type name"+ classify.name);
+            // console.log(goodsMaxLengh+ ' toolsData max length === '+toolsData.length+";type name"+ classify.name);
 
 
             categoryDataAry.push({id:classify.id,name:classify.name,image:{uri:classify.icon} ,desc:classify.desc ,prouductItems:toolsData,countdown:'48:38:29'},);
             if(i == 1){
-                console.log('categoryNum1:' +JSON.stringify(categoryDataAry.length));
+                // console.log('categoryNum1:' +JSON.stringify(categoryDataAry.length));
             }else {
 
-                console.log('categoryNum0:' +JSON.stringify(categoryDataAry.length));
+                // console.log('categoryNum0:' +JSON.stringify(categoryDataAry.length));
             }
         }
 
 
 
             for (var i = 0; i<categoryDataAry.length; i++) {
-                console.log( ' displayCategoryAry.length === '+ i);
+                // console.log( ' displayCategoryAry.length === '+ i);
                 displayCategoryAry.push(
                         <View>
                         {this.renderItemSpaceLine(i)}
