@@ -48,7 +48,7 @@ export default class ProductDetail extends Component {
             banners: [],
             goods: {goods: {images: [{image: ''}, {desc: ''}]}},//defualt image later
             gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []},
-            WebViewHeight:height
+            WebViewHeight:0
         }
     }
 
@@ -318,11 +318,15 @@ renderDetailView(goodsDetailImages) {
 
     const w = width
 
-             return ( <View style={styles.goodsWebView}>
+             return ( <View style={[styles.goodsWebView]}>
                 <WebView  style={{width:width,height:this.state.WebViewHeight,maxWidth:width}}
-                         source={{html: `<!DOCTYPE html><html><body>${goodsDetailImages}<script>window.onload = function(){var height = document.body.clientHeight; window.location.hash = '#' + height;
+                         source={{html: `<!DOCTYPE html><html><body style="height:100%">${goodsDetailImages}<script>window.onload = function(){var height = document.body.clientHeight; window.location.hash = '#' + height;
 }</script></body></html>`}}
+
+                          bounces={false}
                           scrollEnabled={false}
+                          automaticallyAdjustContentInsets={true}
+                          contentInset={{top:0,left:0}}
 
                           onNavigationStateChange={(info)=>{
                              this.setState({
