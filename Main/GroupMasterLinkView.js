@@ -20,6 +20,7 @@ import Welcome from '../Login/Welcome'
 var  WeChat = require('react-native-wechat');
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
+import HttpRequest from '../HttpRequest/HttpRequest'
 
 export default class GroupMasterLinkView extends Component {
     constructor(props) {
@@ -28,7 +29,8 @@ export default class GroupMasterLinkView extends Component {
 
             agent_url: '',
             image: '',
-            group_buy_info:this.props.group_buy_info
+            group_buy_info:this.props.group_buy_info,
+            haveGroup_info:true
         }
         if (test){
             var pos = Global.agent_url.indexOf("?");
@@ -41,8 +43,28 @@ export default class GroupMasterLinkView extends Component {
 
         }else {
             this.state.agent_url = Global.agent_url
+
+
         }
 
+    }
+    componentWillMount(){
+        if (Global.group_buy_info!= null){
+            this.state.haveGroup_info = true
+        }else {
+            this.state.haveGroup_info = false
+            let param = {}
+            HttpRequest.get('/v2','/api.merchant.groupbuying.share', param, this.onGetGroup_buy_infoSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+
+                })
+        }
+
+    }
+    onGetGroup_buy_infoSuccess(response){
+        Global.group_buy_info = response.data
+        console.log('onGetGroup_buy_infoSuccess'+JSON.stringify(Global.group_buy_info))
     }
     getQueryString(name,url) {
         if (!url) {
@@ -100,7 +122,7 @@ export default class GroupMasterLinkView extends Component {
 
         onSharePress(){
             console.log('onSharePress11'+JSON.stringify(Global.group_buy_info))
-            if (Global.group_buy_info!= null){
+            if (this.state.haveGroup_info){
                 WeChat.isWXAppInstalled()
                     .then((isInstalled) => {
                         if (isInstalled){
@@ -124,8 +146,8 @@ export default class GroupMasterLinkView extends Component {
                         if (isInstalled){
                             WeChat.shareToSession({
                                 type:'news',
-                                title:'扑面而来',
-                                description:'牛车水扑面而来做新加坡最好吃，最健康的馒头' ,
+                                title:Global.group_buy_info[0].name,
+                                description:Global.group_buy_info[0].desc ,
                                 webpageUrl:this.state.agent_url,
                                 thumbImage: Global.headimgurl,
                             }).cache((error) =>{
