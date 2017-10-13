@@ -48,7 +48,7 @@ export default class ProductDetail extends Component {
             banners: [],
             goods: {goods: {images: [{image: ''}, {desc: ''}]}},//defualt image later
             gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []},
-            WebViewHeight:0
+            WebViewHeight:height
         }
     }
 
