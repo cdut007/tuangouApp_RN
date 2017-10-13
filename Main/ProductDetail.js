@@ -316,23 +316,24 @@ export default class ProductDetail extends Component {
 
 renderDetailView(goodsDetailImages) {
 
-    const w = width
+    const w = width, h = height;
 
              return ( <View style={[styles.goodsWebView]}>
                 <WebView  style={{width:width,height:this.state.WebViewHeight,maxWidth:width}}
-                         source={{html: `<!DOCTYPE html><html><body style="height:100%">${goodsDetailImages}<script>window.onload = function(){var height = document.body.clientHeight; window.location.hash = '#' + height;
-}</script></body></html>`}}
-
+                         source={{html: `<!DOCTYPE html><html><body style="height:100%">${goodsDetailImages}<script>window.onload=function(){window.location.hash = 1;document.title = document.body.clientHeight;}</script></body></html>`}}
+                          javaScriptEnabled={true}
+                          domStorageEnabled={true}
                           bounces={false}
                           scrollEnabled={false}
                           automaticallyAdjustContentInsets={true}
                           contentInset={{top:0,left:0}}
-
-                          onNavigationStateChange={(info)=>{
-                             this.setState({
-                                  WebViewHeight:info.url.replace('about:blank%23','')/1
-                               })
-                             }}
+                          onNavigationStateChange={(title)=>{
+                              if(title.title != undefined) {
+                                  this.setState({
+                                      WebViewHeight:(parseInt(title.title)+20)
+                                  })
+                              }
+                          }}
                  >
 
                  </WebView>
