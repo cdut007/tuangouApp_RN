@@ -170,7 +170,7 @@ componentDidMount() {
                 }
 
                 console.log(' error:' + e)
-                alert('Login faild, please try again.4')
+                // alert('Login faild, please try again.4')
             })
     }
 

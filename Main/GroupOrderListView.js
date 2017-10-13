@@ -47,7 +47,8 @@ export default class GroupOrderListView extends Component {
         this.state = {
             title: title,
             orders: [],
-            classifytotalNum :0
+            classifytotalNum :0,
+            haveOrder:true
         }
     }
 
@@ -72,22 +73,44 @@ export default class GroupOrderListView extends Component {
         // for (var i = 0 ;i < response.data.order.length ; i ++){
         //     console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
         // }
+        console.log('onGetListSuccess:'+JSON.stringify(response))
+        if (response.data.order.length == 0){
+            this.setState({
+                haveOrder:false
+            })
+        }else {
+            this.setState({
+                orders: response.data.order,
+                haveOrder:true
+            })
+        }
 
-        this.setState({
-            orders: response.data.order
-        })
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <NavBar title={this.state.title}
-                    leftIcon={require('../images/back.png')}
-                    leftPress={this.clickBack.bind(this)} />
-                {this.renderGroupOrderListView()}
 
-            </View>
-        )
+        if (this.state.haveOrder){
+            return (
+                <View style={styles.container}>
+                    <NavBar title={this.state.title}
+                            leftIcon={require('../images/back.png')}
+                            leftPress={this.clickBack.bind(this)} />
+                    {this.renderGroupOrderListView()}
+
+                </View>
+            )
+        }else {
+            return (
+                <View style={styles.container}>
+                    <NavBar title={this.state.title}
+                            leftIcon={require('../images/back.png')}
+                            leftPress={this.clickBack.bind(this)} />
+                    {this.renderNoOrderView()}
+
+                </View>
+            )
+        }
+
     }
 
     onDownloadExcelClick(prouductItems) {
@@ -117,6 +140,19 @@ export default class GroupOrderListView extends Component {
         })
 
 }
+    renderNoOrderView(){
+        return (
+            <View style={styles.NoOrderView}>
+                <Image style={styles.NoOrderImage}
+                       source={require('../images/orderingIcon@2x.png')}
+                >
+                </Image>
+                <Text style={styles.NoOrderlabel}>
+                    还没有相关订单
+                </Text>
+            </View>
+        )
+    }
     renderGroupOrderListView() {
         return (<ScrollView
             keyboardDismissMode='on-drag'
@@ -290,4 +326,22 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
     },
+    NoOrderView:{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    NoOrderImage:{
+        marginTop:200,
+        height:90,
+        width:90
+    },
+    NoOrderlabel:{
+        marginTop:10,
+        color   :'rgb(117,117,117)',
+        fontSize:14,
+        textAlign: 'center',
+        fontFamily:'PingFangSC-Regular',
+
+    }
 });

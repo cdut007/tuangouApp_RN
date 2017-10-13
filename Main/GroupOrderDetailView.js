@@ -39,7 +39,8 @@ export default class GroupOrderDetailView extends Component {
         super(props)
 
         this.state = {
-            gbDetail: { classify: { name: '', icon: '' }, goods: [] }
+            gbDetail: { classify: { name: '', icon: '' }, goods: [] },
+            haveGbDetail:true
         }
     }
 
@@ -49,6 +50,7 @@ export default class GroupOrderDetailView extends Component {
     }
 
     componentDidMount() {
+
         this.setState({
             gbDetail: this.props.gbDetail
         })
