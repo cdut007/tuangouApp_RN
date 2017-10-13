@@ -322,6 +322,8 @@ renderDetailView(goodsDetailImages) {
                 <WebView  style={{width:width,height:this.state.WebViewHeight,maxWidth:width}}
                          source={{html: `<!DOCTYPE html><html><body style="height:100%">${goodsDetailImages}<script>window.onload = function(){var height = document.body.clientHeight; window.location.hash = '#' + height;
 }</script></body></html>`}}
+                            javaScriptEnabled={true}
+                            domStorageEnabled={true}
 
                           bounces={false}
                           scrollEnabled={false}
