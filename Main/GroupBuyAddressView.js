@@ -110,10 +110,10 @@ export default class AddressView extends Component {
     onOrderSuccess(response) {
 
 
-        if (response.code == 1 && response.message == 'Success'){
+
             console.log('response.message32:'+JSON.stringify(response))
             this.state.group_buy_info = response.data.group_buy_info
-            Global.group_buy_info = this.state.group_buy_info
+            Global.group_buy_info = response.data.group_buy_info
             this.props.navigator.push({
                 component: GroupMasterLinkView,
                 props: {
@@ -123,7 +123,7 @@ export default class AddressView extends Component {
 
                 }
             })
-        }
+
 
     }
 

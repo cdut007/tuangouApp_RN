@@ -39,8 +39,7 @@ export default class GroupOrderDetailView extends Component {
         super(props)
 
         this.state = {
-            gbDetail: { classify: { name: '', icon: '' }, goods: [] },
-            haveGbDetail:true
+            gbDetail: { classify: { name: '', icon: '' }, goods: [] }
         }
     }
 
