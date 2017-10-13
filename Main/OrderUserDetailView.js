@@ -31,6 +31,7 @@ export default class OrderUserDetailView extends Component{
             expanded : true,
             order_detail :[],
             displayPanelAry : [],
+            haveOrder_detail:true
 
         }
     }
@@ -72,9 +73,19 @@ export default class OrderUserDetailView extends Component{
     onGetOrderUserSuccess(response){
         console.log('onGetOrderUserSuccess221'+JSON.stringify(response))
         if (response.message == "Success"){
-            this.setState({order_detail:response.data.order_detail});
+            if (response.data.order_detail.length == 0){
+                this.setState({
+                    haveOrder_detail:false
+                });
+            }else {
+                this.setState({
+                    order_detail:response.data.order_detail,
+                    haveOrder_detail:true
+                });
+            }
 
-            console.log('onGetOrderUserSuccess222'+JSON.stringify(this.state.order_detail))
+
+
         }
 
     }
@@ -82,13 +93,39 @@ export default class OrderUserDetailView extends Component{
 
     }
     render() {
-        return (
-            <View style={styles.container}>
-                <NavBar title={this.props.gbDetail.classify.name}
-                        leftIcon={require('../images/back.png')}
-                        leftPress={this.clickBack.bind(this)} />
-                {this.renderOrderUserListView(this.state.order_detail)}
+        if (this.state.haveOrder_detail){
+            return (
+                <View style={styles.container}>
+                    <NavBar title={this.props.gbDetail.classify.name}
+                            leftIcon={require('../images/back.png')}
+                            leftPress={this.clickBack.bind(this)} />
+                    {this.renderOrderUserListView(this.state.order_detail)}
 
+                </View>
+            )
+        }else {
+            return (
+                <View style={styles.container}>
+                    <NavBar title={this.props.gbDetail.classify.name}
+                            leftIcon={require('../images/back.png')}
+                            leftPress={this.clickBack.bind(this)} />
+                    {this.renderNoOrderUserView()}
+
+                </View>
+            )
+        }
+
+    }
+    renderNoOrderUserView(){
+        return (
+            <View style={styles.NoOrderView}>
+                <Image style={styles.NoOrderImage}
+                       source={require('../images/orderingIcon@2x.png')}
+                >
+                </Image>
+                <Text style={styles.NoOrderlabel}>
+                    还没有相关订单
+                </Text>
             </View>
         )
     }
@@ -212,6 +249,24 @@ const styles = StyleSheet.create({
         fontFamily:'PingFangSC-Regular',
         // alignSelf:'flex-end'
     },
+    NoOrderView:{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    NoOrderImage:{
+        marginTop:200,
+        height:90,
+        width:90
+    },
+    NoOrderlabel:{
+        marginTop:10,
+        color   :'rgb(117,117,117)',
+        fontSize:14,
+        textAlign: 'center',
+        fontFamily:'PingFangSC-Regular',
+
+    }
 
 
 
