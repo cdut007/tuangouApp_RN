@@ -114,15 +114,22 @@ export default class AddressView extends Component {
             console.log('response.message32:'+JSON.stringify(response))
             this.state.group_buy_info = response.data.group_buy_info
             Global.group_buy_info = response.data.group_buy_info
-            this.props.navigator.push({
-                component: GroupMasterLinkView,
-                props: {
-                    api_param: param,
-                    image: this.state.gbDetail.classify.image,
-                    group_buy_info:this.state.group_buy_info
-
-                }
-            })
+            // this.props.navigator.push({
+            //     component: GroupMasterLinkView,
+            //     props: {
+            //         api_param: param,
+            //         image: this.state.gbDetail.classify.image,
+            //         group_buy_info:this.state.group_buy_info
+            //
+            //     }
+            // })
+        console.log('response.message311:')
+        this.props.navigator.push({
+            component: GroupMasterLinkView,
+            props: {
+                group_buy_info:this.state.group_buy_info
+            }
+        })
 
 
     }
@@ -131,7 +138,7 @@ export default class AddressView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar
-                    title="申请拼团"
+                    title="申请拼"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
