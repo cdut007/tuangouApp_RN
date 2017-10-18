@@ -77,7 +77,7 @@ class Panel extends Component{
         if(this.state.expanded){
             icon = this.icons['up'];
         }
-        let totalTitle = this.state.totalNum+"件/合计：$"+this.state.totalPrice
+        let totalTitle = this.state.totalNum+"件/合计：S$"+this.state.totalPrice
         return (
             <View style={[styles.container]}>
             <Animated.View
@@ -185,14 +185,14 @@ var styles = StyleSheet.create({
 
     },
     body        : {
-        padding     : 10,
+
         paddingTop  : 0
     },
     totalFooterContainer :{
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        height:30
+        height:40
     },
     totalFooterTitle :{
         flex    : 1,

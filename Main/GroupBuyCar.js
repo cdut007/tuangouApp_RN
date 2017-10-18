@@ -119,6 +119,7 @@ export default class GroupBuyCar extends Component {
                     }
                 })
             }
+            
         }else {
             this.props.navigator.resetTo({
                 component: Welcome,
