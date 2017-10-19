@@ -138,7 +138,7 @@ export default class AddressView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar
-                    title="申请拼"
+                    title="申请拼团"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
