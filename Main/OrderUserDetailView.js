@@ -50,7 +50,7 @@ export default class OrderUserDetailView extends Component{
 
         HttpRequest.get('/v2','/api.merchant.order', param, this.onGetOrderUserSuccess.bind(this),
             (e) => {
-                console.log(' error:' + e)
+                console.log(' error:' + e);
                 Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
             })
     }
@@ -60,7 +60,7 @@ export default class OrderUserDetailView extends Component{
         }
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); // 匹配目标参数
         var result = url.match(reg);  // 对querystring匹配目标参数
-        console.log('url result='+url);
+
         if (result != null) {
             return decodeURIComponent(result[2]);
         } else {
@@ -89,7 +89,6 @@ export default class OrderUserDetailView extends Component{
         this.props.navigator.pop()
     }
     onGetOrderUserSuccess(response){
-        console.log('onGetOrderUserSuccess221'+JSON.stringify(response))
         if (response.message == "Success"){
             if (response.data.order_detail.length == 0){
                 this.setState({
@@ -165,26 +164,25 @@ export default class OrderUserDetailView extends Component{
     }
     renderPanelView(order_detail){
 
-        var  panelDataAry = []
+        var  panelDataAry = [];
         if (order_detail){
             panelDataAry = order_detail;
         }else {
             panelDataAry = [];
-            console.log('panelDataAryNo')
+
         }
 
-        console.log('order_detail334'+JSON.stringify(panelDataAry))
-        var displayPanelAry = []
-        console.log('panelDataAry112'+JSON.stringify(panelDataAry))
+
+        var displayPanelAry = [];
+
         if (panelDataAry)
         {
 
         }else {
-            console.log('panelDataAry555'+JSON.stringify(panelDataAry))
+
         }
         for (var  j = 0 ; j < panelDataAry.length ; j++){
-            console.log( ' displayCategoryAry.length === '+ j);
-            var item = panelDataAry[j ]
+            var item = panelDataAry[j ];
             displayPanelAry.push(
                     <Panel title={item.nickname}  ship_time={item.time} totalNum={item.total_quantity} totalPrice={item.total_amount} titleIcon ={item.headimgurl} >
                         {this.renderOrderUserView(item.goods_list)}
@@ -202,15 +200,14 @@ export default class OrderUserDetailView extends Component{
     renderOrderUserView(productItem){
             var orderUserListAry = []
         for (var p = 1 ; p <= productItem.length ; p++){
-                var titleItem =productItem[p-1]
+                var titleItem =productItem[p-1];
                 var productTitle = p+'、'+titleItem.name;
-                var productPrice = this.formatPrice(titleItem.price)
-                var  panelBackColor = 'rgb(242,242,242)'
+                var productPrice = this.formatPrice(titleItem.price);
+                var  panelBackColor = 'rgb(242,242,242)';
                 if (p%2 !==0){
 
                 }else if(p%2 ==0){
                     panelBackColor = 'rgb(255,255,255)'
-
                 }else {
 
                 }
