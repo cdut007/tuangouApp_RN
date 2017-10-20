@@ -273,6 +273,7 @@ export default class MineView extends Component {
         }else {
             return (
                 <View style={styles.container}>
+                <TouchableOpacity onPress={this.onPressWelcome.bind(this)}>
                     <View style={styles.headView}>
                         <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
                                source={require('../images/me_bj.jpg')}
@@ -282,9 +283,10 @@ export default class MineView extends Component {
                             src={this._displayIcon()}
                         />
                         <View style={styles.centerLayout}>
-                            <Text style={styles.defaultText}>用户名</Text>
+                            <Text style={styles.defaultText}>未登录</Text>
                         </View>
                     </View>
+                </TouchableOpacity>
 
                     <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
                         <Text style={{ marginLeft: 10, fontSize: 16, color: '#1c1c1c', textAlign: 'left' }}>我的拼团</Text>

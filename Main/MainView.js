@@ -7,7 +7,8 @@ import {
     Image,
     Navigator,
     AsyncStorage,
-    Platform
+    Platform,
+    Alert
 } from 'react-native';
 
 import {
@@ -49,8 +50,10 @@ export default class MainView extends Component {
 
     componentWillMount() {
         // this.onLoginPress()
+        console.log('checkUpdate111')
         if (isFirstTime) {
             markSuccess()
+            console.log('checkUpdate112')
         }
         else if (isRolledBack) {
 
@@ -60,18 +63,19 @@ export default class MainView extends Component {
 
     componentDidMount() {
         WeChat.registerApp('wx22795e8274245d59')
+        console.log('checkUpdate113')
         this.checkUpdate()
 
     }
 
     doUpdate = info => {
         downloadUpdate(info).then(hash => {
-            Alert.alert('提示', '应用数据,是否重启应用?', [
+            Alert.alert('提示', '下载完毕,是否重启应用?', [
                 { text: '是', onPress: () => { switchVersion(hash); } },
                 { text: '下次启动时', onPress: () => { switchVersionLater(hash); } },
             ]);
         }).catch(err => {
-            // Alert.alert('提示', '更新失败.');
+            Alert.alert('提示', '更新失败.');
             console.log('下载更新失败')
         });
     };
@@ -92,7 +96,7 @@ export default class MainView extends Component {
                 //     { text: '是', onPress: () => { this.doUpdate(info) } },
                 //     { text: '否', },
                 // ]);
-                this.doUpdate(info)
+                // this.doUpdate(info)
                 console.log('检查到新的版本')
             }
         }).catch(err => {

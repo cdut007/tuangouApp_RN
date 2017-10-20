@@ -78,10 +78,9 @@ export default class AddressView extends Component {
                     var errorInfo = JSON.parse(e);
                     console.log('erroinfo1'+e)
                     if (errorInfo != null &&  errorInfo.code == 4) {
-                        this.state.group_buy_info = errorInfo.data.group_buy_info
-                        Global.group_buy_info = this.state.group_buy_info
+                        this.state.group_buy_info = errorInfo.data.group_buy_info;
+                        Global.group_buy_info = this.state.group_buy_info;
                         Alert.alert('提示','已申请过本次团购', [
-
 
                                 {text: 'OK', onPress: this.onToMasterLinkView.bind(this)},
                             ],
@@ -89,7 +88,6 @@ export default class AddressView extends Component {
                         return
                     }else if (errorInfo != null && errorInfo.code == 3 ){
                         Alert.alert('提示','用户不是团长,是否去申请成为团长', [
-
 
                                 {text: 'OK', onPress: this.onToAgentRegistered.bind(this)},
                             ],
@@ -109,25 +107,15 @@ export default class AddressView extends Component {
 
     onOrderSuccess(response) {
 
-
-
-            console.log('response.message32:'+JSON.stringify(response))
             this.state.group_buy_info = response.data.group_buy_info
             Global.group_buy_info = response.data.group_buy_info
-            // this.props.navigator.push({
-            //     component: GroupMasterLinkView,
-            //     props: {
-            //         api_param: param,
-            //         image: this.state.gbDetail.classify.image,
-            //         group_buy_info:this.state.group_buy_info
-            //
-            //     }
-            // })
-        console.log('response.message311:')
+
+
         this.props.navigator.push({
             component: GroupMasterLinkView,
             props: {
                 group_buy_info:this.state.group_buy_info
+
             }
         })
 

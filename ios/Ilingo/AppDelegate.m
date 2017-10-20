@@ -24,6 +24,8 @@
   
 #if DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  //个人电脑ip地址
+//  jsCodeLocation = [NSURL URLWithString:@"http://192.168.99.22:8081/index.ios.bundle?platform=ios&dev=false"];
 #else
   jsCodeLocation = [RCTHotUpdate bundleURL];
 #endif
