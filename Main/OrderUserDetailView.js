@@ -164,7 +164,7 @@ export default class OrderUserDetailView extends Component{
     }
     renderPanelView(order_detail){
 
-        var RemarkStr = "团长给我挑大个点的苹果，送礼用 谢谢"
+        // var RemarkStr = "团长给我挑大个点的苹果，送礼用 谢谢"
 
         var  panelDataAry = [];
         if (order_detail){
@@ -186,7 +186,7 @@ export default class OrderUserDetailView extends Component{
         for (var  j = 0 ; j < panelDataAry.length ; j++){
             var item = panelDataAry[j ];
             displayPanelAry.push(
-                    <Panel title={item.nickname}  ship_time={item.time} totalNum={item.total_quantity} totalPrice={item.total_amount} titleIcon ={item.headimgurl} RemarkStr ={RemarkStr}>
+                    <Panel title={item.nickname}  ship_time={item.time} totalNum={item.total_quantity} totalPrice={item.total_amount} titleIcon ={item.headimgurl} RemarkStr ={item.remark}>
                         {this.renderOrderUserView(item.goods_list)}
                     </Panel>
             );

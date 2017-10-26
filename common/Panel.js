@@ -194,23 +194,24 @@ var styles = StyleSheet.create({
     totalFooterContainer :{
         flexDirection: 'column',
         // justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
         height:65.5
     },
     totalFooterTitle :{
-        flex    : 1,
-
-
+        marginTop:8,
         color   :'rgb(234,107,16)',
         fontSize:14,
         fontFamily:'PingFang-SC-Medium',
+
         textAlign:'center',
     },
     totalFooterRemarkTitle :{
+        marginTop:8,
+        marginLeft:8,
         color   :'rgb(28,28,28)',
         fontSize:16,
         fontFamily:'PingFang-SC-Medium',
-        textAlign:'center',
+        textAlign:'left',
     }
 });
 
