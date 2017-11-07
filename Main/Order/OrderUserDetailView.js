@@ -13,13 +13,13 @@ import {
     ScrollView
 
 }   from 'react-native';
-import NavBar from '../common/NavBar'
+import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-import Panel from '../common/Panel';
-import HttpRequest from '../HttpRequest/HttpRequest'
-var Global = require('../common/globals');
+import Panel from '../../common/Panel';
+import HttpRequest from '../../HttpRequest/HttpRequest'
+var Global = require('../../common/globals');
 export default class OrderUserDetailView extends Component{
     constructor (props){
         super(props)
@@ -114,7 +114,7 @@ export default class OrderUserDetailView extends Component{
             return (
                 <View style={styles.container}>
                     <NavBar title={this.props.gbDetail.classify.name}
-                            leftIcon={require('../images/back.png')}
+                            leftIcon={require('../../images/back.png')}
                             leftPress={this.clickBack.bind(this)} />
                     {this.renderOrderUserListView(this.state.order_detail)}
 
@@ -124,7 +124,7 @@ export default class OrderUserDetailView extends Component{
             return (
                 <View style={styles.container}>
                     <NavBar title={this.props.gbDetail.classify.name}
-                            leftIcon={require('../images/back.png')}
+                            leftIcon={require('../../images/back.png')}
                             leftPress={this.clickBack.bind(this)} />
                     {this.renderNoOrderUserView()}
 
@@ -137,7 +137,7 @@ export default class OrderUserDetailView extends Component{
         return (
             <View style={styles.NoOrderView}>
                 <Image style={styles.NoOrderImage}
-                       source={require('../images/orderingIcon@2x.png')}
+                       source={require('../../images/orderingIcon@2x.png')}
                 >
                 </Image>
                 <Text style={styles.NoOrderlabel}>

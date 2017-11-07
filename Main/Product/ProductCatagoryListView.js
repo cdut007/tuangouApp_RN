@@ -24,21 +24,21 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 
-import CountDownTimer from '../common/CountDown'
-import GroupBuyCar from './GroupBuyCar'
+import CountDownTimer from '../../common/CountDown'
+import GroupBuyCar from '../GroupBuyCar'
 import {CachedImage} from "react-native-img-cache";
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
-import px2dp from '../common/util'
-import CommitButton from '../common/CommitButton'
+
+import CommitButton from '../../common/CommitButton'
 import ProductDetail from './ProductDetail'
-import Welcome from '../Login/Welcome'
+import Welcome from '../../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-import LoginView from '../Login/LoginView'
+
 import Banner from 'react-native-banner';
-var Global = require('../common/globals');
+var Global = require('../../common/globals');
 Date.prototype.format = function(fmt)
 { //author: meizz
     var o = {
@@ -265,25 +265,27 @@ export default class ProductCatagoryListView extends Component {
                     }}
                     source={{uri: this.banners[0].image}}
                 />
-                <Text style={styles.bannerText}>{desc}</Text>
-                <Text style={{fontSize:14,marginBoom:5,color:'#e41515',textAlign:'center',alignItems:'center',justifyContent:'center'}}>
-                    截团倒计时
-                </Text>
-                <CountDownTimer
-                    date={curTime}
-                    // date="2017-11-28T00:00:00+00:00"
-                    days={{plural: '天 ',singular: '天 '}}
-                    hours=':'
-                    mins=':'
-                    segs=''
+                <View style={{flexDirection:'row',height:40,alignItems:'center'}}>
+                    <Text style={{fontSize:14,marginBoom:5,color:'rgb(227,21,21)',textAlign:'center',alignItems:'center',justifyContent:'center'}}>
+                        截团倒计时
+                    </Text>
+                    <CountDownTimer
+                        date={curTime}
+                        // date="2017-11-28T00:00:00+00:00"
+                        days={{plural: '天:',singular: '天 '}}
+                        hours='时:'
+                        mins='分:'
+                        segs='秒'
 
-                    daysStyle={styles.time}
-                    hoursStyle={styles.time}
-                    minsStyle={styles.time}
-                    secsStyle={styles.time}
-                    firstColonStyle={styles.colon}
-                    secondColonStyle={styles.colon}
-                />
+                        daysStyle={styles.time}
+                        hoursStyle={styles.time}
+                        minsStyle={styles.time}
+                        secsStyle={styles.time}
+                        firstColonStyle={styles.colon}
+                        secondColonStyle={styles.colon}
+                    />
+                </View>
+
             </View>
 
 
@@ -446,17 +448,17 @@ const styles = StyleSheet.create({
     },
     //时间文字
     time: {
-        paddingHorizontal: 3,
-        backgroundColor: 'rgba(85, 85, 85, 1)',
-        fontSize: 12,
-        color: 'white',
-        marginHorizontal: 3,
+        paddingHorizontal: 1,
+        fontSize: 14,
+        color: 'rgb(227,21,21)',
+        marginHorizontal: 1,
         borderRadius: 2,
+        // fontFamily:'PingFang-SC-Medium'
     },
 
     //冒号
     colon: {
-        fontSize: 12, color: 'rgba(85, 85, 85, 1)'
+        fontSize: 14, color: 'rgb(227,21,21)',marginTop:0.5
     },
 
 });

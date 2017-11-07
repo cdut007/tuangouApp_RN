@@ -25,13 +25,13 @@ import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 
 
-import px2dp from '../common/util'
+import px2dp from '../../common/util'
 
 const isIOS = Platform.OS == "ios"
-import NavBar from '../common/NavBar'
+import NavBar from '../../common/NavBar'
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-import LoginView from '../Login/LoginView'
+
 
 
 export default class GroupOrderDetailView extends Component {
@@ -59,7 +59,7 @@ export default class GroupOrderDetailView extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title={this.state.gbDetail.classify.name}
-                    leftIcon={require('../images/back.png')}
+                    leftIcon={require('../../images/back.png')}
                     leftPress={this.clickBack.bind(this)} />
                 {this.renderGroupOrderListView()}
 

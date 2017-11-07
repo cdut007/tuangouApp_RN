@@ -21,7 +21,7 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "58 - Settings Copy.png",
+      "filename" : "58.png",
       "scale" : "2x"
     },
     {
@@ -45,7 +45,7 @@
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "114-1.png",
+      "filename" : "57-1.png",
       "scale" : "1x"
     },
     {
@@ -65,6 +65,12 @@
       "idiom" : "iphone",
       "filename" : "180.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "1024.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

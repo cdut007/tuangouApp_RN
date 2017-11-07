@@ -8,9 +8,9 @@ import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 
 import Dimensions from 'Dimensions';
 
-import NavBar from '../common/NavBar'
+import NavBar from '../../common/NavBar'
 import ProductCatagoryListView from './ProductCatagoryListView'
-import HttpRequest from '../HttpRequest/HttpRequest'
+import HttpRequest from '../../HttpRequest/HttpRequest'
 import moment from 'moment';
 var width = Dimensions.get('window').width;
 
@@ -146,7 +146,7 @@ export default class ProductCatagoryListViewTab extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title={this.state.gbList.name}
-                    leftIcon={require('../images/back.png')}
+                    leftIcon={require('../../images/back.png')}
                     leftPress={this.clickBack.bind(this)} />
                 {this.renderTabView()}
             </View>

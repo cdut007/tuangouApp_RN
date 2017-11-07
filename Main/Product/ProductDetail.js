@@ -25,20 +25,20 @@ import {CachedImage} from "react-native-img-cache";
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
-import NavBar from '../common/NavBar'
-import px2dp from '../common/util'
-import CommitButton from '../common/CommitButton'
-import GroupBuyCar from './GroupBuyCar'
-import Welcome from '../Login/Welcome'
+import NavBar from '../../common/NavBar'
+import px2dp from '../../common/util'
+import CommitButton from '../../common/CommitButton'
+import GroupBuyCar from '../GroupBuyCar'
+import Welcome from '../../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 var hasGotGbDetail = false
-var Global = require('../common/globals');
+var Global = require('../../common/globals');
 
 
-import LoginView from '../Login/LoginView'
-import HttpRequest from '../HttpRequest/HttpRequest'
+import LoginView from '../../Login/LoginView'
+import HttpRequest from '../../HttpRequest/HttpRequest'
 
 
 export default class ProductDetail extends Component {
@@ -143,7 +143,7 @@ export default class ProductDetail extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title="商品详情"
-                        leftIcon={require('../images/back.png')}
+                        leftIcon={require('../../images/back.png')}
                         leftPress={this.clickBack.bind(this)}/>
 
                 {this.renderProductDetailView()}

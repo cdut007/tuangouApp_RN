@@ -26,14 +26,14 @@ import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import GroupOrderDetailView from './GroupOrderDetailView';
+import GroupOrderDetailView from './Order/GroupOrderDetailView';
 import DownloadExcelView from './DownloadExcelView';
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 import LoginView from '../Login/LoginView'
 import HttpRequest from '../HttpRequest/HttpRequest'
-import OrderUserDetailView from './OrderUserDetailView'
+import OrderUserDetailView from './Order/OrderUserDetailView'
 import moment from 'moment';
 
 

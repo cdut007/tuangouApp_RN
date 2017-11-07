@@ -16,7 +16,8 @@ import HttpRequest from '../HttpRequest/HttpRequest'
 import CircleImage from '../common/CircleImage';
 import SettingView from './SettingView';
 import GroupOrderListView from './GroupOrderListView';
-import AddressView from './AddressView';
+import AddressView from './Adress/AddressView';
+import GroupBuyManager from './Group/GroupBuyManager'
 import AgentRegisteredView from './AgentRegisteredView';
 import GroupMasterLinkView from './GroupMasterLinkView';
 import HelpView from './HelpView';
@@ -99,7 +100,12 @@ export default class MineView extends Component {
         // console.log('onQueryLeftCountSuccess:' + JSON.stringify(response))
         this.setState({ leftCount: response.result });
     }
+    onGroupBuyManagerPress() {
+        this.props.navigator.push({
 
+            component: GroupBuyManager,
+        })
+    }
     onAddressPress() {
         this.props.navigator.push({
             component: AddressView,
@@ -224,8 +230,22 @@ export default class MineView extends Component {
                         </TouchableOpacity>
                     </View>
 
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onGroupBuyManagerPress.bind(this)}>
 
-                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout, { marginTop: 10 }]} onPress={this.onAddressPress.bind(this)}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
+                            <Image style={[styles.iconSize, { marginRight: 15 }]}
+                                   source={require('../images/newGroupBuyIcon@2x.png')} />
+                            <Text style={{
+                            fontSize: 16, flex: 20,
+                            textAlign: 'left',
+                            color: '#1c1c1c',
+                        }}>拼团管理</Text>
+                            <Image style={[styles.iconSize]}
+                                   source={require("../images/next_icon.png")} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.itemLine} />
+                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onAddressPress.bind(this)}>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
                             <Image style={[styles.iconSize, { marginRight: 15 }]}

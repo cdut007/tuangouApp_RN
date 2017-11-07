@@ -13,10 +13,10 @@ import {
     Alert
 } from 'react-native';
 
-import NavBar from '../common/NavBar'
+import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions'
-import HttpRequest from '../HttpRequest/HttpRequest'
-var Global = require('../common/globals');
+import HttpRequest from '../../HttpRequest/HttpRequest'
+var Global = require('../../common/globals');
 var width = Dimensions.get('window').width;
 
 export default class AddressView extends Component {
@@ -106,7 +106,7 @@ export default class AddressView extends Component {
                     title="收货地址"
                     rightTitle='保存'
                     rightPress={this.save.bind(this)}
-                    leftIcon={require('../images/back.png')}
+                    leftIcon={require('../../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
                     <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>

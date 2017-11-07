@@ -12,15 +12,15 @@ import {
     TextInput,
     Alert
 } from 'react-native';
-import TabView from '../Main/TabView'
-import NavBar from '../common/NavBar'
+import TabView from '../../Main/TabView'
+import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions'
 var width = Dimensions.get('window').width;
-import HttpRequest from '../HttpRequest/HttpRequest'
-import CommitButton from '../common/CommitButton'
-import GroupMasterLinkView from './GroupMasterLinkView';
-import AgentRegisteredView from './AgentRegisteredView';
-var Global = require('../common/globals');
+import HttpRequest from '../../HttpRequest/HttpRequest'
+import CommitButton from '../../common/CommitButton'
+import GroupMasterLinkView from '../GroupMasterLinkView';
+import AgentRegisteredView from '../AgentRegisteredView';
+var Global = require('../../common/globals');
 
 
 export default class AddressView extends Component {
@@ -127,7 +127,7 @@ export default class AddressView extends Component {
             <View style={styles.container}>
                 <NavBar
                     title="申请拼团"
-                    leftIcon={require('../images/back.png')}
+                    leftIcon={require('../../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
                     <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>

@@ -30,8 +30,8 @@ import px2dp from '../common/util'
 import GroupBuyNowView from './GroupBuyNowView'
 import CommitButton from '../common/CommitButton'
 import HttpRequest from '../HttpRequest/HttpRequest'
-import AddressView from './AddressView'
-import GroupBuyAddressView from './GroupBuyAddressView'
+import AddressView from './Adress/AddressView'
+import GroupBuyAddressView from './Adress/GroupBuyAddressView'
 import  Swipeout from 'react-native-swipeout'
 
 const isIOS = Platform.OS == "ios"

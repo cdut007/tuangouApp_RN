@@ -17,8 +17,8 @@ import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import NavBar from '../common/NavBar'
 import px2dp from '../common/util'
-import ProductCatagoryListViewTab from './ProductCatagoryListViewTab'
-import ProductDetail from './ProductDetail'
+import ProductCatagoryListViewTab from './Product/ProductCatagoryListViewTab'
+import ProductDetail from './Product/ProductDetail'
 import HttpRequest from '../HttpRequest/HttpRequest'
 import {CachedImage} from "react-native-img-cache";
 import Welcome from '../Login/Welcome'
