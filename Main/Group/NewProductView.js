@@ -6,6 +6,8 @@ import NavBar from '../../common/NavBar'
 import CommitButton from '../../common/CommitButton'
 import Dimensions from 'Dimensions';
 import CheckBox from 'react-native-checkbox'
+import {CachedImage} from "react-native-img-cache";
+import ImagePicker from 'react-native-image-crop-picker';
 import {
     StyleSheet,
     View,
@@ -14,16 +16,20 @@ import {
     Image,
     TextInput,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+
+//存放数组
+var dataToPost = [];
 export default class NewProductView extends Component{
             constructor (props){
                 super(props)
 
                 this.state = {
-                    productImgArr :[1,2,3,4,5,6,7],
+                    productImgArr :[],
                     productName :'',
                     productPrice:'',
                     productTypeDetail:'',
@@ -42,21 +48,97 @@ export default class NewProductView extends Component{
 
                 this.props.navigator.pop();
             }
-    onItemClick(){
+    onItemClick(item){
+                if (item.tag==='add_more'){
+                    if (Platform.OS === "ios"){
+                        ImagePicker.openPicker({
+                            multiple: true,
+                            waitAnimationEnd: false,
+                        }).then(images => {
+                            console.log('ImagePicker1:'+JSON.stringify(images));
+                            for (var  i =0;i <images.length;i++){
+                                dataToPost.push({
+                                    uri: images[i].path,
+                                    width: images[i].width,
+                                    height: images[i].height,
+                                    mime: images[i].mime,
+                                })
+                            }
+                            console.log('savedataToPost1:'+JSON.stringify(dataToPost))
+                            this.setState({
+                                productImgArr: dataToPost
+                            });
+                            console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
+
+                        }).catch(e => alert(e));
+                        // for (var i= 0 ;i <= this.state.productImgArr.length; i++){
+                        //     var imageItem = this.state.productImgArr[0];
+                        //     // ImagePicker.openCropper({
+                        //     //     path: imageItem.path,
+                        //     //     width: 400,
+                        //     //     height: 400
+                        //     // }).then(image => {
+                        //     //     console.log(image);
+                        //     // });
+                        // }
+                    }else {
+                        ImagePicker.openPicker({
+                            width: 300,
+                            height: 300,
+                            cropping: false,
+                            cropperCircleOverlay: false,
+                            compressImageMaxWidth: 480,
+                            compressImageMaxHeight: 640,
+                            compressImageQuality: 0.5,
+                            mediaType: 'photo',
+                            compressVideoPreset: 'MediumQuality'
+                        }).then(image => {
+                            dataToPost.push({
+                                uri: image.path,
+                                width: image.width,
+                                height: image.height,
+                                mime: image.mime
+                            });
+                            this.state.productImgArr = dataToPost;
+                            this.setState({ ...this.state });
+                            console.log('dataToPost')
+                        }).catch(e => {
+                            Alert.alert(e.message
+                                ? e.message
+                                : e);
+                        });
+                    }
+                }else {
+
+                }
+
+
+
 
     }
-             renderProductImgView(productImgArr){
+             renderProductImgView(productImgArr,num){
+
                  const w = (width-10)/ 4 , h = w
                  let renderSwipeView = (types, n) => {
+
                      return (
                          <View style={styles.toolsView}>
                              {
                                  types.map((item, i) => {
+                                    var imageUri = '';
+                                    if ( item.tag =='add_more'){
+                                        imageUri =require('../../images/addImgIcon@3x.png')
+                                    }else {
+                                        imageUri =item.uri
+                                    }
                                      let render = (
+
 
                                          <View style={[{ width: w, height: h}, styles.toolsItem]}>
                                              <Image style={{width: w-10, height: h-10,margin:10}}
-                                                    source={require('../../images/me_bj.jpg')}
+                                                    source={imageUri}
+                                                    resizeMode = 'contain'
+
                                              >
 
                                              </Image>
@@ -67,6 +149,7 @@ export default class NewProductView extends Component{
                                          </View>
                                      )
                                      return (
+
                                          <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
                                      )
                                  })
@@ -94,6 +177,37 @@ export default class NewProductView extends Component{
                     this.state.SGDColor = 'rbg(174,174,174)';
                     this.state.RMBColor ='#1b1b1b';
                 }
+                var nowProductDataArr = [];
+                console.log('productImgArrcount1:'+this.state.productImgArr.length)
+                if (this.state.productImgArr.length == 0){
+                    nowProductDataArr.push({
+                        'index': 1,
+                        'image': {uri:''},
+                        'tag': 'add_more'
+                    });
+                }else {
+                    for (var  i = 0; i < this.state.productImgArr.length+1;i++){
+                        console.log('productImgArrcount2:'+this.state.productImgArr.length)
+                        console.log('productImgArr:'+JSON.stringify(this.state.productImgArr))
+                        var imgItem = this.state.productImgArr[i]
+                        if (i == this.state.productImgArr.length) {
+
+                            nowProductDataArr.push({
+                                'index': i+1,
+                                'image': {uri:''},
+                                'tag': 'add_more'
+                            });
+                        }else{
+                            nowProductDataArr.push({
+                                'index': i+1,
+                                'image': {uri:imgItem.uri},
+                            });
+                        }
+                    }
+                }
+
+                console.log('nowProductDataArr1:'+JSON.stringify(nowProductDataArr))
+                var nowProductDataNum = nowProductDataArr.length
 
                   return (
                          <View style={styles.container}>
@@ -110,11 +224,11 @@ export default class NewProductView extends Component{
                                      showsVerticalScrollIndicator={false}
 
 
-                                     contentContainerStyle={{width:ItemW*this.state.productImgArr.length+1,height:ItemH}}
+                                     contentContainerStyle={{width:ItemW*nowProductDataNum+20,height:ItemH}}
                                      style={{width:width,height:ItemH}}
                                  >
 
-                                     {this.renderProductImgView(this.state.productImgArr)}
+                                     {this.renderProductImgView(nowProductDataArr,nowProductDataNum)}
                                  </ScrollView>
 
                              </View>
@@ -275,9 +389,8 @@ const styles = StyleSheet.create({
     },
     toolsView: {
         flexDirection: "row",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         justifyContent: 'flex-start',
-        // alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
     toolsItem: {

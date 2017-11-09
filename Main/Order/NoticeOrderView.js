@@ -1,13 +1,13 @@
-
 /**
- * Created by Arlen_JY on 2017/11/6.
+ * Created by Arlen_JY on 2017/11/8.
  */
+
+
 import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
-import NewGroupView from './NewGroupView'
-import NewProductView from './NewProductView'
-import AddProductView from './AddProductView'
+
+
 
 import {
     StyleSheet,
@@ -39,7 +39,7 @@ Date.prototype.format = function(fmt)
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
     return fmt;
 };
-export default class GroupBuyManager extends Component{
+export default class NoticeOrderView extends Component{
     constructor (props){
         super(props)
 
@@ -107,14 +107,14 @@ export default class GroupBuyManager extends Component{
         var displayGroupArr =[];
         var timetitle ='';
         // var groupProductNum = this.state.groupProductArr.length
-        for (var i = 0;i <= groupArr.length;i++){
-            displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:132,width:width,marginTop:10}}>
+        for (var i = 0;i < groupArr.length;i++){
+            displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:140,width:width,marginTop:10}}>
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',flex:3.5,paddingLeft:10}}>
-                        <Text style={{}}>双十一水果拼团开始啦！双十一水果拼团开始啦！双…</Text>
-                        <Image style={{marginRight:5}}
-                        source={require('../../images/next_icon@3x.png')}>
+                    <Text style={{}}>双十一水果拼团开始啦！双十一水果拼团开始啦！双…</Text>
+                    <Image style={{marginRight:5}}
+                           source={require('../../images/next_icon@3x.png')}>
 
-                        </Image>
+                    </Image>
                 </View>
                 <View style={{flex:8}}>
                     <ScrollView keyboardDismissMode='on-drag'
@@ -124,15 +124,20 @@ export default class GroupBuyManager extends Component{
                                 showsVerticalScrollIndicator={false}
 
 
-                                contentContainerStyle={{width:70*this.state.groupProductArr.length}}
-                                style={{width:width}}>
+                                contentContainerStyle={{width:70*this.state.groupProductArr.length,height:90}}
+                                style={{width:width,flexWrap:'nowrap'}}>
                         {this.renderGroupProductArr(this.state.groupProductArr)}
 
                     </ScrollView>
                 </View>
 
-                <View style={{flex:2.5}}>
+                <View style={{flex:2.5,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                     <Text style={{color:'rgb(117,117,117)',marginLeft:10}}>预计2017年11月12日发货</Text>
+                    <TouchableOpacity style={{}}>
+                        <View style={{}}>
+
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>)
         }
@@ -149,44 +154,10 @@ export default class GroupBuyManager extends Component{
         return (
             <View style={styles.container}>
                 <NavBar
-                    title="拼团管理"
+                    title="通知取货"
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                <View style={{marginTop:10,backgroundColor:'#ffffff',height:80,flexDirection:'row',justifyContent: 'flex-start',}}>
-                    <View style={{flex:125}}>
-                        <TouchableOpacity style={{marginTop:15,flexDirection:'column',justifyContent: 'flex-start',alignItems:'center'}} onPress={this.OnNewGroupPress.bind(this)}>
-                            <Image
-                            source={require('../../images/createIcon@3x.png')}>
-                            </Image>
-                            <Text style={[ { marginTop:6, color: 'rgb(28,28,28)', fontSize: 14,fontFamily:'PingFangSC-Regular',width:70,textAlign:'center'}]}>
-                                新建拼团
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{marginTop:10,marginBottom:10,flex:0.5,backgroundColor:'rgb(213,213,213)'}}></View>
-                    <View style={{flex:125}}>
-                        <TouchableOpacity style={{marginTop:15,flexDirection:'column',justifyContent: 'flex-start',alignItems:'center'}} onPress={this.OnProductManagerPress.bind(this)}>
-                            <Image
-                                source={require('../../images/productsIcon@3x.png')}>
-                            </Image>
-                            <Text style={[ { marginTop:6, color: 'rgb(28,28,28)', fontSize: 14,fontFamily:'PingFangSC-Regular',width:70,textAlign:'center'}]}>
-                                商品管理
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{marginTop:10,marginBottom:10,flex:0.5,backgroundColor:'rgb(213,213,213)'}}></View>
-                    <View style={{flex:125}}>
-                        <TouchableOpacity style={{marginTop:15,flexDirection:'column',justifyContent: 'flex-start',alignItems:'center'}} onPress={this.OnMemberManagerPress.bind(this)}>
-                            <Image
-                                source={require('../../images/teamUserIcon@3x.png')}>
-                            </Image>
-                            <Text style={[ { marginTop:6, color: 'rgb(28,28,28)', fontSize: 14,fontFamily:'PingFangSC-Regular',width:70,textAlign:'center'}]}>
-                                团员管理
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
 
-                </View>
                 <View style={{}}>
                     <ScrollView
                         keyboardDismissMode='on-drag'

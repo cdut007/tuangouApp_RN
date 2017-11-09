@@ -142,6 +142,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-wx')
     compile project(':react-native-vector-icons')

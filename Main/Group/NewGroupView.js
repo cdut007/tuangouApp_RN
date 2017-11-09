@@ -5,6 +5,8 @@
 import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
+import AddProductView from './AddProductView'
+import  Swipeout from 'react-native-swipeout'
 
 import {
     StyleSheet,
@@ -25,7 +27,8 @@ export default class NewGroupView extends Component{
         this.state = {
 
             groupTitle:'',
-            groupDetail:''
+            groupDetail:'',
+            groupProductScrollArr:[1,2,3],
 
 
         }
@@ -41,9 +44,101 @@ export default class NewGroupView extends Component{
     selectGroupDeliveryTime(){
 
     }
+    OnAddProductViewPress(){
+        this.props.navigator.push({
+            component: AddProductView
+        })
+    }
+    cancelItem(item){
+
+    }
+    renderProductInfo(item, w, h){
+        var  swipeoutBtns = [
+            {
+                backgroundColor:'red',
+                color:'white',
+                text:'移除',
+
+                onPress:() => this.cancelItem(item),
+
+            }
+
+
+        ]
+        console.log('item22:'+JSON.stringify(item))
+        return(  <Swipeout right={swipeoutBtns}
+                           autoClose={true}
+                           sensitivity={5}
+                           buttonWidth={100}
+
+
+        >
+            <View style={{
+            resizeMode: 'contain', alignItems: 'center', width: w, height: h,
+            justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+            flex: 1
+        }}>
+
+
+                <View style={{
+                flex: 2
+            }}>
+                    <Image style={{
+                    resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
+                    justifyContent: 'center',
+                }} source={require('../../images/me_bj.jpg')} />
+                </View>
+                <View style={{
+                height: h,
+                alignItems: 'flex-start',
+                flex: 7
+            }}>
+                    <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>名字</Text>
+                    <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>描述</Text>
+                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                        <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ 价格</Text>
+                        <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 </Text>
+                    </View>
+                </View>
+
+            </View>
+            <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+        </Swipeout>)
+    }
+    renderProductScrollView(groupProductScrollArr){
+        const w = width, h = 100
+        console.log('groupProductScrollArr1:'+JSON.stringify(groupProductScrollArr))
+        let renderSwipeView = (types, n) => {
+            return (
+                <View style={styles.toolsView}>
+                    {
+                        types.map((item, i) => {
+                            let render = (
+                                <View style={[{ width: w, height: h, marginTop: 5, marginRight: 5,  }, styles.toolsItem]}>
+                                    {this.renderProductInfo(item, w, h)}
+                                </View>
+                            )
+                            return (
+                                <View style={{ width: w, height: h }}>{render}</View>
+                            )
+                        })
+                    }
+                </View>
+            )
+        }
+        return (
+            renderSwipeView(groupProductScrollArr)
+        )
+    }
+
+
+
+
+
 
     render() {
-
+        var groupProductArr = [];
+        groupProductArr = this.state.groupProductScrollArr;
 
         return (
             <View style={styles.container}>
@@ -130,16 +225,30 @@ export default class NewGroupView extends Component{
                     </View>
                 </View>
                 <View style={{marginTop:10}}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                        <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                        <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}} onPress={this.OnAddProductViewPress.bind(this)}>
 
                        <Image source={require('../../images/addProductIcon@3x.png')}>
 
                         </Image>
                             <Text style={{marginLeft:10}}>添加商品</Text>
                         </TouchableOpacity>
+                        <Text style={{fontSize:14,fontFamily:'PingFangSC-Regular',textAlign:'left',color:'rgb(117,117,117)'}}>共计3件商品</Text>
                     </View>
                 </View>
+                <View style={{justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',}}>
+                    <ScrollView
+                        keyboardDismissMode='on-drag'
+                        keyboardShouldPersistTaps={false}
+                        style={{width:width, backgroundColor:'gray',height:height-380}}>
+
+                        {this.renderProductScrollView(groupProductArr)}
+                    </ScrollView>
+
+                </View>
+
 
 
             </View>
@@ -156,6 +265,20 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
+    toolsView: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f2f2f2',
+    },
+    toolsItem: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor:'#f2f2f2'
+
+    },
+
 
 
 
