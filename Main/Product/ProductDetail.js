@@ -35,7 +35,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 var hasGotGbDetail = false
 var Global = require('../../common/globals');
-
+import Swiper from 'react-native-swiper';
 
 import LoginView from '../../Login/LoginView'
 import HttpRequest from '../../HttpRequest/HttpRequest'
@@ -46,8 +46,8 @@ export default class ProductDetail extends Component {
         super(props)
         this.state = {
             banners: [],
-            goods: {goods: {images: [{image: ''}, {desc: ''}]}},//defualt image later
-            gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []},
+            goods: {classify: {},goods_detail:{},related_goods:[]},//defualt image later
+            // gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []},
             WebViewHeight:height
         }
     }
@@ -58,8 +58,8 @@ export default class ProductDetail extends Component {
             component: ProductDetail,
             props: {
                 prouduct:{
-                    'index': prouduct.id,
-                    'image': {uri:prouduct.goods.images[0].image},
+                    'index': prouduct.goods_id,
+                    'image': {uri:prouduct.image},
                 },
             }
         })
@@ -69,19 +69,18 @@ export default class ProductDetail extends Component {
     componentDidMount() {
         var prouduct = this.props.prouduct;
         hasGotGbDetail = false
+   this.setState({
+       goods: {classify: {},goods_detail:{},related_goods:[]}
+   })
 
-        this.setState({
-            goods: {goods: {images: [{image: ''}, {desc: ''}]}}
-
-        });
         this._fetchGoods(prouduct.index);
     }
 
     _fetchGoods(spec_id) {
 
-        var paramBody = {goods: spec_id}
+        var paramBody = {goods_id: spec_id}
         console.log('_fetchGoodsspec_id:' + spec_id)
-        HttpRequest.get('/v1','/goods_detail', paramBody, this.onProudctDetailSuccess.bind(this),
+        HttpRequest.get('/v2','/api.goods.detail', paramBody, this.onProudctDetailSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);
@@ -102,12 +101,14 @@ export default class ProductDetail extends Component {
 
     onProudctDetailSuccess(response) {
         console.log('ProductDetailData' + JSON.stringify(response.data))
+        var bannerImgArr =[];
+        bannerImgArr.push(response.data.goods_detail.images);
         this.setState({
             goods: response.data,
-            banners: response.data.goods.images
+            banners: response.data.goods_detail.images
         })
 
-        var paramBody = {group_buy: response.data.group_buy}
+        var paramBody = {group_buy: response.data.classify.group_buy_id}
         HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
             (e) => {
                 try {
@@ -180,21 +181,42 @@ export default class ProductDetail extends Component {
         }
 
     }
+    renderSwiperImageView(imageArr,imageNum){
+        var displayViewArr =[];
 
+        for (var i = 0 ;i <imageNum ; i++){
+            displayViewArr.push(  <Image source={{uri:imageArr[i]}} style={{width: width,
+        height: width}} />)
+        }
+        return displayViewArr;
+
+    }
     renderBannerView() {
         if (this.state.banners.length > 0) {
             console.log('ProductDetailBanners' + JSON.stringify(this.state.banners))
+            var imageArr = this.state.banners;
+            var imageNum = imageArr.length;
             return (
                 <View style={styles.topView}>
 
-                    <Banner style={styles.topView}
-                            banners={this.state.banners}
-                            defaultIndex={this.defaultIndex}
-                            onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                            intent={this.bannerClickListener.bind(this)}>
+                    <Swiper
+                        style={[styles.topView,{width:width*imageNum}]}
+                        height={150}
+                        index={0}
+                        loop={true}                    //如果设置为false，那么滑动到最后一张时，再次滑动将不会滑到第一张图片。
+                        autoplay={true}                //自动轮播
+                        horizontal={true} //水平方向，为false可设置为竖直方向
+                        paginationStyle={{bottom: 10}}
+                        showsButtons={false}
+                        autoplayTimeout={4}                //每隔4秒切换
+                    >
 
 
-                    </Banner>
+                        {this.renderSwiperImageView(imageArr,imageNum)}
+
+
+
+                    </Swiper>
 
                 </View>
 
@@ -227,8 +249,8 @@ export default class ProductDetail extends Component {
         const ItemW = width / 3 - 1, ItemH = ItemW * 1.5
         var goods = this.state.goods;
 
-        var goodsRecommendItems = this.state.gbDetail.group_buy_goods
-        var goodsDetailImages = goods.goods.desc;
+        var goodsRecommendItems = goods.related_goods
+        var goodsDetailImages = goods.goods_detail.desc;
         console.log('goodsitem:' + JSON.stringify(goods))
         // if(!goods){
         //     return <Loading loadingtext='正在加载商品...'/>
@@ -245,22 +267,22 @@ export default class ProductDetail extends Component {
                     <View>
                         {this.renderBannerView()}
 
-                        <Text style={{ flex: 1, color: '#1c1c1c', fontSize: 18, margin: 10 }}>{goods.goods.name}</Text>
+                        <Text style={{ flex: 1, color: '#1c1c1c', fontSize: 18, margin: 10 }}>{goods.goods_detail.name}</Text>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
                             justifyContent: 'flex-start', margin: 10,
                             flex: 1
                         }}>
                             <Text
-                                style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {goods.price}</Text>
+                                style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {goods.goods_detail.price}</Text>
                             <Text style={{
                                 alignItems: 'center', marginLeft: 10, flex: 7,
                                 justifyContent: 'center', numberOfLines: 1, color: '#757575', fontSize: 12
-                            }}>{goods.brief_dec}</Text>
+                            }}>{goods.goods_detail.unit}</Text>
                             <Text style={{
                                 alignItems: 'center', marginLeft: 10, flex: 2,
                                 justifyContent: 'flex-end', numberOfLines: 1, color: '#757575', fontSize: 12
-                            }}>库存 {goods.stock}</Text>
+                            }}>库存 {goods.goods_detail.stock}</Text>
                         </View>
 
 
@@ -273,9 +295,9 @@ export default class ProductDetail extends Component {
                             <CachedImage style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
-                            }} source={{ uri: this.state.gbDetail.classify.icon }}/>
+                            }} source={{ uri: goods.classify.icon }}/>
                             <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
-                                {this.state.gbDetail.classify.name}
+                                {goods.classify.name}
 
                             </Text>
                         </View>
@@ -355,12 +377,12 @@ renderDetailView(goodsDetailImages) {
 
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
-                                    <CachedImage style={{
+                                    <Image style={{
                                         resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
-                                    }} source={{ uri: item.goods.images[0].image }} />
+                                    }} source={{ uri: item.image }} />
 
-                                    <Text style={{ fontSize: 12, color: '#1b1b1b', textAlign: 'center', numberOfLines: 2, margin: 10 }}>{item.goods.name}</Text>
+                                    <Text style={{ fontSize: 12, color: '#1b1b1b', textAlign: 'center', numberOfLines: 2, margin: 10 }}>{item.name}</Text>
                                     <Text style={{ textAlign: 'center', numberOfLines: 1, color: '#e31515', fontSize: 12 }}>S$ {item.price}</Text>
                                 </View>
                             )
@@ -442,7 +464,7 @@ const styles = StyleSheet.create({
     },
     topView:{
         width:width,
-        height:230,
+        height:width,
         alignSelf:'stretch'
 
 

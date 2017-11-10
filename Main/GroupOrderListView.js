@@ -184,13 +184,13 @@ export default class GroupOrderListView extends Component {
                     <View style={[styles.brandLabelContainer, { marginBottom: 10 }]}>
                         <View style={{
                             marginLeft: 10, marginTop: 10, marginRight: 5, alignItems: 'center',
-                            justifyContent: 'flex-start',flexDirection: 'row',
+                            justifyContent: 'flex-start',flexDirection: 'row',width:width-120
                         }}>
                             <CachedImage style={{
                                 resizeMode: 'contain', marginRight: 5, alignItems: 'center',
                                 justifyContent: 'center', width: 30, height: 30
                             }} source={{ uri: order.classify.icon }} />
-                            <Text style={{ fontSize: 16, color: '#1b1b1b' }}>{order.classify.name}</Text>
+                            <Text style={{ fontSize: 16, color: '#1b1b1b' ,width:width-160}}>{order.classify.name}</Text>
                         </View>
 
                         <Text style={{textAlign:'center', fontSize: 12, color: '#rgb(117,117,117)' , alignSelf:'center',marginRight:10,marginTop:10,fontFamily:'PingFangSC-Regular'}}>{shipTime}</Text>
@@ -318,6 +318,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width:width
     },
     line: {
         height: 1,

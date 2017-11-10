@@ -49,8 +49,8 @@ export default class ProductCatagoryListViewTab extends Component {
 
 
 
-        let param = { classify: this.props.prouduct.index }
-        HttpRequest.get('/v1','/group_buy_list', param, this.onGroupBuyListSuccess.bind(this),
+        let param = { classify_id: this.props.prouduct.index }
+        HttpRequest.get('/v2','/api.goods.listing', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
 
                 console.log(' group_buy_listerro:' + e)
@@ -64,8 +64,8 @@ export default class ProductCatagoryListViewTab extends Component {
 
 
         var tabTitle = []
-        for (var i = 0; i < response.data.group_buy.length; i++) {
-            let item = response.data.group_buy[i]
+        for (var i = 0; i < response.data.group_buying_list.length; i++) {
+            let item = response.data.group_buying_list[i]
             var MM = moment(item.ship_time).format("M");
             var DD = moment(item.ship_time).format("D");
             tabTitle.push({ key: '' + i, title: MM+'月'+DD+'日发货拼团' })
@@ -77,9 +77,9 @@ export default class ProductCatagoryListViewTab extends Component {
         })
 
 
-        if (response.data.group_buy.length) {
-            for (var j = 0;j <response.data.group_buy.length; j++){
-                var paramBody = { group_buy: this.state.gbList.group_buy[j].id }
+        if (response.data.group_buying_list.length) {
+            for (var j = 0;j <response.data.group_buying_list.length; j++){
+                var paramBody = { group_buy: this.state.gbList.group_buying_list[j].group_buy_id }
                 console.log('group_buy:'+JSON.stringify(paramBody));
                 HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
                     (e) => {
@@ -117,7 +117,7 @@ export default class ProductCatagoryListViewTab extends Component {
         var scence = {}
         this.state.routes.map((item, n) => {
             let index = Number(item.key)
-            let key = this.state.gbList.group_buy[index].id
+            let key = this.state.gbList.group_buying_list[index].group_buy_id
             let gbDetail = this.state.allGbDetail[key]
             scence[item.key] = this.createProdcutCategoryList(gbDetail)
         })
@@ -127,7 +127,7 @@ export default class ProductCatagoryListViewTab extends Component {
     // _renderScene = SceneMap(this.onSenceItem());
 
     renderTabView() {
-        if (this.state.gbList.group_buy && this.state.gbList.group_buy.length) {
+        if (this.state.gbList.group_buying_list && this.state.gbList.group_buying_list.length) {
             return (<TabViewAnimated
                 style={styles.container}
                 navigationState={this.state}

@@ -79,11 +79,23 @@ export default class DownloadExcelView extends Component {
                 })
 
         }
-
+    onPressSendEmail(){
+        this.props.navigator.pop();
+    }
     onSendEmailSuccess(){
 
         Global.email = this.state.mail,
-            Alert.alert('提示',Global.email)
+
+        Alert.alert(
+            '提示',
+            '邮件发送成功',
+            [
+
+
+                {text: '确定', onPress: this.onPressSendEmail.bind(this)},
+            ],
+            { cancelable: false }
+        )
     }
 
     render() {

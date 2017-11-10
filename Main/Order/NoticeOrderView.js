@@ -6,9 +6,11 @@
 import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
+import HttpRequest from '../../HttpRequest/HttpRequest';
+var Global = require('../../common/globals');
 
 
-
+import {CachedImage} from "react-native-img-cache";
 import {
     StyleSheet,
     View,
@@ -21,6 +23,7 @@ import {
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+import moment from 'moment';
 Date.prototype.format = function(fmt)
 { //author: meizz
     var o = {
@@ -47,8 +50,9 @@ export default class NoticeOrderView extends Component{
 
             groupTitle:'',
             groupDetail:'',
-            groupArr:[1,2,3,4],
-            groupProductArr:[1,2,3,4,5,6],
+            groupArr:[],
+            groupProductArr:[],
+            groupData:{group_buying_list:[],classify:{}}
 
 
         }
@@ -57,6 +61,32 @@ export default class NoticeOrderView extends Component{
     back(){
 
         this.props.navigator.pop();
+    }
+    componentWillMount(){
+        let param = { pageSize: '20',currentPage:'1'}
+
+        HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetFirstNoticeOrderSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
+            })
+
+    }
+    onGetFirstNoticeOrderSuccess(response){
+        console.log('onGetNoticeOrderSuccess11:'+JSON.stringify(response))
+        this.setState({
+            groupData:response.data
+        })
+
+
+    }
+    onGetNoticeOrderSuccess(response){
+        console.log('onGetNoticeOrderSuccess12:'+JSON.stringify(response))
+        this.setState({
+            groupData:response.data
+        })
+
+
     }
     OnNewGroupPress(){
         this.props.navigator.push({
@@ -69,6 +99,51 @@ export default class NoticeOrderView extends Component{
     OnMemberManagerPress(){
 
     }
+    onPressUpdateGroup_buyingList(){
+        let param = { pageSize: '20',currentPage:'1'}
+
+        HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetNoticeOrderSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
+            })
+    }
+    onPressSendNotice(productItem){
+        let param = { group_buy_id: productItem.group_buy_id}
+
+        HttpRequest.post('/v2','/api.merchant.notice.take_goods', param, this.onSendNoticeSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
+            })
+    }
+    onSendNoticeSuccess(response){
+
+        Alert.alert(
+            '提示',
+            '发送通知成功',
+            [
+
+
+                {text: '确定', onPress: this.onPressUpdateGroup_buyingList.bind(this)},
+            ],
+            { cancelable: false }
+        )
+    }
+    onPressNoticePickUp(productItem){
+        Alert.alert(
+            '提示',
+            '你的团员将通过关注微信公众号【爱邻购团购网】收到你发送的取货通知！',
+            [
+
+                {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: '确定发送', onPress: this.onPressSendNotice.bind(this,productItem)},
+            ],
+            { cancelable: false }
+        )
+
+
+    }
     renderGroupProductArr(GroupProductArr){
         const w = (width-10)/ 5.6 , h = w
         let renderSwipeView = (types, n) => {
@@ -79,8 +154,8 @@ export default class NoticeOrderView extends Component{
                             let render = (
 
                                 <View style={[{ width: w, height: h}, styles.toolsItem]}>
-                                    <Image style={{width: w-5, height: h-5,margin:5}}
-                                           source={require('../../images/me_bj.jpg')}
+                                    <Image style={{width: w-5, height: h-5,margin:5,resizeMode:'contain',}}
+                                           source={{uri:item}}
                                     >
 
                                     </Image>
@@ -91,7 +166,7 @@ export default class NoticeOrderView extends Component{
                                 </View>
                             )
                             return (
-                                <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
+                                <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => {  }}>{render}</TouchableOpacity>
                             )
                         })
                     }
@@ -108,34 +183,54 @@ export default class NoticeOrderView extends Component{
         var timetitle ='';
         // var groupProductNum = this.state.groupProductArr.length
         for (var i = 0;i < groupArr.length;i++){
+            var  groupItem = groupArr[i];
+            var ship_time = moment(groupItem.ship_time).format("预计Y年M"+'月'+"D"+'号发货');
+            var notice_pushed = groupItem.notice_pushed;
+            var productImgCount = groupItem.images.length
+            console.log('groupProductNum'+i+':'+JSON.stringify(groupItem))
+            // var notice_pushed = 0;
+            var noticeBtnColor =''
+            var noticeBtnTitle =''
+            var noticeBtnTitleColor =''
+            if (notice_pushed ==0){
+                noticeBtnColor ='rgb(234,107,16)'
+                noticeBtnTitle ='发送收货通知'
+                noticeBtnTitleColor ='#ffffff'
+            }else {
+                noticeBtnColor ='rgb(216,216,216)'
+                noticeBtnTitle ='已发送'
+                noticeBtnTitleColor ='rgb(117,117,117)'
+
+            }
             displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:140,width:width,marginTop:10}}>
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',flex:3.5,paddingLeft:10}}>
-                    <Text style={{}}>双十一水果拼团开始啦！双十一水果拼团开始啦！双…</Text>
+                    <Text style={{width:width-40}}>{groupItem.desc}</Text>
                     <Image style={{marginRight:5}}
                            source={require('../../images/next_icon@3x.png')}>
 
                     </Image>
                 </View>
                 <View style={{flex:8}}>
-                    <ScrollView keyboardDismissMode='on-drag'
+                    <ScrollView
+                                contentContainerStyle={{width:75*productImgCount,height:70}}
+                                style={{width:width,height:90}}
+                                keyboardDismissMode='on-drag'
                                 keyboardShouldPersistTaps={false}
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
-                                showsVerticalScrollIndicator={false}
-
-
-                                contentContainerStyle={{width:70*this.state.groupProductArr.length,height:90}}
-                                style={{width:width,flexWrap:'nowrap'}}>
-                        {this.renderGroupProductArr(this.state.groupProductArr)}
+                                showsVerticalScrollIndicator={false}>
+                        {this.renderGroupProductArr(groupItem.images)}
 
                     </ScrollView>
                 </View>
 
-                <View style={{flex:2.5,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                    <Text style={{color:'rgb(117,117,117)',marginLeft:10}}>预计2017年11月12日发货</Text>
-                    <TouchableOpacity style={{}}>
-                        <View style={{}}>
-
+                <View style={{flex:3.5,flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginRight:10}}>
+                    <Text style={{color:'rgb(117,117,117)',marginLeft:10}}>{ship_time}</Text>
+                    <TouchableOpacity style={{}} disabled={notice_pushed} onPress={() => { this.onPressNoticePickUp(groupItem) }}>
+                        <View style={{backgroundColor:noticeBtnColor,width:100,height:30,borderRadius:4,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{ fontSize:14,
+        fontFamily:'PingFang-SC-Medium',
+        textAlign:'center',color:noticeBtnTitleColor}}>{noticeBtnTitle}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -146,9 +241,12 @@ export default class NoticeOrderView extends Component{
     }
     render() {
 
-        var groupCount = this.state.groupArr.length;
-        if (this.state.groupArr.length >= 4){
-            groupCount = 4;
+        var groupScrollHeight = '';
+        this.state.groupArr = this.state.groupData.group_buying_list;
+        if (this.state.groupArr.length*150 >= height-69){
+            groupScrollHeight = height-69;
+        }else {
+            groupScrollHeight = this.state.groupArr.length *150;
         }
 
         return (
@@ -168,7 +266,7 @@ export default class NoticeOrderView extends Component{
 
 
 
-                        style={{width:width,backgroundColor:'#f2f2f2',height:140 *groupCount}}
+                        style={{width:width,backgroundColor:'#f2f2f2',height:groupScrollHeight}}
                     >
 
                         {this.renderGroupScrollView(this.state.groupArr)}
@@ -193,17 +291,20 @@ const styles = StyleSheet.create({
     },
     toolsView: {
         flexDirection: "row",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         justifyContent: 'flex-start',
-        // alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
     },
     toolsItem: {
         justifyContent: "flex-start",
-        // alignItems: "center",
-        backgroundColor:'#f2f2f2'
+        alignItems: "center",
+        backgroundColor:'#ffffff'
 
     },
+    noticeTitle:{
 
+
+    }
 
 })

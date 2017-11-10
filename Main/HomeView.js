@@ -21,6 +21,7 @@ import ProductCatagoryListViewTab from './Product/ProductCatagoryListViewTab'
 import ProductDetail from './Product/ProductDetail'
 import HttpRequest from '../HttpRequest/HttpRequest'
 import {CachedImage} from "react-native-img-cache";
+import Swiper from 'react-native-swiper';
 import Welcome from '../Login/Welcome'
 var Global = require('../common/globals');
 
@@ -135,12 +136,13 @@ export default class HomeView extends Component {
                  showsHorizontalScrollIndicator = {false}
                  showsVerticalScrollIndicator={false}
 
+
                  horizontal={false}
                  style={{width:width}}
 
                  >
 
-                 {this.renderTopView()}
+                     {this.renderTopView()}
                  {this.renderProductCategoryView()}
                  </ScrollView>
             </View>
@@ -174,7 +176,16 @@ export default class HomeView extends Component {
         )
     };
 
+    renderSwiperImageView(imageArr,imageNum){
+        var displayViewArr =[];
 
+        for (var i = 0 ;i <imageNum ; i++){
+            displayViewArr.push(  <CachedImage source={{uri:imageArr[i].image}} style={{width: width,
+        height: 150}} />)
+        }
+        return displayViewArr;
+
+    }
     renderTopView() {
 
 
@@ -183,6 +194,8 @@ export default class HomeView extends Component {
 
         var errorInfo = JSON.stringify(this.state.banners);
         console.log("this.state.banners="+errorInfo)
+        var imageArr = this.state.banners;
+        var imageNum = imageArr.length;
         if (this.state.banners.length == 0) {
             return (
                 <View
@@ -191,16 +204,36 @@ export default class HomeView extends Component {
 
             )
         }else{
+            // return (
+            //     <Banner
+            //         style={styles.topView}
+            //         banners={imageArr}
+            //         defaultIndex={this.defaultIndex}
+            //         onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
+            //         intent={this.bannerClickListener.bind(this)}
+            //     />
+            //
+            //
+            // )
             return (
-                <Banner
-                    style={styles.topView}
-                    banners={this.state.banners}
-                    defaultIndex={this.defaultIndex}
-                    onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}
-                    intent={this.bannerClickListener.bind(this)}
-                />
+                <Swiper
+                    style={[styles.topView,{width:width*imageNum}]}
+                    height={150}
+                    index={0}
+                    loop={true}                    //如果设置为false，那么滑动到最后一张时，再次滑动将不会滑到第一张图片。
+                    autoplay={true}                //自动轮播
+                    horizontal={true} //水平方向，为false可设置为竖直方向
+                    paginationStyle={{bottom: 10}}
+                    showsButtons={false}
+                    autoplayTimeout={4}                //每隔4秒切换
+                                  >
 
 
+                    {this.renderSwiperImageView(imageArr,imageNum)}
+
+
+
+                </Swiper>
             )
         }
     }
@@ -378,8 +411,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     topView: {
-        height: 150,
-        width: width,
+        height: 160,
+        width:width,
         alignSelf:'stretch'
     },
 

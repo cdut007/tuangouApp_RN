@@ -57,6 +57,7 @@ componentDidMount() {
             .then((isInstalled) => {
                 if (isInstalled){
                     WeChat.sendAuthRequest('snsapi_userinfo', '63a7a33c0b5b75d1f44b8edb7a4ea7cd').then(res => {
+                    // WeChat.sendAuthRequest('snsapi_userinfo', '8f124947d450ee56458828481d183889').then(res => {
                         console.log('wx login result=' + JSON.stringify(res));
 
                         if (res.errCode == 0) {
@@ -67,6 +68,8 @@ componentDidMount() {
                             })
                             Global.wxAuth = res;
                             this.onGetWxToken('wx22795e8274245d59', res.code)
+                            // this.onGetWxToken('wx3dfb837875e773af', res.code)
+
                         }
                         else {
                             alert('Login faild, please try again.1')
@@ -104,7 +107,7 @@ componentDidMount() {
 
     onGetWxToken(appid, code) {
         let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=63a7a33c0b5b75d1f44b8edb7a4ea7cd&code=' + code + '&grant_type=authorization_code'
-
+        // let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=8f124947d450ee56458828481d183889&code=' + code + '&grant_type=authorization_code'
         fetch(url, {
             method: 'GET',
         })
