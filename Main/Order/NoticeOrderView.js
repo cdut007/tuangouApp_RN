@@ -107,18 +107,31 @@ export default class NoticeOrderView extends Component{
                 console.log(' error:' + e);
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
             })
+
     }
     onPressSendNotice(groupItem){
-        let param = { group_buy_id: groupItem.group_buy_id}
+        // let param = { group_buy_id: groupItem.group_buy_id}
+        //
+        // // Alert.alert('该团group_buy_id为',JSON.stringify(productItem))
+        // HttpRequest.post('/v2','/api.merchant.notice.take_goods', param, this.onSendNoticeSuccess.bind(this),
+        //     (e) => {
+        //         console.log(' error:' + e);
+        //
+        //     })
+        var paramBody =
+            {
+                group_buy_id: groupItem.group_buy_id
+
+            }
         console.log('group_buy_id'+JSON.stringify(groupItem.group_buy_id))
-        // Alert.alert('该团group_buy_id为',JSON.stringify(productItem))
-        HttpRequest.post('/v2','/api.merchant.notice.take_goods', param, this.onSendNoticeSuccess.bind(this),
+        HttpRequest.post('/v2','/api.merchant.notice.take_goods', paramBody, this.onSendNoticeSuccess.bind(this),
             (e) => {
-                console.log(' error:' + e);
+
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
+                console.log(' send_mailerror:' + e)
             })
     }
-    onSendNoticeSuccess(response){
+    onSendNoticeSuccess(){
 
         Alert.alert(
             '提示',
