@@ -7,7 +7,7 @@ import CommitButton from '../../common/CommitButton'
 import Dimensions from 'Dimensions';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
-import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
 import {
     StyleSheet,
     View,
@@ -49,28 +49,28 @@ export default class NewProductView extends Component{
                 this.props.navigator.pop();
             }
     onItemClick(item){
-                if (item.tag==='add_more'){
-                    if (Platform.OS === "ios"){
-                        ImagePicker.openPicker({
-                            multiple: true,
-                            waitAnimationEnd: false,
-                        }).then(images => {
-                            console.log('ImagePicker1:'+JSON.stringify(images));
-                            for (var  i =0;i <images.length;i++){
-                                dataToPost.push({
-                                    uri: images[i].path,
-                                    width: images[i].width,
-                                    height: images[i].height,
-                                    mime: images[i].mime,
-                                })
-                            }
-                            console.log('savedataToPost1:'+JSON.stringify(dataToPost))
-                            this.setState({
-                                productImgArr: dataToPost
-                            });
-                            console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
-
-                        }).catch(e => alert(e));
+                // if (item.tag==='add_more'){
+                    // if (Platform.OS === "ios"){
+                    //     ImagePicker.openPicker({
+                    //         multiple: true,
+                    //         waitAnimationEnd: false,
+                    //     }).then(images => {
+                    //         console.log('ImagePicker1:'+JSON.stringify(images));
+                    //         for (var  i =0;i <images.length;i++){
+                    //             dataToPost.push({
+                    //                 uri: images[i].path,
+                    //                 width: images[i].width,
+                    //                 height: images[i].height,
+                    //                 mime: images[i].mime,
+                    //             })
+                    //         }
+                    //         console.log('savedataToPost1:'+JSON.stringify(dataToPost))
+                    //         this.setState({
+                    //             productImgArr: dataToPost
+                    //         });
+                    //         console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
+                    //
+                    //     }).catch(e => alert(e));
                         // for (var i= 0 ;i <= this.state.productImgArr.length; i++){
                         //     var imageItem = this.state.productImgArr[0];
                         //     // ImagePicker.openCropper({
@@ -81,36 +81,36 @@ export default class NewProductView extends Component{
                         //     //     console.log(image);
                         //     // });
                         // }
-                    }else {
-                        ImagePicker.openPicker({
-                            width: 300,
-                            height: 300,
-                            cropping: false,
-                            cropperCircleOverlay: false,
-                            compressImageMaxWidth: 480,
-                            compressImageMaxHeight: 640,
-                            compressImageQuality: 0.5,
-                            mediaType: 'photo',
-                            compressVideoPreset: 'MediumQuality'
-                        }).then(image => {
-                            dataToPost.push({
-                                uri: image.path,
-                                width: image.width,
-                                height: image.height,
-                                mime: image.mime
-                            });
-                            this.state.productImgArr = dataToPost;
-                            this.setState({ ...this.state });
-                            console.log('dataToPost')
-                        }).catch(e => {
-                            Alert.alert(e.message
-                                ? e.message
-                                : e);
-                        });
-                    }
-                }else {
-
-                }
+                    // }else {
+                    //     ImagePicker.openPicker({
+                    //         width: 300,
+                    //         height: 300,
+                    //         cropping: false,
+                    //         cropperCircleOverlay: false,
+                    //         compressImageMaxWidth: 480,
+                    //         compressImageMaxHeight: 640,
+                    //         compressImageQuality: 0.5,
+                    //         mediaType: 'photo',
+                    //         compressVideoPreset: 'MediumQuality'
+                    //     }).then(image => {
+                    //         dataToPost.push({
+                    //             uri: image.path,
+                    //             width: image.width,
+                    //             height: image.height,
+                    //             mime: image.mime
+                    //         });
+                    //         this.state.productImgArr = dataToPost;
+                    //         this.setState({ ...this.state });
+                    //         console.log('dataToPost')
+                    //     }).catch(e => {
+                    //         Alert.alert(e.message
+                    //             ? e.message
+                    //             : e);
+                    //     });
+                    // }
+                // }else {
+                //
+                // }
 
 
 

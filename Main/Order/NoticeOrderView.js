@@ -108,9 +108,10 @@ export default class NoticeOrderView extends Component{
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
             })
     }
-    onPressSendNotice(productItem){
-        let param = { group_buy_id: productItem.group_buy_id}
-
+    onPressSendNotice(groupItem){
+        let param = { group_buy_id: groupItem.group_buy_id}
+        console.log('group_buy_id'+JSON.stringify(groupItem.group_buy_id))
+        // Alert.alert('该团group_buy_id为',JSON.stringify(productItem))
         HttpRequest.post('/v2','/api.merchant.notice.take_goods', param, this.onSendNoticeSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e);
@@ -130,14 +131,15 @@ export default class NoticeOrderView extends Component{
             { cancelable: false }
         )
     }
-    onPressNoticePickUp(productItem){
+    onPressNoticePickUp(groupItem){
+        console.log('onPressNoticePickUp:'+JSON.stringify(groupItem))
         Alert.alert(
             '提示',
             '你的团员将通过关注微信公众号【爱邻购团购网】收到你发送的取货通知！',
             [
 
                 {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: '确定发送', onPress: this.onPressSendNotice.bind(this,productItem)},
+                {text: '确定发送', onPress: this.onPressSendNotice.bind(this,groupItem)},
             ],
             { cancelable: false }
         )
@@ -181,9 +183,11 @@ export default class NoticeOrderView extends Component{
     renderGroupScrollView(groupArr){
         var displayGroupArr =[];
         var timetitle ='';
+
         // var groupProductNum = this.state.groupProductArr.length
         for (var i = 0;i < groupArr.length;i++){
-            var  groupItem = groupArr[i];
+            var  groupItem = ''
+            groupItem =this.state.groupArr[i];
             var ship_time = moment(groupItem.ship_time).format("预计Y年M"+'月'+"D"+'号发货');
             var notice_pushed = groupItem.notice_pushed;
             var productImgCount = groupItem.images.length
@@ -226,7 +230,7 @@ export default class NoticeOrderView extends Component{
 
                 <View style={{flex:3.5,flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginRight:10}}>
                     <Text style={{color:'rgb(117,117,117)',marginLeft:10}}>{ship_time}</Text>
-                    <TouchableOpacity style={{}} disabled={notice_pushed} onPress={() => { this.onPressNoticePickUp(groupItem) }}>
+                    <TouchableOpacity style={{}} disabled={notice_pushed} onPress={this.onPressNoticePickUp.bind(this,groupItem)}>
                         <View style={{backgroundColor:noticeBtnColor,width:100,height:30,borderRadius:4,justifyContent:'center',alignItems:'center'}}>
                                     <Text style={{ fontSize:14,
         fontFamily:'PingFang-SC-Medium',

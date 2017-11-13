@@ -378,7 +378,7 @@ renderDetailView(goodsDetailImages) {
                                 <View style={[{ width: w, height: h }, styles.toolsItem]}>
 
                                     <Image style={{
-                                        resizeMode: 'cover', alignItems: 'center', width: w - 2, height: w,
+                                        resizeMode: 'contain', alignItems: 'center', width: w - 2, height: w,
                                         justifyContent: 'center', margin: 2
                                     }} source={{ uri: item.image }} />
 
