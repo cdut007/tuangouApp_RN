@@ -128,7 +128,7 @@ export default class NoticeOrderView extends Component{
             (e) => {
 
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
-                console.log(' send_mailerror:' + e)
+               
             })
     }
     onSendNoticeSuccess(){
