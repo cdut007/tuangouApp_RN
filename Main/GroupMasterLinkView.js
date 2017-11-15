@@ -17,6 +17,7 @@ var test = false
 import NavBar from '../common/NavBar'
 import Dimensions from 'Dimensions'
 import Welcome from '../Login/Welcome'
+import TabView from './TabView'
 var  WeChat = require('react-native-wechat');
 var Global = require('../common/globals');
 var width = Dimensions.get('window').width;
@@ -81,11 +82,11 @@ export default class GroupMasterLinkView extends Component {
     }
 
     back() {
-        this.props.navigator.pop()
-        // this.props.navigator.resetTo({
-        //     component: Welcome,
-        //     name: 'Welcome'
-        // })
+        // this.props.navigator.pop()
+        this.props.navigator.resetTo({
+            component: TabView,
+            name: 'MainPage'
+        })
     }
     _logout_function(){
 

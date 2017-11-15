@@ -48,7 +48,9 @@ export default class ProductDetail extends Component {
             banners: [],
             goods: {classify: {},goods_detail:{},related_goods:[]},//defualt image later
             // gbDetail: {classify: {name: '', icon: ''}, group_buy_goods: []},
-            WebViewHeight:height
+            WebViewHeight:height,
+            classifyDetailDes:{},
+            gbDetail:{}
         }
     }
 
@@ -108,31 +110,38 @@ export default class ProductDetail extends Component {
             banners: response.data.goods_detail.images
         })
 
-        var paramBody = {group_buy: response.data.classify.group_buy_id}
-        HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+        let param = { classify_id: this.state.goods.classify.group_buy_id }
+        HttpRequest.get('/v2','/api.goods.listing', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
-                try {
-                    var errorInfo = JSON.parse(e);
-                    console.log(errorInfo.description)
-                    if (errorInfo != null && errorInfo.description) {
-                        console.log(errorInfo.description)
-                    } else {
-                        console.log(e)
-                    }
-                }
-                catch (err) {
-                    console.log(err)
-                }
 
-                console.log(' error:' + e)
+                console.log(' group_buy_listerr:' + e)
             })
+        // var paramBody = {group_buy: response.data.classify.group_buy_id}
+        // HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+        //     (e) => {
+        //         try {
+        //             var errorInfo = JSON.parse(e);
+        //             console.log(errorInfo.description)
+        //             if (errorInfo != null && errorInfo.description) {
+        //                 console.log(errorInfo.description)
+        //             } else {
+        //                 console.log(e)
+        //             }
+        //         }
+        //         catch (err) {
+        //             console.log(err)
+        //         }
+        //
+        //         console.log(' error:' + e)
+        //     })
     }
 
 
-    onGroupBuyDetailSuccess(response) {
+    onGroupBuyListSuccess(response) {
         hasGotGbDetail = true
         this.setState({
-            gbDetail: response.data
+            gbDetail: response.data,
+            classifyDetailDes:response.data.classifyDetail
         })
     }
 
@@ -171,6 +180,7 @@ export default class ProductDetail extends Component {
                 component: GroupBuyCar,
                 props: {
                     showBack: true,
+                    classifyDetail:this.state.classifyDetailDes
                 }
             })
         }else {

@@ -47,16 +47,17 @@ export default class GroupBuyCar extends Component {
         super(props)
 
         this.state = {
-            gbDetail: { classify: { name: '', icon: '' }, group_buy_goods: [] }
+            gbDetail: { group_buy_id:{},ship_time:{},end_time:{}, goods_list: [] },
+           classifyDetail:{image:'',name:'',desc:''}
 
         }
     }
 
     componentDidMount() {
         if (Global.gbDetail) {
-            this.setState({ gbDetail: Global.gbDetail })
+            this.setState({ gbDetail: Global.gbDetail,classifyDetail:this.props.classifyDetail })
         }
-        this.state.gbDetail.group_buy_goods.map((item, i) => {
+        this.state.gbDetail.goods_list.map((item, i) => {
 
             item.selected = true;
 
@@ -66,14 +67,14 @@ export default class GroupBuyCar extends Component {
     cancelItem(item){
         console.log('112'+item.name)
         var groupArr =[];
-        this.state.gbDetail.group_buy_goods.map((product, i) => {
+        this.state.gbDetail.goods_list.map((product, i) => {
             if (product.id == item.id){
 
             }else {
                 groupArr.push(product);
             }
         })
-        this.state.gbDetail.group_buy_goods = groupArr;
+        this.state.gbDetail.goods_list = groupArr;
 
         this.setState({ ...this.state });
 
@@ -91,19 +92,19 @@ export default class GroupBuyCar extends Component {
         if (Global.user_profile){
 
             var goodsIds = []
-            this.state.gbDetail.group_buy_goods.map((item, i) => {
+            this.state.gbDetail.goods_list.map((item, i) => {
                 if (item.selected) {
                     goodsIds.push(item.id)
                 }
             })
-            if (this.state.gbDetail.id == null || !goodsIds.length) {
+            if (this.state.gbDetail.group_buy_id == null || !goodsIds.length) {
 
                 Alert.alert('提示',
                     '请选择需要团购的商品。')
                 return
             }
 
-            let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.id }
+            let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.group_buy_id }
             if (!Global.user_address) {
                 this.props.navigator.push({
                     component: AddressView,
@@ -114,7 +115,7 @@ export default class GroupBuyCar extends Component {
                     component: GroupBuyAddressView,
                     props: {
                         api_param: param,
-                        image: this.state.gbDetail.classify.image,
+                        image: this.state.classifyDetail.image,
 
                     }
                 })
@@ -136,7 +137,8 @@ export default class GroupBuyCar extends Component {
     }
     clearCart(){
         Global.gbDetail = null;
-        this.state.gbDetail = { classify: { name: '', icon: '' }, group_buy_goods: [] };
+        this.state.gbDetail = { group_buy_id:{},ship_time:{},end_time:{}, goods_list: [] };
+        this.props.classifyDetail = null;
         AsyncStorage.removeItem('k_cur_gbdetail').then((value) => {
             this.setState({ ...this.state })
             Alert.alert('提示',
@@ -165,6 +167,7 @@ export default class GroupBuyCar extends Component {
         if (Global.gbDetail) {
             this.state.gbDetail = Global.gbDetail 
         }
+
         return (
             <View style={styles.container}>
                 {this.renderTopBar()}
@@ -188,7 +191,7 @@ export default class GroupBuyCar extends Component {
         let selectedCount = 0
         var categoryDataAry = [this.state.gbDetail];
         for (var i = 0; i < categoryDataAry.length; i++) {
-            categoryDataAry[i].group_buy_goods.map((item, n) => {
+            categoryDataAry[i].goods_list.map((item, n) => {
                 if (item.selected) {
                     selectedCount++
                 }
@@ -244,8 +247,8 @@ export default class GroupBuyCar extends Component {
             onChange={(checked) => {
                 item.selected = !checked
 
-                if (item.classify && item.group_buy_goods) {
-                    item.group_buy_goods.map((subitem, i) => {
+                if (item.classify && item.goods_list) {
+                    item.goods_list.map((subitem, i) => {
                         subitem.selected = item.selected
                     })
                 }
@@ -259,25 +262,31 @@ export default class GroupBuyCar extends Component {
     renderProductCategoryView() {
         var categoryDataAry = [this.state.gbDetail];
         var displayCategoryAry = [];
-
-        for (var i = 0; i < categoryDataAry.length; i++) {
-            displayCategoryAry.push(
-                <View style={{ margin: 5, width: width - 10}}>
-                    <View style={styles.brandLabelContainer}>
-                        <View style={{ marginLeft: 5, marginRight: 5, alignItems: 'center', justifyContent: 'flex-start', }}>
-                            {this.renderCheckBox(categoryDataAry[i])}
+        // var classifyName = this.props.classifyDetail.name
+        console.log('classifyDetail12'+JSON.stringify(this.props.classifyDetail))
+        if (categoryDataAry.length > 0){
+            for (var i = 0; i < categoryDataAry.length; i++) {
+                displayCategoryAry.push(
+                    <View style={{ margin: 5, width: width - 10}}>
+                        <View style={styles.brandLabelContainer}>
+                            <View style={{ marginLeft: 5, marginRight: 5, alignItems: 'center', justifyContent: 'flex-start', }}>
+                                {this.renderCheckBox(categoryDataAry[i])}
+                            </View>
+                            <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
+                                {this.props.classifyDetail.name}
+                            </Text>
                         </View>
-                        <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
-                            {categoryDataAry[i].classify.name}
-                        </Text>
-                    </View>
-                    {this.renderCategorysView(categoryDataAry[i].group_buy_goods)}
-                    <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 5 }}>
+                        {this.renderCategorysView(categoryDataAry[i].goods_list)}
+                        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 5 }}>
 
+                        </View>
                     </View>
-                </View>
-            );
+                );
+            }
+        }else {
+
         }
+
         return displayCategoryAry;
     }
 
@@ -328,15 +337,15 @@ export default class GroupBuyCar extends Component {
                         <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
-                }} source={{ uri: item.goods.images[0].image }} />
+                }} source={{ uri: item.image }} />
                     </View>
                     <View style={{
                 height: h,
                 alignItems: 'flex-start',
                 flex: 6
             }}>
-                        <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
-                        <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
+                        <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
+                        <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.unit}</Text>
                         <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                             <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
                             <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>

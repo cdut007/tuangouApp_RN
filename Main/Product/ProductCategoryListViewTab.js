@@ -9,7 +9,7 @@ import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import Dimensions from 'Dimensions';
 
 import NavBar from '../../common/NavBar'
-import ProductCatagoryListView from './ProductCatagoryListView'
+import ProductCatagoryListView from './ProductCategoryListView'
 import HttpRequest from '../../HttpRequest/HttpRequest'
 import moment from 'moment';
 var width = Dimensions.get('window').width;
@@ -32,7 +32,7 @@ export default class ProductCatagoryListViewTab extends Component {
         routes: [
         ],
         allGbDetail: {},
-        gbList: {}
+        gbList: {group_buying_list:[],classify:{}}
     };
 
     clickBack() {
@@ -77,19 +77,19 @@ export default class ProductCatagoryListViewTab extends Component {
         })
 
 
-        if (response.data.group_buying_list.length) {
-            for (var j = 0;j <response.data.group_buying_list.length; j++){
-                var paramBody = { group_buy: this.state.gbList.group_buying_list[j].group_buy_id }
-                console.log('group_buy:'+JSON.stringify(paramBody));
-                HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
-                    (e) => {
-                        Alert.alert('提示','获取团购详情失败，请稍后重试.')
-
-                        console.log(' 获取团购详情失败error:' + e)
-                    })
-            }
-
-        }
+        // if (response.data.group_buying_list.length) {
+        //     for (var j = 0;j <response.data.group_buying_list.length; j++){
+        //         var paramBody = { group_buy: this.state.gbList.group_buying_list[j].group_buy_id }
+        //         console.log('group_buy:'+JSON.stringify(paramBody));
+        //         HttpRequest.get('/v1','/group_buy_detail', paramBody, this.onGroupBuyDetailSuccess.bind(this),
+        //             (e) => {
+        //                 Alert.alert('提示','获取团购详情失败，请稍后重试.')
+        //
+        //                 console.log(' 获取团购详情失败error:' + e)
+        //             })
+        //     }
+        //
+        // }
 
     }
 
@@ -104,10 +104,10 @@ export default class ProductCatagoryListViewTab extends Component {
         })
     }
 
-    createProdcutCategoryList(gbDetail) {
+    createProdcutCategoryList(gbDetail,classifyDetail) {
         ProductRoute = () => <View style={[styles.container, { backgroundColor: '#ff4081' }]}
         >
-            <ProductCatagoryListView groupBuyDetail= {gbDetail} navigator= {this.props.navigator}></ProductCatagoryListView>
+            <ProductCatagoryListView groupBuyDetail= {gbDetail} classifyDetail={classifyDetail} navigator= {this.props.navigator}></ProductCatagoryListView>
         </View>
 
         return ProductRoute
@@ -117,9 +117,10 @@ export default class ProductCatagoryListViewTab extends Component {
         var scence = {}
         this.state.routes.map((item, n) => {
             let index = Number(item.key)
-            let key = this.state.gbList.group_buying_list[index].group_buy_id
-            let gbDetail = this.state.allGbDetail[key]
-            scence[item.key] = this.createProdcutCategoryList(gbDetail)
+            let gbDetail = this.state.gbList.group_buying_list[index]
+            let classifyDetail = this.state.gbList.classify
+            console.log('createProdcutCategoryList11'+JSON.stringify(item.key))
+            scence[item.key] = this.createProdcutCategoryList(gbDetail,classifyDetail)
         })
 
         return scence
@@ -145,7 +146,7 @@ export default class ProductCatagoryListViewTab extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title={this.state.gbList.name}
+                <NavBar title={this.state.gbList.classify.name}
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.clickBack.bind(this)} />
                 {this.renderTabView()}

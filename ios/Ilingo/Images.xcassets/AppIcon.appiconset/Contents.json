@@ -13,9 +13,8 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "29 - Settings.png",
+      "size" : "29x29",
       "scale" : "1x"
     },
     {
@@ -45,7 +44,7 @@
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "57-1.png",
+      "filename" : "57.png",
       "scale" : "1x"
     },
     {

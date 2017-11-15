@@ -68,7 +68,8 @@ export default class ProductCatagoryListView extends Component {
     }
 
     static propTypes = {
-        groupBuyDetail: PropTypes.object
+        groupBuyDetail: PropTypes.object,
+        classifyDetail: PropTypes.object
     }
 
 
@@ -110,7 +111,7 @@ export default class ProductCatagoryListView extends Component {
         console.log('groupBuyListViewDetail:'+JSON.stringify(this.props.groupBuyDetail))
         if(this.props.groupBuyDetail)
         {
-            let rowData = this.props.groupBuyDetail.group_buy_goods
+            let rowData = this.props.groupBuyDetail.goods_list
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(rowData)
             });
@@ -168,7 +169,7 @@ export default class ProductCatagoryListView extends Component {
     renderItem = (item, sectionID, rowID) => {
         //write your own layout in list view
         let w = (width - 20) / 2
-        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.id,item) }}>
+        return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.goods_id,item) }}>
             <View style={[styles.row]}>
 
                 <CachedImage style={{
@@ -177,7 +178,7 @@ export default class ProductCatagoryListView extends Component {
                     backgroundColor: '#ffffff',
                     flex: 4
                 }}
-                    source={{ uri: item.goods.images[0].image }}
+                    source={{ uri: item.image }}
                 />
                 <View style={{ backgroundColor: '#fdf3ec', flex: 2 ,width:w}}>
                     <Text style={{
@@ -185,7 +186,7 @@ export default class ProductCatagoryListView extends Component {
                         color: '#1c1c1c',
                         justifyContent: 'center', margin: 2, numberOfLines: 2, ellipsizeMode: 'tail',
                         flex: 1 ,textAlign: 'center',marginTop:5
-                    }}>{item.goods.name}</Text>
+                    }}>{item.name}</Text>
 
                     <View style={{
                         alignItems: 'center', flexDirection: 'row',
@@ -196,7 +197,7 @@ export default class ProductCatagoryListView extends Component {
                         <Text style={{
                             alignItems: 'center', marginLeft: 10,
                             justifyContent: 'center', numberOfLines: 1, color: '#757575', fontSize: 12
-                        }}>{item.brief_dec}</Text>
+                        }}>{item.unit}</Text>
                     </View>
                 </View>
 
@@ -209,7 +210,7 @@ export default class ProductCatagoryListView extends Component {
         console.log('index:'+JSON.stringify(index)+' , item :' +JSON.stringify(item) )
         var prouduct = {
             'index': index,
-            'image': {uri:item.goods.images[0].image},
+            'image': {uri:item.image},
         }
         this.props.navigator.push({
             component: ProductDetail,
@@ -235,8 +236,8 @@ export default class ProductCatagoryListView extends Component {
         var desc =''
         var groupend_time =''
         if (this.props.groupBuyDetail) {
-            image = this.props.groupBuyDetail.classify.image
-            desc = this.props.groupBuyDetail.classify.desc
+            image = this.props.classifyDetail.image
+            desc = this.props.classifyDetail.desc
             groupend_time = this.props.groupBuyDetail.end_time
         }
         this.banners = [
@@ -294,7 +295,8 @@ export default class ProductCatagoryListView extends Component {
     }
 
     startGroupBuy() {
-
+        var classifyDetailDes = {}
+        classifyDetailDes = this.props.classifyDetail
         AsyncStorage.setItem('k_cur_gbdetail', JSON.stringify(this.props.groupBuyDetail), (error, result) => {
             if (error) {
                 console.log('save k_cur_gbdetail faild.')
@@ -302,11 +304,14 @@ export default class ProductCatagoryListView extends Component {
         })
 
         Global.gbDetail = this.props.groupBuyDetail
+        console.log('this.props.classifyDetail'+JSON.stringify(this.props.classifyDetail))
         if (Global.user_profile){
+
             this.props.navigator.push({
                 component: GroupBuyCar,
                 props: {
                     showBack: true,
+                    classifyDetail:classifyDetailDes
                 }
             })
         }else {

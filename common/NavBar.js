@@ -52,17 +52,45 @@ export default class NavBar extends Component{
                 </TouchableOpacity>
               )
             }
-        }else{
+        }else if (pos=="left" && this.props.leftTitle ){
+              if(Platform.OS === 'android'){
+                  return (
+                      <TouchableNativeFeedback onPress={onPress} >
+                          <Text style={styles.leftBtnLabel}>{name}</Text>
+                      </TouchableNativeFeedback>
+                  )
+              }else{
+                  return (
+                      <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
+                          <Text style={styles.leftBtnLabel}>{name}</Text>
+                      </TouchableOpacity>
+                  )
+              }
+          }else if (pos == 'right' && this.props.rightTitle){
+              if(Platform.OS === 'android'){
+                  return (
+                      <TouchableNativeFeedback onPress={onPress} >
+                          <Text style={styles.rightBtnLabel}>{name}</Text>
+                      </TouchableNativeFeedback>
+                  )
+              }else{
+                  return (
+                      <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
+                          <Text style={styles.rightBtnLabel}>{name}</Text>
+                      </TouchableOpacity>
+                  )
+              }
+          } else{
             if(Platform.OS === 'android'){
             return (
               <TouchableNativeFeedback onPress={onPress} >
-                <Text style={styles.btnLabel}>{name}</Text>
+                <Text style={styles.rightBtnLabel}>{name}</Text>
               </TouchableNativeFeedback>
             )
           }else{
             return (
               <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
-                <Text style={styles.btnLabel}>{name}</Text>
+                <Text style={styles.rightBtnLabel}>{name}</Text>
               </TouchableOpacity>
             )
           }
@@ -132,11 +160,17 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center'
     },
-    btnLabel: {
-      color: "#ea6b10",
+    leftBtnLabel: {
+      color: "rgb(117,117,117)",
       fontSize: 16,
       justifyContent: 'center',
       alignItems: 'center'
+    },
+    rightBtnLabel: {
+        color: "#ea6b10",
+        fontSize: 16,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title:{
         color: "#1b1b1b",

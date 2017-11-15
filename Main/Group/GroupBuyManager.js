@@ -6,6 +6,7 @@ import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
 import NewGroupView from './NewGroupView'
+import ProductManager from '../Product/ProductManager'
 import NewProductView from './NewProductView'
 import AddProductView from './AddProductView'
 
@@ -64,6 +65,9 @@ export default class GroupBuyManager extends Component{
         })
     }
     OnProductManagerPress(){
+        this.props.navigator.push({
+            component: ProductManager
+        })
 
     }
     OnMemberManagerPress(){

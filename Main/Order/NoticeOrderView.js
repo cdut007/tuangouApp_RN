@@ -128,7 +128,7 @@ export default class NoticeOrderView extends Component{
             (e) => {
 
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
-               
+
             })
     }
     onSendNoticeSuccess(){
@@ -219,13 +219,10 @@ export default class NoticeOrderView extends Component{
                 noticeBtnTitleColor ='rgb(117,117,117)'
 
             }
-            displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:140,width:width,marginTop:10}}>
+            displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:150,width:width,marginTop:10}}>
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',flex:3.5,paddingLeft:10}}>
-                    <Text style={{width:width-40}}>{groupItem.desc}</Text>
-                    <Image style={{marginRight:5}}
-                           source={require('../../images/next_icon@3x.png')}>
+                    <Text style={{width:width-40,marginTop:5}}>{groupItem.desc}</Text>
 
-                    </Image>
                 </View>
                 <View style={{flex:8}}>
                     <ScrollView
@@ -241,9 +238,9 @@ export default class NoticeOrderView extends Component{
                     </ScrollView>
                 </View>
 
-                <View style={{flex:3.5,flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginRight:10}}>
+                <View style={{flex:4,flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginRight:10}}>
                     <Text style={{color:'rgb(117,117,117)',marginLeft:10}}>{ship_time}</Text>
-                    <TouchableOpacity style={{}} disabled={notice_pushed} onPress={this.onPressNoticePickUp.bind(this,groupItem)}>
+                    <TouchableOpacity style={{marginBottom:5}} disabled={notice_pushed} onPress={this.onPressNoticePickUp.bind(this,groupItem)}>
                         <View style={{backgroundColor:noticeBtnColor,width:100,height:30,borderRadius:4,justifyContent:'center',alignItems:'center'}}>
                                     <Text style={{ fontSize:14,
         fontFamily:'PingFang-SC-Medium',
