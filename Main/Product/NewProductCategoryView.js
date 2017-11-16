@@ -73,13 +73,14 @@ export default class NewProductCategoryView extends Component{
     }
     randomstring(L){
         var s= '';
-        var randomchar=function(){
-            var n= Math.floor(Math.random()*62);
-            if(n<10) return n; //1-10
-            if(n<36) return String.fromCharCode(n+55); //A-Z
-            return String.fromCharCode(n+61); //a-z
-        }
-        while(s.length< L) s+= randomchar();
+        s = Math.floor(Math.random()*50);
+        // var randomchar=function(){
+        //     var n= Math.floor(Math.random()*62);
+        //     if(n<10) return n; //1-10
+        //     if(n<36) return String.fromCharCode(n+55); //A-Z
+        //     return String.fromCharCode(n+61); //a-z
+        // }
+        // while(s.length< L) s+= randomchar();
         return s;
     }
     onSetGroupListSuccess(response){
@@ -103,13 +104,7 @@ export default class NewProductCategoryView extends Component{
 
         ]
         console.log('item22:'+JSON.stringify(item))
-        return(  <Swipeout right={swipeoutBtns}
-                           autoClose={true}
-                           sensitivity={5}
-                           buttonWidth={100}
-
-
-        >
+        return(
             <View style={{
             resizeMode: 'contain', alignItems: 'center', width: w, height: h,
             justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
@@ -139,8 +134,45 @@ export default class NewProductCategoryView extends Component{
                 </View>
 
             </View>
-            <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
-        </Swipeout>)
+           )
+        // return(  <Swipeout right={swipeoutBtns}
+        //                    autoClose={true}
+        //                    sensitivity={5}
+        //                    buttonWidth={100}
+        //
+        //
+        // >
+        //     <View style={{
+        //     resizeMode: 'contain', alignItems: 'center', width: w, height: h,
+        //     justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+        //     flex: 1
+        // }}>
+        //
+        //
+        //         <View style={{
+        //         flex: 2
+        //     }}>
+        //             <Image style={{
+        //             resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
+        //             justifyContent: 'center',
+        //         }} source={require('../../images/me_bj.jpg')} />
+        //         </View>
+        //         <View style={{
+        //         height: h,
+        //         alignItems: 'flex-start',
+        //         flex: 7
+        //     }}>
+        //             <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>名字</Text>
+        //             <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>描述</Text>
+        //             <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+        //                 <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ 价格</Text>
+        //                 <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 </Text>
+        //             </View>
+        //         </View>
+        //
+        //     </View>
+        //     <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+        // </Swipeout>)
     }
     renderProductScrollView(groupProductScrollArr){
         const w = width, h = 100

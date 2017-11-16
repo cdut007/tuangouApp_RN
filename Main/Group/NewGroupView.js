@@ -6,6 +6,7 @@ import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
 import AddProductView from './AddProductView'
+import SelectProductView from '../Product/SelectProductView'
 import  Swipeout from 'react-native-swipeout'
 
 import {
@@ -48,6 +49,9 @@ export default class NewGroupView extends Component{
         this.props.navigator.push({
             component: AddProductView
         })
+        // this.props.navigator.push({
+        //     component: SelectProductView
+        // })
     }
     cancelItem(item){
 

@@ -47,13 +47,29 @@ export default class ProductManager extends Component{
         this.props.navigator.pop();
     }
     componentWillMount(){
-        this.state.ProductCategoryArr = [1];
+        let param = {}
+
+        HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取商品类别失败，请稍后再试。')
+            })
+
+
+    }
+    onGetCategorySuccess(response){
+        console.log('onGetCategorySuccess11:'+JSON.stringify(response))
+        this.state.ProductCategoryArr = response.data.set_list;
+        this.setState({ ...this.state });
 
     }
     onPressCategoryView(categoryItem){
         // Alert.alert('分类',JSON.stringify(categoryItem))
+        // this.props.navigator.push({
+        //     component: CategoryProductView
+        // })
         this.props.navigator.push({
-            component: CategoryProductView
+            component: NewProductCategoryView
         })
 
     }

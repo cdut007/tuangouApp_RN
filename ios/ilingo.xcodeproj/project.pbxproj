@@ -48,6 +48,7 @@
 		51A8210C1F03AD2B0099BC8A /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 51A8210B1F03AD2B0099BC8A /* libbz2.1.0.tbd */; };
 		5D86CAE82E664DF7B91393B4 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A62F85076504050ACAD385E /* SimpleLineIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		60240C031FBD2D4C005877DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60240C051FBD2D4C005877DA /* InfoPlist.strings */; };
 		60954D401FB01867008F4EEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60954D3F1FB01866008F4EEB /* Images.xcassets */; };
 		74C53C73549440CF86EDF324 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CBCB4DD0644F169288A3C3 /* libRNFetchBlob.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -360,6 +361,9 @@
 		51A820E81F03ACC70099BC8A /* RCTHotUpdate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTHotUpdate.xcodeproj; path = "../node_modules/react-native-update/ios/RCTHotUpdate.xcodeproj"; sourceTree = "<group>"; };
 		51A8210B1F03AD2B0099BC8A /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		60240C041FBD2D4C005877DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		60240C061FBD2D5C005877DA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		60240C071FBD2D5C005877DA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		60954D3F1FB01866008F4EEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ilingo/Images.xcassets; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7988B34D6A1C4FD58D15B0AD /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
@@ -493,6 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				00E356F11AD99517003FC87E /* Info.plist */,
+				60240C051FBD2D4C005877DA /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1148,6 +1154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60240C031FBD2D4C005877DA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1273,10 +1280,21 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				60240C061FBD2D5C005877DA /* zh-Hans */,
 			);
 			name = LaunchScreen.xib;
 			path = ilingo;
 			sourceTree = "<group>";
+		};
+		60240C051FBD2D4C005877DA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				60240C041FBD2D4C005877DA /* en */,
+				60240C071FBD2D5C005877DA /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			path = IlingoTests;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXVariantGroup section */
 
@@ -1559,6 +1577,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1600,6 +1619,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

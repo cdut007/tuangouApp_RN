@@ -55,7 +55,12 @@ export default class GroupBuyCar extends Component {
 
     componentDidMount() {
         if (Global.gbDetail) {
-            this.setState({ gbDetail: Global.gbDetail,classifyDetail:this.props.classifyDetail })
+            if (this.props.classifyDetail){
+                this.setState({ gbDetail: Global.gbDetail,classifyDetail:this.props.classifyDetail })
+            }else {
+                this.setState({ gbDetail: Global.gbDetail})
+            }
+
         }
         this.state.gbDetail.goods_list.map((item, i) => {
 
@@ -264,7 +269,7 @@ export default class GroupBuyCar extends Component {
         var displayCategoryAry = [];
         // var classifyName = this.props.classifyDetail.name
         console.log('classifyDetail12'+JSON.stringify(this.props.classifyDetail))
-        if (categoryDataAry.length > 0){
+        if (categoryDataAry[0].goods_list.length > 0){
             for (var i = 0; i < categoryDataAry.length; i++) {
                 displayCategoryAry.push(
                     <View style={{ margin: 5, width: width - 10}}>
@@ -273,7 +278,7 @@ export default class GroupBuyCar extends Component {
                                 {this.renderCheckBox(categoryDataAry[i])}
                             </View>
                             <Text style={{ fontSize: 16, color: '#1b1b1b' }}>
-                                {this.props.classifyDetail.name}
+                                {this.state.classifyDetail.name}
                             </Text>
                         </View>
                         {this.renderCategorysView(categoryDataAry[i].goods_list)}

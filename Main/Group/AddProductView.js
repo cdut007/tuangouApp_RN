@@ -27,7 +27,11 @@ export default class AddProductView extends Component{
 
         this.state = {
 
-            isHaveProductInGroup:false
+            isHaveProductInGroup:true,
+            groupTitle:'',
+            titleName:'',
+            groupDetail:'',
+            groupProductScrollArr:[1,2,3],
 
 
         }
@@ -43,13 +47,81 @@ export default class AddProductView extends Component{
             component: NewProductView
         })
     }
+    onPressCategoryView(){
+        this.props.navigator.push({
+            component: NewProductView
+        })
+    }
 
     renderGroupScrollView(groupArr){
 
     }
-    renderAddProductContent(){
-        if (this.state.isHaveProductInGroup){
+    renderProductInfo(item, w, h){
 
+        console.log('item22:'+JSON.stringify(item))
+        return(
+            <TouchableOpacity onPress={this.onPressCategoryView.bind(this,item)}>
+                <View style={{ backgroundColor:'white',width:width,height:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
+                    <View style={{flex:100}}>
+                        <Image style={{width:80,height:80,marginLeft:10}} source={require('../../images/me_bj.jpg')}></Image>
+                    </View>
+                    <View style={{flex:300,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
+                        <Text style={{textAlign:'left',marginTop:10,fontSize:16,fontFamily:'PingFangSC-Regular'}}>
+                            扑面而来的商品
+                        </Text>
+                        <Text style={{textAlign:'left',marginBottom:10,fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>
+                            商品总量：20个
+                        </Text>
+                    </View>
+
+
+
+
+                </View>
+            </TouchableOpacity>
+          )
+    }
+    renderProductScrollView(groupProductScrollArr){
+        const w = width, h = 100
+        console.log('groupProductScrollArr1:'+JSON.stringify(groupProductScrollArr))
+        let renderSwipeView = (types, n) => {
+            return (
+                <View style={[styles.toolsView,{}]}>
+                    {
+                        types.map((item, i) => {
+                            let render = (
+                                <View style={[{ width: w, height: h,  }, styles.toolsItem]}>
+                                    {this.renderProductInfo(item, w, h)}
+                                </View>
+                            )
+                            return (
+                                <View style={{ width: w, height: h ,marginTop:10}}>{render}</View>
+                            )
+                        })
+                    }
+                </View>
+            )
+        }
+        return (
+            renderSwipeView(groupProductScrollArr)
+        )
+    }
+    renderAddProductContent(){
+        var groupProductArr = [];
+        groupProductArr = this.state.groupProductScrollArr;
+        if (this.state.isHaveProductInGroup){
+            return ( <View style={{justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',}}>
+                <ScrollView
+                    keyboardDismissMode='on-drag'
+                    keyboardShouldPersistTaps={false}
+                    style={{width:width, backgroundColor:'gray',height:height-380}}>
+
+                    {this.renderProductScrollView(groupProductArr)}
+                </ScrollView>
+
+            </View>)
         }else {
             return (
                 <View style={{flexDirection:'row',justifyContent: 'center',alignItems:'center'}}>
@@ -79,11 +151,16 @@ export default class AddProductView extends Component{
     }
     render() {
 
+        if (this.state.isHaveProductInGroup){
+            this.state.titleName ='选择商品'
+        }else {
+            this.state.titleName='添加商品'
+        }
 
             return (
                 <View style={styles.container}>
                     <NavBar
-                        title="添加商品"
+                        title={this.state.titleName}
                         leftIcon={require('../../images/back.png')}
                         leftPress={this.back.bind(this)} />
                     {this.renderAddProductContent()}
@@ -107,6 +184,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff',
     },
+
 
 
 

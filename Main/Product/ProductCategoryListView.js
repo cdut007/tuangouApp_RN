@@ -174,13 +174,13 @@ export default class ProductCatagoryListView extends Component {
 
                 <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center',
-                    justifyContent: 'center', width: w - 2,
+                    justifyContent: 'center', width: w - 2,height:w-2,
                     backgroundColor: '#ffffff',
                     flex: 4
                 }}
                     source={{ uri: item.image }}
                 />
-                <View style={{ backgroundColor: '#fdf3ec', flex: 2 ,width:w}}>
+                <View style={{ backgroundColor: '#ffffff', flex: 2 ,width:w,paddingTop:10}}>
                     <Text style={{
                         alignItems: 'center', fontSize: 14,
                         color: '#1c1c1c',
@@ -190,7 +190,7 @@ export default class ProductCatagoryListView extends Component {
 
                     <View style={{
                         alignItems: 'center', flexDirection: 'row',
-                        justifyContent: 'center',
+                        justifyContent: 'center',marginTop:10,
                         flex: 1
                     }}>
                         <Text style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>
@@ -374,14 +374,16 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        backgroundColor: '#F2F2F2',
+
     },
     row: {
         justifyContent: 'center',
         padding: 1,
         margin: 5,
         width: (width - 20) / 2,
-        height: 220,
-        backgroundColor: '#F6F6F6',
+
+        backgroundColor: '#F2F2F2',
         alignItems: 'center',
         // borderWidth: 1,
         // borderRadius: 2,
@@ -392,6 +394,7 @@ const styles = StyleSheet.create({
         width: width,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        backgroundColor:'white'
     },
     bannerView:{
         height: 150,
