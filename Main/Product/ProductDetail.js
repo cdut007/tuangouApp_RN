@@ -110,7 +110,7 @@ export default class ProductDetail extends Component {
             banners: response.data.goods_detail.images
         })
 
-        let param = { classify_id: this.state.goods.classify.group_buy_id }
+        let param = { classify_id: this.state.goods.classify.classify_id }
         HttpRequest.get('/v2','/api.goods.listing', param, this.onGroupBuyListSuccess.bind(this),
             (e) => {
 
@@ -139,9 +139,19 @@ export default class ProductDetail extends Component {
 
     onGroupBuyListSuccess(response) {
         hasGotGbDetail = true
+        var gbDetailDes = {}
+        console.log('onGroupBuyListSuccess112'+JSON.stringify(response))
+        var  allGb = response.data.group_buying_list;
+        allGb.map((product, i) => {
+            if (product.group_buy_id == this.state.goods.classify.group_buy_id){
+                gbDetailDes = product;
+            }else {
+
+            }
+        })
         this.setState({
-            gbDetail: response.data,
-            classifyDetailDes:response.data.classifyDetail
+            gbDetail: gbDetailDes,
+            classifyDetailDes:response.data.classify
         })
     }
 

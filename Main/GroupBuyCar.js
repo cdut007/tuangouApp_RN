@@ -268,7 +268,7 @@ export default class GroupBuyCar extends Component {
         var categoryDataAry = [this.state.gbDetail];
         var displayCategoryAry = [];
         // var classifyName = this.props.classifyDetail.name
-        console.log('classifyDetail12'+JSON.stringify(this.props.classifyDetail))
+        console.log('classifyDetail12'+JSON.stringify(categoryDataAry))
         if (categoryDataAry[0].goods_list.length > 0){
             for (var i = 0; i < categoryDataAry.length; i++) {
                 displayCategoryAry.push(

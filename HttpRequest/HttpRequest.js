@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 var httpToken = ''
 var Global = require('../common/globals');
 // const apiAddr = 'http://47.88.139.113:3000/api/v1'
-const apiAddr = 'http://www.ailinkgo.com:3000/api'
+const apiAddr = 'http://www.ailinkgo.com:3001/api'
 // const apiAddr = Global.BASE_URL;
 module.exports = {
     get(verssion,apiName, body, successCallback, failCallback) {
@@ -25,7 +25,7 @@ module.exports = {
         var param = ""
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
+            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
         }else {
             url = apiAddr + verssion+apiName + '?format=json'
         }
@@ -81,7 +81,7 @@ module.exports = {
 
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
+            url = 'http://www.ailinkgo.com:3001'+ verssion +apiName + '?format=json'
         }else {
             url = apiAddr + verssion+apiName + '?format=json'
         }

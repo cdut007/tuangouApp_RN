@@ -64,7 +64,8 @@ export default class NoticeSuccessView extends Component{
                     WeChat.shareToSession({
                         type:'imageUrl',
                         title:'可关注微信公众号',
-                        description:'随时接收到货通知' ,
+                        description:'关注可随时接收到货通知' ,
+                        imageUrl:'http://www.ailinkgo.com/admin/images/GoodsDetail/2017-11/mn_wo6nM.png'
                     }).cache((error) =>{
                         ToastShort(error.message);
                     });

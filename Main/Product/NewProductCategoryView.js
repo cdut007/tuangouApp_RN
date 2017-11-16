@@ -31,14 +31,17 @@ export default class NewProductCategoryView extends Component{
 
             groupTitle:'',
             groupDetail:'',
-            groupProductScrollArr:[1,2,3],
+            groupProductScrollArr:[],
+            oldSet:'',
+            newSet:'',
+            hasSet:this.props.hasSet
 
 
         }
     }
 
     back(){
-
+        this.state.oldSet = null;
         this.props.navigator.pop();
     }
     saveCategory(){
@@ -55,36 +58,54 @@ export default class NewProductCategoryView extends Component{
         //     component: AddProductView
         // })
         this.props.navigator.push({
-            component: NewProductView
+            component: NewProductView,
+            props: {
+                oldSet:this.state.oldSet
+
+            }
+
         })
 
     }
     componentDidMount() {
-        var setStr = this.randomstring(5);
-        let param = { set: setStr }
-        console.log('setStr11:' +setStr)
-        HttpRequest.get('/v2','/admin.goods.list.set', param, this.onSetGroupListSuccess.bind(this),
-            (e) => {
-                console.log(' error:' + e)
-                Alert.alert('提示','新建商品类别失败，请稍后再试。')
-            })
+
+        if (this.state.hasSet){
+        this.state.oldSet = this.props.oldSet;
+            let param = { set: this.state.oldSet }
+            console.log('setStr11:' +this.state.oldSet)
+            HttpRequest.get('/v2','/admin.goods.list.set', param, this.onSetGroupListSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+                    Alert.alert('提示','新建商品类别失败，请稍后再试。')
+                })
+        }else {
+            this.state.oldSet = this.randomstring(5);
+            console.log('setStr11:' +this.state.oldSet)
+
+        }
+
+
+
 
 
     }
     randomstring(L){
         var s= '';
-        s = Math.floor(Math.random()*50);
-        // var randomchar=function(){
-        //     var n= Math.floor(Math.random()*62);
-        //     if(n<10) return n; //1-10
-        //     if(n<36) return String.fromCharCode(n+55); //A-Z
-        //     return String.fromCharCode(n+61); //a-z
-        // }
-        // while(s.length< L) s+= randomchar();
+
+        var randomchar=function(){
+            var n= Math.floor(Math.random()*62);
+            if(n<10) return n; //1-10
+            if(n<36) return String.fromCharCode(n+55); //A-Z
+            return String.fromCharCode(n+61); //a-z
+        }
+        while(s.length< L) s+= randomchar();
         return s;
+
     }
     onSetGroupListSuccess(response){
         console.log('onSetGroupListSuccess:'+JSON.stringify(response.data))
+        this.state.groupProductScrollArr = response.data.goods_list
+        this.setState({ ...this.state });
 
     }
     cancelItem(item){
@@ -208,6 +229,13 @@ export default class NewProductCategoryView extends Component{
     render() {
         var groupProductArr = [];
         groupProductArr = this.state.groupProductScrollArr;
+        var groupProductNum = groupProductArr.length;
+
+        if (this.state.hasSet){
+            this.state.groupTitle = this.state.oldSet
+        }else {
+
+        }
 
         return (
             <View style={styles.container}>
@@ -247,19 +275,21 @@ export default class NewProductCategoryView extends Component{
                             </Image>
                             <Text style={{marginLeft:10}}>新建商品</Text>
                         </TouchableOpacity>
-                        <Text style={{fontSize:14,fontFamily:'PingFangSC-Regular',textAlign:'left',color:'rgb(117,117,117)'}}>共计3件商品</Text>
+                        <Text style={{fontSize:14,fontFamily:'PingFangSC-Regular',textAlign:'left',color:'rgb(117,117,117)'}}>共计{groupProductNum}件商品</Text>
                     </View>
                 </View>
+                <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
                 <View style={{justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#ffffff',}}>
                     <ScrollView
                         keyboardDismissMode='on-drag'
                         keyboardShouldPersistTaps={false}
-                        style={{width:width, backgroundColor:'gray',height:height-380}}>
+                        style={{width:width,height:height-180}}>
 
                         {this.renderProductScrollView(groupProductArr)}
                     </ScrollView>
+
 
                 </View>
 

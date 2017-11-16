@@ -69,7 +69,13 @@ export default class ProductManager extends Component{
         //     component: CategoryProductView
         // })
         this.props.navigator.push({
-            component: NewProductCategoryView
+            component: NewProductCategoryView,
+            props: {
+                hasSet:true,
+                oldSet:'水果'
+
+            }
+
         })
 
     }
@@ -89,10 +95,10 @@ export default class ProductManager extends Component{
                         </View>
                         <View style={{flex:300,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
                             <Text style={{textAlign:'left',marginTop:10,fontSize:16,fontFamily:'PingFangSC-Regular'}}>
-                                扑面而来的商品
+                                {categoryItem.set}
                             </Text>
                             <Text style={{textAlign:'left',marginBottom:10,fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>
-                                商品总量：20个
+                                商品总量：{categoryItem.count}个
                             </Text>
                         </View>
 
@@ -112,7 +118,12 @@ export default class ProductManager extends Component{
     }
     onPressNewCategoryView(){
         this.props.navigator.push({
-            component: NewProductCategoryView
+            component: NewProductCategoryView,
+            props: {
+                hasSet:false,
+                oldSet:null
+
+            }
         })
 
     }

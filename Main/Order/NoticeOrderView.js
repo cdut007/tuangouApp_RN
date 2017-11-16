@@ -7,6 +7,7 @@ import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
 import HttpRequest from '../../HttpRequest/HttpRequest';
+import NoticeSuccessView from './NoticeSuccessView'
 var Global = require('../../common/globals');
 
 
@@ -100,13 +101,13 @@ export default class NoticeOrderView extends Component{
 
     }
     onPressUpdateGroup_buyingList(){
-        let param = { pageSize: '20',currentPage:'1'}
-
-        HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetNoticeOrderSuccess.bind(this),
-            (e) => {
-                console.log(' error:' + e);
-                Alert.alert('提示','获取团购列表失败，请稍后再试。')
-            })
+        // let param = { pageSize: '20',currentPage:'1'}
+        //
+        // HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetNoticeOrderSuccess.bind(this),
+        //     (e) => {
+        //         console.log(' error:' + e);
+        //         Alert.alert('提示','获取团购列表失败，请稍后再试。')
+        //     })
 
     }
     onPressSendNotice(groupItem){
@@ -131,18 +132,36 @@ export default class NoticeOrderView extends Component{
 
             })
     }
-    onSendNoticeSuccess(){
+    onSendNoticeSuccess(response){
+        console.log('onSendNoticeSuccess:'+JSON.stringify(response))
+        if (response.message =='Success'){
+            this.props.navigator.push({
+                component: NoticeSuccessView
+            })
+        }else {
+            Alert.alert(
+                '提示',
+                '发送通知失败，请稍后重试',
+                [
 
-        Alert.alert(
-            '提示',
-            '发送通知成功',
-            [
+
+                    {text: '确定', onPress: this.onPressUpdateGroup_buyingList.bind(this)},
+                ],
+                { cancelable: false }
+            )
+        }
 
 
-                {text: '确定', onPress: this.onPressUpdateGroup_buyingList.bind(this)},
-            ],
-            { cancelable: false }
-        )
+        // Alert.alert(
+        //     '提示',
+        //     '发送通知成功',
+        //     [
+        //
+        //
+        //         {text: '确定', onPress: this.onPressUpdateGroup_buyingList.bind(this)},
+        //     ],
+        //     { cancelable: false }
+        // )
     }
     onPressNoticePickUp(groupItem){
         console.log('onPressNoticePickUp:'+JSON.stringify(groupItem))

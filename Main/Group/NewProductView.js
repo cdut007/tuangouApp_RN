@@ -164,6 +164,7 @@ export default class NewProductView extends Component{
                }
 
              saveGroupBuy(){
+                 this.props.navigator.pop();
 
 
      }

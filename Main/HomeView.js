@@ -9,6 +9,7 @@ import {
     TouchableNativeFeedback,
     ScrollView,
     ListView,
+    RefreshControl
 
 
 
@@ -42,6 +43,7 @@ export default class HomeView extends Component {
             categoryDataAry : [],
             displayCategoryAry : [],
             selectedImageIndex: 0,
+            isRefreshing:false
 
         };
 
@@ -55,9 +57,13 @@ export default class HomeView extends Component {
     onProudctListSuccess(response){
         this.state.goodsList = response.data;
         // console.log('ProudctListSuccess:' + this.state.goodsList.length);
-        this.setState({goodsList:this.state.goodsList});
-    }
+        this.setState({goodsList:this.state.goodsList, isRefreshing: false});
 
+    }
+    componentWillReceiveProps(){
+        // this.fetchBanner();
+        // this.fetchProductList();
+    }
     componentWillMount(){
         this.fetchBanner();
         this.fetchProductList();
@@ -88,6 +94,7 @@ export default class HomeView extends Component {
             })
     }
 
+
      fetchBanner(){
          var paramBody ={ }
          HttpRequest.get('/v1','/banner', paramBody, this.onBannerSuccess.bind(this),
@@ -111,6 +118,8 @@ export default class HomeView extends Component {
              })
      }
 
+
+
     onAnnounceNow() {
         // this.props.navigator.push({
         //     component: NotifyNowView,
@@ -122,7 +131,17 @@ export default class HomeView extends Component {
 
 
 
+    onRefresh(){
 
+        this.setState({isRefreshing: true});
+        setTimeout(() => {
+            this.fetchBanner();
+            this.fetchProductList();
+
+        }, 2000);
+
+
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -139,7 +158,14 @@ export default class HomeView extends Component {
 
                  horizontal={false}
                  style={{width:width}}
-
+                 refreshControl={
+           <RefreshControl
+             refreshing={this.state.isRefreshing}
+             onRefresh={this.onRefresh.bind(this)}  //(()=>this.onRefresh)或者通过bind来绑定this引用来调用方法
+             tintColor='red'
+             title= {this.state.isRefreshing? '刷新中....':'下拉刷新'}
+           />
+                 }
                  >
 
                      {this.renderTopView()}

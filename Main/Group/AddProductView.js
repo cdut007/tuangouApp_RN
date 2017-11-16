@@ -116,7 +116,7 @@ export default class AddProductView extends Component{
                 <ScrollView
                     keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={false}
-                    style={{width:width, backgroundColor:'gray',height:height-380}}>
+                    style={{width:width,height:height-380}}>
 
                     {this.renderProductScrollView(groupProductArr)}
                 </ScrollView>
