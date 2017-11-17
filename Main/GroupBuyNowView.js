@@ -12,6 +12,7 @@ import {
     Alert
 } from 'react-native';
 
+
 import {
     MKIconToggle,
     MKSwitch,
@@ -62,6 +63,7 @@ export default class GroupBuyNowView extends Component {
         Clipboard.setString(this.state.agent_url);
 
         Alert.alert('提示','链接已复制到剪切板。')
+
     }
 
     async onSharePress() {

@@ -5,6 +5,8 @@ import React,{ Component} from 'react';
 import NavBar from '../../common/NavBar'
 import CommitButton from '../../common/CommitButton'
 import Dimensions from 'Dimensions';
+
+import HttpRequest from '../../HttpRequest/HttpRequest';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
 // import ImagePicker from 'react-native-image-crop-picker';
@@ -29,7 +31,7 @@ export default class NewProductView extends Component{
                 super(props)
 
                 this.state = {
-                    productImgArr :[],
+                    productImgArr :[1,2],
                     productName :'',
                     productPrice:'',
                     productTypeDetail:'',
@@ -129,7 +131,7 @@ export default class NewProductView extends Component{
                                     if ( item.tag =='add_more'){
                                         imageUri =require('../../images/addImgIcon@3x.png')
                                     }else {
-                                        imageUri =item.uri
+                                        imageUri =require('../../images/me_bj.jpg')
                                     }
                                      let render = (
 
@@ -164,11 +166,75 @@ export default class NewProductView extends Component{
                }
 
              saveGroupBuy(){
-                 this.props.navigator.pop();
+                 // this.props.navigator.pop();
+
+                 let param = {
+                     name: this.state.productName,
+                     default_price: this.state.productPrice,
+                     default_stock: this.state.productStock,
+                     default_unit: this.state.productTypeDetail,
+                     set: this.props.oldSet,
+                     desc: this.state.DetailsDescription,
+                     // image0: this.state.address
+
+                 }
+                 HttpRequest.post('/v1','/user_address', param, this.onSaveAddressSuccess.bind(this),
+                     (e) => {
+
+                         Alert.alert('提示','保存地址失败，请稍后再试。')
+                         console.log(' error:' + e)
+                     })
+
 
 
      }
             render() {
+                 //选择价格单位
+            //     <CheckBox
+            //
+            //         label=''
+            //         checkedImage={require('../../images/chooseOneClickCopy@2x.png')}
+            //         uncheckedImage={require('../../images/choose_one.png')}
+            //         checked={this.state.isSGD == null ? true : this.state.isSGD}
+            //         onChange={(checked) => {
+            //             this.state.isSGD = ! this.state.isSGD ;
+            //             if (this.state.isSGD){
+            //                 this.state.SGDColor = '#1b1b1b';
+            //                 this.state.RMBColor ='rbg(174,174,174)';
+            //             }else {
+            //                 this.state.SGDColor = 'rbg(174,174,174)';
+            //                 this.state.RMBColor ='#1b1b1b';
+            //             }
+            //             this.setState({ ...this.state });
+            //         }
+            //         }
+            //     />
+            //     <Text style={[ { width: 70, marginRight: 15, color: this.state.SGDColor, fontSize: 14, }]}>
+            //         S$
+            //         </Text>
+            //         <CheckBox
+            //
+            //     label=''
+            //     checkedImage={require('../../images/chooseOneClickCopy@2x.png')}
+            //     uncheckedImage={require('../../images/choose_one.png')}
+            //     checked={this.state.isSGD == null ? false : !this.state.isSGD}
+            //     onChange={(checked) => {
+            //         this.state.isSGD = ! this.state.isSGD ;
+            //         if (this.state.isSGD){
+            //             this.state.SGDColor = '#1b1b1b';
+            //             this.state.RMBColor ='rbg(174,174,174)';
+            //         }else {
+            //             this.state.SGDColor = 'rbg(174,174,174)';
+            //             this.state.RMBColor ='#1b1b1b';
+            //         }
+            //         this.setState({ ...this.state });
+            //     }
+            // }
+            // />
+            // <Text style={[ { width: 70, marginRight: 15, color: this.state.RMBColor, fontSize: 16 }]}>
+            //         ¥
+            //         </Text>
+
                 const ItemW = (width-10)/4, ItemH = (width-50)/4* 1.5
 
                 if (this.state.isSGD){
@@ -252,8 +318,8 @@ export default class NewProductView extends Component{
                                  </View>
                                  <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
                                  <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                     <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                         商品价格:
+                                     <Text style={[ { width: 95, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                         商品价格: S$
                                      </Text>
                                      <TextInput style={{
                         marginLeft: 0, fontSize: 16, flex: 20,
@@ -265,50 +331,7 @@ export default class NewProductView extends Component{
                                                 onChangeText={(text) => this.setState({ productPrice: text })}
                                                 value= {this.state.productPrice}
                                      ></TextInput>
-                                     <CheckBox
 
-                                         label=''
-                                         checkedImage={require('../../images/chooseOneClickCopy@2x.png')}
-                                         uncheckedImage={require('../../images/choose_one.png')}
-                                         checked={this.state.isSGD == null ? true : this.state.isSGD}
-                                         onChange={(checked) => {
-                                                this.state.isSGD = ! this.state.isSGD ;
-                                                  if (this.state.isSGD){
-                   this.state.SGDColor = '#1b1b1b';
-                    this.state.RMBColor ='rbg(174,174,174)';
-                }else {
-                    this.state.SGDColor = 'rbg(174,174,174)';
-                    this.state.RMBColor ='#1b1b1b';
-                }
-                                                 this.setState({ ...this.state });
-            }
-            }
-                                     />
-                                     <Text style={[ { width: 70, marginRight: 15, color: this.state.SGDColor, fontSize: 14, }]}>
-                                         S$
-                                     </Text>
-                                     <CheckBox
-
-                                         label=''
-                                         checkedImage={require('../../images/chooseOneClickCopy@2x.png')}
-                                         uncheckedImage={require('../../images/choose_one.png')}
-                                         checked={this.state.isSGD == null ? false : !this.state.isSGD}
-                                         onChange={(checked) => {
-                                                this.state.isSGD = ! this.state.isSGD ;
-                                                  if (this.state.isSGD){
-                   this.state.SGDColor = '#1b1b1b';
-                    this.state.RMBColor ='rbg(174,174,174)';
-                }else {
-                    this.state.SGDColor = 'rbg(174,174,174)';
-                    this.state.RMBColor ='#1b1b1b';
-                }
-                                                 this.setState({ ...this.state });
-            }
-            }
-                                     />
-                                     <Text style={[ { width: 70, marginRight: 15, color: this.state.RMBColor, fontSize: 16 }]}>
-                                         ¥
-                                     </Text>
 
                                  </View>
                              </View>
