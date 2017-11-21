@@ -49,12 +49,17 @@
 		5D86CAE82E664DF7B91393B4 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A62F85076504050ACAD385E /* SimpleLineIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		60240C031FBD2D4C005877DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60240C051FBD2D4C005877DA /* InfoPlist.strings */; };
+		60240C451FBE8794005877DA /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60240C441FBE8794005877DA /* RSKImageCropper.framework */; };
+		60240C461FBE8794005877DA /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 60240C441FBE8794005877DA /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		60240C481FBE879C005877DA /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60240C471FBE879C005877DA /* QBImagePicker.framework */; };
+		60240C491FBE879C005877DA /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 60240C471FBE879C005877DA /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		60954D401FB01867008F4EEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60954D3F1FB01866008F4EEB /* Images.xcassets */; };
 		74C53C73549440CF86EDF324 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CBCB4DD0644F169288A3C3 /* libRNFetchBlob.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		86D3F80CD32C4777A2B4C73C /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A57D7ED268B41F0AB63F6F2 /* MaterialIcons.ttf */; };
 		95A53D064A6349F0ADF5A77C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB0DADD850C243228A52338E /* Feather.ttf */; };
 		B3CE4E7B78C54A9985A0EF44 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D5B023A1AE479FABAD18ED /* libRCTWeChat.a */; };
+		C4B7ED2B9FD04A5D9780D235 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CD3D8A29A3420199DFCA74 /* libimageCropPicker.a */; };
 		CE80F442D9DD423F83272F0F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 390D4C3288464778A04C3304 /* Foundation.ttf */; };
 		DE1074E261D8454AAB2E98A0 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F6016F531A4280BFE287EA /* libRCTMaterialKit.a */; };
 		EB2E9ACEA3E540709DA6B3CF /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E721A8E743EE42728910A7E2 /* EvilIcons.ttf */; };
@@ -264,6 +269,13 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		60240C421FBE8712005877DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6EB8D4D41F20465789CDE1FF /* imageCropPicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
+			remoteInfo = imageCropPicker;
+		};
 		602497841F91001B00A4A9D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AE8FE43D889F425B83C84A49 /* RNVectorIcons.xcodeproj */;
@@ -315,6 +327,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				60240C461FBE8794005877DA /* RSKImageCropper.framework in Embed Frameworks */,
+				60240C491FBE879C005877DA /* QBImagePicker.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +357,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ilingo/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		26D5B023A1AE479FABAD18ED /* libRCTWeChat.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTWeChat.a; sourceTree = "<group>"; };
+		27CD3D8A29A3420199DFCA74 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		299D982D0E664A7DACCE4783 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ilingo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ilingo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ilingo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ilingo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -364,7 +379,10 @@
 		60240C041FBD2D4C005877DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60240C061FBD2D5C005877DA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		60240C071FBD2D5C005877DA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		60240C441FBE8794005877DA /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60240C471FBE879C005877DA /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60954D3F1FB01866008F4EEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ilingo/Images.xcassets; sourceTree = "<group>"; };
+		6EB8D4D41F20465789CDE1FF /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7988B34D6A1C4FD58D15B0AD /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
 		7A62F85076504050ACAD385E /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -406,14 +424,17 @@
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
+				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
-				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				B3CE4E7B78C54A9985A0EF44 /* libRCTWeChat.a in Frameworks */,
+				60240C451FBE8794005877DA /* RSKImageCropper.framework in Frameworks */,
+				60240C481FBE879C005877DA /* QBImagePicker.framework in Frameworks */,
 				DE1074E261D8454AAB2E98A0 /* libRCTMaterialKit.a in Frameworks */,
 				74C53C73549440CF86EDF324 /* libRNFetchBlob.a in Frameworks */,
 				11E2B48F5CB14049A29B4275 /* libRNVectorIcons.a in Frameworks */,
+				C4B7ED2B9FD04A5D9780D235 /* libimageCropPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +645,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		60240C3F1FBE8711005877DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60240C431FBE8712005877DA /* libimageCropPicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		602497611F91001B00A4A9D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +668,7 @@
 				D9F6016F531A4280BFE287EA /* libRCTMaterialKit.a */,
 				04CBCB4DD0644F169288A3C3 /* libRNFetchBlob.a */,
 				4276F342E42844AFBCB6AC74 /* libRNVectorIcons.a */,
+				27CD3D8A29A3420199DFCA74 /* libimageCropPicker.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -680,6 +710,7 @@
 				3F20F954AED34E939732E52F /* RCTMaterialKit.xcodeproj */,
 				36E70F89656D4CCCB6C3BC41 /* RNFetchBlob.xcodeproj */,
 				AE8FE43D889F425B83C84A49 /* RNVectorIcons.xcodeproj */,
+				6EB8D4D41F20465789CDE1FF /* imageCropPicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -696,6 +727,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				60240C471FBE879C005877DA /* QBImagePicker.framework */,
+				60240C441FBE8794005877DA /* RSKImageCropper.framework */,
 				13B07FAE1A68108700A75B9A /* ilingo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ilingoTests */,
@@ -836,6 +869,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 60240C3F1FBE8711005877DA /* Products */;
+					ProjectRef = 6EB8D4D41F20465789CDE1FF /* imageCropPicker.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -1105,6 +1142,13 @@
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		60240C431FBE8712005877DA /* libimageCropPicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimageCropPicker.a;
+			remoteRef = 60240C421FBE8712005877DA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		602497851F91001B00A4A9D8 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1314,12 +1358,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = ilingoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1347,12 +1393,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = ilingoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1383,6 +1431,7 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = ilingo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -1414,6 +1463,7 @@
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = ilingo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -1450,11 +1500,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "ilingo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1492,11 +1544,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "ilingo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1535,6 +1589,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.ilingo-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1559,6 +1614,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

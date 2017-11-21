@@ -9,13 +9,15 @@ import Dimensions from 'Dimensions';
 import HttpRequest from '../../HttpRequest/HttpRequest';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
-// import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet'
 import {
     StyleSheet,
     View,
     Text,
     Alert,
     Image,
+    Modal,
     TextInput,
     ScrollView,
     TouchableOpacity,
@@ -24,6 +26,17 @@ import {
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
+const CANCEL_INDEX = 0
+const DESTRUCTIVE_INDEX = 4
+const title = <Text style={{color: '#000', fontSize: 18}}>Which one do you like?</Text>
+const options = [
+    'Cancel',
+    'Apple',
+    <Text style={{color: 'yellow'}}>Banana</Text>,
+    'Watermelon',
+    <Text style={{color: 'red'}}>Durian</Text>
+]
+
 //存放数组
 var dataToPost = [];
 export default class NewProductView extends Component{
@@ -31,7 +44,7 @@ export default class NewProductView extends Component{
                 super(props)
 
                 this.state = {
-                    productImgArr :[1,2],
+                    productImgArr :[],
                     productName :'',
                     productPrice:'',
                     productTypeDetail:'',
@@ -39,81 +52,111 @@ export default class NewProductView extends Component{
                     DetailsDescription:'',
                     isSGD: true,
                     SGDColor:'#1b1b1b',
-                    RMBColor:'rbg(174,174,174)'
+                    RMBColor:'rbg(174,174,174)',
+                    selectedActionSheet: ''
 
 
 
                 }
+                this.handlePress = this.handlePress.bind(this)
+                this.showActionSheet = this.showActionSheet.bind(this)
             }
 
             back(){
 
                 this.props.navigator.pop();
             }
-    onItemClick(item){
+            showActionSheet() {
+                 this.ActionSheet.show()
+             }
+
+             handlePress(i) {
+              this.setState({
+                  selectedActionSheet: i
+                          })
+             }
+                 onItemClick(item){
                 // if (item.tag==='add_more'){
-                    // if (Platform.OS === "ios"){
-                    //     ImagePicker.openPicker({
-                    //         multiple: true,
-                    //         waitAnimationEnd: false,
-                    //     }).then(images => {
-                    //         console.log('ImagePicker1:'+JSON.stringify(images));
-                    //         for (var  i =0;i <images.length;i++){
-                    //             dataToPost.push({
-                    //                 uri: images[i].path,
-                    //                 width: images[i].width,
-                    //                 height: images[i].height,
-                    //                 mime: images[i].mime,
-                    //             })
-                    //         }
-                    //         console.log('savedataToPost1:'+JSON.stringify(dataToPost))
-                    //         this.setState({
-                    //             productImgArr: dataToPost
-                    //         });
-                    //         console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
-                    //
-                    //     }).catch(e => alert(e));
-                        // for (var i= 0 ;i <= this.state.productImgArr.length; i++){
-                        //     var imageItem = this.state.productImgArr[0];
-                        //     // ImagePicker.openCropper({
-                        //     //     path: imageItem.path,
-                        //     //     width: 400,
-                        //     //     height: 400
-                        //     // }).then(image => {
-                        //     //     console.log(image);
-                        //     // });
-                        // }
-                    // }else {
-                    //     ImagePicker.openPicker({
-                    //         width: 300,
-                    //         height: 300,
-                    //         cropping: false,
-                    //         cropperCircleOverlay: false,
-                    //         compressImageMaxWidth: 480,
-                    //         compressImageMaxHeight: 640,
-                    //         compressImageQuality: 0.5,
-                    //         mediaType: 'photo',
-                    //         compressVideoPreset: 'MediumQuality'
-                    //     }).then(image => {
-                    //         dataToPost.push({
-                    //             uri: image.path,
-                    //             width: image.width,
-                    //             height: image.height,
-                    //             mime: image.mime
-                    //         });
-                    //         this.state.productImgArr = dataToPost;
-                    //         this.setState({ ...this.state });
-                    //         console.log('dataToPost')
-                    //     }).catch(e => {
-                    //         Alert.alert(e.message
-                    //             ? e.message
-                    //             : e);
-                    //     });
-                    // }
+                //     if (Platform.OS === "ios"){
+                //         ImagePicker.openPicker({
+                //             multiple: true,
+                //             waitAnimationEnd: false,
+                //         }).then(images => {
+                //             console.log('ImagePicker1:'+JSON.stringify(images));
+                //             for (var  i =0;i <images.length;i++){
+                //                 dataToPost.push({
+                //                     height: images[i].height,
+                //                     width: images[i].width,
+                //                     data: images[i].data,
+                //                     mime: images[i].mime,
+                //                     localIdentifier: images[i].localIdentifier,
+                //                     size: images[i].size,
+                //                     filename: images[i].filename,
+                //                     path: images[i].path,
+                //                     exif: images[i].exif,
+                //                     sourceURL: images[i].sourceURL,
+                //                 })
+                //
+                //             }
+                //             console.log('savedataToPost1:'+JSON.stringify(dataToPost))
+                //             this.setState({
+                //                 productImgArr: dataToPost
+                //             });
+                //             console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
+                //
+                //         }).catch(e => alert(e));
+                //         for (var i= 0 ;i <= this.state.productImgArr.length; i++){
+                //             var imageItem = this.state.productImgArr[0];
+                //             // ImagePicker.openCropper({
+                //             //     path: imageItem.path,
+                //             //     width: 400,
+                //             //     height: 400
+                //             // }).then(image => {
+                //             //     console.log(image);
+                //             // });
+                //         }
+                //     }else {
+                //         ImagePicker.openPicker({
+                //             width: 300,
+                //             height: 300,
+                //             cropping: false,
+                //             cropperCircleOverlay: false,
+                //             compressImageMaxWidth: 1200,
+                //             compressImageMaxHeight: 1200,
+                //             compressImageQuality: 0.5,
+                //             mediaType: 'photo',
+                //             compressVideoPreset: 'MediumQuality'
+                //         }).then(image => {
+                //             dataToPost.push({
+                //                 height: image.height,
+                //                 width: image.width,
+                //                 data: image.data,
+                //                 mime: image.mime,
+                //                 localIdentifier: image.localIdentifier,
+                //                 size: image.size,
+                //                 filename: image.filename,
+                //                 path: image.path,
+                //                 exif: image.exif,
+                //                 sourceURL: image.sourceURL,
+                //             });
+                //
+                //             this.state.productImgArr = dataToPost;
+                //             this.setState({ ...this.state });
+                //             console.log('dataToPost')
+                //         }).catch(e => {
+                //             Alert.alert(e.message
+                //                 ? e.message
+                //                 : e);
+                //         });
+                //     }
                 // }else {
                 //
                 // }
+                     if (item.tag==='add_more'){
+                        this.showActionSheet()
+                     }else {
 
+                     }
 
 
 
@@ -131,7 +174,9 @@ export default class NewProductView extends Component{
                                     if ( item.tag =='add_more'){
                                         imageUri =require('../../images/addImgIcon@3x.png')
                                     }else {
-                                        imageUri =require('../../images/me_bj.jpg')
+                                        imageUri = {uri: Platform.OS === 'android' ? 'file://' + item.image.path : '' + item.image.path ,isStatic: true};
+                                        {/*imageUri =require('../../images/me_bj.jpg')*/}
+                                        console.log('imageUri12:'+JSON.stringify(imageUri))
                                     }
                                      let render = (
 
@@ -139,6 +184,7 @@ export default class NewProductView extends Component{
                                          <View style={[{ width: w, height: h}, styles.toolsItem]}>
                                              <Image style={{width: w-10, height: h-10,margin:10}}
                                                     source={imageUri}
+
                                                     resizeMode = 'contain'
 
                                              >
@@ -167,18 +213,62 @@ export default class NewProductView extends Component{
 
              saveGroupBuy(){
                  // this.props.navigator.pop();
+                 if (this.state.productName){
 
-                 let param = {
-                     name: this.state.productName,
-                     default_price: this.state.productPrice,
-                     default_stock: this.state.productStock,
-                     default_unit: this.state.productTypeDetail,
-                     set: this.props.oldSet,
-                     desc: this.state.DetailsDescription,
-                     // image0: this.state.address
-
+                 }else {
+                     Alert.alert('提示','请输入商品名称')
+                     return
                  }
-                 HttpRequest.post('/v1','/user_address', param, this.onSaveAddressSuccess.bind(this),
+                 if (this.state.productPrice){
+
+                 }else {
+                     Alert.alert('提示','请输入商品价格')
+                     return
+                 }
+                 if (this.state.productTypeDetail){
+
+                 }else {
+                     Alert.alert('提示','请输入单位详情')
+                     return
+                 }
+                 if (this.state.productStock){
+
+                 }else {
+                     Alert.alert('提示','请输入商品库存')
+                     return
+                 }
+                 if (this.state.DetailsDescription){
+
+                 }else {
+                     Alert.alert('提示','请输入详情描述')
+                     return
+                 }
+                 if (this.state.productImgArr.length > 0){
+
+                 }else {
+                     Alert.alert('提示','请添加商品图片')
+                     return
+                 }
+                 var param = new FormData()
+
+                 param.append('name',this.state.productName);
+                 param.append('default_price', this.state.productPrice);
+                 param.append('default_stock', this.state.productStock);
+                 param.append('default_unit', this.state.productTypeDetail);
+                 param.append('set', this.props.oldSet);
+                 param.append('desc', this.state.DetailsDescription);
+
+
+
+
+                 this.state.productImgArr.map((item, i) => {
+                     if (item['path']) {
+                         let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
+                         param.append("image"+i,file);   //这里的files就是后台需要的key
+                     }
+                 });
+                 console.log('param188:'+JSON.stringify(param))
+                 HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveAddressSuccess.bind(this),
                      (e) => {
 
                          Alert.alert('提示','保存地址失败，请稍后再试。')
@@ -249,7 +339,7 @@ export default class NewProductView extends Component{
                 if (this.state.productImgArr.length == 0){
                     nowProductDataArr.push({
                         'index': 1,
-                        'image': {uri:''},
+                        'image': '',
                         'tag': 'add_more'
                     });
                 }else {
@@ -259,15 +349,24 @@ export default class NewProductView extends Component{
                         var imgItem = this.state.productImgArr[i]
                         if (i == this.state.productImgArr.length) {
 
+                            // nowProductDataArr.push({
+                            //     'index': i+1,
+                            //     'image': {uri:''},
+                            //     'tag': 'add_more'
+                            // });
                             nowProductDataArr.push({
                                 'index': i+1,
-                                'image': {uri:''},
+                                'image': '',
                                 'tag': 'add_more'
                             });
                         }else{
+                            {/*nowProductDataArr.push({*/}
+                                {/*'index': i+1,*/}
+                                {/*'image': {uri:imgItem.uri},*/}
+                            {/*});*/}
                             nowProductDataArr.push({
                                 'index': i+1,
-                                'image': {uri:imgItem.uri},
+                                'image': imgItem,
                             });
                         }
                     }
@@ -397,6 +496,14 @@ export default class NewProductView extends Component{
                              </View>
 
                              <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 ,paddingTop:0}}><CommitButton title={'保存商品'} onPress={this.saveGroupBuy.bind(this)}></CommitButton></View>
+                             <ActionSheet
+                                 ref={o => this.ActionSheet = o}
+                                 title={title}
+                                 options={options}
+                                 cancelButtonIndex={CANCEL_INDEX}
+                                 destructiveButtonIndex={DESTRUCTIVE_INDEX}
+                                 onPress={this.handlePress}
+                             />
                        </View>
         )
     }

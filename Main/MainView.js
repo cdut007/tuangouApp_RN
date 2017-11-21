@@ -235,7 +235,7 @@ export default class MainView extends Component {
     getHasLogin() {
         var me = this
 
-
+        Global.token = null;
         AsyncStorage.getItem('k_http_token', function (errs, result) {
             if (!errs && result && result.length) {
                 Global.token = result
