@@ -183,8 +183,9 @@ export default class MineView extends Component {
             return (
                 <View style={styles.container}>
                     <View style={styles.headView}>
+
                         <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
-                               source={require('../images/me_bj.jpg')}
+                               source={require('../images/meBj.png')}
                         />
                         <CircleImage
                             imageStyle={styles.logo}
@@ -193,6 +194,10 @@ export default class MineView extends Component {
                         <View style={styles.centerLayout}>
                             <Text style={styles.defaultText}>{Global.user_profile.nickname}</Text>
                         </View>
+                        <TouchableOpacity style={[ { alignItems: "flex-end", position: 'absolute', top: 20, right: 10, }]} onPress={this.onSettingPress.bind(this)}>
+                            <Image style={{width:36,height:36}} source={require('../images/settingIcon.png')}></Image>
+                        </TouchableOpacity>
+
                     </View>
 
                     <TouchableOpacity style={[styles.itemLayout, { alignItems: "flex-start", }]}>
@@ -204,7 +209,7 @@ export default class MineView extends Component {
 
                     <View style={styles.flexContainer}>
                         <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/link_icon.png')}
                                 >
@@ -216,30 +221,30 @@ export default class MineView extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyProgressingPress.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/buying_icon.png')}
                                 >
                                 </Image>
                                 <Text style={styles.label}>
-                                    拼团中
+                                    查看接龙
                                 </Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.cell} onPress={this.onGroupBuyDonePress.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/success_icon.png')}
                                 >
                                 </Image>
                                 <Text style={styles.label}>
-                                    已完成
+                                    已截团的
                                 </Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.cell} onPress={this.onNoticePickUpPress.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/noticeIcon@2x.png')}
                                 >
@@ -294,20 +299,20 @@ export default class MineView extends Component {
                                    source={require("../images/next_icon.png")} />
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.itemLine} />
-                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onSettingPress.bind(this)}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                            <Image style={[styles.iconSize, { marginRight: 15 }]}
-                                   source={require('../images/settingIcon.png')} />
-                            <Text style={{
-                            fontSize: 16, flex: 20,
-                            textAlign: 'left',
-                            color: '#1c1c1c',
-                        }}>设置</Text>
-                            <Image style={[styles.iconSize]}
-                                   source={require("../images/next_icon.png")} />
-                        </View>
-                    </TouchableOpacity>
+                    {/*<View style={styles.itemLine} />*/}
+                    {/*<TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onSettingPress.bind(this)}>*/}
+                        {/*<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>*/}
+                            {/*<Image style={[styles.iconSize, { marginRight: 15 }]}*/}
+                                   {/*source={require('../images/settingIcon.png')} />*/}
+                            {/*<Text style={{*/}
+                            {/*fontSize: 16, flex: 20,*/}
+                            {/*textAlign: 'left',*/}
+                            {/*color: '#1c1c1c',*/}
+                        {/*}}>设置</Text>*/}
+                            {/*<Image style={[styles.iconSize]}*/}
+                                   {/*source={require("../images/next_icon.png")} />*/}
+                        {/*</View>*/}
+                    {/*</TouchableOpacity>*/}
 
                 </View>
             )
@@ -317,7 +322,7 @@ export default class MineView extends Component {
                 <TouchableOpacity onPress={this.onPressWelcome.bind(this)}>
                     <View style={styles.headView}>
                         <Image style={[styles.headView, { position: 'absolute', left: 0, right: 0, }]}
-                               source={require('../images/me_bj.jpg')}
+                               source={require('../images/meBj.png')}
                         />
                         <CircleImage
                             imageStyle={styles.logo}
@@ -326,6 +331,9 @@ export default class MineView extends Component {
                         <View style={styles.centerLayout}>
                             <Text style={styles.defaultText}>未登录</Text>
                         </View>
+                        <TouchableOpacity style={[ { alignItems: "flex-end", position: 'absolute', top: 20, right: 10, }]} onPress={this.onPressWelcome.bind(this)}>
+                            <Image style={{width:40,height:40}} source={require('../images/settingIcon.png')}></Image>
+                        </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
 
@@ -338,7 +346,7 @@ export default class MineView extends Component {
 
                     <View style={styles.flexContainer}>
                         <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/link_icon.png')}
                                 >
@@ -350,30 +358,30 @@ export default class MineView extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/buying_icon.png')}
                                 >
                                 </Image>
                                 <Text style={styles.label}>
-                                    拼团中
+                                    查看接龙
                                 </Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/success_icon.png')}
                                 >
                                 </Image>
                                 <Text style={styles.label}>
-                                    已完成
+                                    已截团的
                                 </Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.cell} onPress={this.onPressWelcome.bind(this)}>
-                            <View>
+                            <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/noticeIcon@2x.png')}
                                 >
@@ -428,20 +436,20 @@ export default class MineView extends Component {
                                    source={require("../images/next_icon.png")} />
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.itemLine} />
-                    <TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onPressWelcome.bind(this)}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                            <Image style={[styles.iconSize, { marginRight: 15 }]}
-                                   source={require('../images/settingIcon.png')} />
-                            <Text style={{
-                            fontSize: 16, flex: 20,
-                            textAlign: 'left',
-                            color: '#1c1c1c',
-                        }}>设置</Text>
-                            <Image style={[styles.iconSize]}
-                                   source={require("../images/next_icon.png")} />
-                        </View>
-                    </TouchableOpacity>
+                    {/*<View style={styles.itemLine} />*/}
+                    {/*<TouchableOpacity underlayColor="#ffffff" style={[styles.itemLayout]} onPress={this.onPressWelcome.bind(this)}>*/}
+                        {/*<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>*/}
+                            {/*<Image style={[styles.iconSize, { marginRight: 15 }]}*/}
+                                   {/*source={require('../images/settingIcon.png')} />*/}
+                            {/*<Text style={{*/}
+                            {/*fontSize: 16, flex: 20,*/}
+                            {/*textAlign: 'left',*/}
+                            {/*color: '#1c1c1c',*/}
+                        {/*}}>设置</Text>*/}
+                            {/*<Image style={[styles.iconSize]}*/}
+                                   {/*source={require("../images/next_icon.png")} />*/}
+                        {/*</View>*/}
+                    {/*</TouchableOpacity>*/}
 
                 </View>
             )
@@ -519,16 +527,19 @@ const styles = StyleSheet.create({
     logo: {
         width: 80,
         height: 80,
-        marginTop: 30,
+        marginTop: 50,
         borderRadius: 40,
         alignSelf: 'center',
+        borderWidth:2,
+        borderColor:'rgb(255,233,131)'
     },
     defaultText: {
-        marginTop: 10,
+        marginTop: 5,
         color: '#ffffff',
         fontSize: 16,
         justifyContent: "center",
         alignItems: 'center',
+        fontFamily:'PingFang-SC-Medium'
     },
     flexContainer: {
         height: 80,
@@ -559,6 +570,10 @@ const styles = StyleSheet.create({
         color: '#4f4f4f',
     },
     labelInfo: {
-        marginLeft:4
+
+
     },
+    labelView:{
+        alignItems: 'center',
+    }
 });

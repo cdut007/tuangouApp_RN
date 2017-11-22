@@ -339,7 +339,7 @@ export default class GroupBuyCar extends Component {
                     <View style={{
                 flex: 2
             }}>
-                        <CachedImage style={{
+                        <Image style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
                 }} source={{ uri: item.image }} />

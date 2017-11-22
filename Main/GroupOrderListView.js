@@ -8,7 +8,8 @@ import {
     Platform,
     TouchableNativeFeedback,
     ScrollView,
-    Alert
+    Alert,
+    RefreshControl
 } from 'react-native';
 
 import {
@@ -21,13 +22,16 @@ import {
     setTheme,
 } from 'react-native-material-kit'
 import {CachedImage} from "react-native-img-cache";
+var  WeChat = require('react-native-wechat');
 import Banner from 'react-native-banner';
 import Dimensions from 'Dimensions';
 import Grid from 'react-native-grid-component';
 import NavBar from '../common/NavBar'
+import TabView from './TabView'
 import px2dp from '../common/util'
 import GroupOrderDetailView from './Order/GroupOrderDetailView';
 import DownloadExcelView from './DownloadExcelView';
+var Global = require('../common/globals');
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -40,21 +44,31 @@ import moment from 'moment';
 export default class GroupOrderListView extends Component {
     constructor(props) {
         super(props)
-        var title = "拼团中";
+        var title = "查看接龙";
         if (this.props.isDoneStatus) {
-            title = "拼团已完成";
+            title = "已截团的";
         }
         this.state = {
             title: title,
             orders: [],
             classifytotalNum :0,
-            haveOrder:true
+            haveOrder:true,
+            isRefreshing:false
         }
     }
 
 
     clickBack() {
-        this.props.navigator.pop()
+        if (this.props.isOrderUserDetailGo){
+            this.props.navigator.resetTo({
+                component: TabView,
+                name: 'MainPage'
+            })
+        }else {
+            this.props.navigator.pop()
+        }
+
+
     }
 
     componentDidMount() {
@@ -67,7 +81,22 @@ export default class GroupOrderListView extends Component {
                 Alert.alert('提示','获取团购列表失败，请稍后再试。')
             })
     }
+    onRefresh(){
 
+        this.setState({isRefreshing: true});
+        setTimeout(() => {
+            let orderStatus = this.props.isDoneStatus ? 1 : 0
+            let param = { status: orderStatus }
+            console.log('orderStatus:' +orderStatus)
+            HttpRequest.get('/v1','/agent_order', param, this.onGetListSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+                    Alert.alert('提示','获取团购列表失败，请稍后再试。')
+                })
+        }, 2000);
+
+
+    }
     onGetListSuccess(response) {
 
         // for (var i = 0 ;i < response.data.order.length ; i ++){
@@ -81,8 +110,32 @@ export default class GroupOrderListView extends Component {
         }else {
             this.setState({
                 orders: response.data.order,
-                haveOrder:true
+                haveOrder:true,
+                isRefreshing: false
             })
+        }
+
+    }
+    onSendOrderSuccess(response){
+        console.log('onSendOrderSuccess332:'+JSON.stringify(response))
+        if (response.message == "Success"){
+            WeChat.isWXAppInstalled()
+                .then((isInstalled) => {
+                    if (isInstalled){
+                        WeChat.shareToSession({
+                            thumbImage: Global.headimgurl,
+                            title:response.data.title,
+                            description:'拼团订单',
+                            type: 'news',
+                            webpageUrl: response.data.excel_url
+                        }).cache((error) =>{
+                            ToastShort(error.message);
+                        });
+                    }else {
+                        ToastShort('没有安装微信软件，请您安装微信之后再试');
+
+                    }
+                });
         }
 
     }
@@ -157,7 +210,8 @@ export default class GroupOrderListView extends Component {
         return (<ScrollView
             keyboardDismissMode='on-drag'
             keyboardShouldPersistTaps={false}
-            style={[styles.mainStyle, { height: height - 220 }]}>
+            style={[styles.mainStyle, { height: height - 220 }]}
+           >
             {this.renderProductCategoryView()}
         </ScrollView>)
     }
@@ -181,7 +235,7 @@ export default class GroupOrderListView extends Component {
 
             displayCategoryAry.push(
                 <View style={{ margin: 0 }}>
-                    <View style={[styles.brandLabelContainer, { marginBottom: 10 }]}>
+                    <View style={[styles.brandLabelContainer, {  }]}>
                         <View style={{
                             marginLeft: 10, marginTop: 10, marginRight: 5, alignItems: 'center',
                             justifyContent: 'flex-start',flexDirection: 'row',width:width-120
@@ -200,26 +254,69 @@ export default class GroupOrderListView extends Component {
                     <View style={{ width: width, backgroundColor: '#d5d5d5', flex: 1, height: 0.5 }}>
                     </View>
                     {this.renderStatus(order)}
+                    <View style={{width:width,height:10,backgroundColor:'rgb(242,242,242)'}}></View>
 
                 </View>
             );
         }
         return displayCategoryAry;
     }
+    onSendOrderClick(prouductItems){
 
+        // WeChat.isWXAppInstalled()
+        //     .then((isInstalled) => {
+        //         if (isInstalled){
+        //             WeChat.shareToSession({
+        //                 thumbImage: Global.headimgurl,
+        //                 title:'微信好友测试链接',
+        //                 description: '收货订单',
+        //                 type: 'news',
+        //                 webpageUrl: response.data.excel_url
+        //             }).cache((error) =>{
+        //                 ToastShort(error.message);
+        //             });
+        //         }else {
+        //             ToastShort('没有安装微信软件，请您安装微信之后再试');
+        //
+        //         }
+        //     });
+        console.log('onSendOrderClick11'+JSON.stringify(prouductItems))
+
+        let param = { group_buy_id: prouductItems.group_buy.id, send_type:'weixin'}
+
+        HttpRequest.post('/v2','/api.send.order.info', param, this.onSendOrderSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
+            })
+    }
     renderStatus(items) {
         if (this.props.isDoneStatus) {
-            return (<TouchableOpacity onPress={this.onDownloadExcelClick.bind(this,items)} style={{
-                alignItems: 'center', backgroundColor: '#f7f7f7',
-                justifyContent: 'center', height: 40, width: width
+            return (<View style={{flexDirection:'row',justifyContent:'flex-start',width:width}}>
+                <TouchableOpacity onPress={this.onDownloadExcelClick.bind(this,items)} style={{
+                alignItems: 'center', backgroundColor: 'white',
+                justifyContent: 'center', height: 40,flex:1
             }}>
                 <Text style={{
                     alignItems: 'center',
-                    justifyContent: 'center', fontSize: 12, color: '#6d9ee1', textAlign: 'center'
+                    justifyContent: 'center', fontSize: 18, color: 'rgb(234,107,16)', textAlign: 'center',fontFamily:'PingFang-SC-Medium'
                 }}>
                     下载Excel表
-            </Text>
-            </TouchableOpacity>)
+                </Text>
+            </TouchableOpacity>
+                <TouchableOpacity onPress={this.onSendOrderClick.bind(this,items)} style={{
+                    alignItems: 'center', backgroundColor: 'rgb(234,107,16)',
+                    justifyContent: 'center', height: 40,flex:1
+                }}>
+                    <Text style={{
+                        alignItems: 'center',
+                        justifyContent: 'center', fontSize: 18, color: 'white', textAlign: 'center',fontFamily:'PingFang-SC-Medium'
+                    }}>
+                        发送订单
+                    </Text>
+                </TouchableOpacity>
+
+            </View>)
         } else {
             return (<TouchableOpacity onPress={this.onItemsClick.bind(this, items)} style={{
                 alignItems: 'center', backgroundColor: '#f7f7f7',
@@ -246,15 +343,15 @@ export default class GroupOrderListView extends Component {
                 <CachedImage style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
                     justifyContent: 'center',
-                }} source={{ uri: item.image }} />
+                }} source={{ uri: item.goods.images[0].image }} />
             </View>
             <View style={{
                 height: h,
                 alignItems: 'flex-start',
                 flex: 6
             }}>
-                <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
-                <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.unit}</Text>
+                <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.goods.name}</Text>
+                <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.brief_dec}</Text>
                 <Image style={{position: 'absolute',width:36,height:36,right:0,top:35}} source={require('../images/next_icon@2x.png')}></Image>
                 <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                     <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>

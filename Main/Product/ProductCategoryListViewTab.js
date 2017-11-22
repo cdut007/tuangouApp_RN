@@ -64,11 +64,22 @@ export default class ProductCatagoryListViewTab extends Component {
 
 
         var tabTitle = []
+        // for (var i = 0; i < response.data.group_buying_list.length; i++) {
+        //     let item = response.data.group_buying_list[i]
+        //     var MM = moment(item.ship_time).format("M");
+        //     var DD = moment(item.ship_time).format("D");
+        //     tabTitle.push({ key: '' + i, title: MM+'月'+DD+'日发货拼团' })
+        //
+        // }
         for (var i = 0; i < response.data.group_buying_list.length; i++) {
             let item = response.data.group_buying_list[i]
-            var MM = moment(item.ship_time).format("M");
-            var DD = moment(item.ship_time).format("D");
-            tabTitle.push({ key: '' + i, title: MM+'月'+DD+'日发货拼团' })
+            if (item.eyu ==''){
+                tabTitle.push({ key: '' + i, title: '类别'+(i+1) })
+            } else {
+                tabTitle.push({ key: '' + i, title: item.eyu })
+            }
+
+
 
         }
         this.setState({

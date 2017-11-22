@@ -10,16 +10,19 @@ import {
     TouchableOpacity,
     Animated,
     TouchableHighlight,
-    ScrollView
+    ScrollView,
+    Alert
 
 }   from 'react-native';
 import NavBar from '../../common/NavBar'
 import Dimensions from 'Dimensions';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+import GroupOrderListView from '../GroupOrderListView';
 import Panel from '../../common/Panel';
 import HttpRequest from '../../HttpRequest/HttpRequest'
 var Global = require('../../common/globals');
+var  WeChat = require('react-native-wechat');
 export default class OrderUserDetailView extends Component{
     constructor (props){
         super(props)
@@ -31,7 +34,8 @@ export default class OrderUserDetailView extends Component{
             expanded : true,
             order_detail :[],
             displayPanelAry : [],
-            haveOrder_detail:true
+            haveOrder_detail:false,
+            isIntercept:false,
 
         }
     }
@@ -87,6 +91,7 @@ export default class OrderUserDetailView extends Component{
     }
     clickBack() {
         this.props.navigator.pop()
+
     }
     onGetOrderUserSuccess(response){
         if (response.message == "Success"){
@@ -104,10 +109,63 @@ export default class OrderUserDetailView extends Component{
 
 
         }
+        // if (response.message == "Success"){
+        //     if (response.data.order_detail.length == 0){
+        //         this.setState({
+        //             haveOrder_detail:true
+        //         });
+        //     }else {
+        //         this.setState({
+        //             order_detail:response.data.order_detail,
+        //             haveOrder_detail:false
+        //         });
+        //     }
+        //
+        //
+        //
+        // }
 
+    }
+    onGetInterceptGroupSuccess(response){
+        console.log('onGetInterceptGroupSuccess112'+JSON.stringify(response))
+        if (response.message == "Success"){
+            this.props.navigator.resetTo({
+                component: GroupOrderListView,
+                props: {
+                    isDoneStatus:true,
+                    isOrderUserDetailGo:true
+                }
+            })
+
+
+
+        }
     }
     onItemClick(item){
 
+    }
+    onPressInterceptGroupList(){
+        let param = { group_buying_id: this.state.gbDetail.group_buy.id}
+
+        HttpRequest.post('/v2','/api.merchant.mc.end', param, this.onGetInterceptGroupSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+
+            })
+
+    }
+    onPressGroupCommit(){
+
+        Alert.alert(
+            '确认截团',
+            '确认截团后将生成本次接龙订单，平台不可再加单哦！',
+            [
+
+                {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: '确定', onPress: this.onPressInterceptGroupList.bind(this)},
+            ],
+            { cancelable: false }
+        )
     }
     render() {
         if (this.state.haveOrder_detail){
@@ -117,6 +175,13 @@ export default class OrderUserDetailView extends Component{
                             leftIcon={require('../../images/back.png')}
                             leftPress={this.clickBack.bind(this)} />
                     {this.renderOrderUserListView(this.state.order_detail)}
+                    <TouchableOpacity onPress={this.onPressGroupCommit.bind(this)}>
+                        <View style={{width:width,height:49,backgroundColor:'rgb(234,107,16)',   justifyContent: 'center',
+                            alignItems: 'center',}}>
+                                <Text style={{color:'white',fontFamily:'PingFang-SC-Medium',fontSize:18}}>截团提交订单</Text>
+                        </View>
+                    </TouchableOpacity>
+
 
                 </View>
             )
@@ -149,15 +214,18 @@ export default class OrderUserDetailView extends Component{
     renderOrderUserListView(order_detail){
 
             return (
-                <ScrollView style={styles.scrollcontainer}>
-                    {this.renderPanelView(order_detail)}
-                    {/*<Panel title="5" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
+
+                    <ScrollView style={styles.scrollcontainer}>
+                        {this.renderPanelView(order_detail)}
+                        {/*<Panel title="5" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
                         {/*<Text>Lorem ipsum dolor sit amet, cing elit  consectetur adipiscing elit.</Text>*/}
-                    {/*</Panel>*/}
-                    {/*<Panel title="brownie" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
+                        {/*</Panel>*/}
+                        {/*<Panel title="brownie" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
                         {/*<Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, conse</Text>*/}
 
-                </ScrollView>
+                    </ScrollView>
+
+
             )
 
 

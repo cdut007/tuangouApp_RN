@@ -172,9 +172,9 @@ export default class ProductCatagoryListView extends Component {
         return (<TouchableOpacity underlayColor="#dad9d7" style={[styles.row]} onPress={() => { this.onItemPress(item.goods_id,item) }}>
             <View style={[styles.row]}>
 
-                <CachedImage style={{
+                <Image style={{
                     resizeMode: 'contain', alignItems: 'center',
-                    justifyContent: 'center', width: w - 2,height:w-2,
+                    justifyContent: 'center', width: w ,height:w,
                     backgroundColor: '#ffffff',
                     flex: 4
                 }}
@@ -185,12 +185,12 @@ export default class ProductCatagoryListView extends Component {
                         alignItems: 'center', fontSize: 14,
                         color: '#1c1c1c',
                         justifyContent: 'center', margin: 2, numberOfLines: 2, ellipsizeMode: 'tail',
-                        flex: 1 ,textAlign: 'center',marginTop:5
+                        flex: 1 ,textAlign: 'left',marginTop:5,marginLeft:10,marginRight:10
                     }}>{item.name}</Text>
 
                     <View style={{
                         alignItems: 'center', flexDirection: 'row',
-                        justifyContent: 'center',marginTop:10,
+                        justifyContent: 'flex-start',marginTop:5,marginLeft:10,marginRight:10,marginBottom:10,
                         flex: 1
                     }}>
                         <Text style={{ alignItems: 'center', textAlign: 'left', justifyContent: 'flex-start', numberOfLines: 1, color: '#e31515', fontSize: 20, }}>S$ {item.price}</Text>

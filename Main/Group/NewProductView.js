@@ -10,7 +10,7 @@ import HttpRequest from '../../HttpRequest/HttpRequest';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
 import ImagePicker from 'react-native-image-crop-picker';
-import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet'
+// import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet'
 import {
     StyleSheet,
     View,
@@ -496,14 +496,7 @@ export default class NewProductView extends Component{
                              </View>
 
                              <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 ,paddingTop:0}}><CommitButton title={'保存商品'} onPress={this.saveGroupBuy.bind(this)}></CommitButton></View>
-                             <ActionSheet
-                                 ref={o => this.ActionSheet = o}
-                                 title={title}
-                                 options={options}
-                                 cancelButtonIndex={CANCEL_INDEX}
-                                 destructiveButtonIndex={DESTRUCTIVE_INDEX}
-                                 onPress={this.handlePress}
-                             />
+
                        </View>
         )
     }
