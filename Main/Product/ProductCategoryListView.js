@@ -260,7 +260,7 @@ export default class ProductCatagoryListView extends Component {
                     {/*onMomentumScrollEnd={this.bannerOnMomentumScrollEnd.bind(this)}*/}
                     {/*intent={this.bannerClickListener.bind(this)}*/}
                 {/*/>*/}
-                <CachedImage
+                <Image
                     style={{resizeMode:'contain',height: 180,
                    width:width,
                     }}

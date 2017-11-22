@@ -61,7 +61,8 @@ export default class AddressView extends Component {
         this.props.navigator.push({
             component: GroupMasterLinkView,
             props: {
-                group_buy_info:this.state.group_buy_info
+                group_buy_info:this.state.group_buy_info,
+                isAddressTo:true
             }
         })
     }
@@ -72,6 +73,7 @@ export default class AddressView extends Component {
     }
     startGroupBuy()
     {
+        console.log('startGroupBuy11'+JSON.stringify(this.props.api_param))
         HttpRequest.post('/v1','/agent_order', this.props.api_param, this.onOrderSuccess.bind(this),
             (e) => {
                 try {
@@ -114,7 +116,8 @@ export default class AddressView extends Component {
         this.props.navigator.push({
             component: GroupMasterLinkView,
             props: {
-                group_buy_info:this.state.group_buy_info
+                group_buy_info:this.state.group_buy_info,
+                isAddressTo:true
 
             }
         })
@@ -130,7 +133,7 @@ export default class AddressView extends Component {
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
+                    <Text style={[styles.iconSize, {  marginRight: 15, color: '#1b1b1b', fontSize: 14, flex: 35 }]}>
                         {this.state.name}
                     </Text>
                     <Text style={{
@@ -142,7 +145,7 @@ export default class AddressView extends Component {
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, flex: 1}]}>
+                    <Text style={[styles.iconSize, {  marginRight: 15, color: '#1b1b1b', fontSize: 14, flex: 1}]}>
                         {this.state.address}
                     </Text>
                 </View>

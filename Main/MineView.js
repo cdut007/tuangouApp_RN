@@ -151,6 +151,10 @@ export default class MineView extends Component {
 
             this.props.navigator.push({
                 component: GroupMasterLinkView,
+                props: {
+                    isAddressTo:false
+
+                }
             })
         }
 

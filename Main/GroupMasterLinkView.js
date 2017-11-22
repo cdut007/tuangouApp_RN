@@ -82,11 +82,16 @@ export default class GroupMasterLinkView extends Component {
     }
 
     back() {
-        // this.props.navigator.pop()
-        this.props.navigator.resetTo({
-            component: TabView,
-            name: 'MainPage'
-        })
+        if (this.props.isAddressTo){
+            this.props.navigator.resetTo({
+                component: TabView,
+                name: 'MainPage'
+            })
+        }else {
+            this.props.navigator.pop()
+        }
+
+
     }
     _logout_function(){
 

@@ -168,34 +168,61 @@ export default class OrderUserDetailView extends Component{
         )
     }
     render() {
-        if (this.state.haveOrder_detail){
-            return (
-                <View style={styles.container}>
-                    <NavBar title={this.props.gbDetail.classify.name}
-                            leftIcon={require('../../images/back.png')}
-                            leftPress={this.clickBack.bind(this)} />
-                    {this.renderOrderUserListView(this.state.order_detail)}
-                    <TouchableOpacity onPress={this.onPressGroupCommit.bind(this)}>
-                        <View style={{width:width,height:49,backgroundColor:'rgb(234,107,16)',   justifyContent: 'center',
-                            alignItems: 'center',}}>
-                                <Text style={{color:'white',fontFamily:'PingFang-SC-Medium',fontSize:18}}>截团提交订单</Text>
-                        </View>
-                    </TouchableOpacity>
+        if (this.props.isDoneStatus){
+            if (this.state.haveOrder_detail){
+                return (
+                    <View style={styles.container}>
+                        <NavBar title={this.props.gbDetail.classify.name}
+                                leftIcon={require('../../images/back.png')}
+                                leftPress={this.clickBack.bind(this)} />
+                        {this.renderOrderUserListView(this.state.order_detail)}
 
 
-                </View>
-            )
+
+                    </View>
+                )
+            }else {
+                return (
+                    <View style={styles.container}>
+                        <NavBar title={this.props.gbDetail.classify.name}
+                                leftIcon={require('../../images/back.png')}
+                                leftPress={this.clickBack.bind(this)} />
+                        {this.renderNoOrderUserView()}
+
+                    </View>
+                )
+            }
         }else {
-            return (
-                <View style={styles.container}>
-                    <NavBar title={this.props.gbDetail.classify.name}
-                            leftIcon={require('../../images/back.png')}
-                            leftPress={this.clickBack.bind(this)} />
-                    {this.renderNoOrderUserView()}
+            if (this.state.haveOrder_detail){
+                return (
+                    <View style={styles.container}>
+                        <NavBar title={this.props.gbDetail.classify.name}
+                                leftIcon={require('../../images/back.png')}
+                                leftPress={this.clickBack.bind(this)} />
+                        {this.renderOrderUserListView(this.state.order_detail)}
+                        <TouchableOpacity onPress={this.onPressGroupCommit.bind(this)}>
+                            <View style={{width:width,height:49,backgroundColor:'rgb(234,107,16)',   justifyContent: 'center',
+                                alignItems: 'center',}}>
+                                <Text style={{color:'white',fontFamily:'PingFang-SC-Medium',fontSize:18}}>截团提交订单</Text>
+                            </View>
+                        </TouchableOpacity>
 
-                </View>
-            )
+
+                    </View>
+                )
+            }else {
+                return (
+                    <View style={styles.container}>
+                        <NavBar title={this.props.gbDetail.classify.name}
+                                leftIcon={require('../../images/back.png')}
+                                leftPress={this.clickBack.bind(this)} />
+                        {this.renderNoOrderUserView()}
+
+                    </View>
+                )
+            }
         }
+
 
     }
     renderNoOrderUserView(){

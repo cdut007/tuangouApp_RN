@@ -157,7 +157,7 @@ export default class ProductCatagoryListViewTab extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title={this.state.gbList.classify.name}
+                <NavBar title='申请拼团'
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.clickBack.bind(this)} />
                 {this.renderTabView()}
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     tab: {
-        width: width / 2,
+        width: width / 3,
         flex: 1,
         justifyContent: "center",
         alignItems: "center",

@@ -118,7 +118,7 @@ export default class GroupOrderListView extends Component {
     }
     onSendOrderSuccess(response){
         console.log('onSendOrderSuccess332:'+JSON.stringify(response))
-        if (response.message == "Success"){
+        if (response.code == 1){
             WeChat.isWXAppInstalled()
                 .then((isInstalled) => {
                     if (isInstalled){
@@ -136,6 +136,8 @@ export default class GroupOrderListView extends Component {
 
                     }
                 });
+        }else {
+            Alert.alert('提示','该订单数量为空！')
         }
 
     }
@@ -188,6 +190,8 @@ export default class GroupOrderListView extends Component {
         this.props.navigator.push({
             props: {
                 gbDetail: prouductItems,
+                isDoneStatus:this.props.isDoneStatus
+
             },
             component: OrderUserDetailView,
         })
@@ -287,7 +291,7 @@ export default class GroupOrderListView extends Component {
         HttpRequest.post('/v2','/api.send.order.info', param, this.onSendOrderSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e);
-                Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
+
             })
     }
     renderStatus(items) {

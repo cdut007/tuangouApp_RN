@@ -62,6 +62,7 @@ export default class GroupBuyCar extends Component {
             }
 
         }
+
         this.state.gbDetail.goods_list.map((item, i) => {
 
             item.selected = true;
@@ -99,7 +100,7 @@ export default class GroupBuyCar extends Component {
             var goodsIds = []
             this.state.gbDetail.goods_list.map((item, i) => {
                 if (item.selected) {
-                    goodsIds.push(item.id)
+                    goodsIds.push(item.goods_id)
                 }
             })
             if (this.state.gbDetail.group_buy_id == null || !goodsIds.length) {
@@ -110,9 +111,15 @@ export default class GroupBuyCar extends Component {
             }
 
             let param = { goods_ids: goodsIds, group_buy: this.state.gbDetail.group_buy_id }
+            console.log('param:'+JSON.stringify(param))
             if (!Global.user_address) {
                 this.props.navigator.push({
                     component: AddressView,
+                    props: {
+                        api_param: param,
+                        image: this.state.classifyDetail.image,
+
+                    }
                 })
             }
             else {
