@@ -353,7 +353,7 @@ export default class HomeView extends Component {
         if (index == 0) {
             return
         }
-        return (<View style={{backgroundColor:"#f2f2f2",height:10,flex:1}}></View>)
+        return (<View style={{backgroundColor:"#ffffff",height:10,flex:1}}></View>)
     }
     renderCategoryBannerView(){
         var categoryDataAry = [];

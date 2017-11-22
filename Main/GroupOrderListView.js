@@ -137,7 +137,7 @@ export default class GroupOrderListView extends Component {
                     }
                 });
         }else {
-            Alert.alert('提示','该订单数量为空！')
+            Alert.alert('提示','该订单发送失败。')
         }
 
     }
@@ -290,7 +290,15 @@ export default class GroupOrderListView extends Component {
 
         HttpRequest.post('/v2','/api.send.order.info', param, this.onSendOrderSuccess.bind(this),
             (e) => {
-                console.log(' error:' + e);
+                console.log(' error1:' + e);
+                if (e.code == 17){
+                    Alert.alert('提示','该订单数量为空！')
+
+                }else {
+                    Alert.alert('提示','该订单数量为空')
+
+                }
+
 
             })
     }
