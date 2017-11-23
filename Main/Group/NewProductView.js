@@ -10,7 +10,8 @@ import HttpRequest from '../../HttpRequest/HttpRequest';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
 import ImagePicker from 'react-native-image-crop-picker';
-// import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet'
+
+import ActionSheet from 'react-native-actionsheet';
 import {
     StyleSheet,
     View,
@@ -26,19 +27,11 @@ import {
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-const CANCEL_INDEX = 0
-const DESTRUCTIVE_INDEX = 4
-const title = <Text style={{color: '#000', fontSize: 18}}>Which one do you like?</Text>
-const options = [
-    'Cancel',
-    'Apple',
-    <Text style={{color: 'yellow'}}>Banana</Text>,
-    'Watermelon',
-    <Text style={{color: 'red'}}>Durian</Text>
-]
+
 
 //存放数组
 var dataToPost = [];
+const buttons = ['取消', '从相册中选取一张图片', '拍照', ];
 export default class NewProductView extends Component{
             constructor (props){
                 super(props)
@@ -58,100 +51,159 @@ export default class NewProductView extends Component{
 
 
                 }
-                this.handlePress = this.handlePress.bind(this)
-                this.showActionSheet = this.showActionSheet.bind(this)
+
+
             }
 
             back(){
-
+            this.state.productImgArr = [];
                 this.props.navigator.pop();
-            }
-            showActionSheet() {
-                 this.ActionSheet.show()
-             }
 
-             handlePress(i) {
-              this.setState({
-                  selectedActionSheet: i
-                          })
-             }
+            }
+
+            showActionSheet(){
+                 this.ActionSheet.show();
+                }
+            handlePress(i) {
+               console.log('handlePress11:'+i)
+                if (i == 1){
+                    ImagePicker.openPicker({
+                        width: 1200,
+                        height: 1200,
+                        cropping: true
+                    }).then(image => {
+                        dataToPost.push({
+                            height: image.height,
+                            width: image.width,
+                            data: image.data,
+                            mime: image.mime,
+                            localIdentifier: image.localIdentifier,
+                            size: image.size,
+                            filename: image.filename,
+                            path: Platform.OS === 'android' ? 'file://' + image.path : '' + image.path,
+                            exif: image.exif,
+                            sourceURL: image.sourceURL,
+                            isCropped:image.width == image.height && image.width <= 1200
+                        });
+
+                        this.state.productImgArr = dataToPost;
+                        this.setState({ ...this.state });
+                        console.log('dataToPost')
+
+                    });
+                        // if (Platform.OS === "ios"){
+                        //     ImagePicker.openPicker({
+                        //         multiple: true,
+                        //         waitAnimationEnd: false,
+                        //         mediaType: 'photo',
+                        //     }).then(images => {
+                        //         console.log('ImagePicker1:'+JSON.stringify(images));
+                        //         for (var  i =0;i <images.length;i++){
+                        //             dataToPost.push({
+                        //                 height: images[i].height,
+                        //                 width: images[i].width,
+                        //                 data: images[i].data,
+                        //                 mime: images[i].mime,
+                        //                 localIdentifier: images[i].localIdentifier,
+                        //                 size: images[i].size,
+                        //                 filename: images[i].filename,
+                        //                 path: Platform.OS === 'android' ? 'file://' + images[i].path : '' + images[i].path,
+                        //                 exif: images[i].exif,
+                        //                 sourceURL: images[i].sourceURL,
+                        //                 isCropped:images[i].width == images[i].height && images[i].width <= 1200
+                        //             })
+                        //
+                        //         }
+                        //         console.log('savedataToPost1:'+JSON.stringify(dataToPost))
+                        //         this.setState({
+                        //             productImgArr: dataToPost
+                        //         });
+                        //         console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
+                        //
+                        //     }).catch(e => alert(e));
+                        //
+                        // }else {
+                        //     ImagePicker.openPicker({
+                        //         width: 1000,
+                        //         height: 1000,
+                        //         cropping: false,
+                        //         cropperCircleOverlay: false,
+                        //         compressImageMaxWidth: 1200,
+                        //         compressImageMaxHeight: 1200,
+                        //         compressImageQuality: 0.5,
+                        //         mediaType: 'photo',
+                        //         compressVideoPreset: 'MediumQuality'
+                        //     }).then(image => {
+                        //         dataToPost.push({
+                        //             height: image.height,
+                        //             width: image.width,
+                        //             data: image.data,
+                        //             mime: image.mime,
+                        //             localIdentifier: image.localIdentifier,
+                        //             size: image.size,
+                        //             filename: image.filename,
+                        //             path: Platform.OS === 'android' ? 'file://' + image.path : '' + image.path,
+                        //             exif: image.exif,
+                        //             sourceURL: image.sourceURL,
+                        //             isCropped:image.width == image.height && image.width <= 1200
+                        //         });
+                        //
+                        //         this.state.productImgArr = dataToPost;
+                        //         this.setState({ ...this.state });
+                        //         console.log('dataToPost')
+                        //     }).catch(e => {
+                        //         Alert.alert(e.message
+                        //             ? e.message
+                        //             : e);
+                        //     });
+                        // }
+
+                }else if (i == 2){
+                    ImagePicker.openCamera({
+                        width: 1200,
+                        height: 1200,
+                        cropping: true
+                    }).then(image => {
+                        dataToPost.push({
+                            height: image.height,
+                            width: image.width,
+                            data: image.data,
+                            mime: image.mime,
+                            localIdentifier: image.localIdentifier,
+                            size: image.size,
+                            filename: image.filename,
+                            path: Platform.OS === 'android' ? 'file://' + image.path : '' + image.path,
+                            exif: image.exif,
+                            sourceURL: image.sourceURL,
+                            isCropped:image.width == image.height && image.width <= 1200
+
+                        });
+
+                        this.state.productImgArr = dataToPost;
+                        this.setState({ ...this.state });
+                        console.log('dataToPost')
+                    });
+                }else if (i == 3){
+
+                }else {
+                    // for (var i= 0 ;i <= this.state.productImgArr.length; i++){
+                    //     var imageItem = this.state.productImgArr[0];
+                    //     ImagePicker.openCropper({
+                    //         path: imageItem.path,
+                    //         width: 1200,
+                    //         height: 1200
+                    //     }).then(image => {
+                    //         console.log(image);
+                    //     });
+                    // }
+                }
+              // this.setState({
+              //     selectedActionSheet: i
+              //    })
+            }
+
                  onItemClick(item){
-                // if (item.tag==='add_more'){
-                //     if (Platform.OS === "ios"){
-                //         ImagePicker.openPicker({
-                //             multiple: true,
-                //             waitAnimationEnd: false,
-                //         }).then(images => {
-                //             console.log('ImagePicker1:'+JSON.stringify(images));
-                //             for (var  i =0;i <images.length;i++){
-                //                 dataToPost.push({
-                //                     height: images[i].height,
-                //                     width: images[i].width,
-                //                     data: images[i].data,
-                //                     mime: images[i].mime,
-                //                     localIdentifier: images[i].localIdentifier,
-                //                     size: images[i].size,
-                //                     filename: images[i].filename,
-                //                     path: images[i].path,
-                //                     exif: images[i].exif,
-                //                     sourceURL: images[i].sourceURL,
-                //                 })
-                //
-                //             }
-                //             console.log('savedataToPost1:'+JSON.stringify(dataToPost))
-                //             this.setState({
-                //                 productImgArr: dataToPost
-                //             });
-                //             console.log('savedataToPost2:'+JSON.stringify(this.state.productImgArr))
-                //
-                //         }).catch(e => alert(e));
-                //         for (var i= 0 ;i <= this.state.productImgArr.length; i++){
-                //             var imageItem = this.state.productImgArr[0];
-                //             // ImagePicker.openCropper({
-                //             //     path: imageItem.path,
-                //             //     width: 400,
-                //             //     height: 400
-                //             // }).then(image => {
-                //             //     console.log(image);
-                //             // });
-                //         }
-                //     }else {
-                //         ImagePicker.openPicker({
-                //             width: 300,
-                //             height: 300,
-                //             cropping: false,
-                //             cropperCircleOverlay: false,
-                //             compressImageMaxWidth: 1200,
-                //             compressImageMaxHeight: 1200,
-                //             compressImageQuality: 0.5,
-                //             mediaType: 'photo',
-                //             compressVideoPreset: 'MediumQuality'
-                //         }).then(image => {
-                //             dataToPost.push({
-                //                 height: image.height,
-                //                 width: image.width,
-                //                 data: image.data,
-                //                 mime: image.mime,
-                //                 localIdentifier: image.localIdentifier,
-                //                 size: image.size,
-                //                 filename: image.filename,
-                //                 path: image.path,
-                //                 exif: image.exif,
-                //                 sourceURL: image.sourceURL,
-                //             });
-                //
-                //             this.state.productImgArr = dataToPost;
-                //             this.setState({ ...this.state });
-                //             console.log('dataToPost')
-                //         }).catch(e => {
-                //             Alert.alert(e.message
-                //                 ? e.message
-                //                 : e);
-                //         });
-                //     }
-                // }else {
-                //
-                // }
+
                      if (item.tag==='add_more'){
                         this.showActionSheet()
                      }else {
@@ -178,28 +230,54 @@ export default class NewProductView extends Component{
                                         {/*imageUri =require('../../images/me_bj.jpg')*/}
                                         console.log('imageUri12:'+JSON.stringify(imageUri))
                                     }
-                                     let render = (
+                                    if (item.image.isCropped || item.tag =='add_more'){
+                                        let render = (
 
 
-                                         <View style={[{ width: w, height: h}, styles.toolsItem]}>
-                                             <Image style={{width: w-10, height: h-10,margin:10}}
-                                                    source={imageUri}
+                                            <View style={[{ width: w, height: h}, styles.toolsItem]}>
+                                                <Image style={{width: w-10, height: h-10,margin:10}}
+                                                       source={imageUri}
 
-                                                    resizeMode = 'contain'
+                                                       resizeMode = 'contain'
 
-                                             >
+                                                >
 
-                                             </Image>
-
-
+                                                </Image>
 
 
-                                         </View>
-                                     )
-                                     return (
 
-                                         <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
-                                     )
+
+                                            </View>
+                                        )
+                                        return (
+
+                                            <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
+                                        )
+                                    }else {
+                                        let render = (
+
+
+                                            <View style={[{ width: w, height: h}, styles.toolsItem]}>
+                                                <Image style={{width: w-10, height: h-10,margin:10,borderWidth:1,borderColor:'red'}}
+                                                       source={imageUri}
+
+                                                       resizeMode = 'contain'
+
+                                                >
+
+                                                </Image>
+
+
+
+
+                                            </View>
+                                        )
+                                        return (
+
+                                            <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
+                                        )
+                                    }
+
                                  })
                              }
                          </View>
@@ -210,9 +288,44 @@ export default class NewProductView extends Component{
                  )
 
                }
-
+            onPressCroppedImg(squareImgArr){
+                for (var i= 0 ;i < squareImgArr.length; i++){
+                    var imageItem = squareImgArr[i];
+                    ImagePicker.openCropper({
+                        path: imageItem.path,
+                        width: 1200,
+                        height: 1200
+                    }).then(image => {
+                        console.log(image);
+                    });
+                }
+             }
              saveGroupBuy(){
                  // this.props.navigator.pop();
+                 var squareImgArr = [];
+                 for (var i = 0; i< this.state.productImgArr.length ; i++){
+                    let imgItem = this.state.productImgArr[i];
+                    if (imgItem.width != imgItem.height && imgItem.width > 1200){
+                        squareImgArr.push(imgItem);
+                    }
+
+                 }
+                 if (squareImgArr.length){
+                     Alert.alert(
+                         '提示',
+                         '您有'+squareImgArr.length+'张图片规格不匹配',
+                         [
+
+
+                             {text: '确定'}
+                         ],
+                         { cancelable: false }
+                     )
+
+                     return
+                 }else {
+
+                 }
                  if (this.state.productName){
 
                  }else {
@@ -268,14 +381,19 @@ export default class NewProductView extends Component{
                      }
                  });
                  console.log('param188:'+JSON.stringify(param))
-                 HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveAddressSuccess.bind(this),
+                 HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveProductSuccess.bind(this),
                      (e) => {
 
-                         Alert.alert('提示','保存地址失败，请稍后再试。')
-                         console.log(' error:' + e)
+                         Alert.alert('提示','保存商品信息失败，请稍后再试。')
+                         console.log('admin.goods error:' + e)
                      })
 
 
+
+     }
+
+        onSaveProductSuccess(response){
+                 console.log('onSaveProductSuccess:'+JSON.stringify(response))
 
      }
             render() {
@@ -349,21 +467,14 @@ export default class NewProductView extends Component{
                         var imgItem = this.state.productImgArr[i]
                         if (i == this.state.productImgArr.length) {
 
-                            // nowProductDataArr.push({
-                            //     'index': i+1,
-                            //     'image': {uri:''},
-                            //     'tag': 'add_more'
-                            // });
+
                             nowProductDataArr.push({
                                 'index': i+1,
                                 'image': '',
                                 'tag': 'add_more'
                             });
                         }else{
-                            {/*nowProductDataArr.push({*/}
-                                {/*'index': i+1,*/}
-                                {/*'image': {uri:imgItem.uri},*/}
-                            {/*});*/}
+
                             nowProductDataArr.push({
                                 'index': i+1,
                                 'image': imgItem,
@@ -496,7 +607,15 @@ export default class NewProductView extends Component{
                              </View>
 
                              <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 ,paddingTop:0}}><CommitButton title={'保存商品'} onPress={this.saveGroupBuy.bind(this)}></CommitButton></View>
+                             <ActionSheet
+                                 ref={(o) => this.ActionSheet = o}
+                                 title="如何上传图片"
+                                 options={buttons}
+                                 cancelButtonIndex={0}
+                                 destructiveButtonIndex={1}
+                                 onPress={this.handlePress.bind(this)}
 
+                             />
                        </View>
         )
     }
