@@ -36,9 +36,6 @@ class Panel extends Component{
             animation   : new Animated.Value(),
             titleIcon : props.titleIcon,
             ship_time : props.ship_time,
-            totalNum : props.totalNum,
-            totalPrice : props.totalPrice,
-            RemarkStr : props.RemarkStr
 
         };
     }
@@ -78,8 +75,7 @@ class Panel extends Component{
         if(this.state.expanded){
             icon = this.icons['up'];
         }
-        let totalTitle = this.state.totalNum+"件/合计：S$"+this.state.totalPrice;
-        let RemarkStr = "备注："+this.state.RemarkStr;
+
         return (
             <View style={[styles.container]}>
             <Animated.View
@@ -111,11 +107,7 @@ class Panel extends Component{
 
 
             </Animated.View>
-                <View style={{height:0.5,backgroundColor:"rgb(213,213,213)",width:width}}></View>
-            <View style={styles.totalFooterContainer} >
-                <Text style={styles.totalFooterRemarkTitle}>{RemarkStr}</Text>
-                <Text style={styles.totalFooterTitle}>{totalTitle}</Text>
-                </View>
+
             </View>
         );
     }
@@ -193,13 +185,14 @@ var styles = StyleSheet.create({
     },
     totalFooterContainer :{
         flexDirection: 'column',
+        height:65.5
         // justifyContent: 'center',
         // alignItems: 'center',
-        height:65.5
+//        height:65.5
     },
     totalFooterTitle :{
         marginTop:8,
-        color   :'rgb(234,107,16)',
+        color   :'rgba(234,107,16,1.0)',
         fontSize:14,
         fontFamily:'PingFang-SC-Medium',
 

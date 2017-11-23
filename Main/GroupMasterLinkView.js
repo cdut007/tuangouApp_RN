@@ -66,6 +66,7 @@ export default class GroupMasterLinkView extends Component {
     onGetGroup_buy_infoSuccess(response){
         Global.group_buy_info = response.data
         console.log('onGetGroup_buy_infoSuccess'+JSON.stringify(Global.group_buy_info))
+        console.log('onGetGlobal.agent_url'+JSON.stringify(Global.agent_url))
     }
     getQueryString(name,url) {
         if (!url) {

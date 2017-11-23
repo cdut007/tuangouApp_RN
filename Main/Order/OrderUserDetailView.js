@@ -280,10 +280,19 @@ export default class OrderUserDetailView extends Component{
         }
         for (var  j = 0 ; j < panelDataAry.length ; j++){
             var item = panelDataAry[j ];
+            let totalTitle = item.total_quantity+"件/合计：S$"+item.total_amount;
+            let RemarkStr = "备注："+item.remark;
             displayPanelAry.push(
-                    <Panel title={item.nickname}  ship_time={item.time} totalNum={item.total_quantity} totalPrice={item.total_amount} titleIcon ={item.headimgurl} RemarkStr ={item.remark}>
+            <View>
+                    <Panel title={item.nickname}  ship_time={item.time} titleIcon ={item.headimgurl}>
                         {this.renderOrderUserView(item.goods_list)}
                     </Panel>
+                       <View style={{height:0.5,backgroundColor:"rgb(213,213,213)",width:width}}></View>
+                <View style={styles.totalFooterContainer} >
+                                    <Text style={styles.totalFooterRemarkTitle}>{RemarkStr}</Text>
+                                    <Text style={styles.totalFooterTitle}>{totalTitle}</Text>
+                </View>
+              </View>
             );
         }
 
@@ -408,7 +417,30 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily:'PingFangSC-Regular',
 
-    }
+    }, totalFooterContainer :{
+              flexDirection: 'column',
+              height:65.5,
+        backgroundColor:'white'
+              // justifyContent: 'center',
+              // alignItems: 'center',
+      //        height:65.5
+          },
+          totalFooterTitle :{
+              marginTop:8,
+              color   :'rgba(234,107,16,1.0)',
+              fontSize:14,
+              fontFamily:'PingFang-SC-Medium',
+
+              textAlign:'center',
+          },
+          totalFooterRemarkTitle :{
+              marginTop:8,
+              marginLeft:8,
+              color   :'rgb(28,28,28)',
+              fontSize:16,
+              fontFamily:'PingFang-SC-Medium',
+              textAlign:'left',
+          }
 
 
 
