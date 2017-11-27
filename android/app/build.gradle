@@ -91,8 +91,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10
-        versionName "1.0.9"
+        versionCode 16
+        versionName "1.1.24"
         manifestPlaceholders = [
 	       // 如果有多项，每一项之间需要用逗号分隔
         "WX_APPID":"wx22795e8274245d59"
@@ -143,6 +143,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-picker')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-wx')

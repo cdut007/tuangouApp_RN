@@ -22,7 +22,8 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
-    Platform
+    Platform,
+    DeviceEventEmitter
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -54,9 +55,16 @@ export default class NewProductView extends Component{
 
 
             }
+                //页面将要离开的是时候发送通知
+                 componentWillUnmount(){
 
+                     console.log('ChangeProductCategoryUI:11')
+                }
             back(){
+                console.log('ChangeProductCategoryUI:12')
+                DeviceEventEmitter.emit('ChangeProductCategoryUI');
             this.state.productImgArr = [];
+                dataToPost = [];
                 this.props.navigator.pop();
 
             }
@@ -370,7 +378,7 @@ export default class NewProductView extends Component{
                  param.append('default_unit', this.state.productTypeDetail);
                  param.append('set', this.props.oldSet);
                  param.append('desc', this.state.DetailsDescription);
-
+                 param.append('brief_desc','');
 
 
 
@@ -394,6 +402,15 @@ export default class NewProductView extends Component{
 
         onSaveProductSuccess(response){
                  console.log('onSaveProductSuccess:'+JSON.stringify(response))
+            if (response.code == 1){
+
+                Alert.alert('提示','保存商品成功', [
+
+                        {text: 'OK', onPress: this.back.bind(this)},
+                    ],
+                    { cancelable: false })
+
+            }
 
      }
             render() {

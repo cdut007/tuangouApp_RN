@@ -8,7 +8,8 @@ import Dimensions from 'Dimensions';
 import AddProductView from './AddProductView'
 import SelectProductView from '../Product/SelectProductView'
 import  Swipeout from 'react-native-swipeout'
-
+import Picker from 'react-native-picker';
+import moment from 'moment';
 import {
     StyleSheet,
     View,
@@ -30,6 +31,11 @@ export default class NewGroupView extends Component{
             groupTitle:'',
             groupDetail:'',
             groupProductScrollArr:[1,2,3],
+            isSelectPicker:true,
+            isGroupDeadlineHave:false,
+            groupDeadlineTitle:'请选择截团时间',
+            groupDeliveryTime:'请选择预计发货时间',
+            isGroupDeliveryTimeHave:false,
 
 
         }
@@ -39,10 +45,166 @@ export default class NewGroupView extends Component{
 
         this.props.navigator.pop();
     }
+    //创建年月日时分多项选择框
+    creatTimeOfPicker(){
+        let years = [],
+            months = [],
+            days = [],
+            hours = [],
+            minutes = [];
+
+        for(let i=1;i<15;i++){
+            years.push(i+2016);
+        }
+        for(let i=1;i<13;i++){
+            months.push(i);
+            hours.push(i);
+        }
+        for(let i=1;i<32;i++){
+            days.push(i);
+        }
+        for(let i=1;i<61;i++){
+            minutes.push(i);
+        }
+        let pickerData = [years, months, days, ['am', 'pm'], hours, minutes];
+        return pickerData;
+    }
+    creatPickerWithInfo(titles,Data,Value){
+        let pickerData = Data;
+        let selectedValue = Value;
+        let pickerTitle = titles;
+
+        Picker.init({
+            pickerData,
+            selectedValue,
+            pickerTitleText: pickerTitle,
+            pickerConfirmBtnText:'确定',
+            pickerCancelBtnText:'取消',
+            wheelFlex: [2, 1, 1, 2, 1, 1],
+            onPickerConfirm: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerCancel: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerSelect: pickedValue => {
+                let targetValue = [...pickedValue];
+                if(parseInt(targetValue[1]) === 2){
+                    if(targetValue[0]%4 === 0 && targetValue[2] > 29){
+                        targetValue[2] = 29;
+                    }
+                    else if(targetValue[0]%4 !== 0 && targetValue[2] > 28){
+                        targetValue[2] = 28;
+                    }
+                }
+                else if(targetValue[1] in {4:1, 6:1, 9:1, 11:1} && targetValue[2] > 30){
+                    targetValue[2] = 30;
+
+                }
+                // forbidden some value such as some 2.29, 4.31, 6.31...
+                if(JSON.stringify(targetValue) !== JSON.stringify(pickedValue)){
+                    // android will return String all the time，but we put Number into picker at first
+                    // so we need to convert them to Number again
+                    targetValue.map((v, k) => {
+                        if(k !== 3){
+                            targetValue[k] = parseInt(v);
+                        }
+                    });
+                    Picker.select(targetValue);
+                    pickedValue = targetValue;
+                }
+            }
+        });
+    }
+    selectGroupTitle(){
+
+
+    }
     selectGroupDeadline(){
+        //true 为截团时间picker   ，false 为 预计发货时间picker
+
+
+            if (this.state.isSelectPicker){
+                if (this.state.isGroupDeadlineHave){
+                    Picker.toggle();
+                }else {
+                    let pickerData = this.creatTimeOfPicker();
+                    let date = new Date();
+                    let selectedValue = [
+                        [date.getFullYear()],
+                        [date.getMonth()+1],
+                        [date.getDate()],
+                        [date.getHours() > 11 ? 'pm' : 'am'],
+                        [date.getHours() === 12 ? 12 : date.getHours()%12],
+                        [date.getMinutes()]
+                    ];
+                    this.creatPickerWithInfo(this.state.groupDeadlineTitle,pickerData,selectedValue);
+                    this.state.isGroupDeadlineHave = true;
+                    this.state.isSelectPicker = true;
+                    Picker.show();
+                }
+            }else {
+                let pickerData = this.creatTimeOfPicker();
+                let date = new Date();
+                let selectedValue = [
+                    [date.getFullYear()],
+                    [date.getMonth()+1],
+                    [date.getDate()],
+                    [date.getHours() > 11 ? 'pm' : 'am'],
+                    [date.getHours() === 12 ? 12 : date.getHours()%12],
+                    [date.getMinutes()]
+                ];
+                this.creatPickerWithInfo(this.state.groupDeadlineTitle,pickerData,selectedValue);
+                this.state.isGroupDeadlineHave = true;
+                this.state.isSelectPicker = true;
+                Picker.show();
+            }
+
+
+
+
 
     }
     selectGroupDeliveryTime(){
+        if (this.state.isSelectPicker){
+            let pickerData = this.creatTimeOfPicker();
+            let date = new Date();
+            let selectedValue = [
+                [date.getFullYear()],
+                [date.getMonth()+1],
+                [date.getDate()],
+                [date.getHours() > 11 ? 'pm' : 'am'],
+                [date.getHours() === 12 ? 12 : date.getHours()%12],
+                [date.getMinutes()]
+            ];
+            this.creatPickerWithInfo(this.state.groupDeliveryTime,pickerData,selectedValue);
+            this.state.isGroupDeliveryTimeHave = true;
+            this.state.isSelectPicker = false;
+            Picker.show();
+        }else {
+            if (this.state.isGroupDeliveryTimeHave){
+                Picker.toggle();
+            }else {
+                let pickerData = this.creatTimeOfPicker();
+                let date = new Date();
+                let selectedValue = [
+                    [date.getFullYear()],
+                    [date.getMonth()+1],
+                    [date.getDate()],
+                    [date.getHours() > 11 ? 'pm' : 'am'],
+                    [date.getHours() === 12 ? 12 : date.getHours()%12],
+                    [date.getMinutes()]
+                ];
+                this.creatPickerWithInfo(this.state.groupDeliveryTime,pickerData,selectedValue);
+                this.state.isGroupDeliveryTimeHave = true;
+                this.state.isSelectPicker = false;
+                Picker.show();
+            }
+        }
+
+
+
+
 
     }
     OnAddProductViewPress(){
@@ -151,33 +313,30 @@ export default class NewGroupView extends Component{
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.back.bind(this)} />
                 <View style={{}}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                        <Text style={[ { width: 40, marginRight: 10, color: '#1b1b1b', fontSize: 16,fontFamily:'PingFangSC-Regular'}]}>
-                            标题
-                        </Text>
-                        <TextInput style={{
-                        marginLeft: 0, fontSize: 16, flex: 20,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'default'}
-                                   placeholder ='请输入本次拼团的标题'
-                                   editable={true}
-                                   returnKeyType={'done'}
+                    <TouchableOpacity onPress={this.selectGroupTitle.bind(this)}>
 
-                                   onChangeText={(text) => this.setState({ groupTitle: text })}
-                                   value= {this.state.groupTitle}
-                        ></TextInput>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                        <Text style={[ { flex:1, marginRight: 10, color: '#1b1b1b', fontSize: 16,fontFamily:'PingFangSC-Regular'}]}>
+                            选择本次接龙标题
+                        </Text>
+                        <Image
+                            source={require('../../images/next_icon@3x.png')}>
+
+                        </Image>
 
                     </View>
+                    </TouchableOpacity>
                     <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start',alignItems: 'flex-start', backgroundColor: '#ffffff', paddingLeft: 10, paddingRight: 10 }}>
-                        <Text style={[ { width: 40, color: '#1b1b1b', fontSize: 16, marginRight: 10,fontFamily:'PingFangSC-Regular',marginTop:10}]}>
-                            介绍
+                        <Text style={[ { width: 80, color: '#1b1b1b', fontSize: 16, marginRight: 0,fontFamily:'PingFangSC-Regular',marginTop:10}]}>
+                            商品类别：
                         </Text>
                         <TextInput style={{
-                       fontSize: 16,height:90,width:width-60,marginTop:8,
+                       fontSize: 16,height:40,width:width-60,marginTop:8,
                         textAlign: 'left', color: '#1c1c1c',
                     }}  keyboardType={'default'}
-                                   placeholder ='请输入本次拼团的内容介绍'
+                                   placeholder ='如蔬菜、面食、酒水…'
                                    blurOnSubmit ={true}
                                    multiline={true}
                                    editable={true}

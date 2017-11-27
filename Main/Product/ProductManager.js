@@ -21,7 +21,8 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
-    Platform
+    Platform,
+    DeviceEventEmitter
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -47,6 +48,20 @@ export default class ProductManager extends Component{
         this.props.navigator.pop();
     }
     componentWillMount(){
+        DeviceEventEmitter.addListener('ChangeProductManagerUI',(dic)=>{
+            //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
+            console.log('ChangeProductManagerUI:11')
+
+
+            let param = {}
+
+            HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e);
+                    Alert.alert('提示','获取商品类别失败，请稍后再试。')
+                })
+        });
+
         let param = {}
 
         HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
@@ -54,6 +69,8 @@ export default class ProductManager extends Component{
                 console.log(' error:' + e);
                 Alert.alert('提示','获取商品类别失败，请稍后再试。')
             })
+
+
 
 
     }
@@ -72,12 +89,20 @@ export default class ProductManager extends Component{
             component: NewProductCategoryView,
             props: {
                 hasSet:true,
-                oldSet:'水果'
+                oldSet:categoryItem.set
 
             }
 
         })
 
+    }
+    disPlayIcon(item){
+        if (item.image ==''){
+            return  require('../../images/me_bj.jpg')
+        }else {
+            return {uri:item.image}
+        }
+        // return require('../../images/me_bj.jpg')
     }
     renderProductCategory(ProductCategoryArr){
 
@@ -91,7 +116,7 @@ export default class ProductManager extends Component{
                 <TouchableOpacity onPress={this.onPressCategoryView.bind(this,categoryItem)}>
                     <View style={{ marginTop:10 ,backgroundColor:'white',width:width,height:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
                         <View style={{flex:100}}>
-                            <Image style={{width:80,height:80,marginLeft:10}} source={require('../../images/me_bj.jpg')}></Image>
+                            <Image style={{width:80,height:80,marginLeft:10}} source={this.disPlayIcon(categoryItem)}></Image>
                         </View>
                         <View style={{flex:300,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
                             <Text style={{textAlign:'left',marginTop:10,fontSize:16,fontFamily:'PingFangSC-Regular'}}>

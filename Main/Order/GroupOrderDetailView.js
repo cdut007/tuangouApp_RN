@@ -58,7 +58,7 @@ export default class GroupOrderDetailView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title={this.state.gbDetail.classify.name}
+                <NavBar title={"接龙商品"}
                     leftIcon={require('../../images/back.png')}
                     leftPress={this.clickBack.bind(this)} />
                 {this.renderGroupOrderListView()}

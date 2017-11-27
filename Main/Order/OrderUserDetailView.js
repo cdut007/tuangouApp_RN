@@ -172,7 +172,7 @@ export default class OrderUserDetailView extends Component{
             if (this.state.haveOrder_detail){
                 return (
                     <View style={styles.container}>
-                        <NavBar title={this.props.gbDetail.classify.name}
+                        <NavBar title={"接龙详情"}
                                 leftIcon={require('../../images/back.png')}
                                 leftPress={this.clickBack.bind(this)} />
                         {this.renderOrderUserListView(this.state.order_detail)}
@@ -184,7 +184,7 @@ export default class OrderUserDetailView extends Component{
             }else {
                 return (
                     <View style={styles.container}>
-                        <NavBar title={this.props.gbDetail.classify.name}
+                        <NavBar title={"接龙详情"}
                                 leftIcon={require('../../images/back.png')}
                                 leftPress={this.clickBack.bind(this)} />
                         {this.renderNoOrderUserView()}
@@ -196,7 +196,7 @@ export default class OrderUserDetailView extends Component{
             if (this.state.haveOrder_detail){
                 return (
                     <View style={styles.container}>
-                        <NavBar title={this.props.gbDetail.classify.name}
+                        <NavBar title={"接龙详情"}
                                 leftIcon={require('../../images/back.png')}
                                 leftPress={this.clickBack.bind(this)} />
                         {this.renderOrderUserListView(this.state.order_detail)}
@@ -213,10 +213,16 @@ export default class OrderUserDetailView extends Component{
             }else {
                 return (
                     <View style={styles.container}>
-                        <NavBar title={this.props.gbDetail.classify.name}
+                        <NavBar title={"接龙详情"}
                                 leftIcon={require('../../images/back.png')}
                                 leftPress={this.clickBack.bind(this)} />
                         {this.renderNoOrderUserView()}
+                        <TouchableOpacity style={{position:'absolute',bottom:0,}} onPress={this.onPressGroupCommit.bind(this)}>
+                            <View style={{width:width,height:49,backgroundColor:'rgb(234,107,16)',   justifyContent: 'center',
+                                alignItems: 'center',}}>
+                                <Text style={{color:'white',fontFamily:'PingFang-SC-Medium',fontSize:18}}>截团提交订单</Text>
+                            </View>
+                        </TouchableOpacity>
 
                     </View>
                 )

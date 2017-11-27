@@ -1,10 +1,14 @@
 import { AsyncStorage } from 'react-native';
 
 
+var isTestDevlopment = true;
 var httpToken = ''
 var Global = require('../common/globals');
 // const apiAddr = 'http://47.88.139.113:3000/api/v1'
 const apiAddr = 'http://www.ailinkgo.com:3000/api'
+const v2ApiAddr = 'http://www.ailinkgo.com:3000'
+const testApiAddr = 'http://www.ailinkgo.com:3001/api'
+const testV2ApiAddr = 'http://www.ailinkgo.com:3001'
 // const apiAddr = Global.BASE_URL;
 module.exports = {
     get(verssion,apiName, body, successCallback, failCallback) {
@@ -25,16 +29,26 @@ module.exports = {
         var param = ""
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testV2ApiAddr+ verssion +apiName + '?format=json'
+            }else {
+                url = v2ApiAddr+ verssion +apiName + '?format=json'
+            }
+
         }else {
-            url = apiAddr + verssion+apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testApiAddr + verssion+apiName + '?format=json'
+            }else {
+                url = apiAddr + verssion+apiName + '?format=json'
+            }
+
         }
 
 
         for (var element in body) {
-            param += element + "=" + body[element] + "&";
+            param += "&"+element + "=" + body[element] ;
         }
-        url = url + "&" + param;
+        url = url  + param;
 
         console.log('Get requesr:' + url)
         if (httpToken == null) httpToken = ''
@@ -81,9 +95,19 @@ module.exports = {
 
         var url = ''
         if (verssion == '/v2'){
-            url = 'http://www.ailinkgo.com:3000'+ verssion +apiName + '?format=json'
+            // url = v2ApiAddr + verssion +apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testV2ApiAddr+ verssion +apiName + '?format=json'
+            }else {
+                url = v2ApiAddr+ verssion +apiName + '?format=json'
+            }
         }else {
-            url = apiAddr + verssion+apiName + '?format=json'
+            // url = apiAddr + verssion+apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testApiAddr + verssion+apiName + '?format=json'
+            }else {
+                url = apiAddr + verssion+apiName + '?format=json'
+            }
         }
         try {
             console.log('Post requesr:' + url + ":[param body]=" + JSON.stringify(body))
@@ -138,9 +162,19 @@ module.exports = {
 
         var url = ''
         if (verssion == '/v2') {
-            url = 'http://www.ailinkgo.com:3000' + verssion + apiName + '?format=json'
+            // url = v2ApiAddr + verssion + apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testV2ApiAddr+ verssion +apiName + '?format=json'
+            }else {
+                url = v2ApiAddr+ verssion +apiName + '?format=json'
+            }
         } else {
-            url = apiAddr + verssion + apiName + '?format=json'
+            // url = apiAddr + verssion + apiName + '?format=json'
+            if (isTestDevlopment){
+                url = testApiAddr + verssion+apiName + '?format=json'
+            }else {
+                url = apiAddr + verssion+apiName + '?format=json'
+            }
         }
         try {
             console.log('Post requesr:' + url + ":[param body]=" + JSON.stringify(formData))
@@ -158,12 +192,12 @@ module.exports = {
                 'Content-Type': 'multipart/form-data;charset=utf-8',
                 'Authorization': httpToken
             }),
-            body: JSON.stringify(formData)
+            body: formData
 
         })
             .then((response) => response.text())
             .then((responseText) => {
-                // console.log('Post1:'+responseText);
+                console.log('uploadImage1:'+responseText);
                 var response = JSON.parse(responseText);
                 if (response.code == 1) {
                     successCallback(response);
