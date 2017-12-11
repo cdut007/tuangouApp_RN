@@ -338,13 +338,15 @@ export default class ProductCatagoryListView extends Component {
             <View style={styles.container}>
                 <ListView
                     renderHeader={this.renderHeader}
-                    contentContainerStyle={styles.list}
+
                     dataSource={this.state.dataSource}
+                    contentContainerStyle={styles.list}
                     initialListSize={21}
                     pageSize={10}
                     scrollRenderAheadDistance={500}
-                    renderRow={this.renderItem}
                     removeClippedSubviews={false}
+                    renderRow={this.renderItem}
+
                     renderFooter={this.renderFooter}
                 />
                 <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 ,paddingTop:100}}><CommitButton title={'申请拼团'} onPress={this.startGroupBuy.bind(this)}></CommitButton></View>

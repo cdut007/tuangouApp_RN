@@ -50,7 +50,7 @@ export default class OrderUserDetailView extends Component{
             console.log('url agent_code='+agent_code);
 
         }
-        let param = { option: 'order_detail', merchant_code: agent_code,group_buy_id: this.state.gbDetail.group_buy.id}
+        let param = { option: 'order_detail', merchant_code: agent_code,group_buy_id: this.state.gbDetail.group_buy_id}
 
         HttpRequest.get('/v2','/api.merchant.order', param, this.onGetOrderUserSuccess.bind(this),
             (e) => {
@@ -132,7 +132,6 @@ export default class OrderUserDetailView extends Component{
             this.props.navigator.resetTo({
                 component: GroupOrderListView,
                 props: {
-                    isDoneStatus:true,
                     isOrderUserDetailGo:true
                 }
             })
@@ -145,7 +144,7 @@ export default class OrderUserDetailView extends Component{
 
     }
     onPressInterceptGroupList(){
-        let param = { group_buying_id: this.state.gbDetail.group_buy.id}
+        let param = { group_buying_id: this.state.gbDetail.group_buy_id}
 
         HttpRequest.post('/v2','/api.merchant.mc.end', param, this.onGetInterceptGroupSuccess.bind(this),
             (e) => {
@@ -249,6 +248,10 @@ export default class OrderUserDetailView extends Component{
             return (
 
                     <ScrollView style={styles.scrollcontainer}>
+                        <View style={styles.totalHeaderContainer} >
+                            <Text style={styles.totalHeaderRemarkTitle}>{'5件'}</Text>
+                            <Text style={styles.totalHeaderTitle}>{'合计'}</Text>
+                        </View>
                         {this.renderPanelView(order_detail)}
                         {/*<Panel title="5" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
                         {/*<Text>Lorem ipsum dolor sit amet, cing elit  consectetur adipiscing elit.</Text>*/}
@@ -293,7 +296,7 @@ export default class OrderUserDetailView extends Component{
                     <Panel title={item.nickname}  ship_time={item.time} titleIcon ={item.headimgurl}>
                         {this.renderOrderUserView(item.goods_list)}
                     </Panel>
-                       <View style={{height:0.5,backgroundColor:"rgb(213,213,213)",width:width}}></View>
+                <View style={{height:0.5,backgroundColor:"rgb(213,213,213)",width:width}}></View>
                 <View style={styles.totalFooterContainer} >
                                     <Text style={styles.totalFooterRemarkTitle}>{RemarkStr}</Text>
                                     <Text style={styles.totalFooterTitle}>{totalTitle}</Text>
@@ -423,7 +426,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily:'PingFangSC-Regular',
 
-    }, totalFooterContainer :{
+    },
+    totalFooterContainer :{
               flexDirection: 'column',
               height:65.5,
         backgroundColor:'white'
@@ -446,7 +450,31 @@ const styles = StyleSheet.create({
               fontSize:16,
               fontFamily:'PingFang-SC-Medium',
               textAlign:'left',
-          }
+          },
+    totalHeaderContainer :{
+        flexDirection: 'column',
+        height:65.5,
+        backgroundColor:'white'
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        //        height:65.5
+    },
+    totalHeaderTitle :{
+        marginTop:8,
+        color   :'rgba(234,107,16,1.0)',
+        fontSize:14,
+        fontFamily:'PingFang-SC-Medium',
+
+        textAlign:'center',
+    },
+    totalHeaderRemarkTitle :{
+        marginTop:8,
+        marginLeft:8,
+        color   :'rgb(28,28,28)',
+        fontSize:16,
+        fontFamily:'PingFang-SC-Medium',
+        textAlign:'left',
+    }
 
 
 

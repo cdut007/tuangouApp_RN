@@ -118,6 +118,7 @@ export default class GroupBuyCar extends Component {
                     props: {
                         api_param: param,
                         image: this.state.classifyDetail.image,
+                        isMineTo:false
 
                     }
                 })

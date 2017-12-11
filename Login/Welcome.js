@@ -157,7 +157,7 @@ componentDidMount() {
     }
 
     onLoginWithWxInfo(userInfo) {
-        HttpRequest.post('/v1','/user', userInfo, this.onLoginSuccess.bind(this),
+        HttpRequest.post('/v2','/api.user.login.app', userInfo, this.onLoginSuccess.bind(this),
             (e) => {
                 try {
                     var errorInfo = JSON.parse(e);

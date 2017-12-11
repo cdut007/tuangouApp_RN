@@ -36,16 +36,28 @@ export default class NewProductCategoryView extends Component{
             oldSet:'',
             newSet:'',
             hasSet:this.props.hasSet,
-            firstSet:''
+            firstSet:'',
+            isOnlyUpdateSet:true,
+            isDelectProduct:false,
+            UpdateSetToEditOrg_goods_id:''
 
 
         }
     }
 
     back(){
+        if (this.state.isDelectProduct){
+            DeviceEventEmitter.emit('ChangeProductManagerUI');
             this.state.oldSet = null;
             this.state.firstSet = null;
-        this.props.navigator.pop();
+            this.props.navigator.pop();
+        }else {
+
+            this.state.oldSet = null;
+            this.state.firstSet = null;
+            this.props.navigator.pop();
+        }
+
 
 
         // if (this.state.groupTitle ==''){
@@ -67,26 +79,55 @@ export default class NewProductCategoryView extends Component{
     }
     saveCategory(){
         if (this.state.groupTitle ==''){
-
+            Alert.alert('提示','请输入您的商品类别')
         }else {
-            this.state.oldSet = this.state.groupTitle;
+
+            if (this.state.groupProductScrollArr.length !==0){
+                if (this.state.isOnlyUpdateSet){
+                    let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
+                    console.log('isOnlyUpdateSet12:'+JSON.stringify(param))
+
+                    HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetSuccess.bind(this),
+                        (e) => {
+                            console.log(' error:' + e)
+                            if (e.code === '11'){
+
+                            }else {
+                                // Alert.alert('提示','修改商品类别失败，请稍后再试。')
+                                Alert.alert('提示','修改商品类别失败，请确认输入文本信息中不含图形和表情。')
+                            }
+
+
+                        })
+                }else {
+                    if (this.state.isDelectProduct){
+
+                    }else {
+                        DeviceEventEmitter.emit('ChangeProductManagerUI');
+                        this.state.oldSet = null;
+                        this.state.firstSet = null;
+                        this.props.navigator.pop();
+                    }
+
+                }
+
+            }else {
+                Alert.alert('提示','请添加商品')
+            }
+
         }
-        if (this.state.oldSet == this.state.firstSet){
-           Alert.alert('提示','请输入您的商品类别')
-        }else {
-            DeviceEventEmitter.emit('ChangeProductManagerUI');
-            this.state.oldSet = null;
-            this.state.firstSet = null;
-            this.props.navigator.pop();
-        }
+
+        // if (this.state.oldSet == this.state.firstSet){
+        //     Alert.alert('提示','请输入您的商品类别')
+        // }else {
+        //
+        //
+        // }
+
+
 
     }
-    selectGroupDeadline(){
 
-    }
-    selectGroupDeliveryTime(){
-
-    }
     OnAddProductViewPress(){
         // this.props.navigator.push({
         //     component: AddProductView
@@ -97,7 +138,8 @@ export default class NewProductCategoryView extends Component{
             this.props.navigator.push({
                 component: NewProductView,
                 props: {
-                    oldSet:this.state.oldSet
+                    oldSet:this.state.oldSet,
+                    isEditGood:false
 
                 }
 
@@ -107,7 +149,7 @@ export default class NewProductCategoryView extends Component{
         }else {
             let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
 
-            HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetSuccess.bind(this),
+            HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetToNewProductSuccess.bind(this),
                 (e) => {
                     console.log(' error:' + e)
                     Alert.alert('提示','新建商品类别失败，请稍后再试。')
@@ -116,14 +158,77 @@ export default class NewProductCategoryView extends Component{
 
 
     }
+    onPressToEditGoods(goodItem){
+        console.log('onPressToEditGoods115:'+JSON.stringify(goodItem))
+
+        if (this.state.groupTitle ==''){
+            Alert.alert('提示','请输入您的商品类别')
+        }else if (this.state.groupTitle == this.state.oldSet){
+            console.log('onPressToEditGoods116:'+JSON.stringify(goodItem))
+            this.props.navigator.push({
+                component: NewProductView,
+                props: {
+                    oldSet:this.state.oldSet,
+                    isEditGood:true,
+                    org_goods_id:goodItem.org_goods_id
+
+                }
+
+            })
+
+
+        }else {
+            console.log('onPressToEditGoods117:'+JSON.stringify(goodItem))
+            this.state.UpdateSetToEditOrg_goods_id = goodItem.this.state.org_goods_id;
+            let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
+
+            HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetToEditProductSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+                    Alert.alert('提示','新建商品类别失败，请稍后再试。')
+                })
+        }
+
+    }
     onUpdateSetSuccess(response){
+        console.log('onUpdateSetSuccess112:'+JSON.stringify(response))
+        if (response.code ==1){
+            this.state.oldSet = this.state.groupTitle;
+            DeviceEventEmitter.emit('ChangeProductManagerUI');
+            this.state.oldSet = null;
+            this.state.firstSet = null;
+            this.props.navigator.pop();
+
+
+        }
+
+    }
+    onUpdateSetToNewProductSuccess(response){
         console.log('onUpdateSetSuccess112:'+JSON.stringify(response))
         if (response.code ==1){
             this.state.oldSet = this.state.groupTitle;
             this.props.navigator.push({
                 component: NewProductView,
                 props: {
-                    oldSet:this.state.oldSet
+                    oldSet:this.state.oldSet,
+                    isEditGood:false,
+
+                }
+
+            })
+        }
+
+    }
+    onUpdateSetToEditProductSuccess(response){
+        console.log('onUpdateSetSuccess112:'+JSON.stringify(response))
+        if (response.code ==1){
+            this.state.oldSet = this.state.groupTitle;
+            this.props.navigator.push({
+                component: NewProductView,
+                props: {
+                    oldSet:this.state.oldSet,
+                    isEditGood:true,
+                    org_goods_id:this.state.UpdateSetToEditOrg_goods_id,
 
                 }
 
@@ -137,12 +242,12 @@ export default class NewProductCategoryView extends Component{
         console.log('ChangeProductCategoryUI:14')
         if (this.state.hasSet){
 
-                //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
+
                 this.state.oldSet = this.props.oldSet;
                 let param = { set: this.state.oldSet }
                 console.log('setStr11:' +this.state.oldSet)
             console.log('ChangeProductCategoryUI:15')
-                HttpRequest.get('/v2','/admin.goods.list.set', param, this.onSetGroupListSuccess.bind(this),
+                HttpRequest.get('/v2','/admin.set.goods.list', param, this.onSetGroupListSuccess.bind(this),
                     (e) => {
                         console.log(' error:' + e)
                         Alert.alert('提示','新建商品类别失败，请稍后再试。')
@@ -161,12 +266,13 @@ export default class NewProductCategoryView extends Component{
         }
         DeviceEventEmitter.addListener('ChangeProductCategoryUI',(dic)=>{
             //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
-            console.log('ChangeProductCategoryUI:16')
+            console.log('ChangeProductCategoryUI:16:'+dic)
+            this.state.isOnlyUpdateSet = dic;
 
 
             let param = { set: this.state.oldSet }
             console.log('setStr122:' +this.state.oldSet)
-            HttpRequest.get('/v2','/admin.goods.list.set', param, this.onSetGroupListSuccess.bind(this),
+            HttpRequest.get('/v2','/admin.set.goods.list', param, this.onSetGroupListSuccess.bind(this),
                 (e) => {
                     console.log(' error:' + e)
                     Alert.alert('提示','新建商品类别失败，请稍后再试。')
@@ -194,10 +300,34 @@ export default class NewProductCategoryView extends Component{
     onSetGroupListSuccess(response){
         console.log('onSetGroupListSuccess:'+JSON.stringify(response.data))
         this.state.groupProductScrollArr = response.data.goods_list
+
+        this.state.groupTitle = this.state.oldSet
+
         this.setState({ ...this.state });
 
     }
+    onDeleteGoodsSuccess(response){
+        console.log('onDeleteGoodsSuccess:'+JSON.stringify(response.data))
+        this.state.isDelectProduct = true;
+        let param = { set: this.state.oldSet }
+        console.log('setStr11:' +this.state.oldSet)
+
+        HttpRequest.get('/v2','/admin.set.goods.list', param, this.onSetGroupListSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+                Alert.alert('提示','新建商品类别失败，请稍后再试。')
+            })
+
+    }
     cancelItem(item){
+        console.log('cancelItem11'+JSON.stringify(item))
+        let param = { org_goods_id: item.org_goods_id }
+        console.log('cancelItem122:' +JSON.stringify(param))
+        HttpRequest.post('/v2','/admin.goods.delete', param, this.onDeleteGoodsSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+                Alert.alert('提示','新建商品类别失败，请稍后再试。')
+            })
 
     }
     disPlayIcon(item){
@@ -213,7 +343,7 @@ export default class NewProductCategoryView extends Component{
             {
                 backgroundColor:'red',
                 color:'white',
-                text:'移除',
+                text:'删除',
 
                 onPress:() => this.cancelItem(item),
 
@@ -222,37 +352,45 @@ export default class NewProductCategoryView extends Component{
 
         ]
         console.log('item22:'+JSON.stringify(item))
-        return(
-            <View style={{
-            resizeMode: 'contain', alignItems: 'center', width: w, height: h,
-            justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
-            flex: 1
-        }}>
+        return(<Swipeout  right={swipeoutBtns}
+                          autoClose={true}
+                          sensitivity={5}
+                          buttonWidth={60}>
+                <View style={{
+                    resizeMode: 'contain', alignItems: 'center', width: w, height: h,
+                    justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+                    flex: 1
+                }}>
 
 
-                <View style={{
-                flex: 2
-            }}>
-                    <Image style={{
-                    resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
-                    justifyContent: 'center',
-                }} source={this.disPlayIcon(item)} />
-                </View>
-                <View style={{
-                height: h,
-                alignItems: 'flex-start',
-                flex: 7
-            }}>
-                    <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
-                    <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.default_unit}</Text>
-                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-                        <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S${item.default_price}</Text>
-                        <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存：{item.default_stock} </Text>
+                    <View style={{
+                        flex: 2
+                    }}>
+                        <Image style={{
+                            resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
+                            justifyContent: 'center',
+                        }} source={this.disPlayIcon(item)} />
                     </View>
+                    <View style={{
+                        flex: 7
+                    }}>
+                        <TouchableOpacity style={{alignItems: 'flex-start',height: h,
+
+                        }} onPress={this.onPressToEditGoods.bind(this,item)}>
+
+                            <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
+                            <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.default_unit}</Text>
+                            <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                                <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S${item.default_price}</Text>
+                                <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存：{item.default_stock} </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
-            </View>
-           )
+            </Swipeout>
+        )
         // return(  <Swipeout right={swipeoutBtns}
         //                    autoClose={true}
         //                    sensitivity={5}
@@ -329,11 +467,7 @@ export default class NewProductCategoryView extends Component{
         groupProductArr = this.state.groupProductScrollArr;
         var groupProductNum = groupProductArr.length;
 
-        if (this.state.hasSet){
-            this.state.groupTitle = this.state.oldSet
-        }else {
 
-        }
 
         return (
             <View style={styles.container}>

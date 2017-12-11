@@ -23,10 +23,12 @@ import {
     ScrollView,
     TouchableOpacity,
     Platform,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Keyboard
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+var dismissKeyboard = require('dismissKeyboard');
 
 
 
@@ -47,30 +49,144 @@ export default class NewProductView extends Component{
                     isSGD: true,
                     SGDColor:'#1b1b1b',
                     RMBColor:'rbg(174,174,174)',
-                    selectedActionSheet: ''
+                    selectedActionSheet: '',
+                    isOnlyUpdateSet:true,
+                    goods_detail:{},
+                    delectImgArr:[],
+                    isDisable:false
+
 
 
 
                 }
+                this.contentHeight = 0;
+                this.textInputView = null;//当前编辑的textInput
+                this.moveH = 0;//ScrollView滑动的距离
+                this.lastMoveH = 0;//保留上次滑动的距离
+                this.needMove = false;//弹出键盘时，textInputView是否需要滑动
+                this.subscriptions =[];
 
 
             }
                 //页面将要离开的是时候发送通知
-                 componentWillUnmount(){
-
+            componentWillUnmount(){
+                     if (Platform.OS === 'ios') {
+                         this.subscriptions.forEach((sub) => sub.remove());
+                     }
                      console.log('ChangeProductCategoryUI:11')
                 }
-            back(){
-                console.log('ChangeProductCategoryUI:12')
-                DeviceEventEmitter.emit('ChangeProductCategoryUI');
+         componentDidMount() {
+
+        if(this.props.isEditGood)
+        {
+            let param = { goods_id: this.props.org_goods_id }
+
+            HttpRequest.get('/v2','/admin.goods.detail', param, this.onGetProductDetailSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e)
+                    Alert.alert('提示','新建商品类别失败，请稍后再试。')
+                })
+        }else {
+
+        }
+    }
+    componentWillMount(){
+        if (Platform.OS === 'ios') {
+            this.subscriptions = [
+                Keyboard.addListener('keyboardDidShow', this._keyboardDidShow),
+                Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)
+            ];
+        }
+    }
+    back(){
+                DeviceEventEmitter.emit('ChangeProductCategoryUI',this.state.isOnlyUpdateSet);
+
             this.state.productImgArr = [];
                 dataToPost = [];
+        this.state.isDisable = false;
                 this.props.navigator.pop();
 
             }
+    onGetProductDetailSuccess(response){
+        console.log('onGetProductDetailSuccess148:'+JSON.stringify(response))
+        this.state.goods_detail = response.data.goods_detail
+        let imgArr = this.state.goods_detail.images;
+        imgArr.map((item, i) => {
+            this.state.productImgArr.push({
+                height: '',
+                width: '',
+                data: '',
+                mime: '',
+                localIdentifier: '',
+                size: '',
+                filename: '',
+                path: item.url,
+                exif: '',
+                sourceURL: '',
+                isCropped:true,
+                isHaveImg:true,
+                imgId:item.id
+            })
+        })
 
-            showActionSheet(){
-                 this.ActionSheet.show();
+        dataToPost =  this.state.productImgArr;
+
+
+        if (this.state.goods_detail){
+            this.setState({
+                productName :this.state.goods_detail.name,
+                productPrice:this.state.goods_detail.default_price.toString() ,
+                productTypeDetail:this.state.goods_detail.default_unit,
+                productStock:this.state.goods_detail.default_stock.toString(),
+                DetailsDescription:this.state.goods_detail.desc,
+
+            });
+
+
+        }
+
+    }
+    _keyboardDidShow = (e) => {
+        if(! this.textInputView) return ;
+        this.needMove = false;
+        this.refs[this.textInputView].measure((ox, oy, w, h, px, py)=>{
+            let leftHeight = height - py;//输入框距离底部的距离 = （屏幕的高度 - 当前TextInput的高度）
+            console.log('textInputViewPy:'+py)
+            //输入框距离底部的距离小于键盘的高度，需要滑动
+            if(  leftHeight < e.startCoordinates.height + 25  ){
+                this.needMove = true;
+                // 需要移动的距离
+                // let moveHeight = 30 + (e.startCoordinates.height - leftHeight);
+                let moveHeight = 30 + (e.startCoordinates.height - leftHeight);
+                console.log('startCoordinates:'+e.startCoordinates.height)
+                console.log('leftHeight:'+leftHeight)
+                console.log("this.moveH=" + this.moveH,"this.contentHeight=" + this.contentHeight,"height=" + height);
+
+                //moveH 异常数据处理
+                if(this.moveH + height > this.contentHeight) {
+                    this.moveH = this.contentHeight - height;
+                    console.log("===error===");
+                }
+
+                this.lastMoveH = this.moveH+(height - this.contentHeight );
+                this.refs.scroll.scrollTo({y:this.moveH + moveHeight+300 ,x:0});
+            }
+        });
+    }
+
+    _keyboardDidHide = () => {
+        if(this.needMove){
+            this.refs.scroll.scrollTo({y:this.lastMoveH ,x:0});
+        }
+        this.textInputView = null;
+    }
+    showActionSheet(){
+                if (dataToPost.length >= 4 ){
+                    Alert.alert('提示','上传商品图片已到达4张上限')
+                }else {
+                    this.ActionSheet.show();
+                }
+
                 }
             handlePress(i) {
                console.log('handlePress11:'+i)
@@ -88,10 +204,12 @@ export default class NewProductView extends Component{
                             localIdentifier: image.localIdentifier,
                             size: image.size,
                             filename: image.filename,
-                            path: Platform.OS === 'android' ? 'file://' + image.path : '' + image.path,
+                            path: Platform.OS === 'android' ? '' + image.path : '' + image.path,
                             exif: image.exif,
                             sourceURL: image.sourceURL,
-                            isCropped:image.width == image.height && image.width <= 1200
+                            isCropped:image.width == image.height && image.width <= 1200,
+                            isHaveImg:false,
+                            imgId:''
                         });
 
                         this.state.productImgArr = dataToPost;
@@ -180,10 +298,12 @@ export default class NewProductView extends Component{
                             localIdentifier: image.localIdentifier,
                             size: image.size,
                             filename: image.filename,
-                            path: Platform.OS === 'android' ? 'file://' + image.path : '' + image.path,
+                            path: Platform.OS === 'android' ? '' + image.path : '' + image.path,
                             exif: image.exif,
                             sourceURL: image.sourceURL,
-                            isCropped:image.width == image.height && image.width <= 1200
+                            isCropped:image.width == image.height && image.width <= 1200,
+                            isHaveImg:false,
+                            imgId:''
 
                         });
 
@@ -216,9 +336,30 @@ export default class NewProductView extends Component{
                         this.showActionSheet()
                      }else {
 
+
+                         Alert.alert(
+                             '提示',
+                             '是否删除该图片！',
+                             [
+
+                                 {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                                 {text: '确定', onPress: this.deletedImg.bind(this,item)},
+                             ],
+                             { cancelable: false }
+                         )
                      }
 
 
+
+    }
+    deletedImg(itemImg){
+        console.log('onItemClick134:'+JSON.stringify(itemImg))
+        this.state.productImgArr.splice(itemImg.index-1,1);//从start的位置开始向后删除delCount个元素
+        // console.log('deletedImg156:'+JSON.stringify( this.state.productImgArr))
+        this.state.delectImgArr.push(itemImg.image.imgId)
+        console.log('deletedImg88'+JSON.stringify(this.state.delectImgArr))
+        // this.state.productImgArr = dataToPost;
+        this.setState({ ...this.state });
 
     }
              renderProductImgView(productImgArr,num){
@@ -233,6 +374,10 @@ export default class NewProductView extends Component{
                                     var imageUri = '';
                                     if ( item.tag =='add_more'){
                                         imageUri =require('../../images/addImgIcon@3x.png')
+                                    }else if(item.isHaveImg == true){
+                                        imageUri = {uri: item.image.path};
+                                        {/*imageUri =require('../../images/me_bj.jpg')*/}
+                                        console.log('imageUri12:'+JSON.stringify(imageUri))
                                     }else {
                                         imageUri = {uri: Platform.OS === 'android' ? 'file://' + item.image.path : '' + item.image.path ,isStatic: true};
                                         {/*imageUri =require('../../images/me_bj.jpg')*/}
@@ -309,92 +454,161 @@ export default class NewProductView extends Component{
                 }
              }
              saveGroupBuy(){
-                 // this.props.navigator.pop();
-                 var squareImgArr = [];
-                 for (var i = 0; i< this.state.productImgArr.length ; i++){
-                    let imgItem = this.state.productImgArr[i];
-                    if (imgItem.width != imgItem.height && imgItem.width > 1200){
-                        squareImgArr.push(imgItem);
+                if (this.state.isDisable){
+
+                }else {
+                    if (this.state.productName){
+
+                    }else {
+                        Alert.alert('提示','请输入商品名称')
+                        return
+                    }
+                    if (this.state.productPrice){
+
+                    }else {
+                        Alert.alert('提示','请输入商品价格')
+                        return
+                    }
+                    if (this.state.productTypeDetail){
+
+                    }else {
+                        Alert.alert('提示','请输入单位详情')
+                        return
+                    }
+                    if (this.state.productStock){
+
+                    }else {
+                        Alert.alert('提示','请输入商品库存')
+                        return
+                    }
+                    if (this.state.DetailsDescription){
+
+                    }else {
+                        Alert.alert('提示','请输入详情描述')
+                        return
+                    }
+                    if (this.state.productImgArr.length > 0){
+
+                    }else {
+                        Alert.alert('提示','请添加商品图片')
+                        return
                     }
 
-                 }
-                 if (squareImgArr.length){
-                     Alert.alert(
-                         '提示',
-                         '您有'+squareImgArr.length+'张图片规格不匹配',
-                         [
 
+                    if (this.props.isEditGood){
+                        var param = new FormData()
 
-                             {text: '确定'}
-                         ],
-                         { cancelable: false }
-                     )
+                        param.append('name',this.state.productName);
+                        param.append('default_price', this.state.productPrice);
+                        param.append('default_stock', this.state.productStock);
+                        param.append('default_unit', this.state.productTypeDetail);
+                        param.append('set', this.props.oldSet);
+                        param.append('desc', this.state.DetailsDescription);
+                        param.append('brief_desc','');
+                        param.append('goods_id',this.props.org_goods_id);
+                        if (this.state.delectImgArr.length > 0){
+                            var detImgStr = '';
+                            for (var i = 0; i <this.state.delectImgArr.length ; i++){
+                                let imgId = this.state.delectImgArr[i]
+                                if (i == 0){
+                                    detImgStr += imgId ;
+                                }else {
+                                    detImgStr += "," +  imgId ;
+                                }
 
-                     return
-                 }else {
+                                console.log('detImgStr'+i+':'+JSON.stringify(imgId))
+                            }
 
-                 }
-                 if (this.state.productName){
+                            param.append('detImg',detImgStr);
 
-                 }else {
-                     Alert.alert('提示','请输入商品名称')
-                     return
-                 }
-                 if (this.state.productPrice){
-
-                 }else {
-                     Alert.alert('提示','请输入商品价格')
-                     return
-                 }
-                 if (this.state.productTypeDetail){
-
-                 }else {
-                     Alert.alert('提示','请输入单位详情')
-                     return
-                 }
-                 if (this.state.productStock){
-
-                 }else {
-                     Alert.alert('提示','请输入商品库存')
-                     return
-                 }
-                 if (this.state.DetailsDescription){
-
-                 }else {
-                     Alert.alert('提示','请输入详情描述')
-                     return
-                 }
-                 if (this.state.productImgArr.length > 0){
-
-                 }else {
-                     Alert.alert('提示','请添加商品图片')
-                     return
-                 }
-                 var param = new FormData()
-
-                 param.append('name',this.state.productName);
-                 param.append('default_price', this.state.productPrice);
-                 param.append('default_stock', this.state.productStock);
-                 param.append('default_unit', this.state.productTypeDetail);
-                 param.append('set', this.props.oldSet);
-                 param.append('desc', this.state.DetailsDescription);
-                 param.append('brief_desc','');
+                        }else {
+                            param.append('detImg','');
+                        }
 
 
 
-                 this.state.productImgArr.map((item, i) => {
-                     if (item['path']) {
-                         let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
-                         param.append("image"+i,file);   //这里的files就是后台需要的key
-                     }
-                 });
-                 console.log('param188:'+JSON.stringify(param))
-                 HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveProductSuccess.bind(this),
-                     (e) => {
 
-                         Alert.alert('提示','保存商品信息失败，请稍后再试。')
-                         console.log('admin.goods error:' + e)
-                     })
+
+                        var imgNum = 0;
+                        this.state.productImgArr.map((item, i) => {
+                            if (item['isHaveImg'] == true){
+                                // console.log('item'+i+':'+JSON.stringify(item))
+                            }else {
+                                if (item['path']) {
+                                    let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
+                                    param.append("image"+imgNum,file);   //这里的files就是后台需要的key
+                                    imgNum ++;
+                                    // console.log('imgNum:'+imgNum)
+                                }
+                            }
+
+                        });
+                        console.log('param189:'+JSON.stringify(param))
+                        this.state.isDisable = true
+                        HttpRequest.uploadImage('/v2','/admin.goods.update', param, this.onUpdateProductSuccess.bind(this),
+                            (e) => {
+
+                                Alert.alert('提示','保存商品信息失败，请稍后再试。')
+                                console.log('admin.goods error:' + e)
+                            })
+                    }else {
+                        var param = new FormData()
+
+                        param.append('name',this.state.productName);
+                        param.append('default_price', this.state.productPrice);
+                        param.append('default_stock', this.state.productStock);
+                        param.append('default_unit', this.state.productTypeDetail);
+                        param.append('set', this.props.oldSet);
+                        param.append('desc', this.state.DetailsDescription);
+                        param.append('brief_desc','');
+
+
+
+                        this.state.productImgArr.map((item, i) => {
+                            if (item['path']) {
+                                let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
+                                param.append("image"+i,file);   //这里的files就是后台需要的key
+                            }
+                        });
+                        console.log('param188:'+JSON.stringify(param))
+                        this.state.isDisable = true
+                        HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveProductSuccess.bind(this),
+                            (e) => {
+
+                                Alert.alert('提示','保存商品信息失败，请确认输入文本信息中不含图形和表情。')
+                                console.log('admin.goods error:' + e)
+                            })
+                    }
+
+                }
+                 // this.props.navigator.pop();
+                 // var squareImgArr = [];
+                 // for (var i = 0; i< this.state.productImgArr.length ; i++){
+                 //    let imgItem = this.state.productImgArr[i];
+                 //    if (imgItem.width != imgItem.height && imgItem.width > 1200){
+                 //        squareImgArr.push(imgItem);
+                 //    }
+                 //
+                 // }
+                 // if (squareImgArr.length){
+                 //     Alert.alert(
+                 //         '提示',
+                 //         '您有'+squareImgArr.length+'张图片规格不匹配',
+                 //         [
+                 //
+                 //
+                 //             {text: '确定'}
+                 //         ],
+                 //         { cancelable: false }
+                 //     )
+                 //
+                 //     return
+                 // }else {
+                 //
+                 // }
+
+
+
 
 
 
@@ -402,6 +616,7 @@ export default class NewProductView extends Component{
 
         onSaveProductSuccess(response){
                  console.log('onSaveProductSuccess:'+JSON.stringify(response))
+            this.state.isOnlyUpdateSet = false;
             if (response.code == 1){
 
                 Alert.alert('提示','保存商品成功', [
@@ -413,6 +628,20 @@ export default class NewProductView extends Component{
             }
 
      }
+    onUpdateProductSuccess(response){
+        console.log('onUpdateProductSuccess:'+JSON.stringify(response))
+        this.state.isOnlyUpdateSet = false;
+        if (response.code == 1){
+
+            Alert.alert('提示','保存商品成功', [
+
+                    {text: 'OK', onPress: this.back.bind(this)},
+                ],
+                { cancelable: false })
+
+        }
+
+    }
             render() {
                  //选择价格单位
             //     <CheckBox
@@ -509,119 +738,134 @@ export default class NewProductView extends Component{
                                  title="新建商品"
                                    leftIcon={require('../../images/back.png')}
                                   leftPress={this.back.bind(this)} />
-                             <View style={{backgroundColor:'#f2f2f2'}}>
-                                 <ScrollView
-                                     keyboardDismissMode='on-drag'
-                                     keyboardShouldPersistTaps={false}
-                                     horizontal={true}
-                                     showsHorizontalScrollIndicator={false}
-                                     showsVerticalScrollIndicator={false}
+
+                             <ScrollView ref='scroll'
+                                         onContentSizeChange ={(contentWidth, contentHeight)=>{
+                                 this.contentHeight = parseInt(contentHeight);
+                             }}
+
+                                         onScrollEndDrag={(e)=>{
+                                             this.moveH = e.nativeEvent.contentOffset.y;
+                                              console.log("this.moveH11",this.moveH);
+                                         }}>
+                                 <View onStartShouldSetResponderCapture={(e)=>{dismissKeyboard();}}>
+                                     <View style={{backgroundColor:'#f2f2f2'}}>
+                                         <ScrollView
+                                             keyboardDismissMode='on-drag'
+                                             keyboardShouldPersistTaps={false}
+                                             horizontal={true}
+                                             showsHorizontalScrollIndicator={false}
+                                             showsVerticalScrollIndicator={false}
+                                             contentContainerStyle={{width:ItemW*nowProductDataNum+20,height:ItemH}}
+                                             style={{width:width,height:ItemH}}
+
+                                         >
+
+                                             {this.renderProductImgView(nowProductDataArr,nowProductDataNum)}
+                                         </ScrollView>
+
+                                     </View>
+                                     <View style={{}}>
+                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                                             <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                                 商品名称:
+                                             </Text>
+                                             <TextInput style={{
+                                                 marginLeft: 0, fontSize: 16, flex: 20,
+                                                 textAlign: 'left', color: '#1c1c1c',
+                                             }}  keyboardType={'default'}
+                                                        editable={true}
+
+                                                        onChangeText={(text) => this.setState({ productName: text })}
+                                                        value= {this.state.productName}
+                                                        returnKeyType={'done'}
+                                             ></TextInput>
+
+                                         </View>
+                                         <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                                             <Text style={[ { width: 95, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                                 商品价格: S$
+                                             </Text>
+                                             <TextInput style={{
+                                                 marginLeft: 0, fontSize: 16, flex: 20,
+                                                 textAlign: 'left', color: '#1c1c1c',
+                                             }}  keyboardType={'numeric'}
+                                                        placeholder ='0.00'
+                                                        editable={true}
+                                                        returnKeyType={'done'}
+                                                        onChangeText={(text) => this.setState({ productPrice: text })}
+                                                        value= {this.state.productPrice}
+                                             ></TextInput>
 
 
-                                     contentContainerStyle={{width:ItemW*nowProductDataNum+20,height:ItemH}}
-                                     style={{width:width,height:ItemH}}
-                                 >
+                                         </View>
+                                     </View>
 
-                                     {this.renderProductImgView(nowProductDataArr,nowProductDataNum)}
-                                 </ScrollView>
+                                     <View style={{marginTop: 10}}>
+                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                                             <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16}]}>
+                                                 单位详情:
+                                             </Text>
+                                             <TextInput style={{
+                                                 marginLeft: 0, fontSize: 16, flex: 20,
+                                                 textAlign: 'left', color: '#1c1c1c',
+                                             }}  keyboardType={'default'}
+                                                        placeholder ='1kg／件'
+                                                        editable={true}
+                                                        returnKeyType={'done'}
+                                                        onChangeText={(text) => this.setState({ productTypeDetail: text })}
+                                                        value= {this.state.productTypeDetail}
+                                             ></TextInput>
 
-                             </View>
-                             <View style={{}}>
-                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                     <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                         商品名称:
-                                     </Text>
-                                     <TextInput style={{
-                        marginLeft: 0, fontSize: 16, flex: 20,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'default'}
-                                                editable={true}
+                                         </View>
+                                         <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
+                                             <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                                 商品库存:
+                                             </Text>
+                                             <TextInput style={{
+                                                 marginLeft: 0, fontSize: 16, flex: 20,
+                                                 textAlign: 'left', color: '#1c1c1c',
+                                             }}  keyboardType={'numeric'}
+                                                        editable={true}
+                                                        returnKeyType={'done'}
+                                                        onChangeText={(text) => this.setState({ productStock: text })}
+                                                        value= {this.state.productStock}
+                                             ></TextInput>
 
-                                                onChangeText={(text) => this.setState({ productName: text })}
-                                                value= {this.state.productName}
-                                                returnKeyType={'done'}
-                                     ></TextInput>
 
+                                         </View>
+                                     </View>
+                                     <View style={{marginTop:10,flexDirection: 'column', justifyContent: 'flex-start',backgroundColor: '#ffffff',height:200}}>
+                                         <View style={{height: 46, paddingLeft: 10, paddingRight: 10 ,paddingTop: 15}}>
+                                             <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                                 详情描述:
+                                             </Text>
+
+
+
+                                         </View>
+                                         <View style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
+                                             <TextInput style={{
+                                                 marginLeft: 10,marginRight:10, fontSize: 16,height:100,
+                                                 textAlign: 'left', color: '#1c1c1c',
+                                             }}  keyboardType={'default'}
+                                                        ref={'detailInput'}
+                                                        blurOnSubmit ={true}
+                                                        multiline={true}
+                                                        editable={true}
+                                                        returnKeyType={'done'}
+                                                        onChangeText={(text) => this.setState({ DetailsDescription: text })}
+                                                        value= {this.state.DetailsDescription}
+                                                        onFocus={()=>{this.textInputView = 'detailInput'}}
+                                             ></TextInput>
+                                         </View>
+
+                                     </View>
                                  </View>
-                                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
-                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                     <Text style={[ { width: 95, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                         商品价格: S$
-                                     </Text>
-                                     <TextInput style={{
-                        marginLeft: 0, fontSize: 16, flex: 20,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'numeric'}
-                                                placeholder ='0.00'
-                                                editable={true}
-                                                returnKeyType={'done'}
-                                                onChangeText={(text) => this.setState({ productPrice: text })}
-                                                value= {this.state.productPrice}
-                                     ></TextInput>
+                             </ScrollView>
 
-
-                                 </View>
-                             </View>
-
-                             <View style={{marginTop: 10}}>
-                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                     <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16}]}>
-                                         单位详情:
-                                     </Text>
-                                     <TextInput style={{
-                        marginLeft: 0, fontSize: 16, flex: 20,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'default'}
-                                                placeholder ='1kg／件'
-                                                editable={true}
-                                                returnKeyType={'done'}
-                                                onChangeText={(text) => this.setState({ productTypeDetail: text })}
-                                                value= {this.state.productTypeDetail}
-                                     ></TextInput>
-
-                                 </View>
-                                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
-                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                     <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                         商品库存:
-                                     </Text>
-                                     <TextInput style={{
-                        marginLeft: 0, fontSize: 16, flex: 20,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'numeric'}
-                                                editable={true}
-                                                returnKeyType={'done'}
-                                                onChangeText={(text) => this.setState({ productStock: text })}
-                                                value= {this.state.productStock}
-                                     ></TextInput>
-
-
-                                 </View>
-                             </View>
-                             <View style={{marginTop:10,flexDirection: 'column', justifyContent: 'flex-start',backgroundColor: '#ffffff',height:200}}>
-                                 <View style={{height: 46, paddingLeft: 10, paddingRight: 10 ,paddingTop: 15}}>
-                                     <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                         详情描述:
-                                     </Text>
-
-
-
-                                 </View>
-                                 <View style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
-                                     <TextInput style={{
-                        marginLeft: 10,marginRight:10, fontSize: 16,height:100,
-                        textAlign: 'left', color: '#1c1c1c',
-                    }}  keyboardType={'default'}
-                                                blurOnSubmit ={true}
-                                                multiline={true}
-                                                editable={true}
-                                                returnKeyType={'done'}
-                                                onChangeText={(text) => this.setState({ DetailsDescription: text })}
-                                                value= {this.state.DetailsDescription}
-                                     ></TextInput>
-                                 </View>
-
-                             </View>
 
                              <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 ,paddingTop:0}}><CommitButton title={'保存商品'} onPress={this.saveGroupBuy.bind(this)}></CommitButton></View>
                              <ActionSheet

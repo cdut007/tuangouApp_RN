@@ -22,7 +22,10 @@ import {
     ScrollView,
     TouchableOpacity,
     Platform,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    ListView,
+    RefreshControl,
+    ActivityIndicator
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -32,10 +35,18 @@ var dataToPost = [];
 export default class ProductManager extends Component{
     constructor (props){
         super(props)
-
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
             ProductCategoryArr:[],
-            hasProductCategory:false
+            hasProductCategory:false,
+            dataSource:ds,
+            dataSourceArr:[],
+            isRefreshing: false,
+            isNoMoreData: false,
+            cachedData:[],
+            currentPage:1,
+            isFirst:false,
+            isLoadMore:false,
 
 
 
@@ -52,17 +63,29 @@ export default class ProductManager extends Component{
             //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
             console.log('ChangeProductManagerUI:11')
 
-
-            let param = {}
-
-            HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
-                (e) => {
-                    console.log(' error:' + e);
-                    Alert.alert('提示','获取商品类别失败，请稍后再试。')
-                })
+            this.fetchData();
+            // let param = {pageSize:20,currentPage:1}
+            //
+            // HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
+            //     (e) => {
+            //         console.log(' error:' + e);
+            //         Alert.alert('提示','获取商品类别失败，请稍后再试。')
+            //     })
         });
 
-        let param = {}
+        this.fetchData();
+
+
+
+
+
+    }
+    fetchData() {
+
+
+        this.state.currentPage = 1;
+
+        let param = {pageSize:10,currentPage: this.state.currentPage}
 
         HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
             (e) => {
@@ -70,14 +93,70 @@ export default class ProductManager extends Component{
                 Alert.alert('提示','获取商品类别失败，请稍后再试。')
             })
 
-
-
-
+    }
+    fetchMoreData(){
+        let param = {pageSize:10,currentPage: this.state.currentPage}
+        console.log(' fetchMoreData12:' + this.state.currentPage);
+        HttpRequest.get('/v2','/admin.goods.set', param, this.onGetMoreCategorySuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取商品类别失败，请稍后再试。')
+            })
     }
     onGetCategorySuccess(response){
         console.log('onGetCategorySuccess11:'+JSON.stringify(response))
-        this.state.ProductCategoryArr = response.data.set_list;
-        this.setState({ ...this.state });
+            this.state.dataSourceArr = []
+            this.setState({
+                hasProductCategory:true,
+                dataSource:this.state.dataSource.cloneWithRows(response.data.set_list),
+                dataSourceArr:response.data.set_list
+            });
+
+
+
+        // this.state.ProductCategoryArr = response.data.set_list;
+        // this.setState({ ...this.state });
+
+    }
+    onGetMoreCategorySuccess(response){
+        console.log('onGetMoreCategorySuccess250:'+JSON.stringify(response))
+        if(response.data.set_list.length < 10) {
+            this.setState({
+                isNoMoreData: true
+            });
+        }else {
+            this.setState({
+                isNoMoreData: false
+            });
+        }
+        this.state.cachedData = []
+        this.state.cachedData = response.data.set_list;
+        console.log('onGetMoreCategorySuccess332:'+JSON.stringify(this.state.cachedData))
+        let testArr =  this.state.dataSourceArr.concat(this.state.cachedData)
+
+      this.state.dataSourceArr = testArr
+        console.log('onGetMoreCategorySuccess334:'+JSON.stringify(this.state.dataSourceArr))
+        this.setState({
+            hasProductCategory:true,
+            dataSource:this.state.dataSource.cloneWithRows(this.state.dataSourceArr)
+        });
+
+
+
+        // this.state.ProductCategoryArr = response.data.set_list;
+        // this.setState({ ...this.state });
+
+    }
+    _endReached = () => {
+
+        if (this.state.isNoMoreData){
+
+        }else {
+            this.state.currentPage  += 1
+            // 获取数据
+            this.fetchMoreData();
+        }
+
 
     }
     onPressCategoryView(categoryItem){
@@ -152,12 +231,51 @@ export default class ProductManager extends Component{
         })
 
     }
+    renderItem = (item, sectionID, rowID) => {
+
+        // var end_time = moment(groupItem.ship_time).format("预计Y年M"+'月'+"D"+'号发货');
+
+        return(
+            <TouchableOpacity onPress={this.onPressCategoryView.bind(this,item)}>
+                <View style={{ marginTop:10 ,backgroundColor:'white',width:width,height:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
+                    <View style={{flex:100}}>
+                        <Image style={{width:80,height:80,marginLeft:10}} source={this.disPlayIcon(item)}></Image>
+                    </View>
+                    <View style={{flex:300,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
+                        <Text style={{textAlign:'left',marginTop:10,fontSize:16,fontFamily:'PingFangSC-Regular'}}>
+                            {item.set}
+                        </Text>
+                        <Text style={{textAlign:'left',marginBottom:10,fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>
+                            商品总量：{item.count}个
+                        </Text>
+                    </View>
+
+
+
+
+                </View>
+            </TouchableOpacity>
+        )
+    }
+    _renderFooter(){
+        // if(this.state&&this.state.isShowBottomRefresh){
+        //     return (<View style={{marginVertical: 10}}>
+        //         <ActivityIndicator />
+        //     </View>);
+        // }
+        return <View style={{marginVertical: 10}} />;
+    }
+
+    reloadData(){
+
+
+        this.setState({isNoMoreData: false});
+        setTimeout(() => {
+            this.fetchData();
+        }, 2000);
+    }
     render() {
-        if (this.state.ProductCategoryArr.length>0){
-            this.state.hasProductCategory = true;
-        }else {
-            this.state.hasProductCategory = false;
-        }
+
         if (this.state.hasProductCategory){
             return (
                 <View style={styles.container}>
@@ -178,19 +296,39 @@ export default class ProductManager extends Component{
 
                         </View>
                     </TouchableOpacity>
-                    <View style={{justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#f2f2f2',}}>
-                        <ScrollView
-                            keyboardDismissMode='on-drag'
-                            keyboardShouldPersistTaps={false}
-                            style={{width:width, backgroundColor:'#f2f2f2',height:height-128}}>
-                            {this.renderProductCategory(this.state.ProductCategoryArr)}
+                    <ListView style={{}}
+                              dataSource={this.state.dataSource}
+                              renderRow={this.renderItem}
+                              contentContainerStyle={styles.list}
+                              initialListSize={21}
+                              pageSize={10}
+                              scrollRenderAheadDistance={500}
+                              removeClippedSubviews={false}
+                              refreshControl={
+                                  <RefreshControl
+                                      refreshing={this.state.isRefreshing}
+                                      onRefresh={this.reloadData.bind(this)}
+                                  />}
+                              renderFooter={() => this._renderFooter()}
+                              onEndReached={() => this._endReached()}
+                              onEndReachedThreshold={20}
+                    >
+
+                    </ListView>
+                    {/*<View style={{justifyContent: 'flex-start',*/}
+
+        {/*alignItems: 'center',*/}
+        {/*backgroundColor: '#f2f2f2',}}>*/}
+                        {/*<ScrollView*/}
+                            {/*keyboardDismissMode='on-drag'*/}
+                            {/*keyboardShouldPersistTaps={false}*/}
+                            {/*style={{width:width, backgroundColor:'#f2f2f2',height:height-128}}>*/}
+                            {/*{this.renderProductCategory(this.state.ProductCategoryArr)}*/}
 
 
-                        </ScrollView>
+                        {/*</ScrollView>*/}
 
-                    </View>
+                    {/*</View>*/}
 
                 </View>
             )

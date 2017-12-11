@@ -16,14 +16,17 @@ import HttpRequest from '../HttpRequest/HttpRequest'
 import CircleImage from '../common/CircleImage';
 import SettingView from './SettingView';
 import GroupOrderListView from './GroupOrderListView';
+import GroupOrderDoingListView from './GroupOrderDoingListView'
 import AddressView from './Adress/AddressView';
 import GroupBuyManager from './Group/GroupBuyManager'
 import AgentRegisteredView from './AgentRegisteredView';
 import GroupMasterLinkView from './GroupMasterLinkView';
 import NoticeOrderView from  './Order/NoticeOrderView';
 import ProductManager from './Product/ProductManager'
-import NewGroupView from './Group/NewGroupView'
+
+import ShareGroupOrderView from './Group/ShareGroupOrderView'
 import NoticeSuccessView from './Order/NoticeSuccessView'
+import MyGroupBuyListView from './Group/MyGroupBuyListView'
 
 import HelpView from './HelpView';
 import Welcome from '../Login/Welcome'
@@ -118,13 +121,24 @@ export default class MineView extends Component {
 
     }
     OnNewGroupPress(){
-        this.props.navigator.push({
-            component: NewGroupView
-        })
+
     }
     onAddressPress() {
         this.props.navigator.push({
             component: AddressView,
+            props:{
+                isMineTo:true
+            }
+        })
+    }
+    onShareGroupPress(){
+        this.props.navigator.push({
+            component: ShareGroupOrderView,
+        })
+    }
+    onMyGroupBuyListPress(){
+        this.props.navigator.push({
+            component: MyGroupBuyListView,
         })
     }
     onSettingPress() {
@@ -139,9 +153,7 @@ export default class MineView extends Component {
     }
     onGroupBuyDonePress() {
         this.props.navigator.push({
-            props: {
-                isDoneStatus: true,
-            },
+
             component: GroupOrderListView,
         })
     }
@@ -175,10 +187,8 @@ export default class MineView extends Component {
 
     onGroupBuyProgressingPress() {
         this.props.navigator.push({
-            props: {
-                isDoneStatus: false,
-            },
-            component: GroupOrderListView,
+
+            component: GroupOrderDoingListView,
         })
     }
 
@@ -225,7 +235,7 @@ export default class MineView extends Component {
 
 
                     <View style={styles.flexContainer}>
-                        <TouchableOpacity style={styles.cell} onPress={this.onGroupMasterLinkPress.bind(this)}>
+                        <TouchableOpacity style={styles.cell} onPress={this.onShareGroupPress.bind(this)}>
                             <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/link_icon.png')}
@@ -280,7 +290,7 @@ export default class MineView extends Component {
 
 
                     <View style={styles.flexContainer}>
-                        <TouchableOpacity style={styles.cell} onPress={this.OnNewGroupPress.bind(this)}>
+                        <TouchableOpacity style={styles.cell} onPress={this.onMyGroupBuyListPress.bind(this)}>
                             <View style={styles.labelView}>
                                 <Image style={styles.labelInfo}
                                        source={require('../images/createIcon.png')}

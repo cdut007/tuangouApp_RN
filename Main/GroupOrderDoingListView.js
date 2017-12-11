@@ -1,3 +1,6 @@
+/**
+ * Created by Arlen_JY on 2017/12/3.
+ */
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -42,21 +45,20 @@ import OrderUserDetailView from './Order/OrderUserDetailView'
 import moment from 'moment';
 
 
-export default class GroupOrderListView extends Component {
+export default class GroupOrderDoingListView extends Component {
     constructor(props) {
         super(props)
-        var title = "已截团的";
-
+        var title = "查看接龙";
 
         var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
             title: title,
             orders: [],
             classifytotalNum :0,
-            haveDoneOrder:true,
+            haveDoingOrder:true,
             isRefreshing:false,
             dataSource:ds,
-            doneData:[],
+            doingData:[]
         }
     }
 
@@ -74,18 +76,13 @@ export default class GroupOrderListView extends Component {
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
 
 
-        // let rowData = this.state.doneData
-        // this.setState({
-        //     dataSource: this.state.dataSource.cloneWithRows(rowData)
-        // });
+            let param = {}
 
-            let param = { }
-
-            HttpRequest.get('/v2','/api.merchant.check.jielong.done', param, this.onGetDoneListSuccess.bind(this),
+            HttpRequest.get('/v2','/api.merchant.check.jielong.doing', param, this.onGetDoingListSuccess.bind(this),
                 (e) => {
                     console.log(' error:' + e)
                     Alert.alert('提示','获取团购列表失败，请稍后再试。')
@@ -98,9 +95,9 @@ export default class GroupOrderListView extends Component {
 
         this.setState({isRefreshing: true});
         setTimeout(() => {
-
-            let param = { }
-
+            // let orderStatus = this.props.isDoneStatus ? 1 : 0
+            // let param = { status: orderStatus }
+            // console.log('orderStatus:' +orderStatus)
             // HttpRequest.get('/v1','/agent_order', param, this.onGetListSuccess.bind(this),
             //     (e) => {
             //         console.log(' error:' + e)
@@ -110,31 +107,31 @@ export default class GroupOrderListView extends Component {
 
 
     }
-    onGetDoneListSuccess(response) {
+
+    onGetDoingListSuccess(response) {
 
         // for (var i = 0 ;i < response.data.order.length ; i ++){
         //     console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
         // }
-        console.log('onGetDoneListSuccess:'+JSON.stringify(response))
-        let rowData = response.data
+        console.log('onGetListSuccess:'+JSON.stringify(response))
         if (response.data.length == 0){
-
-            // this.setState({
-            //     dataSource: this.state.dataSource.cloneWithRows(rowData),
-            //     haveDoneOrder:false,
-            //
-            // })
-        }else {
-
-
+            let rowData = response.data
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(rowData),
-                haveDoneOrder:true,
+                haveDoingOrder:false,
+
+            })
+        }else {
+
+            let rowData = response.data
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(rowData),
+
+                haveDoingOrder:true,
             });
         }
 
     }
-
     onSendOrderSuccess(response){
         console.log('onSendOrderSuccess332:'+JSON.stringify(response))
         if (response.code == 1){
@@ -163,7 +160,7 @@ export default class GroupOrderListView extends Component {
 
     render() {
 
-        if (this.state.haveDoneOrder){
+        if (this.state.haveDoingOrder){
             return (
                 <View style={styles.container}>
                     <NavBar title={this.state.title}
@@ -197,26 +194,25 @@ export default class GroupOrderListView extends Component {
         })
     }
 
-    // onItemsClick(prouductItems) {
-    //     this.props.navigator.push({
-    //         props: {
-    //             gbDetail: prouductItems,
-    //         },
-    //         component: GroupOrderDetailView,
-    //     })
-    // }
+    onItemsClick(prouductItems) {
+        this.props.navigator.push({
+            props: {
+                gbDetail: prouductItems,
+            },
+            component: GroupOrderDetailView,
+        })
+    }
     onOrderUserClick(prouductItems){
         this.props.navigator.push({
             props: {
                 gbDetail: prouductItems,
-                isDoneStatus:true
-
+                isDoneStatus:false
 
             },
             component: OrderUserDetailView,
         })
 
-}
+    }
     renderUserIconView(imgArr){
         let w = (width-20-5*8)/10
         let renderSwipeView = (types, n) => {
@@ -224,13 +220,19 @@ export default class GroupOrderListView extends Component {
                 <View style={{flexDirection:'row',marginLeft:5}}>
                     {
                         types.map((item, i) => {
-
+                            if (item){
                                 let render = (
                                     <View style={{ width: w, height: w, marginRight: 5,  }}>
                                         <Image style={{width:w,height:w}} source={{uri:item}}></Image>
                                     </View>
                                 )
-
+                            }else {
+                                let render = (
+                                    <View style={{ width: w, height: w, marginRight: 5,  }}>
+                                        <Image style={{width:w,height:w}} source={require('../images/fruit_type@2x.png')}></Image>
+                                    </View>
+                                )
+                            }
 
                             return (
                                 <View style={{ width: w , height: w ,marginTop:10,marginLeft:5}}>{render}</View>
@@ -266,7 +268,7 @@ export default class GroupOrderListView extends Component {
     }
     renderItem = (item, sectionID, rowID) => {
         return(
-            <View style={{width:width,height:180,flexDirection:'column',justifyContent:'flex-start',backgroundColor:'white',marginTop:10}}>
+            <View style={{width:width,height:140,flexDirection:'column',justifyContent:'flex-start',backgroundColor:'white',marginTop:10}}>
                 <View style={{flex:50,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
                     <Image style={styles.classifyTypeIcon} source={this.disPlayIcon(item.icon)}></Image>
                     <Text style={styles.classifyTitle}>{this.disPlayClassName(item.classify_name)}</Text>
@@ -281,7 +283,7 @@ export default class GroupOrderListView extends Component {
 
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={{flex:30}} onPress={() => { this.onOrderUserClick(item)}}>
+                <TouchableOpacity style={{flex:30}} onPress={() => { this.onOrderUserClick(item) }}>
 
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <Text style={styles.userCount} >已有{item.purchased_count}成功接龙</Text>
@@ -293,24 +295,18 @@ export default class GroupOrderListView extends Component {
 
                     </View>
                 </TouchableOpacity>
-                <View style={{flex:40,flexDirection:'row',alignItems:'center',justifyContent:'flex-end'}}>
-                    <TouchableOpacity style={styles.loadExcelBtn} onPress={() => { this.onDownloadExcelClick(item)}}>
-                        <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.loadExcelTitle}>下载Excel表</Text>
 
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.sendGroupBtn} onPress={() => { this.onSendOrderClick(item)}}>
-                        <View style={{justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.sendGroupTitle}>发送接龙订单</Text>
-
-                        </View>
-                    </TouchableOpacity>
-                </View>
             </View>
         )
     }
+    _renderRow(rowData,rowId){
 
+
+
+
+
+
+    }
     renderNoOrderView(){
         return (
             <View style={styles.NoOrderView}>
@@ -326,7 +322,6 @@ export default class GroupOrderListView extends Component {
     }
     renderGroupOrderListView() {
 
-
         return(  <ListView style={{backgroundColor:'rgb(242,242,242)'}}
                            dataSource={this.state.dataSource}
                            renderRow={this.renderItem}
@@ -334,10 +329,17 @@ export default class GroupOrderListView extends Component {
                            initialListSize={21}
                            pageSize={10}
                            scrollRenderAheadDistance={500}
-                           removeClippedSubviews={false}>
+                           removeClippedSubviews={false}
+                           >
 
         </ListView>)
-
+        // return (<ScrollView
+        //     keyboardDismissMode='on-drag'
+        //     keyboardShouldPersistTaps={false}
+        //     style={[styles.mainStyle, { height: height - 220 }]}
+        //    >
+        //     {this.renderProductCategoryView()}
+        // </ScrollView>)
     }
 
     renderProductCategoryView() {
@@ -352,7 +354,7 @@ export default class GroupOrderListView extends Component {
             var shipTime = moment(order.group_buy.ship_time).format("预计M"+'月'+"D"+'号发货');
             this.state.classifytotalNum = 0
             for (var j = 0; j < order.goods.length; j++){
-               this.state.classifytotalNum = this.state.classifytotalNum+ parseInt(order.goods[j].purchased)
+                this.state.classifytotalNum = this.state.classifytotalNum+ parseInt(order.goods[j].purchased)
                 console.log('classifytotalNumtest:'+i+':'+j+':'+this.state.classifytotalNum)
 
             }
@@ -423,33 +425,8 @@ export default class GroupOrderListView extends Component {
             })
     }
     renderStatus(items) {
-        if (this.props.isDoneStatus) {
-            return (<View style={{flexDirection:'row',justifyContent:'flex-start',width:width}}>
-                <TouchableOpacity onPress={this.onDownloadExcelClick.bind(this,items)} style={{
-                alignItems: 'center', backgroundColor: 'white',
-                justifyContent: 'center', height: 40,flex:1
-            }}>
-                <Text style={{
-                    alignItems: 'center',
-                    justifyContent: 'center', fontSize: 18, color: 'rgb(234,107,16)', textAlign: 'center',fontFamily:'PingFang-SC-Medium'
-                }}>
-                    下载Excel表
-                </Text>
-            </TouchableOpacity>
-                <TouchableOpacity onPress={this.onSendOrderClick.bind(this,items)} style={{
-                    alignItems: 'center', backgroundColor: 'rgb(234,107,16)',
-                    justifyContent: 'center', height: 40,flex:1
-                }}>
-                    <Text style={{
-                        alignItems: 'center',
-                        justifyContent: 'center', fontSize: 18, color: 'white', textAlign: 'center',fontFamily:'PingFang-SC-Medium'
-                    }}>
-                        发送订单
-                    </Text>
-                </TouchableOpacity>
 
-            </View>)
-        } else {
+
             return (<TouchableOpacity onPress={this.onItemsClick.bind(this, items)} style={{
                 alignItems: 'center', backgroundColor: '#f7f7f7',
                 justifyContent: 'center', height: 40, width: width
@@ -459,9 +436,9 @@ export default class GroupOrderListView extends Component {
                     justifyContent: 'center', fontSize: 12, color: '#1c1c1c', textAlign: 'center'
                 }}>
                     查看全部
-            </Text>
+                </Text>
             </TouchableOpacity>)
-        }
+
     }
 
     renderItemInfo(item,classifytotalNum, w, h) {
@@ -608,14 +585,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#ebeef1'
     },
     brandLabelContainer:
-    {
-        marginTop: 5,
-        marginBottom: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width:width
-    },
+        {
+            marginTop: 5,
+            marginBottom: 5,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width:width
+        },
     line: {
         height: 1,
         backgroundColor: '#eef0f3',

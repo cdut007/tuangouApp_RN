@@ -91,19 +91,24 @@ export default class AddressView extends Component {
 
     onSaveAddressSuccess(response)
     {
-        Global.user_address = {
-            address: this.state.address,
-            phone_num: this.state.mobile
-        }
-        this.props.navigator.push({
-            component: GroupBuyAddressView,
-            props: {
-                api_param: this.props.api_param,
-                image: this.props.image,
-
+        if (this.props.isMineTo){
+            this.props.navigator.pop()
+        }else {
+            Global.user_address = {
+                address: this.state.address,
+                phone_num: this.state.mobile
             }
-        })
-        // this.props.navigator.pop()
+            this.props.navigator.push({
+                component: GroupBuyAddressView,
+                props: {
+                    api_param: this.props.api_param,
+                    image: this.props.image,
+
+                }
+            })
+        }
+
+
     }
 
 
