@@ -97,7 +97,8 @@ export default class OrderUserDetailView extends Component{
         if (response.message == "Success"){
             if (response.data.order_detail.length == 0){
                 this.setState({
-                    haveOrder_detail:false
+                    haveOrder_detail:false,
+                    order_detail:response.data.order_detail,
                 });
             }else {
                 this.setState({
@@ -244,13 +245,25 @@ export default class OrderUserDetailView extends Component{
         )
     }
     renderOrderUserListView(order_detail){
-
+        console.log('renderOrderUserListView134:'+JSON.stringify(order_detail))
+        let total_quantity = order_detail[0].total_quantity
+        let total_amount = order_detail[0].total_amount
+        console.log('renderOrderUserListView135:'+JSON.stringify(total_quantity))
+        console.log('renderOrderUserListView136:'+JSON.stringify(total_amount))
+        let totalTitle = total_quantity+"件/合计：S$"+total_amount;
             return (
 
                     <ScrollView style={styles.scrollcontainer}>
-                        <View style={styles.totalHeaderContainer} >
-                            <Text style={styles.totalHeaderRemarkTitle}>{'5件'}</Text>
-                            <Text style={styles.totalHeaderTitle}>{'合计'}</Text>
+                        <View style={{flexDirection: 'column',
+                            backgroundColor:'white',
+                             justifyContent: 'center',
+                             alignItems: 'center',height:49}} >
+                            <Text style={{marginTop:0,
+                                color   :'rgba(234,107,16,1.0)',
+                                fontSize:18,
+                                fontFamily:'PingFang-SC-Medium',
+
+                                textAlign:'center',}}>{totalTitle}</Text>
                         </View>
                         {this.renderPanelView(order_detail)}
                         {/*<Panel title="5" ship_time="2017-8-12 14:23" totalNum="5" totalPrice="23.00">*/}
@@ -462,7 +475,7 @@ const styles = StyleSheet.create({
     totalHeaderTitle :{
         marginTop:8,
         color   :'rgba(234,107,16,1.0)',
-        fontSize:14,
+        fontSize:18,
         fontFamily:'PingFang-SC-Medium',
 
         textAlign:'center',

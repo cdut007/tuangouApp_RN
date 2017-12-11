@@ -158,7 +158,7 @@ export default class GroupOrderDoingListView extends Component {
 
     }
 
-    render() {
+    render(){
 
         if (this.state.haveDoingOrder){
             return (
@@ -226,17 +226,20 @@ export default class GroupOrderDoingListView extends Component {
                                         <Image style={{width:w,height:w}} source={{uri:item}}></Image>
                                     </View>
                                 )
+                                return (
+                                    <View style={{ width: w , height: w ,marginTop:10,marginLeft:5}}>{render}</View>
+                                )
                             }else {
                                 let render = (
                                     <View style={{ width: w, height: w, marginRight: 5,  }}>
                                         <Image style={{width:w,height:w}} source={require('../images/fruit_type@2x.png')}></Image>
                                     </View>
                                 )
+                                return (
+                                    <View style={{ width: w , height: w ,marginTop:10,marginLeft:5}}>{render}</View>
+                                )
                             }
 
-                            return (
-                                <View style={{ width: w , height: w ,marginTop:10,marginLeft:5}}>{render}</View>
-                            )
                         })
                     }
                 </View>
@@ -376,7 +379,7 @@ export default class GroupOrderDoingListView extends Component {
                         <Text style={{textAlign:'center', fontSize: 12, color: '#rgb(117,117,117)' , alignSelf:'center',marginRight:10,marginTop:10,fontFamily:'PingFangSC-Regular'}}>{shipTime}</Text>
                     </View>
 
-                    {this.renderCategorysView(order,this.state.classifytotalNum)}
+                    {/*{this.renderCategorysView(order,this.state.classifytotalNum)}*/}
                     <View style={{ width: width, backgroundColor: '#d5d5d5', flex: 1, height: 0.5 }}>
                     </View>
                     {this.renderStatus(order)}

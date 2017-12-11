@@ -119,11 +119,11 @@ export default class GroupOrderListView extends Component {
         let rowData = response.data
         if (response.data.length == 0){
 
-            // this.setState({
-            //     dataSource: this.state.dataSource.cloneWithRows(rowData),
-            //     haveDoneOrder:false,
-            //
-            // })
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(rowData),
+                haveDoneOrder:false,
+
+            })
         }else {
 
 

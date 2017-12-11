@@ -42,7 +42,7 @@ export default class ClassifyListView extends Component{
     back(){
         var valItem = {selectedItem:this.state.selectedItem,};
 
-
+    console.log('selectedItem'+JSON.stringify(valItem))
         DeviceEventEmitter.emit('GetClassifyId',valItem);
 
         if( this.props.navigator ){
@@ -76,6 +76,7 @@ export default class ClassifyListView extends Component{
         response.data.classify_list.map((item, i) => {
             if (item.id == this.props.classify_Id){
                 item.selected = true;
+                this.state.selectedItem = item;
             }else {
                 item.selected = false;
             }

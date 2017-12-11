@@ -192,7 +192,7 @@ export default class MyGroupBuyListView extends Component{
                                 <Text style={styles.classifyListTitle}>{classItem.name}</Text>
                             </View>
                             <View style={styles.classifyListDescContainer}>
-                                <Text style={styles.classifyListDesc}>{classItem.desc}</Text>
+                                <Text style={styles.classifyListDesc} numberOfLines={3}>{classItem.desc}</Text>
                                 <Image style={styles.classifyListImg} source={imageUri}></Image>
                             </View>
                         </View>

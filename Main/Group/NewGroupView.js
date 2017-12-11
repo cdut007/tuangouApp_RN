@@ -11,6 +11,7 @@ import HttpRequest from '../../HttpRequest/HttpRequest';
 import ClassifyListView from './ClassifyListView'
 import  Swipeout from 'react-native-swipeout'
 import Picker from 'react-native-picker';
+import NewProductView from '../Group/NewProductView'
 import moment from 'moment';
 import {
     StyleSheet,
@@ -105,7 +106,8 @@ export default class NewGroupView extends Component{
                 group_eyu:response.data.group_buying_detail.eyu,
                 groupTitle:response.data.group_buying_detail.classify_name,
                 groupDeadlineTime:response.data.group_buying_detail.end_time,
-                groupDeliveryTime:response.data.group_buying_detail.ship_time
+                groupDeliveryTime:response.data.group_buying_detail.ship_time,
+                classify_Id:response.data.group_buying_detail.classify
             })
 
         }
@@ -429,7 +431,7 @@ export default class NewGroupView extends Component{
             {
                 backgroundColor:'red',
                 color:'white',
-                text:'移除',
+                text:'删除',
 
                 onPress:() => this.cancelItem(item),
 
@@ -441,7 +443,7 @@ export default class NewGroupView extends Component{
         return(  <Swipeout right={swipeoutBtns}
                            autoClose={true}
                            sensitivity={5}
-                           buttonWidth={100}
+                           buttonWidth={60}
 
 
         >
@@ -461,16 +463,17 @@ export default class NewGroupView extends Component{
                 }} source={this.disPlayIcon(item)} />
                 </View>
                 <View style={{
-                height: h,
-                alignItems: 'flex-start',
                 flex: 7
-            }}>
+            }}><TouchableOpacity style={{alignItems: 'flex-start',height: h,
+
+                }} onPress={this.onPressToEditGoods.bind(this,item)}>
                     <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c",textAlign: 'center', }}>{item.name}</Text>
                     <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575",  textAlign: 'center',}}>{item.unit}</Text>
                     <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                         <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
                         <Text style={{ alignItems: 'center', textAlign: 'left', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", marginLeft:10}}>库存：{item.stock}</Text>
                     </View>
+                </TouchableOpacity>
                 </View>
 
             </View>
@@ -502,7 +505,75 @@ export default class NewGroupView extends Component{
             renderSwipeView(groupProductScrollArr)
         )
     }
+    onPressToEditGoods(goodItem){
+        console.log('onPressToEditGoods890:'+JSON.stringify(goodItem))
+            this.props.navigator.push({
+                component: NewProductView,
+                props: {
+                    oldSet:this.state.groupTitle,
+                    isEditGood:true,
+                    org_goods_id:goodItem.org_goods_id
 
+                }
+
+            })
+        // if (this.state.groupTitle ==''){
+        //     Alert.alert('提示','请输入您的商品类别')
+        // }else if (this.state.groupTitle == this.state.oldSet){
+        //     console.log('onPressToEditGoods116:'+JSON.stringify(goodItem))
+        //     this.props.navigator.push({
+        //         component: NewProductView,
+        //         props: {
+        //             oldSet:this.state.oldSet,
+        //             isEditGood:true,
+        //             org_goods_id:goodItem.org_goods_id
+        //
+        //         }
+        //
+        //     })
+        //
+        //
+        // }else {
+        //     console.log('onPressToEditGoods117:'+JSON.stringify(goodItem))
+        //     this.state.UpdateSetToEditOrg_goods_id = goodItem.this.state.org_goods_id;
+        //     let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
+        //
+        //     HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetToEditProductSuccess.bind(this),
+        //         (e) => {
+        //             console.log(' error:' + e)
+        //             Alert.alert('提示','新建商品类别失败，请稍后再试。')
+        //         })
+        // }
+
+        // if (this.state.groupTitle ==''){
+        //     Alert.alert('提示','请输入您的商品类别')
+        // }else if (this.state.groupTitle == this.state.oldSet){
+        //     console.log('onPressToEditGoods116:'+JSON.stringify(goodItem))
+        //     this.props.navigator.push({
+        //         component: NewProductView,
+        //         props: {
+        //             oldSet:this.state.oldSet,
+        //             isEditGood:true,
+        //             org_goods_id:goodItem.org_goods_id
+        //
+        //         }
+        //
+        //     })
+        //
+        //
+        // }else {
+        //     console.log('onPressToEditGoods117:'+JSON.stringify(goodItem))
+        //     this.state.UpdateSetToEditOrg_goods_id = goodItem.this.state.org_goods_id;
+        //     let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
+        //
+        //     HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetToEditProductSuccess.bind(this),
+        //         (e) => {
+        //             console.log(' error:' + e)
+        //             Alert.alert('提示','新建商品类别失败，请稍后再试。')
+        //         })
+        // }
+
+    }
     saveGroup(){
         if (this.props.isCreateNewGroup){
             var groupBuyInfo = {
@@ -553,7 +624,7 @@ export default class NewGroupView extends Component{
                     id:this.state.group_buying_detail.id,
                 }
                 let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:[]}
-                console.log('dele:'+JSON.stringify(param))
+                console.log('dele1:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                     (e) => {
                         console.log(' error:' + e)
@@ -572,6 +643,7 @@ export default class NewGroupView extends Component{
                     id:this.state.group_buying_detail.id,
                 }
                 let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:[]}
+                console.log('dele2:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                     (e) => {
                         console.log(' error:' + e)

@@ -107,6 +107,19 @@ export default class NewProductView extends Component{
                 this.props.navigator.pop();
 
             }
+    randomstring(L){
+        var s= '';
+
+        var randomchar=function(){
+            var n= Math.floor(Math.random()*62);
+            if(n<10) return n; //1-10
+            if(n<36) return String.fromCharCode(n+55); //A-Z
+            return String.fromCharCode(n+61); //a-z
+        }
+        while(s.length< L) s+= randomchar();
+        return s;
+
+    }
     onGetProductDetailSuccess(response){
         console.log('onGetProductDetailSuccess148:'+JSON.stringify(response))
         this.state.goods_detail = response.data.goods_detail
@@ -379,7 +392,7 @@ export default class NewProductView extends Component{
                                         {/*imageUri =require('../../images/me_bj.jpg')*/}
                                         console.log('imageUri12:'+JSON.stringify(imageUri))
                                     }else {
-                                        imageUri = {uri: Platform.OS === 'android' ? 'file://' + item.image.path : '' + item.image.path ,isStatic: true};
+                                        imageUri = {uri: Platform.OS === 'android' ? '' + item.image.path : '' + item.image.path ,isStatic: true};
                                         {/*imageUri =require('../../images/me_bj.jpg')*/}
                                         console.log('imageUri12:'+JSON.stringify(imageUri))
                                     }
@@ -529,20 +542,39 @@ export default class NewProductView extends Component{
 
 
 
-                        var imgNum = 0;
-                        this.state.productImgArr.map((item, i) => {
-                            if (item['isHaveImg'] == true){
-                                // console.log('item'+i+':'+JSON.stringify(item))
-                            }else {
-                                if (item['path']) {
-                                    let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
-                                    param.append("image"+imgNum,file);   //这里的files就是后台需要的key
-                                    imgNum ++;
-                                    // console.log('imgNum:'+imgNum)
-                                }
-                            }
+                        if (Platform.OS === 'android'){
 
-                        });
+                            var imgNum = 0;
+                            this.state.productImgArr.map((item, i) => {
+                                if (item['isHaveImg'] == true){
+                                    // console.log('item'+i+':'+JSON.stringify(item))
+                                }else {
+                                    if (item['path']) {
+                                        let file = {uri: item['path'], type: 'multipart/form-data', name:  this.randomstring(4)+i};   //这里的key(uri和type和name)不能改变,
+                                        param.append("image"+imgNum,file);   //这里的files就是后台需要的key
+                                        imgNum ++;
+                                        // console.log('imgNum:'+imgNum)
+                                    }
+                                }
+
+                            });
+                        }else {
+                            var imgNum = 0;
+                            this.state.productImgArr.map((item, i) => {
+                                if (item['isHaveImg'] == true){
+                                    // console.log('item'+i+':'+JSON.stringify(item))
+                                }else {
+                                    if (item['path']) {
+                                        let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
+                                        param.append("image"+imgNum,file);   //这里的files就是后台需要的key
+                                        imgNum ++;
+                                        // console.log('imgNum:'+imgNum)
+                                    }
+                                }
+
+                            });
+                        }
+
                         console.log('param189:'+JSON.stringify(param))
                         this.state.isDisable = true
                         HttpRequest.uploadImage('/v2','/admin.goods.update', param, this.onUpdateProductSuccess.bind(this),
@@ -563,13 +595,23 @@ export default class NewProductView extends Component{
                         param.append('brief_desc','');
 
 
+                        if (Platform.OS === 'android'){
+                            this.state.productImgArr.map((item, i) => {
+                                if (item['path']) {
+                                    let file = {uri: item['path'], type: 'multipart/form-data', name: this.randomstring(4)+i};   //这里的key(uri和type和name)不能改变,
+                                    param.append("image"+i,file);   //这里的files就是后台需要的key
+                                }
+                            });
+                        }else {
+                            this.state.productImgArr.map((item, i) => {
+                                if (item['path']) {
+                                    let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
+                                    param.append("image"+i,file);   //这里的files就是后台需要的key
+                                }
+                            });
+                        }
 
-                        this.state.productImgArr.map((item, i) => {
-                            if (item['path']) {
-                                let file = {uri: item['path'], type: 'multipart/form-data', name: item['filename']};   //这里的key(uri和type和name)不能改变,
-                                param.append("image"+i,file);   //这里的files就是后台需要的key
-                            }
-                        });
+
                         console.log('param188:'+JSON.stringify(param))
                         this.state.isDisable = true
                         HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveProductSuccess.bind(this),
@@ -812,6 +854,7 @@ export default class NewProductView extends Component{
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'default'}
                                                         placeholder ='1kg／件'
+                                                        ref={'productTypeDetail'}
                                                         editable={true}
                                                         returnKeyType={'done'}
                                                         onChangeText={(text) => this.setState({ productTypeDetail: text })}
@@ -829,26 +872,26 @@ export default class NewProductView extends Component{
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'numeric'}
                                                         editable={true}
+                                                        ref={'productStock'}
+                                                        blurOnSubmit ={true}
+                                                        multiline={true}
                                                         returnKeyType={'done'}
                                                         onChangeText={(text) => this.setState({ productStock: text })}
                                                         value= {this.state.productStock}
+                                                        onFocus={()=>{this.textInputView = 'productStock'}}
                                              ></TextInput>
 
 
                                          </View>
                                      </View>
-                                     <View style={{marginTop:10,flexDirection: 'column', justifyContent: 'flex-start',backgroundColor: '#ffffff',height:200}}>
-                                         <View style={{height: 46, paddingLeft: 10, paddingRight: 10 ,paddingTop: 15}}>
+                                     <View style={{marginTop:10,flexDirection: 'column', justifyContent: 'flex-start',backgroundColor: '#ffffff'}}>
+                                         <View style={{ paddingLeft: 10, paddingRight: 10 ,paddingTop: 15}}>
                                              <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
                                                  详情描述:
                                              </Text>
-
-
-
                                          </View>
-                                         <View style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
-                                             <TextInput style={{
-                                                 marginLeft: 10,marginRight:10, fontSize: 16,height:100,
+                                         <TextInput style={{
+                                                marginRight:10,marginLeft:10, fontSize: 16,height:100,
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'default'}
                                                         ref={'detailInput'}
@@ -860,7 +903,7 @@ export default class NewProductView extends Component{
                                                         value= {this.state.DetailsDescription}
                                                         onFocus={()=>{this.textInputView = 'detailInput'}}
                                              ></TextInput>
-                                         </View>
+
 
                                      </View>
                                  </View>

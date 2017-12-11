@@ -62,7 +62,7 @@ export default class ProductManager extends Component{
         DeviceEventEmitter.addListener('ChangeProductManagerUI',(dic)=>{
             //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
             console.log('ChangeProductManagerUI:11')
-
+            this.state.isNoMoreData = false;
             this.fetchData();
             // let param = {pageSize:20,currentPage:1}
             //
@@ -150,9 +150,11 @@ export default class ProductManager extends Component{
     _endReached = () => {
 
         if (this.state.isNoMoreData){
-
+            console.log('_endReached1')
         }else {
             this.state.currentPage  += 1
+            console.log('_endReached2')
+            console.log('_endReached3:'+this.state.currentPage)
             // 获取数据
             this.fetchMoreData();
         }

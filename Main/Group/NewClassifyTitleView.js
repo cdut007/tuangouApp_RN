@@ -152,7 +152,7 @@ export default class NewClassifyTitleView extends Component{
                     </View>
                     <View style={{flexDirection: 'column', justifyContent: 'flex-start',flex:286}}>
                         <TextInput style={{
-                           marginRight:10, fontSize: 16,height:height-100,marginTop: 10,
+                           marginRight:10, fontSize: 16,height:height-510,marginTop: 10,
                             textAlign: 'left', color: '#1c1c1c',fontFamily:'PingFangSC-Regular'
                         }}  keyboardType={'default'}
                                    blurOnSubmit ={true}
