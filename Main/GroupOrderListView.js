@@ -351,7 +351,7 @@ export default class GroupOrderListView extends Component {
             <View style={{width:width,height:180,flexDirection:'column',justifyContent:'flex-start',backgroundColor:'white',marginTop:10}}>
                 <View style={{flex:50,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
                     <Image style={styles.classifyTypeIcon} source={this.disPlayIcon(item.icon)}></Image>
-                    <Text style={styles.classifyTitle} numberOfLines={2}>{this.disPlayClassName(item.classify_name)}</Text>
+                    <Text style={styles.classifyTitle} numberOfLines={1}>{this.disPlayClassName(item.classify_name)}</Text>
                 </View>
                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rgb(212,212,212)'}}></View>
                 <TouchableOpacity style={{flex:60}}>
@@ -635,8 +635,7 @@ const styles = StyleSheet.create({
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
         marginRight:10,
-        width:width-50
-
+        flex:1
     },
     userIcon:{
 

@@ -826,9 +826,10 @@ export default class NewProductView extends Component{
                                          </View>
                                          <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
                                          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                                             <Text style={[ { width: 95, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
-                                                 商品价格: S$
+                                             <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
+                                                 商品价格:
                                              </Text>
+                                             <Text style={{fontSize:16,color:'#1c1c1c'}}>S$</Text>
                                              <TextInput style={{
                                                  marginLeft: 0, fontSize: 16, flex: 20,
                                                  textAlign: 'left', color: '#1c1c1c',

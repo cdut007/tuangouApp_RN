@@ -199,7 +199,7 @@ export default class AddProductView extends Component{
                             }>
 
                                 <Text style={{color:'#ffffff',fontSize:30}}>+</Text>
-                                <Text style={{color:'#ffffff',fontSize:18,marginLeft:10,marginTop:5}}>上传商品</Text>
+                                <Text style={{color:'#ffffff',fontSize:18,marginLeft:10}}>上传商品</Text>
 
 
                             </View>

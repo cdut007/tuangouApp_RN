@@ -223,9 +223,8 @@ export default class ShareGroupOrderView extends Component{
                             <Text style={{fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>{ship_timeStr}</Text>
                         </View>
                         <TouchableOpacity style={{height:26,width:80,borderWidth:1,borderRadius:20,borderColor:'rgb(234,107,16)',marginRight:5,marginTop:16}} onPress={this.onSharePress.bind(this,item)}>
-                            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                                <Text style={{color:'rgb(234,107,16)',marginTop:5}}>分享接龙</Text>
-
+                            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',flex:1}}>
+                                <Text style={{color:'rgb(234,107,16)'}}>分享接龙</Text>
                             </View>
                         </TouchableOpacity>
 
