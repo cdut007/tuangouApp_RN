@@ -298,37 +298,50 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2',
     },
     classifyListTitleContainer:{
-        flex:64,
+
+        width:width-90,
+        // backgroundColor:'blue',
 
 
     },
     classifyListTitle:{
-        marginTop:6,
-        marginRight:5,
+        marginTop:10,
         color: 'black',
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
         textAlign:'left',
+        lineHeight:22
+
     },
     classifyListDescContainer:{
-        flex:72,
+
         flexDirection:'row',
         justifyContent:'flex-start',
         backgroundColor:'white',
+        marginTop:10,
+        marginRight:10,
+        width:width-100,
+        // backgroundColor:'gray'
+
 
     },
     classifyListDesc:{
-        flex:16,
+        // backgroundColor:'red',
         color: 'rgb(120,120,120)',
         fontSize:14,
         fontFamily:'PingFangSC-Regular',
         textAlign:'left',
+        marginRight:10,
+        lineHeight:20,
+        width:width-160,
 
     },
     classifyListImg:{
-        flex:2,
+
         width:50,
-        height:50
+        height:50,
+        position: 'absolute', top: 0, right: 0,bottom: 0
+
     },
 
 

@@ -286,18 +286,20 @@ export default class MyGroupBuyListView extends Component{
         return(
             <View style={{marginTop:10,backgroundColor:'white',borderRadius:6}}>
                 <View style={{flexDirection:'row',justifyContent:'flex-start',height:136,width:width-20}}>
-                    <View style={{flexDirection:'column',justifyContent:'flex-start',flex:293,paddingLeft:10}}>
+                    <View style={{flexDirection:'column',justifyContent:'flex-start',paddingLeft:10,position: 'absolute', top: 0, left: 0,bottom: 0}}>
                         <View style={styles.classifyListTitleContainer}>
-                            <Text style={styles.classifyListTitle}>{item.name}</Text>
+                            <Text style={styles.classifyListTitle} >{item.name}</Text>
                         </View>
                         <View style={styles.classifyListDescContainer}>
-                            <Text style={styles.classifyListDesc} numberOfLines={3}>{item.desc}</Text>
-                            <Image style={styles.classifyListImg} source={imageUri}></Image>
+
+                                <Text style={styles.classifyListDesc} numberOfLines={3}>{item.desc}</Text>
+                                <Image style={styles.classifyListImg} source={imageUri}></Image>
+
                         </View>
                     </View>
-                    <View style={{flex:62,flexDirection:'column',justifyContent:'flex-start'}}>
-                        <Text style={{color:jielongColor,position: 'absolute', top: 15, right: 10}}>{jielongStr}</Text>
-                        <TouchableOpacity style={{position: 'absolute', bottom: 10, right: 10}} onPress={this.onEditGroupPress.bind(this,item)}>
+                    <View style={{flexDirection:'column',justifyContent:'flex-start',width:75,position: 'absolute', top: 10, right: 10,bottom: 10}}>
+                        <Text style={{color:jielongColor,position: 'absolute', top: 0, right: 0}}>{jielongStr}</Text>
+                        <TouchableOpacity style={{position: 'absolute', bottom: 0, right: 0}} onPress={this.onEditGroupPress.bind(this,item)}>
                             <Image style={{width:30,height:30}} source={require('../../images/edit1Icon.png')}></Image>
                         </TouchableOpacity>
 
@@ -387,39 +389,50 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2',
     },
     classifyListTitleContainer:{
-        flex:64,
 
+        width:width-90,
+        // backgroundColor:'blue',
 
 
     },
     classifyListTitle:{
-        marginTop:6,
-        marginRight:5,
+        marginTop:10,
         color: 'black',
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
         textAlign:'left',
+        lineHeight:22
 
     },
     classifyListDescContainer:{
-        flex:72,
+
         flexDirection:'row',
         justifyContent:'flex-start',
         backgroundColor:'white',
+        marginTop:10,
+        marginRight:10,
+        width:width-100,
+        // backgroundColor:'gray'
+
 
     },
     classifyListDesc:{
-        flex:10,
+        // backgroundColor:'red',
         color: 'rgb(120,120,120)',
         fontSize:14,
         fontFamily:'PingFangSC-Regular',
         textAlign:'left',
-        marginRight:12
+        marginRight:10,
+        lineHeight:20,
+        width:width-160,
+
     },
     classifyListImg:{
-        flex:2,
+
         width:50,
-        height:50
+        height:50,
+        position: 'absolute', top: 0, right: 0,bottom: 0
+
     },
     list:{
 

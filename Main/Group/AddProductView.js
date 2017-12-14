@@ -118,10 +118,10 @@ export default class AddProductView extends Component{
         return(
             <TouchableOpacity onPress={this.onPressCategoryProductView.bind(this,item)}>
                 <View style={{ backgroundColor:'white',width:width,height:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
-                    <View style={{flex:100}}>
+                    <View style={{}}>
                         <Image style={{width:80,height:80,marginLeft:10}} source={this.disPlayIcon(item)}></Image>
                     </View>
-                    <View style={{flex:300,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
+                    <View style={{width:width-100,marginLeft:10,height:100,flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start'}}>
                         <Text style={{textAlign:'left',marginTop:10,fontSize:16,fontFamily:'PingFangSC-Regular'}}>
                             {item.set}
                         </Text>

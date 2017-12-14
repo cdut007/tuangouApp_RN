@@ -1379,9 +1379,9 @@ export default class NewGroupView extends Component{
         //页面标题
         var page_Str = '';
         if (this.props.isCreateNewGroup){
-            page_Str = '新建拼团';
+            page_Str = '新建接龙';
         }else {
-            page_Str = '修改拼团';
+            page_Str = '修改接龙';
         }
         //商品列表
         var groupProductArr = [];
@@ -1425,12 +1425,13 @@ export default class NewGroupView extends Component{
                     leftPress={this.back.bind(this)}
                     rightTitle={'保存'}
                     rightPress={this.saveGroup.bind(this)}/>
+
                 <View style={{}}>
                     <TouchableOpacity onPress={this.selectGroupTitle.bind(this)}>
 
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 }}>
-                        <Text style={[ { flex:1, marginRight: 10, color: '#1b1b1b', fontSize: 16,fontFamily:'PingFangSC-Regular'}]}>
+                        <Text style={[ { flex:1, marginRight: 10, color: '#1b1b1b', fontSize: 16,fontFamily:'PingFangSC-Regular'}]} numberOfLines={1}>
                             {this.state.groupTitle}
                         </Text>
                         <Image
@@ -1440,7 +1441,7 @@ export default class NewGroupView extends Component{
 
                     </View>
                     </TouchableOpacity>
-                    <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+                    <View style={{marginLeft:10,marginRight:10,height:1,backgroundColor:'rbg(219,219,219)'}}></View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start',alignItems: 'center', backgroundColor: '#ffffff', paddingLeft: 10, paddingRight: 10 }}>
                         <Text style={[ { width: 80, color: '#1b1b1b', fontSize: 16, marginRight: 0,fontFamily:'PingFangSC-Regular',}]} >
                             商品类别：
@@ -1482,7 +1483,7 @@ export default class NewGroupView extends Component{
                         </View>
 
                     </View>
-                    <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(219,219,219)'}}></View>
+                    <View style={{marginLeft:10,marginRight:10,height:0.8,backgroundColor:'rbg(213,213,219)'}}></View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 50, paddingLeft: 10, paddingRight: 10 ,}}>
                         <Text style={[ { marginRight: 10, color: '#1b1b1b', fontSize: 16,fontFamily:'PingFangSC-Regular',flex:1.3}]}>
                             预计发货时间
