@@ -821,7 +821,7 @@ export default class NewGroupView extends Component{
                 }} source={this.disPlayIcon(item)} />
                 </View>
 
-                <View style={{marginLeft:10
+                <View style={{marginLeft:10,width:width-100
             }}><TouchableOpacity style={{flexDirection:'column',alignItems: 'flex-start',height: h,
 
                 }} onPress={this.onPressToEditGoods.bind(this,item,i)}>

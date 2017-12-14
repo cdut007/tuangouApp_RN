@@ -367,7 +367,7 @@ export default class NewProductCategoryView extends Component{
 
 
                     <View style={{
-                        flex: 2
+
                     }}>
                         <Image style={{
                             resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
@@ -375,15 +375,15 @@ export default class NewProductCategoryView extends Component{
                         }} source={this.disPlayIcon(item)} />
                     </View>
                     <View style={{
-                        flex: 7
+                        width:width-100
                     }}>
                         <TouchableOpacity style={{alignItems: 'flex-start',height: h,
 
                         }} onPress={this.onPressToEditGoods.bind(this,item)}>
 
-                            <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
-                            <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.default_unit}</Text>
-                            <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                            <Text style={{ marginLeft: 10, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
+                            <Text style={{ marginLeft: 10,marginTop: 5, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.default_unit}</Text>
+                            <View style={{ alignItems: 'flex-start', flexDirection: 'row', marginLeft: 10, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                                 <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S${item.default_price}</Text>
                                 <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存：{item.default_stock} </Text>
                             </View>

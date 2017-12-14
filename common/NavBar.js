@@ -42,13 +42,13 @@ export default class NavBar extends Component{
               if(Platform.OS === 'android'){
               return (
                 <TouchableNativeFeedback onPress={onPress} style={styles.btn}>
-                  <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
+                  <Image source={name} style={{width: px2dp(44), height: px2dp(44),resizeMode:'contain'}}/>
                 </TouchableNativeFeedback>
               )
             }else{
               return (
                 <TouchableOpacity onPress={onPress} style={styles.btn}>
-                  <Image source={name} style={{width: px2dp(26), height: px2dp(26),resizeMode:'contain'}}/>
+                  <Image source={name} style={{width: px2dp(44), height: px2dp(44),resizeMode:'contain'}}/>
                 </TouchableOpacity>
               )
             }
@@ -152,11 +152,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingTop: (Platform.OS === 'ios') ? 20 : 0,
-        // paddingHorizontal: px2dp(10)
+        paddingHorizontal: px2dp(10)
     },
+
     btn: {
-      width: 34,
-      height: 34,
+      width: 44,
+      height: 44,
       justifyContent: 'center',
       alignItems: 'center'
     },

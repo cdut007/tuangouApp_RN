@@ -68,6 +68,7 @@ export default class TabView extends Component {
                         renderIcon={() => <Image source={require('../images/home_icon.png')} />}
                         renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
                         badgeText=""
+                        titleStyle={{color:'#555555'}}
                         selectedTitleStyle={styles.tabBarTintColor}
                         onPress={() => this.setState({ selectedTab: 'tab1' })}>
                         {<HomeView {...this.props} />}
@@ -75,6 +76,7 @@ export default class TabView extends Component {
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tab2'}
                         title="拼团车"
+                        titleStyle={{color:'#555555'}}
                         renderIcon={() => <Image source={require('../images/shoppingcart_icon.png')} />}
                         renderSelectedIcon={() => <Image source={require('../images/shoppingcart_icon_click.png')} />}
                         selectedTitleStyle={styles.tabBarTintColor}
@@ -84,6 +86,7 @@ export default class TabView extends Component {
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tab3'}
                         title="团长"
+                        titleStyle={{color:'#555555'}}
                         renderIcon={() => <Image source={require('../images/me_icon.png')} />}
                         renderSelectedIcon={() => <Image source={require('../images/me_icon_click.png')} />}
                         selectedTitleStyle={styles.tabBarTintColor}

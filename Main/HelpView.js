@@ -63,13 +63,19 @@ export default class HelpView extends Component {
                     title="帮助中心"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
+                <View >
                     <Text style={[styles.defaultText,{marginTop:80}]}>您有任何的问题都可以电话或微信联系客服。</Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left'}}>
-                    客服电话：400-0358-3848
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:300,}}>
+                        客服电话：400-0358-3848
                     </Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left'}}>
-                    微信：ailingo123
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:300,}}>
+                        客服微信：ILGO_SG
                     </Text>
+                </View>
+                <View>
+                    <Image style={{marginTop:60,width:150,height:150}} source={require('../images/qrCode.png')}></Image>
+                </View>
+
             </View>
         )
     }

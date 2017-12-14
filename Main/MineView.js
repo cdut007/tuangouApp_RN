@@ -134,13 +134,13 @@ export default class MineView extends Component {
         Global.role = response.data.user_profile.role
         if (Global.role =='consumer'){
 
-            // this.props.navigator.push({
-            //
-            //     component: AgentRegisteredView,
-            // })
             this.props.navigator.push({
-                component: ProductManager
+
+                component: AgentRegisteredView,
             })
+            // this.props.navigator.push({
+            //     component: ProductManager
+            // })
         }else {
 
             this.props.navigator.push({
@@ -154,13 +154,13 @@ export default class MineView extends Component {
         Global.role = response.data.user_profile.role
         if (Global.role =='consumer'){
 
-            // this.props.navigator.push({
-            //
-            //     component: AgentRegisteredView,
-            // })
             this.props.navigator.push({
-                component: MyGroupBuyListView,
+
+                component: AgentRegisteredView,
             })
+            // this.props.navigator.push({
+            //     component: MyGroupBuyListView,
+            // })
 
         }else {
 

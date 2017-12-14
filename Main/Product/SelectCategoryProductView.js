@@ -197,18 +197,18 @@ export default class SelectCategoryProductView extends Component{
         return(
             <View style={{
                 resizeMode: 'contain', alignItems: 'center', width: w, height: h,
-                justifyContent: 'center',  paddingRight: 10, flexDirection: "row", backgroundColor: 'white',
+                justifyContent: 'flex-start',  paddingRight: 10, flexDirection: "row", backgroundColor: 'white',
                 flex: 1
             }}>
 
                 <View style={{
-                    flex: 30
+                    marginLeft:10,marginRight:10,width:20,alignItems: 'center',
                 }}>
                     {this.renderCheckBox(item,groupProductScrollArr)}
 
                 </View>
                 <View style={{
-                    flex: 80
+
                 }}>
                     <Image style={{
                         resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
@@ -216,9 +216,8 @@ export default class SelectCategoryProductView extends Component{
                     }} source={this.disPlayIcon(item)} />
                 </View>
                 <View style={{
-                    height: h,
-                    alignItems: 'flex-start',
-                    flex: 265
+                    height: h,width:width-100,
+                    alignItems: 'flex-start'
                 }}>
                     <Text style={{ marginLeft: 10, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
                     <Text style={{ marginLeft: 10, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.default_unit}</Text>
@@ -382,29 +381,30 @@ export default class SelectCategoryProductView extends Component{
 
                 <View style={{justifyContent: 'flex-start',
                     alignItems: 'center',
-                    backgroundColor: '#ffffff',flex:1}}>
+                    backgroundColor: '#ffffff'}}>
                     <ScrollView
                         keyboardDismissMode='on-drag'
                         keyboardShouldPersistTaps={false}
-                        style={{width:width,height:height-180,backgroundColor:'rgb(242,242,242)'}}>
+                        style={{width:width,height:height-120,backgroundColor:'rgb(242,242,242)'}}>
 
                         {this.renderProductScrollView(this.state.groupProductScrollArr)}
                     </ScrollView>
-                    <View style={{width:width,height:50,position:'absolute',bottom:0,backgroundColor:'white',flexDirection:'row',justifyContent:'flex-start'}}>
-                        <View style={{flex:137.5,backgroundColor:'white',flexDirection:'row',alignItems:'center',justifyContent:'flex-start'}}>
-                            {this.renderAllCheckBox(this.state.groupProductScrollArr)}
-                            <Text style={{color:'black',fontFamily:'PingFangSC-Regular',fontSize:14,textAlign:'center',marginLeft:10}}>全选</Text>
 
-                        </View>
-                        <View style={{flex:137.5,backgroundColor:'white',flexDirection:'row',alignItems:'center'}}>
-                            <Text style={{color:'rgb(117,117,117)',fontSize:14,fontFamily:'PingFangSC-Regular',textAlign:'center'}}>已选：{this.state.selectedNum}件</Text>
-                        </View>
-                        <TouchableOpacity style={{flex:100,backgroundColor:'rgb(234,107,16)',justifyContent:'center',alignItems:'center'}} onPress={this.onSelectProductPress.bind(this)}>
-                           <Text style={{color:'white',fontSize:18,fontFamily:'PingFang-SC-Medium',textAlign:'center'}}>确认</Text>
-                        </TouchableOpacity>
+
+
+                </View>
+                <View style={{width:width,height:50,position:'absolute',bottom:0,backgroundColor:'white',flexDirection:'row',justifyContent:'flex-start'}}>
+                    <View style={{flex:137.5,backgroundColor:'white',flexDirection:'row',alignItems:'center',justifyContent:'flex-start'}}>
+                        {this.renderAllCheckBox(this.state.groupProductScrollArr)}
+                        <Text style={{color:'black',fontFamily:'PingFangSC-Regular',fontSize:14,textAlign:'center',marginLeft:10}}>全选</Text>
 
                     </View>
-
+                    <View style={{flex:137.5,backgroundColor:'white',flexDirection:'row',alignItems:'center'}}>
+                        <Text style={{color:'rgb(117,117,117)',fontSize:14,fontFamily:'PingFangSC-Regular',textAlign:'center'}}>已选：{this.state.selectedNum}件</Text>
+                    </View>
+                    <TouchableOpacity style={{flex:100,backgroundColor:'rgb(234,107,16)',justifyContent:'center',alignItems:'center'}} onPress={this.onSelectProductPress.bind(this)}>
+                        <Text style={{color:'white',fontSize:18,fontFamily:'PingFang-SC-Medium',textAlign:'center'}}>确认</Text>
+                    </TouchableOpacity>
 
                 </View>
 
