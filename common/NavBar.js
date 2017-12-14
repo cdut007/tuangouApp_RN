@@ -152,11 +152,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingTop: (Platform.OS === 'ios') ? 20 : 0,
-        paddingHorizontal: px2dp(10)
+        // paddingHorizontal: px2dp(10)
     },
     btn: {
-      width: 40,
-      height: 40,
+      width: 34,
+      height: 34,
       justifyContent: 'center',
       alignItems: 'center'
     },

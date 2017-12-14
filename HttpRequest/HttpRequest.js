@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
 
-var isTestDevlopment = true;
+var isTestDevlopment = false;
 var httpToken = ''
 var Global = require('../common/globals');
 // const apiAddr = 'http://47.88.139.113:3000/api/v1'

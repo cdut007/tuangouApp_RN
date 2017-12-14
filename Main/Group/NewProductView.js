@@ -817,7 +817,7 @@ export default class NewProductView extends Component{
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'default'}
                                                         editable={true}
-
+                                                        underlineColorAndroid='transparent'
                                                         onChangeText={(text) => this.setState({ productName: text })}
                                                         value= {this.state.productName}
                                                         returnKeyType={'done'}
@@ -835,7 +835,9 @@ export default class NewProductView extends Component{
                                              }}  keyboardType={'numeric'}
                                                         placeholder ='0.00'
                                                         editable={true}
+                                                        underlineColorAndroid='transparent'
                                                         returnKeyType={'done'}
+                                                        maxLength={6}
                                                         onChangeText={(text) => this.setState({ productPrice: text })}
                                                         value= {this.state.productPrice}
                                              ></TextInput>
@@ -854,8 +856,10 @@ export default class NewProductView extends Component{
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'default'}
                                                         placeholder ='1kg／件'
+                                                        underlineColorAndroid='transparent'
                                                         ref={'productTypeDetail'}
                                                         editable={true}
+                                                        maxLength={15}
                                                         returnKeyType={'done'}
                                                         onChangeText={(text) => this.setState({ productTypeDetail: text })}
                                                         value= {this.state.productTypeDetail}
@@ -867,13 +871,15 @@ export default class NewProductView extends Component{
                                              <Text style={[ { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 16, }]}>
                                                  商品库存:
                                              </Text>
-                                             <TextInput style={{
+                                             <TextInput style={{paddingTop:10,
                                                  marginLeft: 0, fontSize: 16, flex: 20,
                                                  textAlign: 'left', color: '#1c1c1c',
                                              }}  keyboardType={'numeric'}
                                                         editable={true}
                                                         ref={'productStock'}
                                                         blurOnSubmit ={true}
+                                                        maxLength={4}
+                                                        underlineColorAndroid='transparent'
                                                         multiline={true}
                                                         returnKeyType={'done'}
                                                         onChangeText={(text) => this.setState({ productStock: text })}
@@ -898,6 +904,7 @@ export default class NewProductView extends Component{
                                                         blurOnSubmit ={true}
                                                         multiline={true}
                                                         editable={true}
+                                                    underlineColorAndroid='transparent'
                                                         returnKeyType={'done'}
                                                         onChangeText={(text) => this.setState({ DetailsDescription: text })}
                                                         value= {this.state.DetailsDescription}

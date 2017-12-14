@@ -13,6 +13,8 @@ import Dimensions from 'Dimensions';
 import HttpRequest from '../../HttpRequest/HttpRequest';
 import CheckBox from 'react-native-checkbox'
 import moment from 'moment';
+import {CachedImage} from "react-native-img-cache";
+import AgentRegisteredView from '../AgentRegisteredView';
 var  WeChat = require('react-native-wechat');
 var Global = require('../../common/globals');
 
@@ -33,7 +35,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
 
-var  test = true;
+var  test = false;
 
 
 export default class ShareGroupOrderView extends Component{
@@ -44,7 +46,8 @@ export default class ShareGroupOrderView extends Component{
         var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
             dataSource:ds,
-            data:[]
+            data:[],
+            agent_url:''
         }
         if (test){
             var pos = Global.agent_url.indexOf("?");
@@ -79,12 +82,13 @@ export default class ShareGroupOrderView extends Component{
         //             Alert.alert('提示','新建商品类别失败，请稍后再试。')
         //         })
         // }
-            let param = {}
-        HttpRequest.get('/v2','/api.merchant.share.jielong', param, this.onGetShareJieLongSuccess.bind(this),
-            (e) => {
-                console.log(' error:' + e)
-                Alert.alert('提示','获取分享接龙列表失败，请稍后再试。')
-            })
+
+
+                HttpRequest.get('/v2','/api.user.info', {}, this.onGetUserInfoSuccess.bind(this),
+                    (e) => {
+                        console.log(' usererror:' + e)
+                    })
+
 
 
     }
@@ -101,7 +105,19 @@ export default class ShareGroupOrderView extends Component{
             return null;
         }
     }
+    onGetUserInfoSuccess(response){
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.role = response.data.user_profile.role
+        let param = {}
+        HttpRequest.get('/v2','/api.merchant.share.jielong', param, this.onGetShareJieLongSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+                Alert.alert('提示','获取分享接龙列表失败，请稍后再试。')
+            })
+    }
     onGetShareJieLongSuccess(response){
+
         console.log('onGetShareJieLongSuccess:'+JSON.stringify(response))
         if (response.code == 1){
             console.log('onGetShareJieLongSuccess12')
@@ -118,50 +134,57 @@ export default class ShareGroupOrderView extends Component{
 
     }
     onSharePress(dataItem){
-        var  thumbImageStr = ''
-        if (dataItem.goods_image == null){
+
+        if (Global.role =='consumer'){
+
+            this.props.navigator.push({
+
+                component: AgentRegisteredView,
+            })
 
         }else {
-            thumbImageStr = dataItem.goods_image
-        }
-        console.log('onSharePress11'+JSON.stringify(dataItem))
-        if (this.state.haveGroup_info){
-            WeChat.isWXAppInstalled()
-                .then((isInstalled) => {
-                    if (isInstalled){
-                        WeChat.shareToSession({
-                            type:'news',
-                            title:dataItem.classify_name,
-                            description:'接龙详情' ,
-                            webpageUrl:this.state.agent_url,
-                            thumbImage: thumbImageStr,
-                        }).cache((error) =>{
-                            ToastShort(error.message);
-                        });
-                    }else {
-                        ToastShort('没有安装微信软件，请您安装微信之后再试');
 
-                    }
-                });
-        }else {
-            WeChat.isWXAppInstalled()
-                .then((isInstalled) => {
-                    if (isInstalled){
-                        WeChat.shareToSession({
-                            type:'news',
-                            title:dataItem.classify_name,
-                            description:'' ,
-                            webpageUrl:this.state.agent_url,
-                            thumbImage: thumbImageStr,
-                        }).cache((error) =>{
-                            ToastShort(error.message);
-                        });
-                    }else {
-                        ToastShort('没有安装微信软件，请您安装微信之后再试');
+            var  thumbImageStr = ''
+            var name = '';
+            var desc = '';
+            if (dataItem.goods_image == null){
 
-                    }
-                });
+            }else {
+                thumbImageStr = dataItem.goods_image
+            }
+            if (dataItem.classify_name == null){
+
+            }else {
+                name = dataItem.classify_name
+            }
+            if (dataItem.desc == null){
+
+            }else {
+                desc = dataItem.desc
+            }
+
+            console.log('onSharePress11'+JSON.stringify(dataItem))
+            console.log('onSharePress12'+JSON.stringify(thumbImageStr))
+                WeChat.isWXAppInstalled()
+                    .then((isInstalled) => {
+                        if (isInstalled){
+                            WeChat.shareToSession({
+                                type:'news',
+                                title:name,
+                                description:desc ,
+                                webpageUrl:this.state.agent_url,
+                                thumbImage:Global.headimgurl,
+                            }).cache((error) =>{
+                                ToastShort(error.message);
+                            });
+                        }else {
+                            ToastShort('没有安装微信软件，请您安装微信之后再试');
+
+                        }
+                    });
+
         }
+
 
 
 
@@ -182,7 +205,7 @@ export default class ShareGroupOrderView extends Component{
     }
     renderItem = (item, sectionID, rowID) => {
         var ship_timeStr = moment(item.ship_time).format("预计Y年M"+'月'+"D"+'日发货');
-        var end_timeStr = moment(item.end_time).format("截团Y年M"+'月'+"D"+'日h点m');
+        var end_timeStr = moment(item.end_time).format("截团Y年M"+'月'+"D"+'日h点m分');
         // var end_time = moment(groupItem.ship_time).format("预计Y年M"+'月'+"D"+'号发货');
 
         return(
@@ -190,18 +213,18 @@ export default class ShareGroupOrderView extends Component{
                 <View style={{flex:90}}>
                     <Image style={{marginTop:10,marginLeft:10,width:80,height:80}} source={this.disPlayIcon(item)}></Image>
                 </View>
-                <View style={{flex:285,flexDirection:'column',justifyContent:'flex-start',}}>
+                <View style={{flex:285,flexDirection:'column',justifyContent:'flex-start',marginLeft:15}}>
                     <View style={{flex:1}}>
-                        <Text style={{marginTop:10}}>{this.disPlayClassName(item.classify_name)}</Text>
+                        <Text style={{marginTop:10,marginRight:10,textAlign:'left',lineHeight:20}} numberOfLines={2}>{this.disPlayClassName(item.classify_name)}</Text>
                     </View>
                     <View style={{flex:1,flexDirection:'row',justifyContent:'flex-start'}}>
                         <View style={{flex:20}}>
-                            <Text style={{marginTop:5,fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>{end_timeStr}</Text>
+                            <Text style={{marginTop:8,fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>{end_timeStr}</Text>
                             <Text style={{fontSize:12,fontFamily:'PingFangSC-Regular',color:'rgb(117,117,117)'}}>{ship_timeStr}</Text>
                         </View>
-                        <TouchableOpacity style={{flex:8,borderWidth:1,borderRadius:20,borderColor:'rgb(234,107,16)',marginRight:5,marginTop:8,marginBottom:8}} onPress={this.onSharePress.bind(this,item)}>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style={{color:'rgb(234,107,16)',marginTop:8}}>分享接龙</Text>
+                        <TouchableOpacity style={{height:26,width:80,borderWidth:1,borderRadius:20,borderColor:'rgb(234,107,16)',marginRight:5,marginTop:16}} onPress={this.onSharePress.bind(this,item)}>
+                            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                                <Text style={{color:'rgb(234,107,16)',marginTop:5}}>分享接龙</Text>
 
                             </View>
                         </TouchableOpacity>

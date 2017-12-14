@@ -20,7 +20,8 @@ import {
     Image,
     TextInput,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter,//引入监听事件
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -64,13 +65,23 @@ export default class NoticeOrderView extends Component{
         this.props.navigator.pop();
     }
     componentWillMount(){
-        let param = { pageSize: '20',currentPage:'1'}
+        let param = { pageSize: '50',currentPage:'1'}
 
         HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetFirstNoticeOrderSuccess.bind(this),
             (e) => {
                 console.log(' error:' + e);
                 Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
             })
+        DeviceEventEmitter.addListener('UpdateNoticeOrder',(dic)=>{
+            //刷新UI
+            let param = { pageSize: '50',currentPage:'1'}
+
+            HttpRequest.get('/v2','/api.merchant.group_buying.list', param, this.onGetFirstNoticeOrderSuccess.bind(this),
+                (e) => {
+                    console.log(' error:' + e);
+                    Alert.alert('提示','获取团购用户列表失败，请稍后再试。')
+                })
+        });
 
     }
     onGetFirstNoticeOrderSuccess(response){
@@ -128,7 +139,7 @@ export default class NoticeOrderView extends Component{
         HttpRequest.post('/v2','/api.merchant.notice.take_goods', paramBody, this.onSendNoticeSuccess.bind(this),
             (e) => {
 
-                Alert.alert('提示','获取团购列表失败，请稍后再试。')
+                // Alert.alert('提示',JSON.stringify(e))
 
             })
     }
@@ -240,12 +251,12 @@ export default class NoticeOrderView extends Component{
             }
             displayGroupArr.push(<View style={{backgroundColor:'#ffffff',height:150,width:width,marginTop:10}}>
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',flex:3.5,paddingLeft:10}}>
-                    <Text style={{width:width-40,marginTop:5}}>{groupItem.desc}</Text>
+                    <Text style={{width:width-40,marginTop:5}} numberOfLines={2}>{groupItem.desc}</Text>
 
                 </View>
                 <View style={{flex:8}}>
                     <ScrollView
-                                contentContainerStyle={{width:75*productImgCount,height:70}}
+                                contentContainerStyle={{width:80*productImgCount,height:70}}
                                 style={{width:width,height:90}}
                                 keyboardDismissMode='on-drag'
                                 keyboardShouldPersistTaps={false}

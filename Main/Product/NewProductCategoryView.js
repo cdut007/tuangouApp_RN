@@ -135,6 +135,7 @@ export default class NewProductCategoryView extends Component{
         if (this.state.groupTitle ==''){
             Alert.alert('提示','请输入您的商品类别')
         }else if (this.state.groupTitle == this.state.oldSet){
+
             this.props.navigator.push({
                 component: NewProductView,
                 props: {
@@ -179,7 +180,7 @@ export default class NewProductCategoryView extends Component{
 
         }else {
             console.log('onPressToEditGoods117:'+JSON.stringify(goodItem))
-            this.state.UpdateSetToEditOrg_goods_id = goodItem.this.state.org_goods_id;
+            this.state.UpdateSetToEditOrg_goods_id = goodItem.org_goods_id;
             let param = { new_set: this.state.groupTitle,old_set:this.state.oldSet }
 
             HttpRequest.post('/v2','/admin.goods.set.update', param, this.onUpdateSetToEditProductSuccess.bind(this),
@@ -207,6 +208,7 @@ export default class NewProductCategoryView extends Component{
         console.log('onUpdateSetSuccess112:'+JSON.stringify(response))
         if (response.code ==1){
             this.state.oldSet = this.state.groupTitle;
+            DeviceEventEmitter.emit('ChangeProductManagerUI');
             this.props.navigator.push({
                 component: NewProductView,
                 props: {
@@ -223,6 +225,7 @@ export default class NewProductCategoryView extends Component{
         console.log('onUpdateSetSuccess112:'+JSON.stringify(response))
         if (response.code ==1){
             this.state.oldSet = this.state.groupTitle;
+            DeviceEventEmitter.emit('ChangeProductManagerUI');
             this.props.navigator.push({
                 component: NewProductView,
                 props: {
@@ -358,7 +361,7 @@ export default class NewProductCategoryView extends Component{
                           buttonWidth={60}>
                 <View style={{
                     resizeMode: 'contain', alignItems: 'center', width: w, height: h,
-                    justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+                    justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#ffffff',
                     flex: 1
                 }}>
 
@@ -385,9 +388,11 @@ export default class NewProductCategoryView extends Component{
                                 <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存：{item.default_stock} </Text>
                             </View>
                         </TouchableOpacity>
+
                     </View>
 
                 </View>
+                <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rgb(212,212,212)'}}></View>
 
             </Swipeout>
         )
@@ -489,7 +494,7 @@ export default class NewProductCategoryView extends Component{
                                    placeholder ='如：水果类、蔬菜类、肉类...'
                                    editable={true}
                                    returnKeyType={'done'}
-
+                                   underlineColorAndroid='transparent'
                                    onChangeText={(text) => this.setState({ groupTitle: text })}
                                    value= {this.state.groupTitle}
                         ></TextInput>
@@ -551,7 +556,7 @@ const styles = StyleSheet.create({
     toolsItem: {
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:'#f2f2f2'
+        backgroundColor:'#ffffff'
 
     },
 

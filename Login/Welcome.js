@@ -191,18 +191,20 @@ componentDidMount() {
         })
 
         Global.token = response.data.token
-        HttpRequest.get('/v1','/user', {}, this.onGetUserInfoSuccess.bind(this),
+        HttpRequest.get('/v2','/api.user.info', {}, this.onGetUserInfoSuccess.bind(this),
             (e) => {
                 console.log(' usererror:' + e)
             })
 
 
     }
+
     onGetUserInfoSuccess(response) {
         Global.user_profile = response.data.user_profile
         Global.agent_url = response.data.user_profile.agent_url
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
+        Global.role = response.data.user_profile.role
         console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
         this.props.navigator.resetTo({
             component: TabView,

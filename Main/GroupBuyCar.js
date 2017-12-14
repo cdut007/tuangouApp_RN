@@ -217,7 +217,7 @@ export default class GroupBuyCar extends Component {
             flex: 1
         }}>
             <View style={{
-                flex: 1, marginLeft: 20, marginRight: 0, alignItems: 'center',
+                flex: 1, marginLeft: 10, marginRight: 0, alignItems: 'center',
                 justifyContent: 'center',
             }}>
                 {this.renderCheckBox(this.state.gbDetail)}
@@ -226,12 +226,12 @@ export default class GroupBuyCar extends Component {
             <View style={{
                 flex: 1
             }}>
-                <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 14, color: "#1c1c1c", }}>全选</Text>
+                <Text style={{ marginLeft:8,alignItems: 'center', justifyContent: 'center', fontSize: 14, color: "#1c1c1c",width:40 }}>全选</Text>
             </View>
             <View style={{
-                flex: 6
+                flex: 6,marginLeft:8,
             }}>
-                <Text style={{ margin: 10, alignItems: 'center', justifyContent: 'flex-start', fontSize: 14, color: "#757575", }}>合计：{selectedCount}件商品</Text>
+                <Text style={{ textAlign:'center',margin: 10, alignItems: 'center', justifyContent: 'flex-start', fontSize: 14, color: "#757575", }}>合计：{selectedCount}件商品</Text>
             </View>
             <View style={[{ flex: 4, alignItems: 'flex-end', justifyContent: 'flex-end', }]}>
                 <CommitButton title={'开始拼团'} onPress={this.onGroupBuyNow.bind(this)}>
@@ -324,28 +324,21 @@ export default class GroupBuyCar extends Component {
         ]
 
         return (
-            <Swipeout right={swipeoutBtns}
-                      autoClose={true}
-                      sensitivity={5}
-                      buttonWidth={100}
 
-
-            >
                 <View style={{
             resizeMode: 'contain', alignItems: 'center', width: w, height: h,
-            justifyContent: 'center', paddingLeft: 10, paddingRight: 10, flexDirection: "row", backgroundColor: '#f7f7f7',
+            justifyContent: 'center', flexDirection: "row", backgroundColor: '#f7f7f7',
             flex: 1
         }}>
                     <View style={{
-                marginLeft: 5,
-                flex: 1, marginRight: 10, alignItems: 'center',
+                width:20, marginRight: 10, alignItems: 'center',marginLeft: 10,
                 justifyContent: 'center',
             }}>
                         {this.renderCheckBox(item)}
                     </View>
 
                     <View style={{
-                flex: 2
+
             }}>
                         <Image style={{
                     resizeMode: 'contain', alignItems: 'center', width: 80, height: 80,
@@ -353,20 +346,20 @@ export default class GroupBuyCar extends Component {
                 }} source={{ uri: item.image }} />
                     </View>
                     <View style={{
-                height: h,
+                height: h,width:width-120,
                 alignItems: 'flex-start',
-                flex: 6
+
             }}>
-                        <Text style={{ marginLeft: 30, marginTop: 10, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
-                        <Text style={{ marginLeft: 30, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.unit}</Text>
-                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 30, paddingBottom: 10, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                        <Text style={{ marginLeft: 10, marginTop: 20, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c", }}>{item.name}</Text>
+                        <Text style={{ marginLeft: 10,marginTop: 5, alignItems: 'center', justifyContent: 'center', fontSize: 12, color: "#757575", }}>{item.unit}</Text>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 15, paddingBottom: 15, position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                             <Text style={{ alignItems: 'center', justifyContent: 'center', fontSize: 16, color: "#fb7210", }}>S$ {item.price}</Text>
-                            <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>
+                            <Text style={{ alignItems: 'center', textAlign: 'right', flex: 9, marginRight:10,justifyContent: 'center', fontSize: 12, color: "#757575", }}>库存 {item.stock}</Text>
                         </View>
                     </View>
 
                 </View>
-            </Swipeout>
+
 
        )
 
@@ -422,7 +415,7 @@ export default class GroupBuyCar extends Component {
                                 </View>
                             )
                             return (
-                                <View style={{ width: w - 10, height: h }}>{render}</View>
+                                <View style={{ width: w , height: h }}>{render}</View>
                             )
                         })
                     }

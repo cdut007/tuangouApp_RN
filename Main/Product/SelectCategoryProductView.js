@@ -315,14 +315,17 @@ export default class SelectCategoryProductView extends Component{
                 });
             }
         })
-        let param = { groupbuying_info: this.props.groupbuying_info,del_goods:[],groupbuying_products:groupProductsArr}
+        let param = { isCreateNewGroup: this.props.isCreateNewGroup,addGroupbuying_products:groupProductsArr}
 
 
-        HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
-            (e) => {
-                console.log(' error:' + e)
-                Alert.alert('提示','新建商品类别失败，请稍后再试。')
-            })
+        DeviceEventEmitter.emit('AddGroupbuying_products',param);
+        DeviceEventEmitter.emit('GetHaveSelectArr',this.state.selectedNum);
+        this.back()
+        // HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
+        //     (e) => {
+        //         console.log(' error:' + e)
+        //         Alert.alert('提示','新建商品类别失败，请稍后再试。')
+        //     })
 
     }
     onUpdateGroupBuyingSuccess(response){

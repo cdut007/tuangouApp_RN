@@ -298,6 +298,20 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
+		60E43BA31FDFA852009EC1B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7988B34D6A1C4FD58D15B0AD /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
+			remoteInfo = RCTWeChatTests;
+		};
+		60E43BA71FDFA852009EC1B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 514A3EBB1EEA9617009F3A35 /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
+			remoteInfo = RCTWeChatTests;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -590,6 +604,7 @@
 			isa = PBXGroup;
 			children = (
 				514A3EA51EEA93AB009F3A35 /* libRCTWeChat.a */,
+				60E43BA41FDFA852009EC1B0 /* RCTWeChatTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -620,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				514A3EC01EEA9617009F3A35 /* libRCTWeChat.a */,
+				60E43BA81FDFA852009EC1B0 /* RCTWeChatTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1178,6 +1194,20 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 60CACA0E1F29992400CD8EE8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60E43BA41FDFA852009EC1B0 /* RCTWeChatTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTWeChatTests.xctest;
+			remoteRef = 60E43BA31FDFA852009EC1B0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60E43BA81FDFA852009EC1B0 /* RCTWeChatTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTWeChatTests.xctest;
+			remoteRef = 60E43BA71FDFA852009EC1B0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {

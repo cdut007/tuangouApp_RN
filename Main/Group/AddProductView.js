@@ -8,6 +8,7 @@ import Dimensions from 'Dimensions';
 import NewGroupView from './NewGroupView'
 import NewProductView from './NewProductView'
 import HttpRequest from '../../HttpRequest/HttpRequest';
+import  ProductManager from '../Product/ProductManager'
 import SelectCategoryProductView from '../Product/SelectCategoryProductView'
 
 import {
@@ -34,6 +35,7 @@ export default class AddProductView extends Component{
             titleName:'',
             groupDetail:'',
             groupProductScrollArr:[],
+            hasSelectNum:0
 
 
         }
@@ -45,8 +47,7 @@ export default class AddProductView extends Component{
     }
 
     componentDidMount() {
-        if (this.state.isHaveProductInGroup){
-            this.state.titleName ='选择商品';
+
 
             let param = {}
 
@@ -55,10 +56,7 @@ export default class AddProductView extends Component{
                     console.log(' error:' + e)
                     Alert.alert('提示','获取接龙详情失败，请稍后再试。')
                 })
-        }else {
-            this.state.titleName='添加商品'
 
-        }
 
 
         DeviceEventEmitter.addListener('GetProductIdArr',(dic)=>{
@@ -66,10 +64,26 @@ export default class AddProductView extends Component{
             console.log('GetClassifyId12'+dic);
             this.state.classify_Id = dic;
         });
+        DeviceEventEmitter.addListener('GetHaveSelectArr',(dic)=>{
+            //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
+            console.log('GetHaveSelectArr55'+dic);
+            this.state.hasSelectNum =this.state.hasSelectNum+parseInt(dic) ;
+
+            this.setState({ ...this.state });
+
+        });
 
     }
     onGetGoodsSetListSuccess(response){
         console.log('onGetGoodsSetListSuccess12:'+JSON.stringify(response))
+        var groupArr =response.data.set_list;
+        if (groupArr.length >0){
+            this.state.isHaveProductInGroup = true
+            this.state.titleName ='选择商品';
+        }else {
+            this.state.isHaveProductInGroup = false
+            this.state.titleName='添加商品'
+        }
         this.setState({
             groupProductScrollArr:response.data.set_list
         })
@@ -77,11 +91,13 @@ export default class AddProductView extends Component{
     }
 
     onPressCategoryProductView(item){
+        console.log('onPressCategoryProductView124:'+JSON.stringify(this.props.groupbuying_info))
         this.props.navigator.push({
             component: SelectCategoryProductView,
             props:{
                 categoryItem:item,
-                groupbuying_info:this.props.groupbuying_info
+                groupbuying_info:this.props.groupbuying_info,
+                isCreateNewGroup:this.props.isCreateNewGroup
             }
         })
     }
@@ -156,7 +172,14 @@ export default class AddProductView extends Component{
                 <ScrollView
                     keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={false}
-                    style={{width:width,height:height-380}}>
+                    style={{width:width,height:height-350}}
+
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{width:width,height:groupProductArr.length *118}}
+
+                >
+
 
                     {this.renderProductScrollView(groupProductArr)}
                 </ScrollView>
@@ -166,7 +189,7 @@ export default class AddProductView extends Component{
             return (
                 <View style={{flexDirection:'row',justifyContent: 'center',alignItems:'center'}}>
                     <View style={{flexDirection:'column',justifyContent: 'center',alignItems:'center',height:80,width:width-160,marginTop:height/3}}>
-                        <Text style={{color:'rgb(193,193,193)',textAlign:'center',fontSize:14,fontFamily:'PingFangSC-Regular'}}>
+                        <Text style={{color:'rgb(193,193,193)',textAlign:'center',fontSize:14,fontFamily:'PingFangSC-Regular'}} numberOfLines={1}>
                             还未上传任何商品，请先上传商品
                         </Text>
                         <View style={{height:40,width:width-240,backgroundColor:'rgb(234,107,16)',marginTop:10,borderRadius:4}}>
@@ -189,6 +212,11 @@ export default class AddProductView extends Component{
             )
         }
     }
+    OnNewProductPress(){
+        this.props.navigator.push({
+            component: ProductManager,
+        })
+    }
     render() {
 
 
@@ -198,7 +226,8 @@ export default class AddProductView extends Component{
                     <NavBar
                         title={this.state.titleName}
                         leftIcon={require('../../images/back.png')}
-                        leftPress={this.back.bind(this)} />
+                        leftPress={this.back.bind(this)}
+                        rightTitle={'已选('+this.state.hasSelectNum+')'}/>
                     {this.renderAddProductContent()}
 
 

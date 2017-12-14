@@ -36,6 +36,10 @@ export default class ClassifyListView extends Component{
 
 
         }
+        this.state.classify_list.map((subitem, i) => {
+            if (subitem)
+            subitem.selected = false;
+        })
 
     }
 
@@ -72,7 +76,7 @@ export default class ClassifyListView extends Component{
     onGetClassifyListSuccess(response){
         console.log('onGetClassifyListSuccess:'+JSON.stringify(response))
 
-            console.log('onGetClassifyListSuccess12')
+            console.log('onGetClassifyListSuccess1')
         response.data.classify_list.map((item, i) => {
             if (item.id == this.props.classify_Id){
                 item.selected = true;
@@ -180,6 +184,14 @@ export default class ClassifyListView extends Component{
                     })
                     item.selected = true;
                     this.state.selectedItem = item;
+                    var valItem = {selectedItem:this.state.selectedItem,};
+
+                    console.log('selectedItem'+JSON.stringify(valItem))
+                    DeviceEventEmitter.emit('GetClassifyId',valItem);
+
+                    if( this.props.navigator ){
+                        this.props.navigator.pop();
+                    }
                 }else {
 
                 }
@@ -201,10 +213,10 @@ export default class ClassifyListView extends Component{
                     <View style={{flexDirection:'row',justifyContent:'flex-start',height:136,width:width-20}}>
                         <View style={{flexDirection:'column',justifyContent:'flex-start',flex:293,paddingLeft:10}}>
                             <View style={styles.classifyListTitleContainer}>
-                                <Text style={styles.classifyListTitle}>{classItem.name}</Text>
+                                <Text style={styles.classifyListTitle} numberOfLines={2}>{classItem.name}</Text>
                             </View>
                             <View style={styles.classifyListDescContainer}>
-                                <Text style={styles.classifyListDesc}>{classItem.desc}</Text>
+                                <Text style={styles.classifyListDesc} numberOfLines={4}>{classItem.desc}</Text>
                                 <Image style={styles.classifyListImg} source={this.disPlayIcon(classItem)}></Image>
                             </View>
                         </View>
@@ -306,11 +318,12 @@ const styles = StyleSheet.create({
 
     },
     classifyListDesc:{
-        flex:10,
+        flex:16,
         color: 'rgb(120,120,120)',
         fontSize:14,
         fontFamily:'PingFangSC-Regular',
         textAlign:'left',
+
     },
     classifyListImg:{
         flex:2,

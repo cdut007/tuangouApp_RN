@@ -73,6 +73,14 @@ export default class NewClassifyTitleView extends Component{
 
 
     saveClassifyTitle(){
+        if (this.state.classify_title == ''){
+            Alert.alert('提示','接龙标题不可为空。')
+            return
+        }
+        if (this.state.classify_desc == ''){
+            Alert.alert('提示','接龙描述不可为空。')
+            return
+        }
         if (this.props.isCreateNewClassify){
             let param = {name:this.state.classify_title,desc:this.state.classify_desc}
 
@@ -132,7 +140,10 @@ export default class NewClassifyTitleView extends Component{
                         }}  keyboardType={'default'}
                                    editable={true}
                                    placeholder ='请输入接龙标题'
+                                   underlineColorAndroid='transparent'
                                    returnKeyType={'done'}
+                                   maxLength={26}
+                                   numberOfLines={2}
                                    onChangeText={(text) => this.setState({ classify_title: text })}
                                    value= {this.state.classify_title}
                         ></TextInput>
@@ -144,7 +155,7 @@ export default class NewClassifyTitleView extends Component{
                 <View style={{flexDirection: 'row', justifyContent: 'flex-start',backgroundColor: '#ffffff',height:200}}>
                     <View style={{flex:79, paddingLeft: 10,paddingTop: 15}}>
                         <Text style={[ { width: 70, color: '#1b1b1b', fontSize: 16, }]}>
-                            商品描述:
+                            接龙描述:
                         </Text>
 
 
@@ -158,8 +169,11 @@ export default class NewClassifyTitleView extends Component{
                                    blurOnSubmit ={true}
                                    multiline={true}
                                    editable={true}
-                                   placeholder ='马来西亚彭亨猫山王，A级品榴莲开抢啦！平台下单满22盒送货，果园统一新鲜采摘'
+                                   numberOfLines={4}
+                                   underlineColorAndroid='transparent'
+                                   placeholder ='请输入对本次接龙主要商品的描述'
                                    returnKeyType={'done'}
+                                   maxLength={40}
                                    onChangeText={(text) => this.setState({ classify_desc: text })}
                                    value= {this.state.classify_desc}
                         ></TextInput>

@@ -54,9 +54,14 @@ export default class GroupOrderListView extends Component {
             orders: [],
             classifytotalNum :0,
             haveDoneOrder:true,
-            isRefreshing:false,
+
             dataSource:ds,
             doneData:[],
+            dataSourceArr:[],
+            isRefreshing:false,
+            isNoMoreData: false,
+            cachedData:[],
+            currentPage:1,
         }
     }
 
@@ -82,17 +87,59 @@ export default class GroupOrderListView extends Component {
         // this.setState({
         //     dataSource: this.state.dataSource.cloneWithRows(rowData)
         // });
-
-            let param = { }
-
-            HttpRequest.get('/v2','/api.merchant.check.jielong.done', param, this.onGetDoneListSuccess.bind(this),
-                (e) => {
-                    console.log(' error:' + e)
-                    Alert.alert('提示','获取团购列表失败，请稍后再试。')
-                })
+        this.fetchData();
 
 
 
+
+    }
+    fetchData() {
+
+
+        this.state.currentPage = 1;
+
+        let param = {pageSize:10,currentPage:this.state.currentPage}
+
+        HttpRequest.get('/v2','/api.merchant.check.jielong.done', param, this.onGetDoneListSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
+            })
+
+    }
+    fetchMoreData(){
+
+        console.log(' fetchMoreData12:' + this.state.currentPage);
+        let param = {pageSize:10,currentPage:this.state.currentPage}
+
+        HttpRequest.get('/v2','/api.merchant.check.jielong.done', param, this.onGetMoreDoneListSuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e)
+                Alert.alert('提示','获取团购列表失败，请稍后再试。')
+            })
+
+    }
+    _endReached = () => {
+
+        if (this.state.isNoMoreData){
+            console.log('_endReached1')
+        }else {
+            this.state.currentPage  += 1
+            console.log('_endReached2')
+            console.log('_endReached3:'+this.state.currentPage)
+            // 获取数据
+            this.fetchMoreData();
+        }
+
+
+    }
+    reloadData(){
+
+
+        this.setState({isNoMoreData: false});
+        setTimeout(() => {
+            this.fetchData();
+        }, 2000);
     }
     onRefresh(){
 
@@ -116,22 +163,57 @@ export default class GroupOrderListView extends Component {
         //     console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
         // }
         console.log('onGetDoneListSuccess:'+JSON.stringify(response))
+        this.state.dataSourceArr = []
         let rowData = response.data
         if (response.data.length == 0){
 
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(rowData),
                 haveDoneOrder:false,
+                dataSourceArr:rowData
 
             })
         }else {
 
-
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(rowData),
                 haveDoneOrder:true,
+                dataSourceArr:rowData
             });
         }
+
+
+
+    }
+    onGetMoreDoneListSuccess(response) {
+
+        // for (var i = 0 ;i < response.data.order.length ; i ++){
+        //     console.log('groupOrderList:'+i +':'+JSON.stringify(response.data.order[i]) )
+        // }
+        console.log('onGetDoneListSuccess:'+JSON.stringify(response))
+        if(response.data.length < 5) {
+            this.setState({
+                isNoMoreData: true
+            });
+        }else {
+            this.setState({
+                isNoMoreData: false
+            });
+        }
+        this.state.cachedData = []
+        this.state.cachedData = response.data;
+        console.log('onGetMoreCategorySuccess332:'+JSON.stringify(this.state.cachedData))
+        let testArr =  this.state.dataSourceArr.concat(this.state.cachedData)
+
+        this.state.dataSourceArr = testArr
+        console.log('onGetMoreCategorySuccess334:'+JSON.stringify(this.state.dataSourceArr))
+        this.setState({
+            haveDoneOrder:true,
+            dataSource:this.state.dataSource.cloneWithRows(this.state.dataSourceArr)
+        });
+
+
+
 
     }
 
@@ -269,7 +351,7 @@ export default class GroupOrderListView extends Component {
             <View style={{width:width,height:180,flexDirection:'column',justifyContent:'flex-start',backgroundColor:'white',marginTop:10}}>
                 <View style={{flex:50,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
                     <Image style={styles.classifyTypeIcon} source={this.disPlayIcon(item.icon)}></Image>
-                    <Text style={styles.classifyTitle}>{this.disPlayClassName(item.classify_name)}</Text>
+                    <Text style={styles.classifyTitle} numberOfLines={2}>{this.disPlayClassName(item.classify_name)}</Text>
                 </View>
                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rgb(212,212,212)'}}></View>
                 <TouchableOpacity style={{flex:60}}>
@@ -334,7 +416,14 @@ export default class GroupOrderListView extends Component {
                            initialListSize={21}
                            pageSize={10}
                            scrollRenderAheadDistance={500}
-                           removeClippedSubviews={false}>
+                           removeClippedSubviews={false}
+                           refreshControl={
+                               <RefreshControl
+                                   refreshing={this.state.isRefreshing}
+                                   onRefresh={this.reloadData.bind(this)}
+                               />}
+                           onEndReached={() => this._endReached()}
+                           onEndReachedThreshold={20}>
 
         </ListView>)
 
@@ -377,7 +466,7 @@ export default class GroupOrderListView extends Component {
                     {this.renderCategorysView(order,this.state.classifytotalNum)}
                     <View style={{ width: width, backgroundColor: '#d5d5d5', flex: 1, height: 0.5 }}>
                     </View>
-                    {this.renderStatus(order)}
+                    {/*{this.renderStatus(order)}*/}
                     <View style={{width:width,height:10,backgroundColor:'rgb(242,242,242)'}}></View>
 
                 </View>
@@ -404,23 +493,29 @@ export default class GroupOrderListView extends Component {
         //
         //         }
         //     });
-        console.log('onSendOrderClick11'+JSON.stringify(prouductItems))
+        if (prouductItems.purchased_count == 0){
+            Alert.alert('提示','该订单数量为0')
 
-        let param = { group_buy_id: prouductItems.group_buy_id, send_type:'weixin'}
+        }else {
+            console.log('onSendOrderClick11'+JSON.stringify(prouductItems))
 
-        HttpRequest.post('/v2','/api.send.order.info', param, this.onSendOrderSuccess.bind(this),
-            (e) => {
-                console.log(' error1:' + e);
-                if (e.code == 17){
-                    Alert.alert('提示','该订单数量为空！')
+            let param = { group_buy_id: prouductItems.group_buy_id, send_type:'weixin'}
 
-                }else {
-                    Alert.alert('提示','该订单数量为空')
-
-                }
+            HttpRequest.post('/v2','/api.send.order.info', param, this.onSendOrderSuccess.bind(this),
+                (e) => {
+                    console.log(' error1:' + e);
+                    if (e.code == 17){
 
 
-            })
+                    }else {
+
+
+                    }
+
+
+                })
+        }
+
     }
     renderStatus(items) {
         if (this.props.isDoneStatus) {
@@ -533,12 +628,14 @@ const styles = StyleSheet.create({
         marginLeft:10,
         width:30,
         height:30,
+
     },
     classifyTitle:{
         marginLeft:15,
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
-        marginRight:10
+        marginRight:10,
+        width:width-50
 
     },
     userIcon:{

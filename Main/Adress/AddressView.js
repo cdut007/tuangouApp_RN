@@ -62,7 +62,12 @@ export default class AddressView extends Component {
         })
     }
 
-
+   isMobil(s)
+    {
+        var patrn=/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
+        if (!patrn.exec(s)) return false
+        return true
+    }
     save() {
 
         if (!this.state.mobile) {
@@ -75,6 +80,12 @@ export default class AddressView extends Component {
             Alert.alert('提示','输入收货地址')
             return
         }
+       if(this.isMobil(this.state.mobile)){
+
+       }else {
+           Alert.alert('提示','请输入正确手机号码!')
+           return
+       }
         let param = {
             address: this.state.address,
             phone_num: this.state.mobile
@@ -91,8 +102,19 @@ export default class AddressView extends Component {
 
     onSaveAddressSuccess(response)
     {
+        console.log('onSaveAddressSuccess'+JSON.stringify(response))
+
         if (this.props.isMineTo){
-            this.props.navigator.pop()
+            Global.user_address = {
+                address: this.state.address,
+                phone_num: this.state.mobile
+            }
+            Alert.alert('提示','保存地址成功', [
+
+                    {text: 'OK', onPress: this.back.bind(this)},
+                ],
+                { cancelable: false })
+
         }else {
             Global.user_address = {
                 address: this.state.address,
@@ -146,6 +168,7 @@ export default class AddressView extends Component {
                         textAlign: 'left', color: '#1c1c1c',
                     }}  keyboardType={'numeric'}
                         editable={true}
+                               underlineColorAndroid='transparent'
                         onChangeText={(text) => this.setState({ mobile: text })}
                         value= {this.state.mobile}
                     ></TextInput>
@@ -162,6 +185,8 @@ export default class AddressView extends Component {
                     }}
                         editable={true}
                         onChangeText={(text) => this.setState({ address: text })}
+                               placeholder={'街道、门牌、邮编'}
+                               underlineColorAndroid='transparent'
                         value= {this.state.address}
                     ></TextInput>
 

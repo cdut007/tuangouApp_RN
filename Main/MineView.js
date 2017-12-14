@@ -114,10 +114,66 @@ export default class MineView extends Component {
     //         component: GroupBuyManager,
     //     })
     // }
+    getUserInfoWith(item){
+        if (item =='1'){
+            HttpRequest.get('/v2','/api.user.info', {}, this.onGetProductManagerUserInfoSuccess.bind(this),
+                (e) => {
+                    console.log(' usererror:' + e)
+                })
+        }else {
+            HttpRequest.get('/v2','/api.user.info', {}, this.onGetMyGroupBuyListUserInfoSuccess.bind(this),
+                (e) => {
+                    console.log(' usererror:' + e)
+                })
+        }
+
+    }
+    onGetProductManagerUserInfoSuccess(response){
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.role = response.data.user_profile.role
+        if (Global.role =='consumer'){
+
+            // this.props.navigator.push({
+            //
+            //     component: AgentRegisteredView,
+            // })
+            this.props.navigator.push({
+                component: ProductManager
+            })
+        }else {
+
+            this.props.navigator.push({
+                component: ProductManager
+            })
+        }
+    }
+    onGetMyGroupBuyListUserInfoSuccess(response){
+        Global.user_profile = response.data.user_profile
+        Global.agent_url = response.data.user_profile.agent_url
+        Global.role = response.data.user_profile.role
+        if (Global.role =='consumer'){
+
+            // this.props.navigator.push({
+            //
+            //     component: AgentRegisteredView,
+            // })
+            this.props.navigator.push({
+                component: MyGroupBuyListView,
+            })
+
+        }else {
+
+            this.props.navigator.push({
+                component: MyGroupBuyListView,
+            })
+        }
+    }
     OnProductManagerPress(){
-        this.props.navigator.push({
-            component: ProductManager
-        })
+        let item = '1';
+        this.getUserInfoWith(item);
+
+
 
     }
     OnNewGroupPress(){
@@ -137,9 +193,9 @@ export default class MineView extends Component {
         })
     }
     onMyGroupBuyListPress(){
-        this.props.navigator.push({
-            component: MyGroupBuyListView,
-        })
+
+        let item ='2';
+        this.getUserInfoWith(item);
     }
     onSettingPress() {
         this.props.navigator.push({

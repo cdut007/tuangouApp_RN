@@ -58,7 +58,11 @@ export default class GroupOrderDoingListView extends Component {
             haveDoingOrder:true,
             isRefreshing:false,
             dataSource:ds,
-            doingData:[]
+            doingData:[],
+            dataSourceArr:[],
+            isNoMoreData: false,
+            cachedData:[],
+            currentPage:1,
         }
     }
 
@@ -91,6 +95,43 @@ export default class GroupOrderDoingListView extends Component {
 
 
     }
+    fetchData() {
+
+
+        this.state.currentPage = 1;
+
+        let param = {pageSize:10,currentPage: this.state.currentPage}
+
+        HttpRequest.get('/v2','/admin.goods.set', param, this.onGetCategorySuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取商品类别失败，请稍后再试。')
+            })
+
+    }
+    fetchMoreData(){
+        let param = {pageSize:10,currentPage: this.state.currentPage}
+        console.log(' fetchMoreData12:' + this.state.currentPage);
+        HttpRequest.get('/v2','/admin.goods.set', param, this.onGetMoreCategorySuccess.bind(this),
+            (e) => {
+                console.log(' error:' + e);
+                Alert.alert('提示','获取商品类别失败，请稍后再试。')
+            })
+    }
+    _endReached = () => {
+
+        if (this.state.isNoMoreData){
+            console.log('_endReached1')
+        }else {
+            this.state.currentPage  += 1
+            console.log('_endReached2')
+            console.log('_endReached3:'+this.state.currentPage)
+            // 获取数据
+            this.fetchMoreData();
+        }
+
+
+    }
     onRefresh(){
 
         this.setState({isRefreshing: true});
@@ -107,7 +148,14 @@ export default class GroupOrderDoingListView extends Component {
 
 
     }
+    reloadData(){
 
+
+        this.setState({isNoMoreData: false});
+        setTimeout(() => {
+            this.fetchData();
+        }, 2000);
+    }
     onGetDoingListSuccess(response) {
 
         // for (var i = 0 ;i < response.data.order.length ; i ++){
@@ -274,7 +322,7 @@ export default class GroupOrderDoingListView extends Component {
             <View style={{width:width,height:140,flexDirection:'column',justifyContent:'flex-start',backgroundColor:'white',marginTop:10}}>
                 <View style={{flex:50,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
                     <Image style={styles.classifyTypeIcon} source={this.disPlayIcon(item.icon)}></Image>
-                    <Text style={styles.classifyTitle}>{this.disPlayClassName(item.classify_name)}</Text>
+                    <Text style={styles.classifyTitle} numberOfLines={2}>{this.disPlayClassName(item.classify_name)}</Text>
                 </View>
                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rgb(212,212,212)'}}></View>
                 <TouchableOpacity style={{flex:60}}>
@@ -333,6 +381,7 @@ export default class GroupOrderDoingListView extends Component {
                            pageSize={10}
                            scrollRenderAheadDistance={500}
                            removeClippedSubviews={false}
+
                            >
 
         </ListView>)
@@ -513,12 +562,14 @@ const styles = StyleSheet.create({
         marginLeft:10,
         width:30,
         height:30,
+
     },
     classifyTitle:{
         marginLeft:15,
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
-        marginRight:10
+        marginRight:10,
+        width:width-50
 
     },
     userIcon:{

@@ -20,7 +20,8 @@ import {
     Image,
     TextInput,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter,//引入监听事件
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -40,7 +41,10 @@ export default class NoticeSuccessView extends Component{
 
     back(){
 
+        //引入监听事件
+        DeviceEventEmitter.emit('UpdateNoticeOrder');
         this.props.navigator.pop();
+
     }
     componentWillMount(){
 
