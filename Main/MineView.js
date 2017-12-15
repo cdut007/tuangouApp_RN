@@ -142,7 +142,10 @@ export default class MineView extends Component {
             //     component: ProductManager
             // })
         }else {
-
+            // this.props.navigator.push({
+            //
+            //     component: AgentRegisteredView,
+            // })
             this.props.navigator.push({
                 component: ProductManager
             })

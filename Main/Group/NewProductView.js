@@ -54,7 +54,7 @@ export default class NewProductView extends Component{
                     goods_detail:{},
                     delectImgArr:[],
                     isDisable:false,
-                    isLoad:false
+                    isLoad:true
 
 
 
@@ -778,22 +778,22 @@ export default class NewProductView extends Component{
                         }
                     }
                 }else {
-                    if(this.props.isEditGood){
-                        if (this.state.productImgArr.length == 0){
-                            nowProductDataArr.push({
-                                'index': 1,
-                                'image': '',
-                                'tag': 'default'
-                            });
-                        }
-
-                    }else {
-                        nowProductDataArr.push({
-                            'index': 1,
-                            'image': '',
-                            'tag': 'add_more'
-                        });
-                    }
+                    // if(this.props.isEditGood){
+                    //     if (this.state.productImgArr.length == 0){
+                    //         nowProductDataArr.push({
+                    //             'index': 1,
+                    //             'image': '',
+                    //             'tag': 'default'
+                    //         });
+                    //     }
+                    //
+                    // }else {
+                    //     nowProductDataArr.push({
+                    //         'index': 1,
+                    //         'image': '',
+                    //         'tag': 'add_more'
+                    //     });
+                    // }
 
                 }
 

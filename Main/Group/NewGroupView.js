@@ -57,6 +57,7 @@ export default class NewGroupView extends Component{
             isHaveDel_goods:false,
             isHaveGoodsArr:[],
             isHaveGoodsNum:0,
+            isUpdate:false,
             isGroupProductScrollArrNum:0,
             Del_goods:[],
             groupbuying_info:{},
@@ -130,18 +131,24 @@ export default class NewGroupView extends Component{
                 // console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
                 this.state.groupProductScrollArr.map((product, i) => {
                     if (i == dic.index){
-                        product.price = dic.price;
-                        product.stock = dic.stock;
-                        product.unit = dic.unit;
+                        if (this.state.isUpdate){
 
-                        groupArr.push(product);
+                        }else {
+                            product.price = dic.price;
+                            product.stock = dic.stock;
+                            product.unit = dic.unit;
+                            this.state.isUpdate = true;
+                        }
+
+
+                        // groupArr.push(product);
                         // console.log('groupArrIndex:'+i)
                     }else {
                         console.log('groupArrIndex:'+i)
-                        groupArr.push(product);
+                        // groupArr.push(product);
                     }
                 })
-                this.state.groupProductScrollArr = groupArr;
+                // this.state.groupProductScrollArr = groupArr;
                 this.state.addGroupProductScrollArr = groupArr;
                 // console.log('this.state.groupProductScrollArr112'+JSON.stringify(this.state.groupProductScrollArr))
                 // console.log(' this.state.addGroupProductScrollArr112:'+JSON.stringify(this.state.addGroupProductScrollArr))
@@ -157,21 +164,26 @@ export default class NewGroupView extends Component{
                     this.state.groupProductScrollArr.map((product, i) => {
                         if (i == dic.index){
 
+                            if (this.state.isUpdate){
 
-                            product.price = dic.price;
-                            product.stock = dic.stock;
-                            product.unit = dic.unit;
+                            }else {
+                                product.price = dic.price;
+                                product.stock = dic.stock;
+                                product.unit = dic.unit;
+                                this.state.isUpdate = true;
+                            }
+
                             groupArr.push(product);
                             addDateArr.push(product);
                             console.log('groupArrIndexaddDateAr:'+i)
                             console.log('groupArrIndexaddDateArproduct:'+JSON.stringify(product))
-                            console.log('groupArr:'+JSON.stringify(groupArr))
+                            // console.log('groupArr:'+JSON.stringify(groupArr))
 
                         }else {
                             groupArr.push(product);
                             console.log('groupArrIndex:'+i)
                             console.log('groupArrIndexproduct:'+JSON.stringify(product))
-                            console.log('groupArr:'+JSON.stringify(groupArr))
+                            // console.log('groupArr:'+JSON.stringify(groupArr))
                         }
                     })
 
@@ -196,7 +208,7 @@ export default class NewGroupView extends Component{
                     // let addArr = this.state.addGroupProductScrollArr.concat(addDateArr)
                     this.state.addGroupProductScrollArr = addDateArr
                     console.log('this.state.groupProductScrollArr521'+JSON.stringify(this.state.groupProductScrollArr))
-                    console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
+                    // console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
                     this.state.groupProductScrollArr = groupArr;
                     console.log('this.state.groupProductScrollArr523'+JSON.stringify(this.state.groupProductScrollArr))
                     console.log('this.state.Del_goods112:'+JSON.stringify(this.state.Del_goods))
@@ -866,6 +878,7 @@ export default class NewGroupView extends Component{
     }
     onPressToEditGoods(goodItem,index){
         console.log('GroupProductEditView890:'+JSON.stringify(goodItem))
+        this.state.isUpdate =false;
         Picker.hide();
             this.props.navigator.push({
                 component: GroupProductEditView,
