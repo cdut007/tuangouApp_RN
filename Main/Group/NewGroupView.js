@@ -512,7 +512,7 @@ export default class NewGroupView extends Component{
     }
     selectGroupDeadline(){
         //true 为截团时间picker   ，false 为 预计发货时间picker
-
+        this.refs.eyu.blur();
 
             if (this.state.isSelectPicker){
                 if (this.state.isGroupDeadlineHave){
@@ -560,6 +560,7 @@ export default class NewGroupView extends Component{
 
     }
     selectGroupDeliveryTime(){
+        this.refs.eyu.blur();
         if (this.state.isSelectPicker){
             let pickerData = this.creatTimeOfPicker(this.state.isSelectPicker );
             let date = new Date(this.state.groupDeliveryTime);
@@ -1450,6 +1451,7 @@ export default class NewGroupView extends Component{
                        fontSize: 16,height:40,width:width-60,marginTop:8,
                         textAlign: 'left', color: '#1c1c1c',
                     }}  keyboardType={'default'}
+                                   ref="eyu"
                                    placeholder ='如蔬菜、面食、酒水…'
                                    blurOnSubmit ={true}
                                    maxLength={6}

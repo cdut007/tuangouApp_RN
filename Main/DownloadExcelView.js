@@ -25,8 +25,10 @@ export default class DownloadExcelView extends Component {
         super(props)
         this.state = {
             mail:'',
-            group_buy_id:this.props.group_buy_id
+            group_buy_id:this.props.group_buy_id,
+            isEditEmail:false
         }
+
 
     }
 
@@ -63,14 +65,32 @@ export default class DownloadExcelView extends Component {
 
         onExcelSendMailPress(){
 
+            if (Global.email){
+                if(this.state.isEditEmail){
+                    console.log('send_mail3:'+this.state.mail)
+                }else {
+                    this.state.mail = Global.email ;
+                    console.log('send_mail4:'+this.state.mail)
+                }
 
+                console.log('send_mail1:'+this.state.mail)
+            }else {
+
+                console.log('send_mail2:'+this.state.mail)
+            }
+
+
+            if (this.state.mail == null){
+                Alert.alert('提示','您的邮箱地址为空!')
+                return
+            }
             var paramBody =
                 {
                     'group_buy_id': this.props.group_buy_id,
                     'email': this.state.mail,
 
                 }
-            console.log('send_mailparam:'+JSON.stringify(paramBody))
+            console.log('send_mailparam3:'+JSON.stringify(paramBody))
             HttpRequest.post('/v1','/send_mail', paramBody, this.onSendEmailSuccess.bind(this),
                 (e) => {
 
@@ -121,7 +141,7 @@ export default class DownloadExcelView extends Component {
                          editable={true}
                          placeholder="请输入邮箱"
                                     clearButtonMode="while-editing"
-                         onChangeText={(text) => this.setState({ mail: text })
+                         onChangeText={(text) => this.setState({ mail: text ,isEditEmail:true })
                          }
                          ></TextInput>
 

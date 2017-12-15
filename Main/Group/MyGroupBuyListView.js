@@ -176,14 +176,17 @@ export default class MyGroupBuyListView extends Component{
     }
     onEditGroupPress(classItem){
         console.log('onEditGroupPress11:'+JSON.stringify(classItem))
-        this.props.navigator.push({
-            component: NewGroupView,
-            name: 'NewGroupView',
-            props:{
-                isCreateNewGroup:false,
-                groupItem:classItem
-            }
-        })
+
+            this.props.navigator.push({
+                component: NewGroupView,
+                name: 'NewGroupView',
+                props:{
+                    isCreateNewGroup:false,
+                    groupItem:classItem
+                }
+            })
+
+
     }
     OnProductManagerPress(){
         this.props.navigator.push({

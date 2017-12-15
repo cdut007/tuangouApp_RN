@@ -565,11 +565,12 @@ const styles = StyleSheet.create({
 
     },
     classifyTitle:{
-        marginLeft:15,
+        marginLeft:10,
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
         marginRight:10,
-        flex:1
+        textAlign:'left',
+        width:width-50
     },
     userIcon:{
 

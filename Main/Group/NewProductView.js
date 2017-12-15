@@ -53,7 +53,8 @@ export default class NewProductView extends Component{
                     isOnlyUpdateSet:true,
                     goods_detail:{},
                     delectImgArr:[],
-                    isDisable:false
+                    isDisable:false,
+                    isLoad:false
 
 
 
@@ -123,6 +124,7 @@ export default class NewProductView extends Component{
     onGetProductDetailSuccess(response){
         console.log('onGetProductDetailSuccess148:'+JSON.stringify(response))
         this.state.goods_detail = response.data.goods_detail
+        this.state.isLoad = true
         let imgArr = this.state.goods_detail.images;
         imgArr.map((item, i) => {
             this.state.productImgArr.push({
@@ -387,6 +389,9 @@ export default class NewProductView extends Component{
                                     var imageUri = '';
                                     if ( item.tag =='add_more'){
                                         imageUri =require('../../images/addImgIcon@3x.png')
+                                    }else if(item.tag =='default'){
+
+                                        imageUri =require('../../images/me_bj.jpg')
                                     }else if(item.isHaveImg == true){
                                         imageUri = {uri: item.image.path};
                                         {/*imageUri =require('../../images/me_bj.jpg')*/}
@@ -419,30 +424,31 @@ export default class NewProductView extends Component{
 
                                             <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
                                         )
-                                    }else {
-                                        let render = (
-
-
-                                            <View style={[{ width: w, height: h}, styles.toolsItem]}>
-                                                <Image style={{width: w-10, height: h-10,margin:10,borderWidth:1,borderColor:'red'}}
-                                                       source={imageUri}
-
-                                                       resizeMode = 'contain'
-
-                                                >
-
-                                                </Image>
-
-
-
-
-                                            </View>
-                                        )
-                                        return (
-
-                                            <TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>
-                                        )
                                     }
+                                    {/*else {*/}
+                                        {/*let render = (*/}
+
+
+                                            {/*<View style={[{ width: w, height: h}, styles.toolsItem]}>*/}
+                                                {/*<Image style={{width: w-10, height: h-10,margin:10,borderWidth:1,borderColor:'red'}}*/}
+                                                       {/*source={imageUri}*/}
+
+                                                       {/*resizeMode = 'contain'*/}
+
+                                                {/*>*/}
+
+                                                {/*</Image>*/}
+
+
+
+
+                                            {/*</View>*/}
+                                        {/*)*/}
+                                        {/*return (*/}
+
+                                            {/*<TouchableOpacity style={{ width: w, height: h }} key={i} onPress={() => { this.onItemClick(item) }}>{render}</TouchableOpacity>*/}
+                                        {/*)*/}
+                                    {/*}*/}
 
                                  })
                              }
@@ -742,34 +748,55 @@ export default class NewProductView extends Component{
                 }
                 var nowProductDataArr = [];
                 console.log('productImgArrcount1:'+this.state.productImgArr.length)
-                if (this.state.productImgArr.length == 0){
-                    nowProductDataArr.push({
-                        'index': 1,
-                        'image': '',
-                        'tag': 'add_more'
-                    });
-                }else {
-                    for (var  i = 0; i < this.state.productImgArr.length+1;i++){
-                        console.log('productImgArrcount2:'+this.state.productImgArr.length)
-                        console.log('productImgArr:'+JSON.stringify(this.state.productImgArr))
-                        var imgItem = this.state.productImgArr[i]
-                        if (i == this.state.productImgArr.length) {
+                if (this.state.isLoad){
+                    if (this.state.productImgArr.length == 0){
+                        nowProductDataArr.push({
+                            'index': 1,
+                            'image': '',
+                            'tag': 'add_more'
+                        });
+                    }else {
+                        for (var  i = 0; i < this.state.productImgArr.length+1;i++){
+                            console.log('productImgArrcount2:'+this.state.productImgArr.length)
+                            console.log('productImgArr:'+JSON.stringify(this.state.productImgArr))
+                            var imgItem = this.state.productImgArr[i]
+                            if (i == this.state.productImgArr.length) {
 
 
-                            nowProductDataArr.push({
-                                'index': i+1,
-                                'image': '',
-                                'tag': 'add_more'
-                            });
-                        }else{
+                                nowProductDataArr.push({
+                                    'index': i+1,
+                                    'image': '',
+                                    'tag': 'add_more'
+                                });
+                            }else{
 
-                            nowProductDataArr.push({
-                                'index': i+1,
-                                'image': imgItem,
-                            });
+                                nowProductDataArr.push({
+                                    'index': i+1,
+                                    'image': imgItem,
+                                });
+                            }
                         }
                     }
+                }else {
+                    if(this.props.isEditGood){
+                        if (this.state.productImgArr.length == 0){
+                            nowProductDataArr.push({
+                                'index': 1,
+                                'image': '',
+                                'tag': 'default'
+                            });
+                        }
+
+                    }else {
+                        nowProductDataArr.push({
+                            'index': 1,
+                            'image': '',
+                            'tag': 'add_more'
+                        });
+                    }
+
                 }
+
 
                 console.log('nowProductDataArr1:'+JSON.stringify(nowProductDataArr))
                 var nowProductDataNum = nowProductDataArr.length

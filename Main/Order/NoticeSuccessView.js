@@ -100,7 +100,7 @@ export default class NoticeSuccessView extends Component{
                 <View style={{flex:368,backgroundColor:'#f2f2f2',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <View style={{width:width-200,height:height-400,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
                         <TouchableOpacity onPress={this.shareQRImageView.bind(this)}>
-                            <Image style={{width:width-160,height:width-160}} source={require('../../images/qrCode@2x.png')}></Image>
+                            <Image style={{width:width-160,height:width-160}} source={require('../../images/qrweixinCode@2x.png')}></Image>
                         </TouchableOpacity>
 
                         <Text style={[styles.QrWarnTitle,{marginTop:10}]}>推荐团员关注微信公众号</Text>

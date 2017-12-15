@@ -270,13 +270,18 @@ export default class GroupOrderListView extends Component {
     }
 
     onDownloadExcelClick(prouductItems) {
+        if (prouductItems.purchased_count == 0){
+            Alert.alert('提示','该订单数量为0')
 
-        this.props.navigator.push({
-            component: DownloadExcelView,
-            props:{
-                group_buy_id:prouductItems.group_buy_id,
-            }
-        })
+        }else {
+            this.props.navigator.push({
+                component: DownloadExcelView,
+                props:{
+                    group_buy_id:prouductItems.group_buy_id,
+                }
+            })
+        }
+
     }
 
     // onItemsClick(prouductItems) {
@@ -631,11 +636,12 @@ const styles = StyleSheet.create({
 
     },
     classifyTitle:{
-        marginLeft:15,
+        marginLeft:10,
         fontSize:16,
         fontFamily:'PingFangSC-Regular',
         marginRight:10,
-        flex:1
+        width:width-50,
+        textAlign:'left',
     },
     userIcon:{
 

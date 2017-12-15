@@ -63,17 +63,17 @@ export default class HelpView extends Component {
                     title="帮助中心"
                     leftIcon={require('../images/back.png')}
                     leftPress={this.back.bind(this)} />
-                <View >
-                    <Text style={[styles.defaultText,{marginTop:80}]}>您有任何的问题都可以电话或微信联系客服。</Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:300,}}>
+                <View style={{flexDirection:'column',alignItems:'center'}}>
+                    <Text style={[styles.defaultText,{marginTop:80,textAlign:'left',}]}>您有任何的问题都可以电话或微信联系客服。</Text>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:width-50,}}>
                         客服电话：400-0358-3848
                     </Text>
-                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:300,}}>
+                    <Text style={{marginTop:10,fontSize:18,color:'#1c1c1c',fontFamily:'PingFang-SC-Medium',textAlign:'left',width:width-50,}}>
                         客服微信：ILGO_SG
                     </Text>
                 </View>
                 <View>
-                    <Image style={{marginTop:60,width:150,height:150}} source={require('../images/qrCode.png')}></Image>
+                    <Image style={{marginTop:60,width:150,height:150}} source={require('../images/serviceCode@2x.png')}></Image>
                 </View>
 
             </View>

@@ -243,12 +243,8 @@ export default class ClassifyListView extends Component{
 
 
         let classifyCount = this.state.classify_list.length
-        var scrollViewHeight = 146 *classifyCount
-        if (146*classifyCount > height - 49){
-            scrollViewHeight = height - 116
-        }else {
+        var scrollViewHeight  = height - 116
 
-        }
 
         return (
             <View style={styles.container}>
