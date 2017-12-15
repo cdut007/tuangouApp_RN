@@ -12,7 +12,8 @@ import {
     TouchableOpacity,
     AsyncStorage,
     Alert,
-    Keyboard
+    Keyboard,
+    TouchableWithoutFeedback
 
 
 
@@ -67,6 +68,29 @@ export default class AgentRegisteredView extends Component{
         componentDidMount(){
 
         }
+    // componentWillMount () {
+    //     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    //     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    // }
+    //
+    // componentWillUnmount () {
+    //     this.keyboardDidShowListener.remove();
+    //     this.keyboardDidHideListener.remove();
+    // }
+    //
+    // _keyboardDidShow () {
+    //     keyBoardIsShow = true;
+    // }
+    //
+    // _keyboardDidHide () {
+    //     keyBoardIsShow = true;
+    // }
+    // lostBlur(){
+    //     //退出软件盘
+    //     if (keyBoardIsShow) {
+    //         Keyboard.dismiss();
+    //     }
+    // }
     onRegisteredAgentSuccess(response){
 
         console.log('Get RegisteredAgent Success:' + JSON.stringify(response));
@@ -141,12 +165,16 @@ export default class AgentRegisteredView extends Component{
                         leftIcon={require('../images/back.png')}
                         leftPress={this.back.bind(this)}
                     />
-                    <TouchableOpacity onPress ={this.backKeyBoard.bind(this)}
-                                      style={{}}>
 
-                    <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
-                    </Text>
-                    </TouchableOpacity>
+                    <TouchableWithoutFeedback onPress ={this.backKeyBoard.bind(this)}
+                                      style={{}}>
+                        <View>
+                    <View>
+                        <Text style={styles.warnText}>      对不起，您当前的身份还不是团长，所以没有专属的团长链接；请填写您的真实信息申请成为团长，我们将派专人联系并核实您的团长身份
+                        </Text>
+                    </View>
+
+
                     <View style ={styles.textInputView1}>
                         <Text style={styles.TextInputText}>姓名：</Text>
                         <TextInput style={[styles.textInput]}
@@ -201,6 +229,8 @@ export default class AgentRegisteredView extends Component{
                     <Spinner
                         visible={this.state.loadingVisible}
                     />
+                        </View>
+                    </TouchableWithoutFeedback>
 
                 </View>
 
