@@ -303,7 +303,14 @@ export default class OrderUserDetailView extends Component{
         for (var  j = 0 ; j < panelDataAry.length ; j++){
             var item = panelDataAry[j ];
             let totalTitle = item.total_quantity+"件/合计：S$"+item.total_amount;
-            let RemarkStr = "备注："+item.remark;
+            let RemarkStr = '';
+            if (item.remark ==''){
+                RemarkStr = "";
+            }else {
+                RemarkStr = "备注："+item.remark;
+            }
+
+
             displayPanelAry.push(
             <View>
                     <Panel title={item.nickname}  ship_time={item.time} titleIcon ={item.headimgurl}>

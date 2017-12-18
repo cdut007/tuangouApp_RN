@@ -45,6 +45,7 @@ export default class NewGroupView extends Component{
             group_buying_detail:'',
             groupProductScrollArr:[],
             addGroupProductScrollArr:[],
+            UpdateGroupProductScrollArr:[],
             tempAddGroupProductScrollArr:[],
             isSelectPicker:true, //true是选中截团时间，false 是选中预计发货时间
             isGroupDeadlineHave:false,
@@ -245,6 +246,19 @@ export default class NewGroupView extends Component{
     }
     back(){
         Picker.hide()
+        Alert.alert(
+            '提示',
+            '请确认是否退出此次接龙！',
+            [
+
+                {text: '取消'},
+                {text: '确认', onPress: this.trueBack.bind(this)},
+            ],
+            { cancelable: false }
+        )
+
+    }
+    trueBack(){
         this.state.addGroupProductScrollArr = []
         this.state.Del_goods = [];
         this.state.groupProductScrollArr =[];
