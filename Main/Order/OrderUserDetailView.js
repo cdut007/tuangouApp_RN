@@ -36,8 +36,10 @@ export default class OrderUserDetailView extends Component{
             displayPanelAry : [],
             haveOrder_detail:false,
             isIntercept:false,
-
+            summary:{}
         }
+
+
     }
     componentDidMount() {
 
@@ -99,11 +101,13 @@ export default class OrderUserDetailView extends Component{
                 this.setState({
                     haveOrder_detail:false,
                     order_detail:response.data.order_detail,
+                    summary:response.data.summary
                 });
             }else {
                 this.setState({
                     order_detail:response.data.order_detail,
-                    haveOrder_detail:true
+                    haveOrder_detail:true,
+                    summary:response.data.summary
                 });
             }
 
@@ -246,8 +250,8 @@ export default class OrderUserDetailView extends Component{
     }
     renderOrderUserListView(order_detail){
         console.log('renderOrderUserListView134:'+JSON.stringify(order_detail))
-        let total_quantity = order_detail[0].total_quantity
-        let total_amount = order_detail[0].total_amount
+        let total_quantity = this.state.summary.all_quantity
+        let total_amount = this.state.summary.all_amount
         console.log('renderOrderUserListView135:'+JSON.stringify(total_quantity))
         console.log('renderOrderUserListView136:'+JSON.stringify(total_amount))
         let totalTitle = total_quantity+"件/合计：S$"+total_amount;
