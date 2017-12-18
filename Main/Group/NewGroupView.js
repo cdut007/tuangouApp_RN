@@ -705,6 +705,7 @@ export default class NewGroupView extends Component{
         })
     }
     cancelItem(item,index){
+
         console.log('112'+item)
         if (this.props.isCreateNewGroup){
             var groupArr =[];
@@ -727,21 +728,42 @@ export default class NewGroupView extends Component{
             var groupArr =[];
             var addArr= [];
             // this.state.Del_goods = [];
+            console.log('index11:'+index)
             console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
             this.state.groupProductScrollArr.map((product, i) => {
                 if (index == i){
-                    this.state.addGroupProductScrollArr.map((addProduct, h) => {
+                    if (item.goods_id == null){
+                        console.log('indexitem1:'+JSON.stringify(item))
+                        this.state.addGroupProductScrollArr.map((addProduct, h) => {
 
-                        if (index == h+this.state.isHaveGoodsNum){
+                            if (index == h+this.state.isHaveGoodsNum){
+                                console.log('index11:'+h)
+                            }else {
+                                console.log('index22:'+h)
+                                addArr.push(addProduct);
+                            }
+                        })
+                    }else {
+                        console.log('indexitem2:'+JSON.stringify(item))
+                        this.state.addGroupProductScrollArr.map((addProduct, h) => {
 
-                        }else {
-                            addArr.push(addProduct);
-                        }
-                    })
+                            if (item.goods_id == addProduct.goods_id){
+                                console.log('index1:'+h)
+                            }else {
+                                console.log('index2:'+h)
+                                addArr.push(addProduct);
+                            }
+                        })
+                    }
+
+
                     this.state.isHaveGoodsArr.map((haveProduct, j) => {
                         if (index == j){
-                            this.state.isHaveDel_goods = true;
-                            this.state.Del_goods.push(haveProduct.goods_id.toString())
+                            if (item.goods_id == haveProduct.goods_id){
+                                this.state.isHaveDel_goods = true;
+                                this.state.Del_goods.push(haveProduct.goods_id.toString())
+                            }
+
                         }else {
                             // groupArr.push(product);
                         }
