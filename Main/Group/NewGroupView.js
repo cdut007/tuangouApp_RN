@@ -46,6 +46,7 @@ export default class NewGroupView extends Component{
             groupProductScrollArr:[],
             addGroupProductScrollArr:[],
             UpdateGroupProductScrollArr:[],
+            UpdateAndAddGroupProductScrollArr:[],
             tempAddGroupProductScrollArr:[],
             isSelectPicker:true, //true是选中截团时间，false 是选中预计发货时间
             isGroupDeadlineHave:false,
@@ -81,155 +82,7 @@ export default class NewGroupView extends Component{
 
 
         }
-        DeviceEventEmitter.addListener('AddGroupbuying_products',(dic)=>{
-            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
-            console.log('AddGroupbuying_products234:'+JSON.stringify(dic))
-            //缓存数组
-            this.state.tempAddGroupProductScrollArr = []
-            this.state.tempAddGroupProductScrollArr = dic.addGroupbuying_products;
-            //需要添加的商品数组
-            let addArr = this.state.addGroupProductScrollArr.concat(this.state.tempAddGroupProductScrollArr)
-            this.state.addGroupProductScrollArr = addArr
-            console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.addGroupProductScrollArr))
-            //显示的全部商品数组
 
-            let allArr = this.state.groupProductScrollArr.concat(this.state.tempAddGroupProductScrollArr)
-            console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.tempAddGroupProductScrollArr))
-            this.state.tempAddGroupProductScrollArr = []
-            this.state.groupProductScrollArr = allArr;
-            this.state.isGroupProductScrollArrNum = this.state.groupProductScrollArr.length
-            console.log('AddGroupbuying_products238:'+JSON.stringify(this.state.groupProductScrollArr))
-            // this.setState({ ...this.state });
-            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
-            // let param = {groupbuying_id:this.state.groupBuyId}
-            //
-            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
-            //     (e) => {
-            //         console.log(' error:' + e)
-            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
-            //     })
-        });
-        DeviceEventEmitter.addListener('updateNewGroup',(dic)=>{
-            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
-            console.log('updateNewGroup12:'+dic)
-            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
-            // let param = {groupbuying_id:this.state.groupBuyId}
-            //
-            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
-            //     (e) => {
-            //         console.log(' error:' + e)
-            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
-            //     })
-        });
-        DeviceEventEmitter.addListener('ChangeProductDetail',(dic)=>{
-            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
-            console.log('ChangeProductDetail12:'+JSON.stringify(dic))
-            console.log('isGroupProductScrollArrNum12:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
-
-            if (this.props.isCreateNewGroup){
-                var groupArr =[];
-                // this.state.Del_goods = [];
-                // console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
-                this.state.groupProductScrollArr.map((product, i) => {
-                    if (i == dic.index){
-                        if (this.state.isUpdate){
-
-                        }else {
-                            product.price = dic.price;
-                            product.stock = dic.stock;
-                            product.unit = dic.unit;
-                            this.state.isUpdate = true;
-                        }
-
-
-                        // groupArr.push(product);
-                        // console.log('groupArrIndex:'+i)
-                    }else {
-                        console.log('groupArrIndex:'+i)
-                        // groupArr.push(product);
-                    }
-                })
-                // this.state.groupProductScrollArr = groupArr;
-                this.state.addGroupProductScrollArr = groupArr;
-                // console.log('this.state.groupProductScrollArr112'+JSON.stringify(this.state.groupProductScrollArr))
-                // console.log(' this.state.addGroupProductScrollArr112:'+JSON.stringify(this.state.addGroupProductScrollArr))
-                // this.setState({ ...this.state });
-            }else {
-                var groupArr =[];
-                var updateArr =[];
-                var addDateArr =[];
-                // this.state.Del_goods = [];
-                // console.log('this.state.groupProductScrollArr520'+JSON.stringify(this.state.groupProductScrollArr))
-                if (this.state.isGroupProductScrollArrNum == this.state.groupProductScrollArr.length ){
-                    console.log('isGroupProductScrollArrNum13:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
-                    this.state.groupProductScrollArr.map((product, i) => {
-                        if (i == dic.index){
-
-                            if (this.state.isUpdate){
-
-                            }else {
-                                product.price = dic.price;
-                                product.stock = dic.stock;
-                                product.unit = dic.unit;
-                                this.state.isUpdate = true;
-                            }
-
-                            groupArr.push(product);
-                            addDateArr.push(product);
-                            console.log('groupArrIndexaddDateAr:'+i)
-                            console.log('groupArrIndexaddDateArproduct:'+JSON.stringify(product))
-                            // console.log('groupArr:'+JSON.stringify(groupArr))
-
-                        }else {
-                            groupArr.push(product);
-                            console.log('groupArrIndex:'+i)
-                            console.log('groupArrIndexproduct:'+JSON.stringify(product))
-                            // console.log('groupArr:'+JSON.stringify(groupArr))
-                        }
-                    })
-
-
-                    this.state.addGroupProductScrollArr.map((addProduct, j) => {
-                        if (j+this.state.isHaveGoodsNum == dic.index){
-                            addProduct.price = dic.price;
-                            addProduct.stock = dic.stock;
-                            addProduct.unit = dic.unit;
-                            // groupArr.push(addProduct);
-                            // addDateArr.push(addProduct);
-                            // updateArr.push(addProduct);
-
-
-                        }else {
-                            addDateArr.push(addProduct);
-                            // groupArr.push(addProduct);
-
-
-                        }
-                    })
-                    // let addArr = this.state.addGroupProductScrollArr.concat(addDateArr)
-                    this.state.addGroupProductScrollArr = addDateArr
-                    console.log('this.state.groupProductScrollArr521'+JSON.stringify(this.state.groupProductScrollArr))
-                    // console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
-                    this.state.groupProductScrollArr = groupArr;
-                    console.log('this.state.groupProductScrollArr523'+JSON.stringify(this.state.groupProductScrollArr))
-                    console.log('this.state.Del_goods112:'+JSON.stringify(this.state.Del_goods))
-                }else {
-
-                }
-
-                // this.setState({ ...this.state });
-            }
-
-            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
-            // let param = {groupbuying_id:this.state.groupBuyId}
-            //
-            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
-            //     (e) => {
-            //         console.log(' error:' + e)
-            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
-            //     })
-        });
-        // DeviceEventEmitter.emit('ChangeProductDetail',this.state.isOnlyUpdateSet);
     }
     getQueryString(name,url) {
         if (!url) {
@@ -299,8 +152,162 @@ export default class NewGroupView extends Component{
             }
 
         });
+        DeviceEventEmitter.addListener('AddGroupbuying_products',(dic)=>{
+            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
+            console.log('AddGroupbuying_products234:'+JSON.stringify(dic))
+            //缓存数组
+            this.state.tempAddGroupProductScrollArr = []
+            this.state.tempAddGroupProductScrollArr = dic.addGroupbuying_products;
+            //需要添加的商品数组
+            let addArr = this.state.addGroupProductScrollArr.concat(this.state.tempAddGroupProductScrollArr)
+            this.state.addGroupProductScrollArr = addArr
+            console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.addGroupProductScrollArr))
+            //显示的全部商品数组
+
+            let allArr = this.state.groupProductScrollArr.concat(this.state.tempAddGroupProductScrollArr)
+            console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.tempAddGroupProductScrollArr))
+            this.state.tempAddGroupProductScrollArr = []
+            this.state.groupProductScrollArr = allArr;
+            this.state.isGroupProductScrollArrNum = this.state.groupProductScrollArr.length
+            console.log('AddGroupbuying_products238:'+JSON.stringify(this.state.groupProductScrollArr))
+            this.setState({ ...this.state });
+            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
+            // let param = {groupbuying_id:this.state.groupBuyId}
+            //
+            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
+            //     (e) => {
+            //         console.log(' error:' + e)
+            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
+            //     })
+        });
+        // DeviceEventEmitter.addListener('updateNewGroup',(dic)=>{
+        //     //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
+        //     console.log('updateNewGroup12:'+dic)
+        //     // this.state.groupBuyId = this.props.groupItem.group_buy_id;
+        //     // let param = {groupbuying_id:this.state.groupBuyId}
+        //     //
+        //     // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
+        //     //     (e) => {
+        //     //         console.log(' error:' + e)
+        //     //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
+        //     //     })
+        // });
+        DeviceEventEmitter.addListener('ChangeProductDetail',(dic)=>{
+            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
+            console.log('ChangeProductDetail12:'+JSON.stringify(dic))
+            console.log('isGroupProductScrollArrNum12:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
 
 
+            if (this.props.isCreateNewGroup){
+                var groupArr =[];
+                // this.state.Del_goods = [];
+                // console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
+                this.state.groupProductScrollArr.map((product, i) => {
+                    if (i == dic.index){
+                        if (this.state.isUpdate){
+
+                        }else {
+                            product.price = dic.price;
+                            product.stock = dic.stock;
+                            product.unit = dic.unit;
+                            this.state.isUpdate = true;
+                        }
+
+
+                        groupArr.push(product);
+                        // console.log('groupArrIndex:'+i)
+                    }else {
+                        console.log('groupArrIndex:'+i)
+                        groupArr.push(product);
+                    }
+                })
+                // this.state.groupProductScrollArr = groupArr;
+                this.state.addGroupProductScrollArr = groupArr;
+                // console.log('this.state.groupProductScrollArr112'+JSON.stringify(this.state.groupProductScrollArr))
+                // console.log(' this.state.addGroupProductScrollArr112:'+JSON.stringify(this.state.addGroupProductScrollArr))
+                this.setState({ ...this.state });
+            }else {
+                var groupArr =[];
+                var updateArr =[];
+                var addDateArr =[];
+                // this.state.Del_goods = [];
+                // console.log('this.state.groupProductScrollArr520'+JSON.stringify(this.state.groupProductScrollArr))
+                if (this.state.isGroupProductScrollArrNum == this.state.groupProductScrollArr.length ){
+                    console.log('isGroupProductScrollArrNum13:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
+                    this.state.groupProductScrollArr.map((product, i) => {
+                        if (i == dic.index){
+
+                            if (this.state.isUpdate){
+
+                            }else {
+                                product.price = dic.price;
+                                product.stock = dic.stock;
+                                product.unit = dic.unit;
+                                this.state.isUpdate = true;
+                            }
+
+                            groupArr.push(product);
+                            addDateArr.push(product);
+                            console.log('groupArrIndexaddDateAr:'+i)
+                            console.log('groupArrIndexaddDateArproduct:'+JSON.stringify(product))
+                            // console.log('groupArr:'+JSON.stringify(groupArr))
+
+                        }else {
+                            groupArr.push(product);
+                            console.log('groupArrIndex:'+i)
+                            console.log('groupArrIndexproduct:'+JSON.stringify(product))
+                            // console.log('groupArr:'+JSON.stringify(groupArr))
+                        }
+                    })
+
+
+                    this.state.addGroupProductScrollArr.map((addProduct, j) => {
+                        if (j+this.state.isHaveGoodsNum == dic.index){
+                            addProduct.price = dic.price;
+                            addProduct.stock = dic.stock;
+                            addProduct.unit = dic.unit;
+                            // groupArr.push(addProduct);
+                            // addDateArr.push(addProduct);
+                            // updateArr.push(addProduct);
+
+
+                        }else {
+                            addDateArr.push(addProduct);
+                            // groupArr.push(addProduct);
+
+
+                        }
+                    })
+                    // let addArr = this.state.addGroupProductScrollArr.concat(addDateArr)
+                    this.state.addGroupProductScrollArr = addDateArr
+                    console.log('this.state.groupProductScrollArr521'+JSON.stringify(this.state.groupProductScrollArr))
+                    // console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
+                    this.state.groupProductScrollArr = groupArr;
+                    console.log('this.state.groupProductScrollArr523'+JSON.stringify(this.state.groupProductScrollArr))
+                    console.log('this.state.Del_goods112:'+JSON.stringify(this.state.Del_goods))
+                }else {
+
+                }
+
+                this.setState({ ...this.state });
+            }
+
+            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
+            // let param = {groupbuying_id:this.state.groupBuyId}
+            //
+            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
+            //     (e) => {
+            //         console.log(' error:' + e)
+            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
+            //     })
+        });
+        // DeviceEventEmitter.emit('ChangeProductDetail',this.state.isOnlyUpdateSet);
+
+
+
+    }
+
+    componentWillUnmount() {
 
     }
     onGetGroupbuyingDetailSuccess(response){
@@ -903,7 +910,8 @@ export default class NewGroupView extends Component{
                         price:goodItem.price,
                         stock:goodItem.stock,
                         unit:goodItem.unit,
-                        index:index
+                        index:index,
+
 
 
 
@@ -1268,7 +1276,7 @@ export default class NewGroupView extends Component{
                 on_sale:0,
                 eyu:this.state.group_eyu,
             }
-            let param = { groupbuying_info: groupBuyInfo,groupbuying_products:this.state.addGroupProductScrollArr}
+            let param = { groupbuying_info: groupBuyInfo,groupbuying_products: this.state.addGroupProductScrollArr}
             console.log('dele:'+JSON.stringify(param))
             HttpRequest.post('/v2','/admin.groupbuying.create', param, this.onCreateGroupBuyingNoShareSuccess.bind(this),
                 (e) => {
@@ -1412,9 +1420,7 @@ export default class NewGroupView extends Component{
             page_Str = '修改接龙';
         }
         //商品列表
-        var groupProductArr = [];
-        groupProductArr = this.state.groupProductScrollArr;
-        var groupBuyDetail = this.state.group_buying_detail;
+
         //标题
         if (this.state.groupTitle ==''){
                 this.state.groupTitle = '选择本次接龙标题';
@@ -1552,7 +1558,7 @@ export default class NewGroupView extends Component{
                         keyboardShouldPersistTaps={false}
                         style={{width:width,height:height-335}}>
 
-                        {this.renderProductScrollView(groupProductArr)}
+                        {this.renderProductScrollView(this.state.groupProductScrollArr)}
                     </ScrollView>
 
                 </View>

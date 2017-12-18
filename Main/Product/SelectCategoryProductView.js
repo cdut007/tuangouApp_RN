@@ -330,7 +330,7 @@ export default class SelectCategoryProductView extends Component{
     onUpdateGroupBuyingSuccess(response){
 
         console.log('onUpdateGroupBuyingSuccess11:'+JSON.stringify(response))
-        DeviceEventEmitter.emit('updateNewGroup',this.props.groupbuying_info.id);
+        // DeviceEventEmitter.emit('updateNewGroup',this.props.groupbuying_info.id);
         const routes = this.props.navigator.state.routeStack;
         console.log('routeStack12:'+JSON.stringify(routes))
         // let destinationRoute ='';

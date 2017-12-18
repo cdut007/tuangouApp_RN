@@ -623,7 +623,7 @@ export default class NewProductView extends Component{
                         HttpRequest.uploadImage('/v2','/admin.goods.create', param, this.onSaveProductSuccess.bind(this),
                             (e) => {
 
-                                Alert.alert('提示','保存商品信息失败，请确认输入文本信息中不含图形和表情。')
+                                Alert.alert('提示','保存商品信息失败，请稍后再试。')
                                 console.log('admin.goods error:' + e)
                             })
                     }

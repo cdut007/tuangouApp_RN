@@ -518,6 +518,7 @@ export default class GroupProductEditView extends Component{
             };
             console.log('ChangeProductDetailproductParam55'+JSON.stringify(productParam))
             DeviceEventEmitter.emit('ChangeProductDetail',productParam);
+
             this.props.navigator.pop();
             // if (this.props.isEditGood){
             //
