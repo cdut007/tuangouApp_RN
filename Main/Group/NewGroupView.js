@@ -1245,7 +1245,7 @@ export default class NewGroupView extends Component{
             HttpRequest.post('/v2','/admin.groupbuying.create', param, this.onCreateGroupBuyingSuccess.bind(this),
                 (e) => {
                     console.log(' error:' + e)
-                    Alert.alert('提示','新建商品类别失败，请稍后再试。')
+                    Alert.alert('提示','新建接龙失败，请稍后再试。')
                 })
         }else {
             if (this.state.isHaveDel_goods){
@@ -1263,7 +1263,7 @@ export default class NewGroupView extends Component{
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingShareSuccess.bind(this),
                     (e) => {
                         console.log(' error:' + e)
-                        Alert.alert('提示','新建商品类别失败，请确认输入文本信息中不含图形和表情。。')
+                        Alert.alert('提示','新建接龙失败，请稍后再试。')
                     })
             }else {
                 var groupBuyInfo = {
@@ -1280,7 +1280,7 @@ export default class NewGroupView extends Component{
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingShareSuccess.bind(this),
                     (e) => {
                         console.log(' error:' + e)
-                        Alert.alert('提示','新建商品类别失败，请确认输入文本信息中不含图形和表情。。')
+                        Alert.alert('提示','新建接龙失败，请稍后再试。')
                     })
             }
         }
