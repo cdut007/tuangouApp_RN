@@ -732,7 +732,7 @@ export default class NewGroupView extends Component{
             console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
             this.state.groupProductScrollArr.map((product, i) => {
                 if (index == i){
-                    if (item.goods_id == null){
+                    if (item.goods_id == "NULL"){
                         console.log('indexitem1:'+JSON.stringify(item))
                         this.state.addGroupProductScrollArr.map((addProduct, h) => {
 
@@ -756,17 +756,30 @@ export default class NewGroupView extends Component{
                         })
                     }
 
-
+                    console.log('isHaveGoodsArr'+JSON.stringify(this.state.isHaveGoodsArr));
+                    console.log('isHaveGoodsitem'+JSON.stringify(item));
                     this.state.isHaveGoodsArr.map((haveProduct, j) => {
-                        if (index == j){
+                        // if (index == j){
+                        //     console.log('haveGoodindex'+index);
+                        //
+                        //     if (item.goods_id == haveProduct.goods_id){
+                        //         console.log('haveProduct'+JSON.stringify(haveProduct));
+                        //         this.state.isHaveDel_goods = true;
+                        //         this.state.Del_goods.push(haveProduct.goods_id.toString())
+                        //     }
+                        //
+                        // }else {
+                        //     // groupArr.push(product);
+                        // }
+
+
                             if (item.goods_id == haveProduct.goods_id){
+                                console.log('haveProduct'+JSON.stringify(haveProduct));
                                 this.state.isHaveDel_goods = true;
                                 this.state.Del_goods.push(haveProduct.goods_id.toString())
                             }
 
-                        }else {
-                            // groupArr.push(product);
-                        }
+
                     })
                 }else {
                     groupArr.push(product);
