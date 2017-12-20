@@ -859,7 +859,7 @@ export default class NewProductView extends Component{
                                              <Text style={{fontSize:16,color:'#1c1c1c'}}>S$</Text>
                                              <TextInput style={{
                                                  marginLeft: 0, fontSize: 16, flex: 20,
-                                                 textAlign: 'left', color: '#1c1c1c',
+                                                 textAlign: 'left', color: '#1c1c1c',marginTop:2,
                                              }}  keyboardType={'numeric'}
                                                         placeholder ='0.00'
                                                         editable={true}

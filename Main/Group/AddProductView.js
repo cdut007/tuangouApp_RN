@@ -198,8 +198,8 @@ export default class AddProductView extends Component{
                             <View style={{flexDirection:'row',justifyContent: 'center',alignItems:'center'}
                             }>
 
-                                <Text style={{color:'#ffffff',fontSize:30}}>+</Text>
-                                <Text style={{color:'#ffffff',fontSize:18,marginLeft:10}}>上传商品</Text>
+                                <Image style={{width:18,height:18,marginTop:8}} source={require('../../images/addProductIcon2.png')}></Image>
+                                <Text style={{color:'#ffffff',fontSize:18,marginLeft:10,marginTop:8}}>上传商品</Text>
 
 
                             </View>

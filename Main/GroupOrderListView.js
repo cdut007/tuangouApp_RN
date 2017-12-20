@@ -10,7 +10,9 @@ import {
     ScrollView,
     Alert,
     RefreshControl,
-    ListView
+    ListView,
+    BackAndroid,
+    ToastAndroid
 } from 'react-native';
 
 import {
@@ -78,6 +80,22 @@ export default class GroupOrderListView extends Component {
 
 
     }
+    componentWillMount(){
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigator) {
+                let routes = this.props.navigator.getCurrentRoutes();
+
+                if (routes.length === 1) {// 在第一页了,2秒之内点击两次返回键，退出应用
+                   this.clickBack();
+
+
+                } else {
+                    this.clickBack();
+                }
+            }
+            return true;
+        });
+    }
 
     componentDidMount(){
 
@@ -92,6 +110,11 @@ export default class GroupOrderListView extends Component {
 
 
 
+    }
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.removeEventListener('hardwareBackPress',()=>{});
+        }
     }
     fetchData() {
 

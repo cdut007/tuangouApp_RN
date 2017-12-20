@@ -69,6 +69,7 @@ export default class TabView extends Component {
                         renderSelectedIcon={() => <Image source={require('../images/home_icon_click.png')} />}
                         badgeText=""
                         titleStyle={{color:'#555555'}}
+
                         selectedTitleStyle={styles.tabBarTintColor}
                         onPress={() => this.setState({ selectedTab: 'tab1' })}>
                         {<HomeView {...this.props} />}
