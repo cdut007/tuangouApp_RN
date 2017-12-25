@@ -64,7 +64,8 @@ export default class NewGroupView extends Component{
             isGroupProductScrollArrNum:0,
             Del_goods:[],
             groupbuying_info:{},
-            agent_url:''
+            agent_url:'',
+            addIndexArr:[]
 
 
 
@@ -170,6 +171,9 @@ export default class NewGroupView extends Component{
             this.state.addGroupProductScrollArr = addArr
             console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.addGroupProductScrollArr))
             //显示的全部商品数组
+            for (var i = 1; i <= this.state.tempAddGroupProductScrollArr.length; i++){
+                this.state.addIndexArr.push(this.state.groupProductScrollArr.length-1+i)
+            }
 
             let allArr = this.state.groupProductScrollArr.concat(this.state.tempAddGroupProductScrollArr)
             console.log('AddGroupbuying_products236:'+JSON.stringify(this.state.tempAddGroupProductScrollArr))
@@ -261,6 +265,7 @@ export default class NewGroupView extends Component{
                     console.log('isGroupProductScrollArrNum13:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
                     console.log('isGroupProductScrollArr14:'+JSON.stringify( this.state.groupProductScrollArr))
                     this.state.groupProductScrollArr.map((product, i) => {
+
                         if (i == dic.index){
 
                             if (this.state.isUpdate){
@@ -270,55 +275,25 @@ export default class NewGroupView extends Component{
                                 product.stock = dic.stock;
                                 product.unit = dic.unit;
                                 this.state.isUpdate = true;
+                                this.state.addIndexArr.push(dic.index);
+
+                               this.state.addIndexArr = this.unique(this.state.addIndexArr).sort();
                             }
 
-                            groupArr.push(product);
-                            addDateArr.push(product);
-                            console.log('this.state.addGroupProductScrollArr553'+JSON.stringify(this.state.addGroupProductScrollArr))
-                            console.log('groupArrIndexaddDateAr:'+i)
-                            console.log('groupArrIndexaddDateArproduct:'+JSON.stringify(product))
-                            // console.log('groupArr:'+JSON.stringify(groupArr))
+                            console.log('dic.index12:'+JSON.stringify(dic))
 
                         }else {
-                            groupArr.push(product);
-                            console.log('groupArrIndex:'+i)
-                            console.log('groupArrIndexproduct:'+JSON.stringify(product))
-                            // console.log('groupArr:'+JSON.stringify(groupArr))
+                            console.log('dic.index11:'+JSON.stringify(dic))
                         }
                     })
 
-                    console.log('this.state.addGroupProductScrollArr554'+JSON.stringify(this.state.addGroupProductScrollArr))
-                    this.state.addGroupProductScrollArr.map((addProduct, j) => {
-                        if (j+this.state.isHaveGoodsNum == dic.index){
-                            addProduct.price = dic.price;
-                            addProduct.stock = dic.stock;
-                            addProduct.unit = dic.unit;
-                            // groupArr.push(addProduct);
-                            // addDateArr.push(addProduct);
-                            // updateArr.push(addProduct);
 
-
-                        }else {
-                            addDateArr.push(addProduct);
-                            // groupArr.push(addProduct);
-
-
-                        }
-                    })
-                    this.state.addGroupProductScrollArr = [];
-                    console.log('this.state.addGroupProductScrollArr555'+JSON.stringify(this.state.addGroupProductScrollArr))
-                    console.log('this.state.addGroupProductScrollArr556'+JSON.stringify(addDateArr))
-                    this.state.addGroupProductScrollArr = addDateArr;
-                    console.log('this.state.addGroupProductScrollArr557'+JSON.stringify(this.state.addGroupProductScrollArr))
-                    console.log('this.state.groupProductScrollArr521'+JSON.stringify(this.state.groupProductScrollArr))
-                    // console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
-                    this.state.groupProductScrollArr = groupArr;
-                    console.log('this.state.groupProductScrollArr523'+JSON.stringify(this.state.groupProductScrollArr))
-                    console.log('this.state.Del_goods112:'+JSON.stringify(this.state.Del_goods))
                 }else {
-
+                    console.log('dic.index13:'+JSON.stringify(dic))
                 }
 
+                console.log('groupArrall:'+JSON.stringify(this.state.groupProductScrollArr))
+            console.log('dic.index14:'+JSON.stringify(dic))
                 this.setState({ ...this.state });
 
 
@@ -336,7 +311,17 @@ export default class NewGroupView extends Component{
 
 
     }
+    unique(arr) {
+        var result = [], hash = {};
+        for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+            if (!hash[elem]) {
+                result.push(elem);
+                hash[elem] = true;
+            }
+        }
+        return result;
 
+    }
     componentWillUnmount() {
 
     }
@@ -763,12 +748,41 @@ export default class NewGroupView extends Component{
             console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
             this.state.groupProductScrollArr.map((product, i) => {
                 if (index == i){
+
+                   this.state.addIndexArr.map((addIndex, x) => {
+
+                       if (index == addIndex){
+                           console.log('addIndexArr20:'+JSON.stringify(this.state.addIndexArr))
+                           //调整之后的下标
+                           var testArr = this.state.addIndexArr.slice(x)
+                           testArr.shift();
+                           console.log('addIndexArr201:'+JSON.stringify(testArr))
+                           console.log('addIndexArr21:'+JSON.stringify(this.state.addIndexArr))
+                           this.state.addIndexArr.splice(x)
+                           console.log('addIndexArr21:'+JSON.stringify(this.state.addIndexArr))
+                           var updateIndexArr =[]
+                           for (var num = 0; num < testArr.length; num++){
+                               var itemIndex = testArr[num];
+                               console.log('itemIndex11:'+JSON.stringify(itemIndex))
+                               updateIndexArr.push(itemIndex-1);
+                           }
+                           console.log('updateIndexArr21:'+JSON.stringify(updateIndexArr))
+                           let tempArr = this.state.addIndexArr.concat(updateIndexArr);
+                           this.state.addIndexArr = tempArr;
+                           console.log('addIndexArr22:'+JSON.stringify(this.state.addIndexArr))
+
+                       }else {
+                           console.log('addIndexArr23:'+JSON.stringify(this.state.addIndexArr))
+                       }
+                   })
+
                     if (item.goods_id == "NULL"){
                         console.log('indexitem1:'+JSON.stringify(item))
                         this.state.addGroupProductScrollArr.map((addProduct, h) => {
 
                             if (index == h+this.state.isHaveGoodsNum){
                                 console.log('index11:'+h)
+
                             }else {
                                 console.log('index22:'+h)
                                 addArr.push(addProduct);
@@ -779,6 +793,7 @@ export default class NewGroupView extends Component{
                         this.state.addGroupProductScrollArr.map((addProduct, h) => {
 
                             if (item.goods_id == addProduct.goods_id){
+
                                 console.log('index1:'+h)
                             }else {
                                 console.log('index2:'+h)
@@ -819,6 +834,7 @@ export default class NewGroupView extends Component{
             })
             this.state.groupProductScrollArr = groupArr;
             this.state.addGroupProductScrollArr = addArr;
+            this.state.isGroupProductScrollArrNum = groupArr.length
             console.log('this.state.groupProductScrollArr112'+JSON.stringify(this.state.groupProductScrollArr))
             console.log('this.state.Del_goods112:'+JSON.stringify(this.state.Del_goods))
             this.setState({ ...this.state });
@@ -924,7 +940,7 @@ export default class NewGroupView extends Component{
                 <View style={{marginLeft:10,width:width-100
             }}><TouchableOpacity style={{flexDirection:'column',alignItems: 'flex-start',height: h,
 
-                }} onPress={this.onPressToEditGoods.bind(this,item,i)}>
+                }} onPress={this. onPressToEditGoods.bind(this,item,i)}>
                     <Text style={{  marginTop: 15, numberOfLines: 2, ellipsizeMode: 'tail', fontSize: 14, color: "#1c1c1c",textAlign: 'center', }}>{item.name}</Text>
                     <Text style={{ marginTop: 3, fontSize: 12, color: "#757575",  textAlign: 'center',}}>{item.unit}</Text>
                     <View style={{ alignItems: 'flex-start', flexDirection: 'row',}}>
@@ -1159,8 +1175,16 @@ export default class NewGroupView extends Component{
                         eyu:this.state.group_eyu,
                         id:this.state.group_buying_detail.id,
                     }
-                    let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:this.state.addGroupProductScrollArr}
+                    let updateArr = []
+                    for (var i = 0; i <this.state.addIndexArr.length;i++){
+                        let indexNum = this.state.addIndexArr[i];
+                        updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                    }
+                    let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:updateArr}
                     console.log('dele1:'+JSON.stringify(param))
+                    console.log('groupArrall1:'+JSON.stringify(this.state.groupProductScrollArr))
+                    console.log('this.state.addIndexArr1:'+JSON.stringify(this.state.addIndexArr))
+
                     HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                         (e) => {
                             console.log(' error:' + e)
@@ -1191,8 +1215,15 @@ export default class NewGroupView extends Component{
                         eyu:this.state.group_eyu,
                         id:this.state.group_buying_detail.id,
                     }
-                    let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:this.state.addGroupProductScrollArr}
+                    let updateArr = []
+                    for (var i = 0; i <this.state.addIndexArr.length;i++){
+                        let indexNum = this.state.addIndexArr[i];
+                        updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                    }
+                    let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:updateArr}
                     console.log('dele2:'+JSON.stringify(param))
+                    console.log('groupArrall2:'+JSON.stringify(this.state.groupProductScrollArr))
+                    console.log('this.state.addIndexArr2:'+JSON.stringify(this.state.addIndexArr))
                     HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                         (e) => {
                             console.log(' error:' + e)
@@ -1361,6 +1392,11 @@ export default class NewGroupView extends Component{
                     eyu:this.state.group_eyu,
                     id:this.state.group_buying_detail.id,
                 }
+                // let updateArr = []
+                // for (var i = 0; i <this.state.addIndexArr.length;i++){
+                //     let indexNum = this.state.addIndexArr[i];
+                //     updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                // }
                 let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:this.state.addGroupProductScrollArr}
                 console.log('dele1:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
