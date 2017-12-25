@@ -1334,7 +1334,12 @@ export default class NewGroupView extends Component{
                     eyu:this.state.group_eyu,
                     id:this.state.group_buying_detail.id,
                 }
-                let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:this.state.addGroupProductScrollArr}
+                let updateArr = []
+                for (var i = 0; i <this.state.addIndexArr.length;i++){
+                    let indexNum = this.state.addIndexArr[i];
+                    updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                }
+                let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:updateArr}
                 console.log('dele1:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingShareSuccess.bind(this),
                     (e) => {
@@ -1351,7 +1356,12 @@ export default class NewGroupView extends Component{
                     eyu:this.state.group_eyu,
                     id:this.state.group_buying_detail.id,
                 }
-                let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:this.state.addGroupProductScrollArr}
+                let updateArr = []
+                for (var i = 0; i <this.state.addIndexArr.length;i++){
+                    let indexNum = this.state.addIndexArr[i];
+                    updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                }
+                let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:updateArr}
                 console.log('dele2:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingShareSuccess.bind(this),
                     (e) => {
@@ -1392,12 +1402,12 @@ export default class NewGroupView extends Component{
                     eyu:this.state.group_eyu,
                     id:this.state.group_buying_detail.id,
                 }
-                // let updateArr = []
-                // for (var i = 0; i <this.state.addIndexArr.length;i++){
-                //     let indexNum = this.state.addIndexArr[i];
-                //     updateArr.push(this.state.groupProductScrollArr[indexNum]);
-                // }
-                let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:this.state.addGroupProductScrollArr}
+                let updateArr = []
+                for (var i = 0; i <this.state.addIndexArr.length;i++){
+                    let indexNum = this.state.addIndexArr[i];
+                    updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                }
+                let param = { groupbuying_info: groupBuyInfo,del_goods:this.state.Del_goods,groupbuying_products:updateArr}
                 console.log('dele1:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                     (e) => {
@@ -1414,7 +1424,12 @@ export default class NewGroupView extends Component{
                     eyu:this.state.group_eyu,
                     id:this.state.group_buying_detail.id,
                 }
-                let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:this.state.addGroupProductScrollArr}
+                let updateArr = []
+                for (var i = 0; i <this.state.addIndexArr.length;i++){
+                    let indexNum = this.state.addIndexArr[i];
+                    updateArr.push(this.state.groupProductScrollArr[indexNum]);
+                }
+                let param = { groupbuying_info: groupBuyInfo,del_goods:[],groupbuying_products:updateArr}
                 console.log('dele2:'+JSON.stringify(param))
                 HttpRequest.post('/v2','/admin.groupbuying.update', param, this.onUpdateGroupBuyingSuccess.bind(this),
                     (e) => {
