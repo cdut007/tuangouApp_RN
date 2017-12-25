@@ -60,6 +60,7 @@ export default class NewGroupView extends Component{
             isHaveGoodsArr:[],
             isHaveGoodsNum:0,
             isUpdate:false,
+            isLoading:false,
             isGroupProductScrollArrNum:0,
             Del_goods:[],
             groupbuying_info:{},
@@ -115,6 +116,7 @@ export default class NewGroupView extends Component{
         this.state.addGroupProductScrollArr = []
         this.state.Del_goods = [];
         this.state.groupProductScrollArr =[];
+        this.state.isGroupProductScrollArrNum = 0;
 
         this.state.tempAddGroupProductScrollArr = [];
 
@@ -125,14 +127,19 @@ export default class NewGroupView extends Component{
             this.state.page_Title = '新建接龙';
 
         }else {
-            this.state.groupBuyId = this.props.groupItem.group_buy_id;
-            let param = {groupbuying_id:this.state.groupBuyId}
+            if (this.state.isLoading){
+                Alert.alert('已经获取数据')
+            }else {
+                this.state.groupBuyId = this.props.groupItem.group_buy_id;
+                let param = {groupbuying_id:this.state.groupBuyId}
 
-            HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
-                (e) => {
-                    console.log(' error:' + e)
-                    Alert.alert('提示','获取接龙详情失败，请稍后再试。')
-                })
+                HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
+                    (e) => {
+                        console.log(' error:' + e)
+                        Alert.alert('提示','获取接龙详情失败，请稍后再试。')
+                    })
+            }
+
         }
         DeviceEventEmitter.addListener('GetClassifyId',(dic)=>{
             //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
@@ -192,13 +199,13 @@ export default class NewGroupView extends Component{
         //     //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
         //     //     })
         // });
-        DeviceEventEmitter.addListener('ChangeProductDetail',(dic)=>{
+        DeviceEventEmitter.addListener('CreateNewGroupChangeProductDetail',(dic)=>{
             //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
             console.log('ChangeProductDetail12:'+JSON.stringify(dic))
             console.log('isGroupProductScrollArrNum12:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
 
 
-            if (this.props.isCreateNewGroup){
+
                 var groupArr =[];
                 // this.state.Del_goods = [];
                 // console.log('this.state.groupProductScrollArr111'+JSON.stringify(this.state.groupProductScrollArr))
@@ -226,7 +233,25 @@ export default class NewGroupView extends Component{
                 // console.log('this.state.groupProductScrollArr112'+JSON.stringify(this.state.groupProductScrollArr))
                 // console.log(' this.state.addGroupProductScrollArr112:'+JSON.stringify(this.state.addGroupProductScrollArr))
                 this.setState({ ...this.state });
-            }else {
+
+
+            // this.state.groupBuyId = this.props.groupItem.group_buy_id;
+            // let param = {groupbuying_id:this.state.groupBuyId}
+            //
+            // HttpRequest.get('/v2','/admin.groupbuying.detail', param, this.onGetGroupbuyingDetailSuccess.bind(this),
+            //     (e) => {
+            //         console.log(' error:' + e)
+            //         Alert.alert('提示','获取接龙详情失败，请稍后再试。')
+            //     })
+        });
+
+        DeviceEventEmitter.addListener('ChangeProductDetail',(dic)=>{
+            //接收到选择商品页发送的通知，刷新商品列表的数据，刷新UI
+            console.log('ChangeProductDetail12:'+JSON.stringify(dic))
+            console.log('isGroupProductScrollArrNum12:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
+
+
+
                 var groupArr =[];
                 var updateArr =[];
                 var addDateArr =[];
@@ -234,6 +259,7 @@ export default class NewGroupView extends Component{
                 // console.log('this.state.groupProductScrollArr520'+JSON.stringify(this.state.groupProductScrollArr))
                 if (this.state.isGroupProductScrollArrNum == this.state.groupProductScrollArr.length ){
                     console.log('isGroupProductScrollArrNum13:'+JSON.stringify( this.state.isGroupProductScrollArrNum))
+                    console.log('isGroupProductScrollArr14:'+JSON.stringify( this.state.groupProductScrollArr))
                     this.state.groupProductScrollArr.map((product, i) => {
                         if (i == dic.index){
 
@@ -248,6 +274,7 @@ export default class NewGroupView extends Component{
 
                             groupArr.push(product);
                             addDateArr.push(product);
+                            console.log('this.state.addGroupProductScrollArr553'+JSON.stringify(this.state.addGroupProductScrollArr))
                             console.log('groupArrIndexaddDateAr:'+i)
                             console.log('groupArrIndexaddDateArproduct:'+JSON.stringify(product))
                             // console.log('groupArr:'+JSON.stringify(groupArr))
@@ -260,7 +287,7 @@ export default class NewGroupView extends Component{
                         }
                     })
 
-
+                    console.log('this.state.addGroupProductScrollArr554'+JSON.stringify(this.state.addGroupProductScrollArr))
                     this.state.addGroupProductScrollArr.map((addProduct, j) => {
                         if (j+this.state.isHaveGoodsNum == dic.index){
                             addProduct.price = dic.price;
@@ -278,8 +305,11 @@ export default class NewGroupView extends Component{
 
                         }
                     })
-                    // let addArr = this.state.addGroupProductScrollArr.concat(addDateArr)
-                    this.state.addGroupProductScrollArr = addDateArr
+                    this.state.addGroupProductScrollArr = [];
+                    console.log('this.state.addGroupProductScrollArr555'+JSON.stringify(this.state.addGroupProductScrollArr))
+                    console.log('this.state.addGroupProductScrollArr556'+JSON.stringify(addDateArr))
+                    this.state.addGroupProductScrollArr = addDateArr;
+                    console.log('this.state.addGroupProductScrollArr557'+JSON.stringify(this.state.addGroupProductScrollArr))
                     console.log('this.state.groupProductScrollArr521'+JSON.stringify(this.state.groupProductScrollArr))
                     // console.log('this.state.groupProductScrollArr522'+JSON.stringify(groupArr))
                     this.state.groupProductScrollArr = groupArr;
@@ -290,7 +320,7 @@ export default class NewGroupView extends Component{
                 }
 
                 this.setState({ ...this.state });
-            }
+
 
             // this.state.groupBuyId = this.props.groupItem.group_buy_id;
             // let param = {groupbuying_id:this.state.groupBuyId}
@@ -323,7 +353,8 @@ export default class NewGroupView extends Component{
                 groupDeadlineTime:response.data.group_buying_detail.end_time,
                 groupDeliveryTime:response.data.group_buying_detail.ship_time,
                 classify_Id:response.data.group_buying_detail.classify,
-                isGroupProductScrollArrNum:response.data.group_buying_products.length
+                isGroupProductScrollArrNum:response.data.group_buying_products.length,
+                isLoading:true
             })
 
         }
@@ -941,6 +972,7 @@ export default class NewGroupView extends Component{
                 props: {
                     oldSet:this.state.groupTitle,
                     isEditGood:true,
+                    isCreateNewGroup:this.props.isCreateNewGroup,
                     org_goods_id:goodItem.org_goods_id,
                         price:goodItem.price,
                         stock:goodItem.stock,
