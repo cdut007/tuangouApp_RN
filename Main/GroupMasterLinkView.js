@@ -39,7 +39,7 @@ export default class GroupMasterLinkView extends Component {
                 var str = Global.agent_url.substr(pos+1);
                 var agent_code = this.getQueryString('agent_code',str);
                 console.log('url agent_code='+agent_code);
-                this.state.agent_url = 'http://www.ailinkgo.com/testing/?agent_code='+agent_code
+                this.state.agent_url = 'http://www.ailinkgo.com/test/?agent_code='+agent_code
             }
 
         }else {
