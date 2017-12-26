@@ -290,7 +290,7 @@ export default class NoticeOrderView extends Component{
         if (this.state.groupArr.length*150 >= height-69){
             groupScrollHeight = height-69;
         }else {
-            groupScrollHeight = this.state.groupArr.length *150;
+            groupScrollHeight = this.state.groupArr.length *150+20;
         }
 
         return (
