@@ -50,10 +50,10 @@ export default class NewGroupView extends Component{
             tempAddGroupProductScrollArr:[],
             isSelectPicker:true, //true是选中截团时间，false 是选中预计发货时间
             isGroupDeadlineHave:false,
-            groupDeadlineTitle:'请选择截团时间',
+            groupDeadlineTitle:'截团时间',
             groupDeadlineTime:'',
             groupDeliveryTime:'',
-            groupDeliveryTitle:'请选择预计发货时间',
+            groupDeliveryTitle:'预计发货时间',
 
             isGroupDeliveryTimeHave:false,
             isHaveDel_goods:false,
@@ -65,7 +65,9 @@ export default class NewGroupView extends Component{
             Del_goods:[],
             groupbuying_info:{},
             agent_url:'',
-            addIndexArr:[]
+            addIndexArr:[],
+            pickedDeadlineValue:[],
+            pickedDeliveryValue:[]
 
 
 
@@ -354,14 +356,14 @@ export default class NewGroupView extends Component{
                 days = [];
 
             for(let i=1;i<15;i++){
-                years.push(i+2016);
+                years.push(i+2016+'年');
             }
             for(let i=1;i<13;i++){
-                months.push(i);
+                months.push(i+'月');
 
             }
             for(let i=1;i<32;i++){
-                days.push(i);
+                days.push(i+'日');
             }
 
             pickerData = [years, months, days];
@@ -374,24 +376,24 @@ export default class NewGroupView extends Component{
                 minutes = [];
 
             for(let i=1;i<15;i++){
-                years.push(i+2016);
+                years.push(i+2016+'年');
             }
             for(let i=1;i<13;i++){
-                months.push(i);
+                months.push(i+'月');
 
             }
-            for(let i=0;i<12;i++){
+            for(let i=0;i<24;i++){
 
-                hours.push(i);
+                hours.push(i+'点');
             }
 
             for(let i=1;i<32;i++){
-                days.push(i);
+                days.push(i+'日');
             }
             for(let i=0;i<60;i++){
-                minutes.push(i);
+                minutes.push(i+'分');
             }
-            pickerData = [years, months, days, ['am', 'pm'], hours, minutes];
+            pickerData = [years, months, days, hours, minutes];
         }
 
         return pickerData;
@@ -405,55 +407,70 @@ export default class NewGroupView extends Component{
                 pickerData,
                 selectedValue,
                 pickerTitleText: pickerTitle,
-                pickerConfirmBtnText:'确定',
+                pickerConfirmBtnText:'保存',
+                pickerConfirmBtnColor: [234, 107, 16, 1],
+                pickerCancelBtnColor: [123, 123, 123, 1],
+                pickerTitleColor: [28, 28, 28, 1],
+                pickerToolBarFontSize: 18,
+                pickerFontSize: 18,
+                pickerFontColor: [76, 76 ,76, 1],
+                pickerBg: [255, 255, 255, 1],
                 pickerCancelBtnText:'取消',
-                wheelFlex: [2, 1, 1, 2, 1, 1],
+                wheelFlex: [1, 1, 1],
                 onPickerConfirm: pickedValue => {
                     // var deliveryTime = pickedValue[0]+'/'+pickedValue[1]+'/'+pickedValue[2]+' '+pickedValue[3]+':'+pickedValue[4]+':'+pickedValue[5]
 
+                    var year = this.state.pickedDeliveryValue[0].split('年');
+                    var month = this.state.pickedDeliveryValue[1].split('月');
+                    var day = this.state.pickedDeliveryValue[2].split('日');
 
-                    var deliveryTime = pickedValue[0]+'/'+pickedValue[1]+'/'+pickedValue[2]
-
+                    var  deliveryTime = year[0]+'-'+month[0]+'-'+day[0]
 
                     console.log('deliveryTime1', deliveryTime);
 
-                    var displayDeliveryTime = new Date(deliveryTime).format("yyyy-MM-dd");
-
+                    // var displayDeliveryTime = new Date(deliveryTime).format("yyyy年MM月dd日");
+                    // var displayDeliveryTime = deliveryTime;
+                    //
                     this.setState({
-                        groupDeliveryTime:displayDeliveryTime,
+                        groupDeliveryTime:deliveryTime,
                     })
 
-                    console.log('displayDeliveryTime2', displayDeliveryTime);
+                    // console.log('displayDeliveryTime2', displayDeliveryTime);
                 },
                 onPickerCancel: pickedValue => {
                     console.log('area', pickedValue);
                 },
                 onPickerSelect: pickedValue => {
                     let targetValue = [...pickedValue];
-                    if(parseInt(targetValue[1]) === 2){
-                        if(targetValue[0]%4 === 0 && targetValue[2] > 29){
-                            targetValue[2] = 29;
+                    var year = targetValue[0].split('年')[0];
+                    var month = targetValue[1].split('月')[0];
+                    var day = targetValue[2].split('日')[0];
+
+                    if(parseInt(month) === 2){
+                        if(year%4 === 0 && day > 29){
+                            console.log('area15', pickedValue);
+
+                            targetValue[2] = '29日'
                         }
-                        else if(targetValue[0]%4 !== 0 && targetValue[2] > 28){
-                            targetValue[2] = 28;
+                        else if(year%4 !== 0 && day > 28){
+
+
+                            targetValue[2] = '28日'
+
+                            console.log('area16', pickedValue);
                         }
                     }
-                    else if(targetValue[1] in {4:1, 6:1, 9:1, 11:1} && targetValue[2] > 30){
-                        targetValue[2] = 30;
+                    else if(month in {4:1, 6:1, 9:1, 11:1} && day > 30){
+                        console.log('area17', pickedValue);
+
+                        targetValue[2] = '30日'
 
                     }
-                    // forbidden some value such as some 2.29, 4.31, 6.31...
-                    if(JSON.stringify(targetValue) !== JSON.stringify(pickedValue)){
-                        // android will return String all the time，but we put Number into picker at first
-                        // so we need to convert them to Number again
-                        targetValue.map((v, k) => {
-                            if(k !== 3){
-                                targetValue[k] = parseInt(v);
-                            }
-                        });
-                        Picker.select(targetValue);
-                        pickedValue = targetValue;
-                    }
+                    Picker.select(targetValue);
+                    this.state.pickedDeliveryValue = targetValue;
+                    console.log('this.state.pickedDeliveryValue1'+JSON.stringify(this.state.pickedDeliveryValue))
+
+
                 }
             });
         }else {
@@ -461,41 +478,33 @@ export default class NewGroupView extends Component{
                 pickerData,
                 selectedValue,
                 pickerTitleText: pickerTitle,
-                pickerConfirmBtnText:'确定',
+                pickerConfirmBtnText:'保存',
+                pickerConfirmBtnColor: [234, 107, 16, 1],
+                pickerCancelBtnColor: [123, 123, 123, 1],
+                pickerTitleColor: [28, 28, 28, 1],
+                pickerToolBarFontSize: 18,
+                pickerFontSize: 18,
+                pickerFontColor: [76, 76 ,76, 1],
+                pickerBg: [255, 255, 255, 1],
                 pickerCancelBtnText:'取消',
-                wheelFlex: [2, 1, 1, 2, 1, 1],
+                wheelFlex: [1, 1, 1, 1, 1],
                 onPickerConfirm: pickedValue => {
+
+                    let selectValue = this.state.pickedDeadlineValue
+                    var year = selectValue[0].split('年')[0];
+                    var month = selectValue[1].split('月')[0];
+                    var day = selectValue[2].split('日')[0];
+                    var hour = selectValue[3].split('点')[0];
+                    var minutes = selectValue[4].split('分')[0];
                     var deadlineTime =''
 
-                    if (pickedValue[3] =='pm'){
-                        var hours = pickedValue[4];
-                        var yearStr =pickedValue[0]
-                        var monthStr =pickedValue[1]
-                        var dayStr = pickedValue[2]
+                    console.log('selectValue'+JSON.stringify(selectValue))
+                        deadlineTime = year+'/'+month+'/'+day+' '+hour+':'+minutes
 
-
-                        if (parseInt(hours) ==12){
-                            hoursStr = 0;
-                        }else {
-                            yearStr = pickedValue[0]
-                            monthStr = pickedValue[1]
-                            dayStr = pickedValue[2]
-                            minuteStr =pickedValue[5]
-                            hoursStr = parseInt(hours)+12
-                        }
-
-                        deadlineTime = yearStr+'/'+monthStr+'/'+dayStr+' '+hoursStr+':'+minuteStr
-                        console.log('deadlineTime1', deadlineTime);
-
-                    }else {
-                        deadlineTime = pickedValue[0]+'/'+pickedValue[1]+'/'+pickedValue[2]+' '+pickedValue[4]+':'+pickedValue[5]
-
-                    }
-                    // var  displayDeliveryTime = moment(deliveryTime).format("Y")+'/'+moment(deliveryTime).format("M")+'/'+moment(deliveryTime).format("D")+' '+moment(deliveryTime).format("hh")+':'+moment(deliveryTime).format("mm");
-
-                    // var endTime = (new Date(groupend_time.replace(' ','T'))).getTime();
+                    console.log('deadlineTime'+JSON.stringify(deadlineTime))
                     var displayDeadlineTime = new Date(deadlineTime).format("yyyy/MM/dd hh:mm:ss");
 
+                    console.log('displayDeadlineTime1'+JSON.stringify(displayDeadlineTime))
                     this.setState({
                         groupDeadlineTime:displayDeadlineTime,
                     })
@@ -505,30 +514,36 @@ export default class NewGroupView extends Component{
                 },
                 onPickerSelect: pickedValue => {
                     let targetValue = [...pickedValue];
-                    if(parseInt(targetValue[1]) === 2){
-                        if(targetValue[0]%4 === 0 && targetValue[2] > 29){
-                            targetValue[2] = 29;
+                    var year = targetValue[0].split('年')[0];
+                    var month = targetValue[1].split('月')[0];
+                    var day = targetValue[2].split('日')[0];
+
+                    if(parseInt(month) === 2){
+                        if(year%4 === 0 && day > 29){
+                            targetValue[2] = '29日';
                         }
-                        else if(targetValue[0]%4 !== 0 && targetValue[2] > 28){
-                            targetValue[2] = 28;
+                        else if(year%4 !== 0 && day > 28){
+                            targetValue[2] = '28日';
                         }
                     }
-                    else if(targetValue[1] in {4:1, 6:1, 9:1, 11:1} && targetValue[2] > 30){
-                        targetValue[2] = 30;
+                    else if(month in {4:1, 6:1, 9:1, 11:1} && day > 30){
+                        targetValue[2] = '30日';
 
                     }
+                    Picker.select(targetValue);
+                    this.state.pickedDeadlineValue = targetValue;
+                    // pickedValue = targetValue;
                     // forbidden some value such as some 2.29, 4.31, 6.31...
-                    if(JSON.stringify(targetValue) !== JSON.stringify(pickedValue)){
-                        // android will return String all the time，but we put Number into picker at first
-                        // so we need to convert them to Number again
-                        targetValue.map((v, k) => {
-                            if(k !== 3){
-                                targetValue[k] = parseInt(v);
-                            }
-                        });
-                        Picker.select(targetValue);
-                        pickedValue = targetValue;
-                    }
+                    // if(JSON.stringify(targetValue) !== JSON.stringify(pickedValue)){
+                    //     // android will return String all the time，but we put Number into picker at first
+                    //     // so we need to convert them to Number again
+                    //     targetValue.map((v, k) => {
+                    //         if(k !== 3){
+                    //             targetValue[k] = parseInt(v);
+                    //         }
+                    //     });
+                    //
+                    // }
                 }
             });
         }
@@ -574,8 +589,8 @@ export default class NewGroupView extends Component{
                         [date.getFullYear()],
                         [date.getMonth()+1],
                         [date.getDate()],
-                        [date.getHours() > 11 ? 'pm' : 'am'],
-                        [date.getHours() === 12 ? 12 : date.getHours()%12],
+                        // [date.getHours() > 11 ? 'pm' : 'am'],
+                        [date.getHours()],
                         [date.getMinutes()]
                     ];
                     console.log('currentData2'+selectedValue)
@@ -592,8 +607,7 @@ export default class NewGroupView extends Component{
                     [date.getFullYear()],
                     [date.getMonth()+1],
                     [date.getDate()],
-                    [date.getHours() > 11 ? 'pm' : 'am'],
-                    [date.getHours() === 12 ? 12 : date.getHours()%12],
+                    [date.getHours()],
                     [date.getMinutes()]
                 ];
                 console.log('currentData4'+selectedValue)
@@ -1091,19 +1105,24 @@ export default class NewGroupView extends Component{
             Alert.alert('提示','请选择预计发货时间时间')
             return
         }
+        console.log('endTime0',this.state.groupDeliveryTime)
         var DeliveryArray =  this.state.groupDeliveryTime.split("-");
+        console.log('endTime01',DeliveryArray)
         var endTime = new Date(DeliveryArray[0], DeliveryArray[1]-1, DeliveryArray[2]);
+        this.state.groupDeliveryTime = new Date(endTime).format("yyyy-MM-dd")
         var startTime  = new Date( this.state.groupDeadlineTime);
+            console.log('startTime',startTime)
+        console.log('endTime',endTime)
 
         // let isTimeNo =  this.compareCalendar(startTime, endTime);
         if(endTime>startTime){
 
         }else {
+
             Alert.alert('提示','预计发货时间必须大于截团时间')
             return
         }
-            console.log('startTime',startTime)
-        console.log('endTime',endTime)
+
 
 
 
@@ -1553,9 +1572,10 @@ export default class NewGroupView extends Component{
            jietuanTime ='请选择拼团截止时间';
             jietuanColor='rgb(193,193,193)';
         }else {
-            jietuanTime =this.state.groupDeadlineTime
+            jietuanTime =new Date(this.state.groupDeadlineTime).format("yyyy年MM月dd日 hh点mm分");
             jietuanColor='black';
         }
+
         //发货时间
         var fahuoTime =''
         var fahuoColor='';
@@ -1563,7 +1583,11 @@ export default class NewGroupView extends Component{
             fahuoTime ='请选择本次拼团发货时间';
             fahuoColor='rgb(193,193,193)';
         }else {
-            fahuoTime =this.state.groupDeliveryTime
+            var DeliveryArray =  this.state.groupDeliveryTime.split("-");
+
+            var endTime = new Date(DeliveryArray[0], DeliveryArray[1]-1, DeliveryArray[2]);
+            this.state.groupDeliveryTime = new Date(endTime).format("yyyy-MM-dd")
+            fahuoTime = new Date(this.state.groupDeliveryTime).format("yyyy年MM月dd日");
             fahuoColor='black';
         }
         //共计商品数量
