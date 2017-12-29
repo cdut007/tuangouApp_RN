@@ -235,9 +235,15 @@ export default class HomeView extends Component {
         var displayViewArr =[];
 
         for (var i = 0 ;i <imageNum ; i++){
-            displayViewArr.push(  <CachedImage source={{uri:imageArr[i].image}} style={{width: width,
-        height: 200,resizeMode: 'cover'}} />)
+            console.log('renderSwiperImageView:'+i+'/'+imageArr[i].image)
+
+                displayViewArr.push( <View style={{flex:1}}><CachedImage source={{uri:imageArr[i].image}} style={{flex:1,resizeMode:'cover'}} /></View> )
+
+
+
+
         }
+
         return displayViewArr;
 
     }
@@ -273,15 +279,13 @@ export default class HomeView extends Component {
             return (
                 <View>
                 <Swiper
-                    style={[styles.topView,{width:width*imageNum}]}
+                    style={styles.topView}
                     height={200}
-                    index={0}
-                    loop={true}                    //如果设置为false，那么滑动到最后一张时，再次滑动将不会滑到第一张图片。
                     autoplay={true}                //自动轮播
                     horizontal={true} //水平方向，为false可设置为竖直方向
                     paginationStyle={{bottom: 20}}
                     showsButtons={false}
-                    autoplayTimeout={4}                //每隔4秒切换
+                    autoplayTimeout={4}
                                   >
 
 
@@ -548,8 +552,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     topView: {
-        height: 200,
-        width:width,
+
+
         // alignSelf:'stretch'
     },
 

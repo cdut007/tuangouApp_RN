@@ -10,6 +10,7 @@ import AddProductView from '../Group/AddProductView'
 import NewProductView from '../Group/NewProductView'
 import  Swipeout from 'react-native-swipeout'
 import HttpRequest from '../../HttpRequest/HttpRequest'
+import ProductManager from './ProductManager'
 
 import {
     StyleSheet,
@@ -50,9 +51,15 @@ export default class NewProductCategoryView extends Component{
             DeviceEventEmitter.emit('ChangeProductManagerUI');
             this.state.oldSet = null;
             this.state.firstSet = null;
+            console.log('isUserAgentmentTo1'+this.props.isUserAgentmentTo)
             this.props.navigator.pop();
-        }else {
-
+        }else if (this.props.isUserAgentmentTo){
+        console.log('isUserAgentmentTo2'+this.props.isUserAgentmentTo)
+            this.state.oldSet = null;
+            this.state.firstSet = null;
+            this.props.navigator.pop();
+        }else{
+            console.log('isUserAgentmentTo3'+this.props.isUserAgentmentTo)
             this.state.oldSet = null;
             this.state.firstSet = null;
             this.props.navigator.pop();

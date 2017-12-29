@@ -9,6 +9,7 @@ import Dimensions from 'Dimensions';
 import CheckBox from 'react-native-checkbox'
 import {CachedImage} from "react-native-img-cache";
 import NewProductCategoryView from './NewProductCategoryView'
+import UserAgreementView from '../Group/UserAgreementView'
 import CategoryProductView from './CategoryProductView'
 // import ImagePicker from 'react-native-image-crop-picker';
 import HttpRequest from '../../HttpRequest/HttpRequest'
@@ -29,6 +30,7 @@ import {
 }   from 'react-native';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+var Global = require('../../common/globals');
 
 //存放数组
 var dataToPost = [];
@@ -59,6 +61,11 @@ export default class ProductManager extends Component{
         this.props.navigator.pop();
     }
     componentWillMount(){
+
+
+
+
+
         DeviceEventEmitter.addListener('ChangeProductManagerUI',(dic)=>{
             //接收到新建商品页发送的通知，刷新商品类别页的数据，刷新UI
             console.log('ChangeProductManagerUI:11')
@@ -170,7 +177,8 @@ export default class ProductManager extends Component{
             component: NewProductCategoryView,
             props: {
                 hasSet:true,
-                oldSet:categoryItem.set
+                oldSet:categoryItem.set,
+                isUserAgentmentTo:false
 
             }
 
@@ -223,14 +231,26 @@ export default class ProductManager extends Component{
         return displayCategoryAry;
     }
     onPressNewCategoryView(){
-        this.props.navigator.push({
-            component: NewProductCategoryView,
-            props: {
-                hasSet:false,
-                oldSet:null
+        console.log('agree_ua'+Global.agree_ua)
+       if (Global.agree_ua == 0){
+           this.props.navigator.push({
+               component: UserAgreementView,
+               props: {
 
-            }
-        })
+               }
+           })
+       }else {
+           this.props.navigator.push({
+               component: NewProductCategoryView,
+               props: {
+                   hasSet:false,
+                   oldSet:null,
+                   isUserAgentmentTo:false
+
+               }
+           })
+       }
+
 
     }
     renderItem = (item, sectionID, rowID) => {

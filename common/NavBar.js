@@ -32,6 +32,10 @@ export default class NavBar extends Component{
         leftPress: PropTypes.func,
         rightPress: PropTypes.func,
         style: PropTypes.object,
+        leftTitleStyle:PropTypes.object, // 左边标题的字体颜色
+        titleStyle: PropTypes.object,         // 标题的字体颜色
+        rightTitleStyle:PropTypes.object
+
     }
     static topbarHeight = (Platform.OS === 'ios' ? 64 : 44)
     renderBtn(pos){
@@ -52,7 +56,22 @@ export default class NavBar extends Component{
                 </TouchableOpacity>
               )
             }
-        }else if (pos=="left" && this.props.leftTitle ){
+        }else if (pos=="left" && this.props.leftTitle && this.props.leftTitleStyle){
+              if(Platform.OS === 'android'){
+                  return (
+                      <TouchableNativeFeedback onPress={onPress} >
+                          <Text style={this.props.leftTitleStyle}>{name}</Text>
+                      </TouchableNativeFeedback>
+                  )
+              }else{
+                  return (
+                      <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
+                          <Text style={this.props.leftTitleStyle}>{name}</Text>
+                      </TouchableOpacity>
+                  )
+              }
+          }
+          else if (pos=="left" && this.props.leftTitle ){
               if(Platform.OS === 'android'){
                   return (
                       <TouchableNativeFeedback onPress={onPress} >
@@ -66,7 +85,21 @@ export default class NavBar extends Component{
                       </TouchableOpacity>
                   )
               }
-          }else if (pos == 'right' && this.props.rightTitle){
+          }else if (pos == 'right' && this.props.rightTitle && this.props.rightTitleStyle){
+              if(Platform.OS === 'android'){
+                  return (
+                      <TouchableNativeFeedback onPress={onPress} >
+                          <Text style={this.props.rightTitleStyle}>{name}</Text>
+                      </TouchableNativeFeedback>
+                  )
+              }else{
+                  return (
+                      <TouchableOpacity onPress={onPress} style={styles.btnLabel}>
+                          <Text style={this.props.rightTitleStyle}>{name}</Text>
+                      </TouchableOpacity>
+                  )
+              }
+          } else if (pos == 'right' && this.props.rightTitle){
               if(Platform.OS === 'android'){
                   return (
                       <TouchableNativeFeedback onPress={onPress} >
@@ -80,7 +113,7 @@ export default class NavBar extends Component{
                       </TouchableOpacity>
                   )
               }
-          } else{
+          }else{
             if(Platform.OS === 'android'){
             return (
               <TouchableNativeFeedback onPress={onPress} >

@@ -10,7 +10,8 @@ import HttpRequest from '../../HttpRequest/HttpRequest';
 var Global = require('../../common/globals');
 import ClassifyListView from './ClassifyListView'
 import  Swipeout from 'react-native-swipeout'
-import Picker from 'react-native-picker';
+import onePicker from 'react-native-picker';
+import twoPicker from 'react-native-picker';
 import NewProductView from '../Group/NewProductView'
 import GroupProductEditView from './GroupProductEditView'
 import moment from 'moment';
@@ -49,13 +50,17 @@ export default class NewGroupView extends Component{
             UpdateAndAddGroupProductScrollArr:[],
             tempAddGroupProductScrollArr:[],
             isSelectPicker:true, //true是选中截团时间，false 是选中预计发货时间
-            isGroupDeadlineHave:false,
+
             groupDeadlineTitle:'截团时间',
             groupDeadlineTime:'',
             groupDeliveryTime:'',
             groupDeliveryTitle:'预计发货时间',
 
+            isGroupDeadlineHave:false,
             isGroupDeliveryTimeHave:false,
+            onePickerIsShow:false,
+            twoPickerIsShow:false,
+
             isHaveDel_goods:false,
             isHaveGoodsArr:[],
             isHaveGoodsNum:0,
@@ -102,7 +107,8 @@ export default class NewGroupView extends Component{
         }
     }
     back(){
-        Picker.hide()
+        onePicker.hide()
+        twoPicker.hide()
         Alert.alert(
             '提示',
             '请确认是否退出此次接龙！',
@@ -403,7 +409,7 @@ export default class NewGroupView extends Component{
         let selectedValue = Value;
         let pickerTitle = titles;
         if (pickerTitle == this.state.groupDeliveryTitle){
-            Picker.init({
+            twoPicker.init({
                 pickerData,
                 selectedValue,
                 pickerTitleText: pickerTitle,
@@ -419,10 +425,19 @@ export default class NewGroupView extends Component{
                 wheelFlex: [1, 1, 1],
                 onPickerConfirm: pickedValue => {
                     // var deliveryTime = pickedValue[0]+'/'+pickedValue[1]+'/'+pickedValue[2]+' '+pickedValue[3]+':'+pickedValue[4]+':'+pickedValue[5]
+                    var year = 0
+                    var month = 0
+                    var day = 0
+                    if (this.state.pickedDeliveryValue.length > 0){
+                         year = this.state.pickedDeliveryValue[0].split('年');
+                         month = this.state.pickedDeliveryValue[1].split('月');
+                         day = this.state.pickedDeliveryValue[2].split('日');
+                    }else {
+                         year = pickedValue[0].split('年');
+                         month = pickedValue[1].split('月');
+                         day = pickedValue[2].split('日');
+                    }
 
-                    var year = this.state.pickedDeliveryValue[0].split('年');
-                    var month = this.state.pickedDeliveryValue[1].split('月');
-                    var day = this.state.pickedDeliveryValue[2].split('日');
 
                     var  deliveryTime = year[0]+'-'+month[0]+'-'+day[0]
 
@@ -466,7 +481,7 @@ export default class NewGroupView extends Component{
                         targetValue[2] = '30日'
 
                     }
-                    Picker.select(targetValue);
+                    onePicker.select(targetValue);
                     this.state.pickedDeliveryValue = targetValue;
                     console.log('this.state.pickedDeliveryValue1'+JSON.stringify(this.state.pickedDeliveryValue))
 
@@ -474,7 +489,7 @@ export default class NewGroupView extends Component{
                 }
             });
         }else {
-            Picker.init({
+            onePicker.init({
                 pickerData,
                 selectedValue,
                 pickerTitleText: pickerTitle,
@@ -490,15 +505,32 @@ export default class NewGroupView extends Component{
                 wheelFlex: [1, 1, 1, 1, 1],
                 onPickerConfirm: pickedValue => {
 
-                    let selectValue = this.state.pickedDeadlineValue
-                    var year = selectValue[0].split('年')[0];
-                    var month = selectValue[1].split('月')[0];
-                    var day = selectValue[2].split('日')[0];
-                    var hour = selectValue[3].split('点')[0];
-                    var minutes = selectValue[4].split('分')[0];
+                    var year = 0
+                    var month = 0
+                    var day = 0
+                    var hour = 0
+                    var minutes = 0
                     var deadlineTime =''
+                    if (this.state.pickedDeadlineValue.length > 0){
+                         year = this.state.pickedDeadlineValue[0].split('年')[0];
+                         month = this.state.pickedDeadlineValue[1].split('月')[0];
+                         day = this.state.pickedDeadlineValue[2].split('日')[0];
+                         hour = this.state.pickedDeadlineValue[3].split('点')[0];
+                         minutes = this.state.pickedDeadlineValue[4].split('分')[0];
 
-                    console.log('selectValue'+JSON.stringify(selectValue))
+                    }else {
+                         year = pickedValue[0].split('年')[0];
+                         month = pickedValue[1].split('月')[0];
+                         day = pickedValue[2].split('日')[0];
+                         hour = pickedValue[3].split('点')[0];
+                         minutes = pickedValue[4].split('分')[0];
+
+                    }
+
+
+
+
+
                         deadlineTime = year+'/'+month+'/'+day+' '+hour+':'+minutes
 
                     console.log('deadlineTime'+JSON.stringify(deadlineTime))
@@ -530,7 +562,7 @@ export default class NewGroupView extends Component{
                         targetValue[2] = '30日';
 
                     }
-                    Picker.select(targetValue);
+                    onePicker.select(targetValue);
                     this.state.pickedDeadlineValue = targetValue;
                     // pickedValue = targetValue;
                     // forbidden some value such as some 2.29, 4.31, 6.31...
@@ -552,7 +584,8 @@ export default class NewGroupView extends Component{
     }
 
     selectGroupTitle(){
-        Picker.hide()
+        onePicker.hide()
+        twoPicker.hide()
         if(this.props.isCreateNewGroup){
             this.props.navigator.push({
                 component: ClassifyListView,
@@ -578,43 +611,65 @@ export default class NewGroupView extends Component{
         //true 为截团时间picker   ，false 为 预计发货时间picker
         this.refs.eyu.blur();
 
+
             if (this.state.isSelectPicker){
                 if (this.state.isGroupDeadlineHave){
-                    Picker.toggle();
+                    // twoPicker.hide()
+                    onePicker.toggle();
+
                 }else {
-                    let pickerData = this.creatTimeOfPicker();
-                    let date = new Date(this.state.groupDeadlineTime);
+                    let pickerData = this.creatTimeOfPicker(false);
+                    var date = new Date(this.state.groupDeadlineTime);
+                    if (this.props.isCreateNewGroup){
+                        date = new Date();
+                    }else {
+
+                    }
+
                     console.log('currentData1'+date)
                     let selectedValue = [
-                        [date.getFullYear()],
-                        [date.getMonth()+1],
-                        [date.getDate()],
-                        // [date.getHours() > 11 ? 'pm' : 'am'],
-                        [date.getHours()],
-                        [date.getMinutes()]
+                        date.getFullYear()+'年',
+                        date.getMonth()+1+'月',
+                        date.getDate()+'日',
+
+                        date.getHours()+'点',
+                        date.getMinutes()+'分'
                     ];
                     console.log('currentData2'+selectedValue)
                     this.creatPickerWithInfo(this.state.groupDeadlineTitle,pickerData,selectedValue);
                     this.state.isGroupDeadlineHave = true;
                     this.state.isSelectPicker = true;
-                    Picker.show();
+
+                    onePicker.show();
+
                 }
             }else {
-                let pickerData = this.creatTimeOfPicker();
-                let date = new Date(this.state.groupDeadlineTime);
-                console.log('currentData3'+date)
-                let selectedValue = [
-                    [date.getFullYear()],
-                    [date.getMonth()+1],
-                    [date.getDate()],
-                    [date.getHours()],
-                    [date.getMinutes()]
-                ];
-                console.log('currentData4'+selectedValue)
+
+                    let pickerData = this.creatTimeOfPicker(false);
+                    var date = new Date(this.state.groupDeadlineTime);
+
+                   if (this.props.isCreateNewGroup){
+                    date = new Date();
+                }else {
+
+                }
+                    console.log('currentData7'+date)
+                    let selectedValue = [
+                        date.getFullYear()+'年',
+                        date.getMonth()+1+'月',
+                        date.getDate()+'日',
+
+                        date.getHours()+'点',
+                        date.getMinutes()+'分'
+
+                    ];
+                    console.log('currentData8'+selectedValue)
                 this.creatPickerWithInfo(this.state.groupDeadlineTitle,pickerData,selectedValue);
                 this.state.isGroupDeadlineHave = true;
-                this.state.isSelectPicker = true;
-                Picker.show();
+                    this.state.isSelectPicker = true;
+
+                    onePicker.show();
+
             }
 
 
@@ -624,39 +679,57 @@ export default class NewGroupView extends Component{
     }
     selectGroupDeliveryTime(){
         this.refs.eyu.blur();
+        //true 为截团时间picker   ，false 为 预计发货时间picker
         if (this.state.isSelectPicker){
-            let pickerData = this.creatTimeOfPicker(this.state.isSelectPicker );
-            let date = new Date(this.state.groupDeliveryTime);
+            let pickerData = this.creatTimeOfPicker(true);
+
+            var date = new Date(this.state.groupDeliveryTime);
+
+            if (this.props.isCreateNewGroup){
+                date = new Date();
+            }else {
+
+            }
             console.log('currentData5'+date)
             let selectedValue = [
-                [date.getFullYear()],
-                [date.getMonth()+1],
-                [date.getDate()],
+                date.getFullYear()+'年',
+                date.getMonth()+1+'月',
+                date.getDate()+'日',
 
             ];
             console.log('currentData6'+selectedValue)
             this.creatPickerWithInfo(this.state.groupDeliveryTitle,pickerData,selectedValue);
             this.state.isGroupDeliveryTimeHave = true;
             this.state.isSelectPicker = false;
-            Picker.show();
+
+            twoPicker.show();
         }else {
             if (this.state.isGroupDeliveryTimeHave){
-                Picker.toggle();
+                twoPicker.toggle();
+
+
             }else {
-                let pickerData = this.creatTimeOfPicker();
-                let date = new Date(this.state.groupDeliveryTime);
+                let pickerData = this.creatTimeOfPicker(true);
+                var date = new Date(this.state.groupDeliveryTime);
+
+                if (this.props.isCreateNewGroup){
+                    date = new Date();
+                }else {
+
+                }
                 console.log('currentData7'+date)
                 let selectedValue = [
-                    [date.getFullYear()],
-                    [date.getMonth()+1],
-                    [date.getDate()],
+                    date.getFullYear()+'年',
+                    date.getMonth()+1+'月',
+                    date.getDate()+'日',
 
                 ];
                 console.log('currentData8'+selectedValue)
                 this.creatPickerWithInfo(this.state.groupDeliveryTitle,pickerData,selectedValue);
                 this.state.isGroupDeliveryTimeHave = true;
                 this.state.isSelectPicker = false;
-                Picker.show();
+
+                twoPicker.show();
             }
         }
 
@@ -666,7 +739,8 @@ export default class NewGroupView extends Component{
 
     }
     OnAddProductViewPress(){
-        Picker.hide()
+        onePicker.hide()
+        twoPicker.hide()
         if (this.props.isCreateNewGroup){
             var groupBuyInfo = {
                 title:this.state.group_buying_detail.title,
@@ -996,7 +1070,8 @@ export default class NewGroupView extends Component{
     onPressToEditGoods(goodItem,index){
         console.log('GroupProductEditView890:'+JSON.stringify(goodItem))
         this.state.isUpdate =false;
-        Picker.hide();
+        onePicker.hide();
+        twoPicker.hide()
             this.props.navigator.push({
                 component: GroupProductEditView,
                 props: {
@@ -1084,7 +1159,8 @@ export default class NewGroupView extends Component{
     saveGroup(){
 
 
-        Picker.hide()
+        onePicker.hide()
+        twoPicker.hide()
 
 
         if (this.state.group_eyu){

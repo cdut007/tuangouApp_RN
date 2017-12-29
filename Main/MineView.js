@@ -29,6 +29,7 @@ import NoticeSuccessView from './Order/NoticeSuccessView'
 import MyGroupBuyListView from './Group/MyGroupBuyListView'
 
 import HelpView from './HelpView';
+import UserAgreementView from './Group/UserAgreementView'
 import Welcome from '../Login/Welcome'
 const isIOS = Platform.OS == "ios"
 var width = Dimensions.get('window').width;
@@ -132,6 +133,7 @@ export default class MineView extends Component {
         Global.user_profile = response.data.user_profile
         Global.agent_url = response.data.user_profile.agent_url
         Global.role = response.data.user_profile.role
+        Global.agree_ua = response.data.user_profile.agree_ua
         if (Global.role =='consumer'){
 
             this.props.navigator.push({
@@ -155,6 +157,7 @@ export default class MineView extends Component {
         Global.user_profile = response.data.user_profile
         Global.agent_url = response.data.user_profile.agent_url
         Global.role = response.data.user_profile.role
+        Global.agree_ua = response.data.user_profile.agree_ua
         if (Global.role =='consumer'){
 
             this.props.navigator.push({
@@ -209,6 +212,9 @@ export default class MineView extends Component {
         this.props.navigator.push({
             component: HelpView,
         })
+        // this.props.navigator.push({
+        //     component:UserAgreementView
+        // })
     }
     onGroupBuyDonePress() {
         this.props.navigator.push({

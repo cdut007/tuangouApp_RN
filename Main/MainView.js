@@ -225,6 +225,7 @@ export default class MainView extends Component {
         Global.agent_url = response.data.user_profile.agent_url
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
+        Global.agree_ua = response.data.user_profile.agree_ua
         console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
 
         this.props.navigator.resetTo({
@@ -248,7 +249,7 @@ export default class MainView extends Component {
                     (e) => {
 
                     })
-                HttpRequest.get('/v1','/api.user.info', {}, me.onGetUserInfoSuccess.bind(me),
+                HttpRequest.get('/v2','/api.user.info', {}, me.onGetUserInfoSuccess.bind(me),
                     (e) => {
                         // alert.log(' usererror:' + e)
                     })
@@ -324,6 +325,7 @@ export default class MainView extends Component {
         Global.nickname = response.data.user_profile.nickname
         Global.headimgurl =response.data.user_profile.headimgurl
         Global.role = response.data.user_profile.role
+        Global.agree_ua = response.data.user_profile.agree_ua
         console.log('Global.user_profile :'+JSON.stringify(Global.user_profile))
 
     }

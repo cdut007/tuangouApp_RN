@@ -175,26 +175,59 @@ export default class AddressView extends Component {
 
                 </View>
                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(212,212,212)'}}></View>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 45, paddingLeft: 10, paddingRight: 10 }}>
-                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14, }]}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 55, paddingLeft: 10, paddingRight: 10 }}>
+                    <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14,marginLeft: 5, }]}>
                         收货地址
                         </Text>
-                    <TextInput style={{
-                        marginLeft: 0, fontSize: 14, flex: 20,
+                    <TextInput numberOfLines={3}
+                               style={{
+                        marginLeft: 0, fontSize: 14,width:width-100,
                         textAlign: 'left', color: '#1c1c1c',
                     }}
-                        editable={true}
-                        onChangeText={(text) => this.setState({ address: text })}
+
+                        onChangeText={(text) => this.handleMaxLength(text)}
                                placeholder={'街道、门牌、邮编'}
-                               underlineColorAndroid='transparent'
+
                         value= {this.state.address}
+
+                               editable={true}
+                               blurOnSubmit ={true}
+                               underlineColorAndroid='transparent'
+                               multiline={true}
+                               returnKeyType={'done'}
+
+
+
+
                     ></TextInput>
 
                 </View>
             </View>
         )
     }
+    handleMaxLength(text){
+       var lenth = this.GetLength(text);
+       var newStr = ''
 
+       if (lenth >= 120){
+
+           // this.setState({
+           //     address:newStr
+           // })
+       }else {
+
+           this.setState({
+               address:text
+           })
+           console.log('GetLength14'+lenth)
+           console.log('GetLength171'+newStr)
+       }
+
+
+    }
+    GetLength(str){
+        return str.replace(/[\u0391-\uFFE5]/g,"aa").length;  //先把中文替换成两个字节的英文，在计算长度
+    };
 
 }
 
