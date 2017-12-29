@@ -148,7 +148,7 @@ export default class AddressView extends Component {
                         团长名
                         </Text>
                     <Text style={{
-                        marginLeft: 0, fontSize: 14, flex: 20,
+                        marginLeft: 28, fontSize: 14, flex: 20,
                         textAlign: 'left', color: '#1c1c1c',
                     }}
                         editable={true}
@@ -175,7 +175,7 @@ export default class AddressView extends Component {
 
                 </View>
                 <View style={{marginLeft:10,marginRight:10,height:0.5,backgroundColor:'rbg(212,212,212)'}}></View>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 55, paddingLeft: 10, paddingRight: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: '#ffffff', height: 70, paddingLeft: 10, paddingRight: 10 }}>
                     <Text style={[styles.iconSize, { width: 70, marginRight: 15, color: '#1b1b1b', fontSize: 14,marginLeft: 5, }]}>
                         收货地址
                         </Text>

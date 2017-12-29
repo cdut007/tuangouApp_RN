@@ -425,9 +425,9 @@ export default class UserAgreementView extends Component {
         let content = textItemDic.desc
         if (Platform.OS === 'android' ){
             if (textItemDic.desc == 'ILINKGO PTE. LTD.'){
-                return( <Text style={{marginTop:40,fontSize:14,color:'rgb(3,3,3)',fontFamily:'PingFangSC-Medium',textAlign:'right',lineHeight:20,borderWidth:'bold'}}>{content}</Text>)
+                return( <Text style={{marginTop:40,fontSize:14,color:'rgb(3,3,3)',fontFamily:'PingFangSC-Medium',textAlign:'right',lineHeight:20,fontWeight:'bold'}}>{content}</Text>)
             }else if(textItemDic.fontFamily == 'Medium'){
-                return( <Text style={{marginTop:10,fontSize:14,color:'rgb(3,3,3)',fontFamily:'PingFangSC-Medium',textAlign:'left',lineHeight:20,borderWidth:'bold'}}>{content}</Text>)
+                return( <Text style={{marginTop:10,fontSize:14,color:'rgb(3,3,3)',fontFamily:'PingFangSC-Medium',textAlign:'left',lineHeight:20,fontWeight:'bold'}}>{content}</Text>)
             }else if(textItemDic.fontFamily == 'Regular'){
                 return( <Text style={{marginTop:10,fontSize:14,color:'rgb(3,3,3)',fontFamily:'PingFangSC-Regular',textAlign:'left',lineHeight:20}}>{content}</Text>)
             }else {
