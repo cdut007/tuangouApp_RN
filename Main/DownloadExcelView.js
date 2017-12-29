@@ -88,10 +88,11 @@ export default class DownloadExcelView extends Component {
                 {
                     'group_buy_id': this.props.group_buy_id,
                     'email': this.state.mail,
+                    'send_type':'email'
 
                 }
             console.log('send_mailparam3:'+JSON.stringify(paramBody))
-            HttpRequest.post('/v1','/send_mail', paramBody, this.onSendEmailSuccess.bind(this),
+            HttpRequest.post('/v2','/api.send.order.info', paramBody, this.onSendEmailSuccess.bind(this),
                 (e) => {
 
                     Alert.alert('提示','发送邮件失败，请稍后再试')
